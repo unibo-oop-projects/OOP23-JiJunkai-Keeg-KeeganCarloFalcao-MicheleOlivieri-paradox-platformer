@@ -17,7 +17,7 @@ public class DeathCounterView implements Observer {
         displayCount();
     }
 
-    private void displayCount() {
+    public void displayCount() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'displayCount'");
     }

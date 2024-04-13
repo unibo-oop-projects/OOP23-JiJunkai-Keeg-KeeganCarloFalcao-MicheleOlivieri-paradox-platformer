@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.project.paradoxplatformer.model.counter.api.Counter;
-import com.project.paradoxplatformer.utils.world.observer.Observable;
+import com.project.paradoxplatformer.utils.observer.Observable;
 import com.project.paradoxplatformer.utils.world.observer.Observer;
 
 public class DeathCounterModel implements Counter, Observable {
@@ -20,7 +20,7 @@ public class DeathCounterModel implements Counter, Observable {
     }
 
     @Override
-    public void resetCounter() {
+    public void resetCount() {
         deathCount = 0;
         notifyObservers();
     }

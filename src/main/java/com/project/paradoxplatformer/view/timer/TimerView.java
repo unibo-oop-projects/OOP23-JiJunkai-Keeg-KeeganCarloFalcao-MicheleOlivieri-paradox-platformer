@@ -17,7 +17,7 @@ public class TimerView implements Observer {
         displayTimeElapsed();
     }
 
-    private void displayTimeElapsed() {
+    public void displayTimeElapsed() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'displayTimeElapsed'");
     }

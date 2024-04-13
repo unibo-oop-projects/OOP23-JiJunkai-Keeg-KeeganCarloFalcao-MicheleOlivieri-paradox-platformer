@@ -1,13 +1,20 @@
 package com.project.paradoxplatformer.controller.timer;
 
+import com.project.paradoxplatformer.model.timer.TimeProviderModel;
 import com.project.paradoxplatformer.model.timer.TimerModel;
+import com.project.paradoxplatformer.model.timer.api.TimeProvider;
+import com.project.paradoxplatformer.view.timer.TimerView;
 
 public class TimerController {
     private static TimerController instance;
     private TimerModel model;
+    private TimerView view;
+    private TimeProvider timeProvider;
 
     private TimerController() {
-        model = new TimerModel();
+        timeProvider = new TimeProviderModel();
+        model = new TimerModel(timeProvider);
+        view = new TimerView(model);
     }
 
     public static TimerController getInstance() {
@@ -31,5 +38,14 @@ public class TimerController {
 
     public long getTimeElapsed() {
         return model.getTimeElapsed();
+    }
+
+    public void adjustSpeed(double speedMultiplier) {
+        timeProvider.adjustSpeed(speedMultiplier);
+        model.notifyObservers();
+    }
+
+    public void updateView() {
+        view.displayTimeElapsed();
     }
 }

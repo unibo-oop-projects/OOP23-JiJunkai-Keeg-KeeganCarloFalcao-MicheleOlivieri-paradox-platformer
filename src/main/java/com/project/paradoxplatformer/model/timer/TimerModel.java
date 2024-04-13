@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.model.timer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.paradoxplatformer.model.timer.api.TimeProvider;
 import com.project.paradoxplatformer.model.timer.api.Timer;
 import com.project.paradoxplatformer.utils.world.observer.Observer;
 
@@ -14,7 +15,12 @@ public class TimerModel implements Timer {
     private long startTime;
     private long endTime;
     private boolean running;
+    private TimeProvider timeProvider;
     private List<Observer> observers = new ArrayList<>();
+
+    public TimerModel(TimeProvider timeProvider) {
+        this.timeProvider = timeProvider;
+    }
 
     @Override
     public void addObserver(Observer observer) {
@@ -30,7 +36,7 @@ public class TimerModel implements Timer {
 
     @Override
     public void startTimer() {
-        startTime = System.currentTimeMillis();
+        startTime = timeProvider.getCurrentTime();
         running = true;
         notifyObservers();
 
@@ -38,7 +44,7 @@ public class TimerModel implements Timer {
 
     @Override
     public void stopTimer() {
-        endTime = System.currentTimeMillis();
+        endTime = timeProvider.getCurrentTime();
         running = false;
         notifyObservers();
     }

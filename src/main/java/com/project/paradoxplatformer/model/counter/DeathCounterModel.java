@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.project.paradoxplatformer.model.counter.api.Counter;
-import com.project.paradoxplatformer.utils.observer.Observable;
-import com.project.paradoxplatformer.utils.world.observer.Observer;
+import com.project.paradoxplatformer.utils.world.api.observer.Observable;
+import com.project.paradoxplatformer.utils.world.api.observer.Observer;
 
 public class DeathCounterModel implements Counter, Observable {
 

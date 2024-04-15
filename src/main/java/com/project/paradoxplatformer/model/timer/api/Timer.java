@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.model.timer.api;
 
-import com.project.paradoxplatformer.utils.observer.Observable;
+import com.project.paradoxplatformer.utils.world.api.observer.Observable;
 
 public interface Timer extends Observable {
 

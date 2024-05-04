@@ -2,7 +2,7 @@ package com.project.paradoxplatformer.utils.entity;
 
 import com.project.paradoxplatformer.utils.world.*;
 
-public class Player implements GameObject{
+public class Player implements MutableObject{
 
     private Point position;
     private Vector speed;
@@ -17,8 +17,13 @@ public class Player implements GameObject{
         return new Point(position.x(),position.y());
     }
 
-    @Override
-    public Point setPosition(Point pos) {
+    protected Point setPosition(Point pos) {
         return this.position = pos;
     }
+
+    @Override
+    public Vector getSpeed() { return this.speed; }
+
+    protected Vector setSpeed(Vector speed) {return this.speed = speed; }
+
 }

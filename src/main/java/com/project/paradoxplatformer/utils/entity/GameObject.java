@@ -5,6 +5,5 @@ import com.project.paradoxplatformer.utils.world.Point;
 public  interface GameObject {
 
     Point getPosition();
-    Point setPosition(Point position);
 
 }

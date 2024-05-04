@@ -18,12 +18,21 @@ public class Player implements MutableObject{
     }
 
     protected Point setPosition(Point pos) {
-        return this.position = pos;
+                return this.position = pos;
     }
 
     @Override
-    public Vector getSpeed() { return this.speed; }
+    public Vector getSpeed() {
+        return this.speed;
+    }
 
-    protected Vector setSpeed(Vector speed) {return this.speed = speed; }
+    protected Vector setSpeed(Vector speed) {
+        return this.speed = speed;
+    }
+
+    @Override
+    public void updateState(long dt) {
+        this.position = this.position.sum(speed.mul(0.001*dt));
+    }
 
 }

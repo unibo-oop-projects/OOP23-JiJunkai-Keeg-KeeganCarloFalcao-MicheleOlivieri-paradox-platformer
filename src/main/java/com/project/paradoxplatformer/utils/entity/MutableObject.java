@@ -5,4 +5,7 @@ import com.project.paradoxplatformer.utils.world.Vector;
 public interface MutableObject extends GameObject{
 
     Vector getSpeed();
+
+    void updateState(long dt);
+
 }

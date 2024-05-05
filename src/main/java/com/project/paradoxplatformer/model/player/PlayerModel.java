@@ -1,13 +1,14 @@
-package com.project.paradoxplatformer.utils.entity;
+package com.project.paradoxplatformer.model.player;
 
+import com.project.paradoxplatformer.utils.entity.MutableObject;
 import com.project.paradoxplatformer.utils.world.*;
 
-public class Player implements MutableObject{
+public class PlayerModel implements MutableObject {
 
     private Point position;
     private Vector speed;
 
-    protected Player(Point pos, Vector speed) {
+    public PlayerModel(Point pos, Vector speed) {
         this.position = pos;
         this.speed = speed;
     }

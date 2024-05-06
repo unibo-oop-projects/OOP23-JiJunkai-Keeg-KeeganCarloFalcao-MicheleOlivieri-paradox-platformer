@@ -1,23 +1,23 @@
 package com.project.paradoxplatformer.view.player;
 
+import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.world.Point;
-import javafx.scene.image.Image;
 
 public class PlayerView {
 
-    private Point position;
+    private PlayerModel model;
     //public Image playerImg;
 
-    public PlayerView(Point position){
-        this.position = position;
+    public PlayerView(PlayerModel model){
+        this.model = model;
         // this.playerImg = ...;
     }
 
     public void display(){
-        System.out.println(position.toString());
+        System.out.println(model.getPosition().toString());
     }
 
     public void updateState(Point newPosition){
-        this.position = newPosition;
+        this.model.setPosition(newPosition);
     }
 }

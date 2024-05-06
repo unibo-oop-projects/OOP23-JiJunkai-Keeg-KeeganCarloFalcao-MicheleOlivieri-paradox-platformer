@@ -7,10 +7,12 @@ public class PlayerModel implements MutableObject {
 
     private Point position;
     private Vector speed;
+    private Dimension dimension;
 
     public PlayerModel(Point pos, Vector speed) {
         this.position = pos;
         this.speed = speed;
+        this.dimension = new Dimension(16,32); //TODO: modifica con valori sensati
     }
 
     @Override
@@ -18,8 +20,8 @@ public class PlayerModel implements MutableObject {
         return new Point(position.x(),position.y());
     }
 
-    protected Point setPosition(Point pos) {
-                return this.position = pos;
+    public void setPosition(Point pos) {
+        this.position = pos;
     }
 
     @Override
@@ -27,8 +29,17 @@ public class PlayerModel implements MutableObject {
         return this.speed;
     }
 
-    protected Vector setSpeed(Vector speed) {
-        return this.speed = speed;
+    public void setSpeed(Vector speed) {
+        this.speed = speed;
+    }
+
+    @Override
+    public Dimension getDimension() {
+        return this.dimension;
+    }
+
+    public void changeSize(int factorX, int factorY) {
+        this.dimension = new Dimension(this.dimension.width()*factorX,this.dimension.height()*factorY);
     }
 
     @Override

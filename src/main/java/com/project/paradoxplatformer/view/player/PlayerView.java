@@ -15,8 +15,8 @@ public class PlayerView {
     }
 
     public void update() {
-        node.setTranslateX(player.getPosition().x());
-        node.setTranslateY(player.getPosition().y());
+        node.setTranslateX(player.getX());
+        node.setTranslateY(player.getY());
     }
 
     public Rectangle getNode() {

@@ -1,63 +1,59 @@
 package com.project.paradoxplatformer.model.player;
 
-import com.project.paradoxplatformer.utils.entity.MutableObject;
-import com.project.paradoxplatformer.utils.world.*;
+public class Player {
+    private static final double GRAVITY = 1000; // Gravity constant
+    private static final double JUMP_VELOCITY = -500; // Initial velocity when jumping
+    public static final double GROUND_LEVEL = 500; // Ground level position
 
-public class Player implements MutableObject {
-
-    private Point position;
-    private Vector speed;
-    private Dimension dimension;
-
+    private double x, y;
     private double velocityX, velocityY;
-
-    public Player(Point pos, Vector speed) {
-        this.position = pos;
-        this.speed = speed;
-        this.dimension = new Dimension(16, 32); // TODO: modifica con valori sensati
-    }
+    private boolean isJumping;
 
     public Player() {
-        this.position = new Point(0, 0);
-
-        this.speed = new Vector(0, 0);
-
-        this.velocityX = 0;
-        this.velocityY = 0;
-
-        this.dimension = new Dimension(16, 32); // TODO: modifica con valori sensati
+        x = 0;
+        y = GROUND_LEVEL;
+        velocityX = 0;
+        velocityY = 0;
+        isJumping = false;
     }
 
-    @Override
-    public Point getPosition() {
-        return new Point(position.x(), position.y());
+    public void update(double deltaTime) {
+        // Apply gravity
+        velocityY += GRAVITY * deltaTime;
+
+        // Update position
+        x += velocityX * deltaTime;
+        y += velocityY * deltaTime;
+
+        // Check if the player is on the ground
+        if (y >= GROUND_LEVEL) {
+            y = GROUND_LEVEL; // Ensure the player stays on the ground
+            velocityY = 0; // Stop vertical movement
+            isJumping = false; // Reset jump state
+        }
     }
 
-    public void setPosition(Point pos) {
-        this.position = pos;
+    public void jump() {
+        if (!isJumping) {
+            velocityY = JUMP_VELOCITY;
+            isJumping = true;
+        }
     }
 
-    @Override
-    public Vector getSpeed() {
-        return this.speed;
+    public double getX() {
+        return x;
     }
 
-    public void setSpeed(Vector speed) {
-        this.speed = speed;
+    public double getY() {
+        return y;
     }
 
-    @Override
-    public Dimension getDimension() {
-        return this.dimension;
+    public double getVelocityX() { // Getter for velocityX
+        return velocityX;
     }
 
-    public void changeSize(int factorX, int factorY) {
-        this.dimension = new Dimension(this.dimension.width() * factorX, this.dimension.height() * factorY);
-    }
-
-    @Override
-    public void update(double dt) {
-        this.position = this.position.sum(speed.mul(0.001 * dt));
+    public double getVelocityY() { // Getter for velocityY
+        return velocityY;
     }
 
     public void setVelocity(double velocityX, double velocityY) {
@@ -65,4 +61,7 @@ public class Player implements MutableObject {
         this.velocityY = velocityY;
     }
 
+    public boolean isJumping() {
+        return isJumping;
+    }
 }

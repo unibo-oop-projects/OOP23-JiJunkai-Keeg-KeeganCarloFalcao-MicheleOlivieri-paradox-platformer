@@ -1,23 +1,25 @@
 package com.project.paradoxplatformer.view.player;
 
-import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.utils.world.Point;
+import com.project.paradoxplatformer.model.player.Player;
+
+import javafx.scene.shape.Rectangle;
 
 public class PlayerView {
+    private Player player;
+    private Rectangle node;
 
-    private PlayerModel model;
-    //public Image playerImg;
-
-    public PlayerView(PlayerModel model){
-        this.model = model;
-        // this.playerImg = ...;
+    public PlayerView(Player player) {
+        this.player = player;
+        this.node = new Rectangle(50, 50);
+        update();
     }
 
-    public void display(){
-        System.out.println(model.getPosition().toString());
+    public void update() {
+        node.setTranslateX(player.getPosition().x());
+        node.setTranslateY(player.getPosition().y());
     }
 
-    public void updateState(Point newPosition){
-        this.model.setPosition(newPosition);
+    public Rectangle getNode() {
+        return node;
     }
 }

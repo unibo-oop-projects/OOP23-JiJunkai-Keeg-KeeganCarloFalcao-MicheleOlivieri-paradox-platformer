@@ -1,7 +1,7 @@
-package com.monkeytd.model;
+package com.project.paradoxplatformer.utils.world.vector;
 
-import com.monkeytd.model.vectors.AbstractVector;
-import com.monkeytd.model.vectors.Vector2D;
+import com.project.paradoxplatformer.utils.world.vector.api.AbstractVector;
+import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
 
 public class Simple2DVector extends AbstractVector{
 

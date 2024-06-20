@@ -1,10 +1,11 @@
 package com.project.paradoxplatformer.utils.entity;
 
-import com.project.paradoxplatformer.utils.world.Vector;
+
+import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
 
 public interface MutableObject extends GameObject{
 
-    Vector getSpeed();
+    Vector2D getSpeed();
 
     void updateState(long dt);
 

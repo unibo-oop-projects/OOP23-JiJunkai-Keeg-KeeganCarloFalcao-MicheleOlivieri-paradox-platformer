@@ -1,4 +1,4 @@
-package com.monkeytd.model.coordinates;
+package com.project.paradoxplatformer.utils.world.coordinates.api;
 
 public class Cartesian {
     private double y;

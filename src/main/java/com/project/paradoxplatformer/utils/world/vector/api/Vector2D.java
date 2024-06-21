@@ -1,4 +1,4 @@
-package com.monkeytd.model.vectors;
+package com.project.paradoxplatformer.utils.world.vector.api;
 
 public interface Vector2D {
     

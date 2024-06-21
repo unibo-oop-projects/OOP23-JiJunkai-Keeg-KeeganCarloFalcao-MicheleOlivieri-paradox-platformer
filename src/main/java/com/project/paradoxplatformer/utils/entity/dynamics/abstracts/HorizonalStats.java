@@ -1,5 +1,3 @@
-package com.project.paradoxplatformer.utils.world.modifiers.abstracts;
+package com.project.paradoxplatformer.utils.entity.dynamics.abstracts;
 
-public class HorizonalStats {
-
-}
+public record HorizonalStats(double limit, double delta) {}

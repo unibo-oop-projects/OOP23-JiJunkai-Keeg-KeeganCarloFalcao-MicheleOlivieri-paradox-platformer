@@ -1,8 +1,8 @@
-package com.project.paradoxplatformer.utils.world.modifiers.api;
+package com.project.paradoxplatformer.utils.entity.dynamics;
 
-public interface VerticalModifier{
+public interface VerticalObject{
     
-    void jump();
+    public void jump();
 
-    void fall();
+    public void fall();
 }

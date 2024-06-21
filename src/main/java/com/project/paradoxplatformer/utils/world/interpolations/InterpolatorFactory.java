@@ -1,6 +1,6 @@
-package com.monkeytd.model;
+package com.project.paradoxplatformer.utils.world.interpolations;
 
-import com.monkeytd.model.vectors.Vector2D;
+import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
 
 public interface InterpolatorFactory {
     

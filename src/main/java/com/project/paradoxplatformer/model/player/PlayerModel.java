@@ -1,17 +1,19 @@
 package com.project.paradoxplatformer.model.player;
 
-import com.project.paradoxplatformer.utils.entity.ControllableObject;
+
+import com.project.paradoxplatformer.utils.entity.MutableObject;
+import com.project.paradoxplatformer.utils.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.utils.entity.dynamics.abstracts.AbstractControllableObject;
+import com.project.paradoxplatformer.utils.entity.dynamics.abstracts.HorizonalStats;
 import com.project.paradoxplatformer.utils.world.*;
 import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.world.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.world.interpolations.InterpolatorFactoryImpl;
 import com.project.paradoxplatformer.utils.world.modifiers.SimpleMovingModifer;
-import com.project.paradoxplatformer.utils.world.modifiers.abstracts.AbstractControllableModifer;
-import com.project.paradoxplatformer.utils.world.modifiers.abstracts.HorizonalStats;
 import com.project.paradoxplatformer.utils.world.vector.Simple2DVector;
 import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
 
-public class PlayerModel extends AbstractControllableModifer implements ControllableObject {
+public class PlayerModel extends AbstractControllableObject implements MutableObject {
 
     private Coord2D position;
     private Vector2D speed;

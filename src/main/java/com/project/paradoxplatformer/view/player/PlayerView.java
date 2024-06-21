@@ -2,6 +2,7 @@ package com.project.paradoxplatformer.view.player;
 
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.world.Point;
+import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
 
 public class PlayerView {
 
@@ -17,7 +18,7 @@ public class PlayerView {
         System.out.println(model.getPosition().toString());
     }
 
-    public void updateState(Point newPosition){
+    public void updateState(Coord2D newPosition){
         this.model.setPosition(newPosition);
     }
 }

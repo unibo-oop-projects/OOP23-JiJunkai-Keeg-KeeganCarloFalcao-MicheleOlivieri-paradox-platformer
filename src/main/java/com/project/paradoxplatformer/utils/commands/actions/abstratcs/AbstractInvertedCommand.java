@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.commands.actions;
+package com.project.paradoxplatformer.utils.commands.actions.abstratcs;
 
 import com.project.paradoxplatformer.utils.entity.dynamics.ControllableObject;
 
@@ -12,7 +12,7 @@ public abstract class AbstractInvertedCommand extends AbstractCommand{
     }
 
     public void invert() {
-        isInverted = true;
+        isInverted = !isInverted;
     }
 
     public abstract void execute();

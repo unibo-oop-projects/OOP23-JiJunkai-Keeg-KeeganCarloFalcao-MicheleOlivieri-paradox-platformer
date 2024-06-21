@@ -5,8 +5,8 @@ import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
 
 public interface GameObject {
 
-    Coord2D getPosition();
+    public Coord2D getPosition();
 
-    Dimension getDimension();
+    public Dimension getDimension();
 
 }

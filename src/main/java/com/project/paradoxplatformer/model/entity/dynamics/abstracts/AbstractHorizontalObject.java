@@ -1,6 +1,6 @@
-package com.project.paradoxplatformer.utils.entity.dynamics.abstracts;
+package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
-import com.project.paradoxplatformer.utils.entity.dynamics.HorizontalObject;
+import com.project.paradoxplatformer.model.entity.dynamics.HorizontalObject;
 import com.project.paradoxplatformer.utils.world.modifiers.MovingType;
 import com.project.paradoxplatformer.utils.world.vector.Polar2DVector;
 import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;

@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.entity.dynamics;
+package com.project.paradoxplatformer.model.entity.dynamics;
 
 public interface HorizontalObject{
     

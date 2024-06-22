@@ -1,10 +1,9 @@
 package com.project.paradoxplatformer.model.player;
 
 
-import com.project.paradoxplatformer.utils.entity.MutableObject;
-import com.project.paradoxplatformer.utils.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.utils.entity.dynamics.abstracts.AbstractControllableObject;
-import com.project.paradoxplatformer.utils.entity.dynamics.abstracts.HorizonalStats;
+import com.project.paradoxplatformer.model.entity.MutableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
 import com.project.paradoxplatformer.utils.world.*;
 import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.world.interpolations.InterpolatorFactory;
@@ -69,6 +68,11 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
         );
         // this.position = this.position.sum(speed.mul(0.001*dt));
         this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));
+    }
+
+    public void collectCoin() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'collectCoin'");
     }
 
 }

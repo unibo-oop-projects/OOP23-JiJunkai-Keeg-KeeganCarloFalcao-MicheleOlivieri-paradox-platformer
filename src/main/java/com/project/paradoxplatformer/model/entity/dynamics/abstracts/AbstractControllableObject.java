@@ -1,6 +1,6 @@
-package com.project.paradoxplatformer.utils.entity.dynamics.abstracts;
+package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
-import com.project.paradoxplatformer.utils.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
 
 //REMINDER

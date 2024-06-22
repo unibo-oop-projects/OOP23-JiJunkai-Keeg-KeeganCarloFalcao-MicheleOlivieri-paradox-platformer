@@ -1,6 +1,8 @@
 package com.project.paradoxplatformer.model.obstacles.walls;
 
 import java.util.Optional;
+import java.util.Queue;
+import java.util.Stack;
 
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.obstacles.Wall;
@@ -12,7 +14,7 @@ import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
 
 public class SimpleWall extends AbstractObstacle implements Wall{
 
-    protected SimpleWall(Coord2D position, Dimension dimension, Optional<TrajectoryInfo> trajStats) {
+    protected SimpleWall(Coord2D position, Dimension dimension, Queue<TrajectoryInfo> trajStats) {
         super(position, dimension, trajStats);
         //TODO Auto-generated constructor stub
     }
@@ -24,4 +26,15 @@ public class SimpleWall extends AbstractObstacle implements Wall{
     
     //TODO stretching modifier and stacked update events
     //meaning once one is finished (percetage == 1) then next event begins
+    @Override
+    public void effect() {
+        super.effect();
+    }
+
+    @Override
+    public void updateState(final long dt) {
+        super.updateState(dt);
+        
+
+    }
 }

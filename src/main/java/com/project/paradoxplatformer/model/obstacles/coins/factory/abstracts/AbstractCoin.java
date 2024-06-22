@@ -7,11 +7,11 @@ import com.project.paradoxplatformer.utils.world.Dimension;
 import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.world.vector.Polar2DVector;
 import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
-import java.util.Optional;
+import java.util.Queue;
 
 public abstract class AbstractCoin extends AbstractObstacle implements Coin{
 
-    public AbstractCoin(final Coord2D position, final Dimension dimension, final Optional<TrajectoryInfo> trajStats) {
+    public AbstractCoin(final Coord2D position, final Dimension dimension, final Queue<TrajectoryInfo> trajStats) {
         super(position, dimension, trajStats);
     }
 

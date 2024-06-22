@@ -57,6 +57,7 @@ jlinkZip {
     group = 'distribution'
 }
 
+
 eclipse {
     classpath {
         containers 'org.eclipse.buildship.core.gradleclasspathcontainer'

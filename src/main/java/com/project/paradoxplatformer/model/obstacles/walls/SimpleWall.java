@@ -1,18 +1,17 @@
 package com.project.paradoxplatformer.model.obstacles.walls;
 
-import java.util.Optional;
 import java.util.Queue;
-import java.util.Stack;
 
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.obstacles.Wall;
-import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractObstacle;
-import com.project.paradoxplatformer.utils.world.Dimension;
-import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.world.vector.Polar2DVector;
-import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
+import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractRigidObstacle;
+import com.project.paradoxplatformer.utils.collision.api.Collidable;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class SimpleWall extends AbstractObstacle implements Wall{
+public class SimpleWall extends AbstractRigidObstacle implements Wall{
 
     protected SimpleWall(Coord2D position, Dimension dimension, Queue<TrajectoryInfo> trajStats) {
         super(position, dimension, trajStats);
@@ -23,9 +22,7 @@ public class SimpleWall extends AbstractObstacle implements Wall{
     public Vector2D getSpeed() {
         return Polar2DVector.nullVector();
     }
-    
-    //TODO stretching modifier and stacked update events
-    //meaning once one is finished (percetage == 1) then next event begins
+
     @Override
     public void effect() {
         super.effect();
@@ -34,7 +31,11 @@ public class SimpleWall extends AbstractObstacle implements Wall{
     @Override
     public void updateState(final long dt) {
         super.updateState(dt);
-        
+    }
 
+    @Override 
+    public void handleCollision(Collidable other) {
+        super.handleCollision(other);
+        //other x accelereation must be 0
     }
 }

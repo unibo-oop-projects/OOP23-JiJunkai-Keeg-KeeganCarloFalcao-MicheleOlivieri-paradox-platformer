@@ -3,10 +3,11 @@ package com.project.paradoxplatformer.model.obstacles.coins.factory.abstracts;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.obstacles.Coin;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractObstacle;
-import com.project.paradoxplatformer.utils.world.Dimension;
-import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.world.vector.Polar2DVector;
-import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
+
 import java.util.Queue;
 
 public abstract class AbstractCoin extends AbstractObstacle implements Coin{

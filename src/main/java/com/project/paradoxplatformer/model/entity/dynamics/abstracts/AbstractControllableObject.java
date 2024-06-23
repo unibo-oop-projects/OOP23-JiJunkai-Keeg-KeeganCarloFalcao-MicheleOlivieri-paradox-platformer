@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 //REMINDER
 //should extend horizonal and vertical merged abstract class

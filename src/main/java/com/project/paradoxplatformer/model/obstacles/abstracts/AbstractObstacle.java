@@ -3,9 +3,9 @@ package com.project.paradoxplatformer.model.obstacles.abstracts;
 import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
-import com.project.paradoxplatformer.utils.world.Dimension;
-import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.world.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+
 import java.util.Queue;
 
 public abstract class AbstractObstacle extends AbstractTrasformableObject implements Obstacle {
@@ -15,7 +15,7 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
     protected Coord2D  position;
 
     protected AbstractObstacle(final Coord2D position, final Dimension dimension, final Queue<TrajectoryInfo> trajStats) {
-        super(new Simple2DVector(position.x(), position.y()), trajStats);
+        super(position, dimension, trajStats);
         this.position = position;
         this.dimension = dimension;
     }
@@ -35,6 +35,12 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
         if(!trasformationStats.isEmpty()) {
             this.isIdle = false;
         }
+    }
+
+    @Override
+    public void updateState(long dt) {
+        this.position = new Coord2D(this.displacement.xComponent(), this.displacement.yComponent());
+        this.dimension = new Dimension(this.widthVector.magnitude(), this.heightVector.magnitude());
     }
     
 }

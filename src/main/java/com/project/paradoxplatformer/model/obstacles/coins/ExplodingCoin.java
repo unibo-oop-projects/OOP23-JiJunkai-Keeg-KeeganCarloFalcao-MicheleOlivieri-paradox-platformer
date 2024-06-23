@@ -1,18 +1,19 @@
 package com.project.paradoxplatformer.model.obstacles.coins;
 
 import java.util.Optional;
+import java.util.Queue;
 
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.obstacles.coins.factory.abstracts.AbstractCoin;
-import com.project.paradoxplatformer.utils.world.Dimension;
-import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 public class ExplodingCoin extends AbstractCoin{
 
     public ExplodingCoin(
         final Coord2D position,
         final Dimension dimension, 
-        final Optional<TrajectoryInfo> trajStats
+        final Queue<TrajectoryInfo> trajStats
         //hypotetic logic class
     ) {
         super(position, dimension, trajStats);
@@ -28,7 +29,7 @@ public class ExplodingCoin extends AbstractCoin{
     @Override
     public void updateState(long dt) {
         super.updateState(dt);
-        this.position = new Coord2D(this.displacement.xComponent(), this.displacement.yComponent());
+        
     }
     
 }

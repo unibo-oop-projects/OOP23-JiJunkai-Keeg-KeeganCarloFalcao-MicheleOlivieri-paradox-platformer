@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.model.entity.dynamics.HorizontalObject;
-import com.project.paradoxplatformer.utils.world.modifiers.MovingType;
-import com.project.paradoxplatformer.utils.world.vector.Polar2DVector;
-import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
+import com.project.paradoxplatformer.utils.geometries.modifiers.MovingType;
+import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 
 public abstract class AbstractHorizontalObject implements HorizontalObject {

@@ -1,8 +1,7 @@
 package com.project.paradoxplatformer.view.player;
 
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.utils.world.Coord2D;
-import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 public class PlayerView {
 

@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.view.timer;
 
 import com.project.paradoxplatformer.model.timer.TimerModel;
-import com.project.paradoxplatformer.utils.world.api.observer.Observer;
+import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
 
 public class TimerView implements Observer {
 

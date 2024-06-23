@@ -1,8 +1,8 @@
 package com.project.paradoxplatformer.model.entity;
 
-import com.project.paradoxplatformer.utils.world.interpolations.InterpolatorFactory;
-import com.project.paradoxplatformer.utils.world.interpolations.InterpolatorFactoryImpl;
-import com.project.paradoxplatformer.utils.world.modifiers.SimpleMovingModifer;
+import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
+import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
+import com.project.paradoxplatformer.utils.geometries.modifiers.SimpleMovingModifer;
 
 public abstract class AbstractMutableObject implements MutableObject {
 

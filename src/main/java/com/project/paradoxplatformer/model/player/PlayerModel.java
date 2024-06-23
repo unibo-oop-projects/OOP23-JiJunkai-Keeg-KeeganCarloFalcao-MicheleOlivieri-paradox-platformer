@@ -4,13 +4,13 @@ package com.project.paradoxplatformer.model.player;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
-import com.project.paradoxplatformer.utils.world.*;
-import com.project.paradoxplatformer.utils.world.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.world.interpolations.InterpolatorFactory;
-import com.project.paradoxplatformer.utils.world.interpolations.InterpolatorFactoryImpl;
-import com.project.paradoxplatformer.utils.world.modifiers.SimpleMovingModifer;
-import com.project.paradoxplatformer.utils.world.vector.Simple2DVector;
-import com.project.paradoxplatformer.utils.world.vector.api.Vector2D;
+import com.project.paradoxplatformer.utils.geometries.*;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
+import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
+import com.project.paradoxplatformer.utils.geometries.modifiers.SimpleMovingModifer;
+import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public class PlayerModel extends AbstractControllableObject implements MutableObject {
 

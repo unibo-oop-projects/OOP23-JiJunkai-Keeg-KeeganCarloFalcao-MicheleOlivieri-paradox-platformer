@@ -5,4 +5,6 @@ public interface HorizontalObject{
     public void moveLeft();
 
     public void moveRight();
+
+    public void stop();
 }

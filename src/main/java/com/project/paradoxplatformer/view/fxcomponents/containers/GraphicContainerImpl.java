@@ -15,19 +15,19 @@ public class GraphicContainerImpl implements GraphicContainer{
     }
 
     @Override
-    public boolean render(GraphicComponent component) {
+    public boolean render(GraphicComponent component) throws AssertionError{
+        assert component instanceof Node;
         return uiContainer.getChildren().add((Node)component.unwrap());
     }
 
     @Override
     public Dimension dimension() {
-        return new Dimension(this.uiContainer.getWidth(), this.uiContainer.getHeight());
+        return new Dimension(this.uiContainer.getPrefWidth(), this.uiContainer.getPrefHeight());
     }
 
     @Override
     public void setDimension(double width, double height) {
-        this.uiContainer.setPrefHeight(height);
-        this.uiContainer.setPrefWidth(width);
+        this.uiContainer.setPrefSize(width, height);
     }
     
 }

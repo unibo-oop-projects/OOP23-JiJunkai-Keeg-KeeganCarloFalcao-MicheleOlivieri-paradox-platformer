@@ -48,6 +48,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
 
     public void setSpeed(Vector2D speed) {
         this.speed = speed;
+        this.horizontalSpeed = speed;
     }
 
     @Override
@@ -61,6 +62,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
 
     @Override
     public void updateState(long dt) {
+        
         this.displacement = movement.step(this.displacement, 
             this.displacement.add(this.horizontalSpeed),
             interpFactory.linear(),

@@ -28,7 +28,7 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
 
     private void moveBehaviour(MovingType movingDir, double magnitudeSign) {
         if(movingDir.getStatus()) {
-            this.magnitude = RESET_MAG;
+            this.stop();
         }
         this.magnitude += this.magnitude > this.limit ? NO_ADDINGS : this.delta;
         //should do a moving set of things, using move function
@@ -46,6 +46,11 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
     @Override
     public void moveRight() {
         moveBehaviour(MovingType.RIGHT, RIGHT_MAG_SIGN);
+    }
+
+    @Override
+    public void stop() {
+        this.magnitude = RESET_MAG;
     }
 
     //ALTERNATIVE

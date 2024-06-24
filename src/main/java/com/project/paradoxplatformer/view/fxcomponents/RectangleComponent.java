@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.view.fxcomponents;
 import java.util.Optional;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractGraphicComponent;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -11,7 +12,7 @@ import javafx.scene.shape.Rectangle;
 
 public class RectangleComponent extends AbstractGraphicComponent {
 
-    private Rectangle blockComponent;
+    private final Rectangle blockComponent;
     
     public RectangleComponent(Node component, Dimension dimension, Color fill) {
         super(component, dimension);

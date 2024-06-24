@@ -23,12 +23,13 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
 
 
     public PlayerModel(Coord2D pos, Vector2D speed) {
-        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(70.d, 7.d));
-        movement = new SimpleMovingModifer();
-        interpFactory = new InterpolatorFactoryImpl();
+        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(50.d, 7.d));//addon
+        movement = new SimpleMovingModifer();//addon
+        interpFactory = new InterpolatorFactoryImpl();//addon
         this.position = pos;
-        this.displacement = new Simple2DVector(pos.x(), pos.y());
+        this.displacement = new Simple2DVector(pos.x(), pos.y());//addon
         this.speed = speed;
+        this.horizontalSpeed = speed;//addon
         this.dimension = new Dimension(16,32); //TODO: modifica con valori sensati
     }
 
@@ -48,7 +49,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
 
     public void setSpeed(Vector2D speed) {
         this.speed = speed;
-        this.horizontalSpeed = speed;
+        this.horizontalSpeed = speed;//addon
     }
 
     @Override
@@ -67,11 +68,13 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
             this.displacement.add(this.horizontalSpeed),
             interpFactory.linear(),
             dt
-        );
+        );//addon
+        
         // this.position = this.position.sum(speed.mul(0.001*dt));
-        this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));
+        this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));//addon
     }
 
+    //addon
     public void collectCoin() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'collectCoin'");

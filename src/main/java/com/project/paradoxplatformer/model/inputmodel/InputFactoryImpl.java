@@ -6,7 +6,7 @@ import java.util.EnumMap;
 import com.project.paradoxplatformer.utils.commands.Command;
 import com.project.paradoxplatformer.utils.commands.actions.CommandActionFactory;
 import com.project.paradoxplatformer.utils.commands.actions.CommandActionFactoryImpl;
-import com.project.paradoxplatformer.view.fxcomponents.keyinputs.InputType;
+import com.project.paradoxplatformer.view.fxcomponents.keyinputs.api.InputType;
 
 public class InputFactoryImpl implements InputFactory {
 
@@ -30,6 +30,15 @@ public class InputFactoryImpl implements InputFactory {
     }
 
     @Override
+    public InputModel invertedModel() {
+        return () -> new EnumMap<InputType, Command>(Map.of(
+            InputType.LEFT, cmdFactory.rightCommand(),
+            InputType.RIGHT, cmdFactory.leftCommand(),
+            InputType.UP, cmdFactory.upCommand()
+        ));
+    }
+
+    @Override
     public InputModel advancedModel() {
         return new InputModelDecorator(wasdModel());
     }
@@ -49,12 +58,5 @@ public class InputFactoryImpl implements InputFactory {
 
     }
 
-    @Override
-    public InputModel invertedModel() {
-        return () -> new EnumMap<InputType, Command>(Map.of(
-            InputType.LEFT, cmdFactory.rightCommand(),
-            InputType.RIGHT, cmdFactory.leftCommand(),
-            InputType.UP, cmdFactory.upCommand()
-        ));
-    }
+    
 }

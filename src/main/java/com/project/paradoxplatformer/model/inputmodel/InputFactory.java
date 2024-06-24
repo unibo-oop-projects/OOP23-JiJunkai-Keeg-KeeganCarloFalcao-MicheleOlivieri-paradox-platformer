@@ -8,4 +8,6 @@ public interface InputFactory {
 
     InputModel advancedModel();
 
+    InputModel invertedModel();
+
 }

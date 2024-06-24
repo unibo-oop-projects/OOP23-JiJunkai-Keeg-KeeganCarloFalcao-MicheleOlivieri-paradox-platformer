@@ -1,8 +1,8 @@
-package com.project.paradoxplatformer.view.fxcomponents;
+package com.project.paradoxplatformer.view.fxcomponents.api;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.fxcomponents.containers.GraphicContainer;
+import com.project.paradoxplatformer.view.fxcomponents.containers.api.GraphicContainer;
 import com.project.paradoxplatformer.view.renders.Component;
 
 import javafx.scene.image.Image;

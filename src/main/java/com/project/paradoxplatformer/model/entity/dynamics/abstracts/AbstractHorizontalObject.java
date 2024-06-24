@@ -51,6 +51,7 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
     @Override
     public void stop() {
         this.magnitude = RESET_MAG;
+        this.horizontalSpeed = Polar2DVector.nullVector();
     }
 
     //ALTERNATIVE

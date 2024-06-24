@@ -1,21 +1,17 @@
 package com.project.paradoxplatformer;
 
-import com.project.paradoxplatformer.controller.player.PlayerController;
+import com.project.paradoxplatformer.controller.input.InputController;
+import com.project.paradoxplatformer.model.inputmodel.InputFactory;
+import com.project.paradoxplatformer.model.inputmodel.InputFactoryImpl;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
-import com.project.paradoxplatformer.view.fxcomponents.GraphicComponent;
 import com.project.paradoxplatformer.view.fxcomponents.RectangleComponent;
+import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
 import com.project.paradoxplatformer.view.fxcomponents.containers.GraphicContainerImpl;
-import com.project.paradoxplatformer.view.player.PlayerView;
 
+import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -37,7 +33,7 @@ public class HelloController {
         rectangle.setRelativePositionTo(0, container.dimension().height(), container);
         GraphicComponent player = new RectangleComponent(
             new Rectangle(),
-            new Dimension(30, 30),
+            new Dimension(10, 30),
             Color.BLACK);
         player.setRelativePositionTo(0, container.dimension().height()-rectangle.dimension().height(), container);
         
@@ -47,25 +43,23 @@ public class HelloController {
         
         PlayerModel pm = new PlayerModel(player.position(), Polar2DVector.nullVector());
         
-        gamePane.requestFocus();
-        gamePane.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.D) {
-                pm.moveRight();
-                pm.updateState(25000000L);
-                player.setPosition(pm.getPosition().x(), pm.getPosition().y());
-            }
-
-            if(e.getCode() == KeyCode.A) {
-                pm.moveLeft();
-                pm.updateState(25000000L);
-                player.setPosition(pm.getPosition().x(), pm.getPosition().y());
-            }
-        });
-        gamePane.setOnKeyReleased(e -> {
-            pm.stop();
-            player.setPosition(pm.getPosition().x(), pm.getPosition().y());
-        });
+        container.activateKeyInput();
+        container.setKeyPressed();
+        container.setKeyReleased();
+        InputFactory factory = new InputFactoryImpl();
+        InputController inputController = new InputController(factory.wasdModel(), container.getKeyAssetter());
         
+        AnimationTimer a = new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                inputController.inject(pm);
+                pm.updateState(25000000L);
+                player.setPosition(pm.getPosition().x(), pm.getPosition().y());
+            }
+            
+        };
+        a.start();
     }
 
     @FXML

@@ -1,11 +1,12 @@
-package com.project.paradoxplatformer.view.fxcomponents;
+package com.project.paradoxplatformer.view.fxcomponents.abstracts;
 
 import java.util.Objects;
 import java.util.Optional;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.fxcomponents.containers.GraphicContainer;
+import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
+import com.project.paradoxplatformer.view.fxcomponents.containers.api.GraphicContainer;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;

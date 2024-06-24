@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.view.fxcomponents;
 import java.util.Optional;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.view.fxcomponents.containers.GraphicContainer;
+import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractGraphicComponent;
 
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 
 public class ImageComponent extends AbstractGraphicComponent{
 
-    private ImageView imgComponent;
+    private final ImageView imgComponent;
 
     public ImageComponent(Node component, Dimension dimension, String imageURL)  {
         super(component, dimension); 
@@ -22,7 +22,7 @@ public class ImageComponent extends AbstractGraphicComponent{
             this.setDimension(dimension.width(), dimension.height());
             
         } else {
-            throw new IllegalArgumentException("Require imageview");
+            throw new IllegalArgumentException("Requires imageview");
         }
     }
 

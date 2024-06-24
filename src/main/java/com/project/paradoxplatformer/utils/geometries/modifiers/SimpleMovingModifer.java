@@ -34,7 +34,7 @@ public class SimpleMovingModifer implements Modifier {
 
     @Override
     public Vector2D step(Vector2D start, Vector2D end, Interpolator<Vector2D> interpType, long dt) {
-        System.out.println(1000000.d/dt);
+        
         return interpType.lerp(start, end, 1000000.d/dt);
     }
 

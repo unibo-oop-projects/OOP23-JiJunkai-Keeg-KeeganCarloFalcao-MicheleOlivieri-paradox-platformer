@@ -53,12 +53,13 @@ public class WordBuilderImpl implements WorldBuilder {
 
     @Override
     public World build() {
-        isBuild = true;
+        buildCheck();
+        this.isBuild = true;
         return new WorldImpl(obstacles, triggers, player, bounds);
     }
     
     private void buildCheck() {
-        if(isBuild) {
+        if(this.isBuild) {
             throw new IllegalStateException("World is already build, cannot rebuild!");
         }
     }

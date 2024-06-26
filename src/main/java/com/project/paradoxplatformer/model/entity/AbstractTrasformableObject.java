@@ -1,10 +1,9 @@
-package com.project.paradoxplatformer.model.entity.abstracts;
+package com.project.paradoxplatformer.model.entity;
 
 import java.util.Queue;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;

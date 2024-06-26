@@ -1,6 +1,5 @@
-package com.project.paradoxplatformer.model.entity.abstracts;
+package com.project.paradoxplatformer.model.entity;
 
-import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.modifiers.SimpleMovingModifer;

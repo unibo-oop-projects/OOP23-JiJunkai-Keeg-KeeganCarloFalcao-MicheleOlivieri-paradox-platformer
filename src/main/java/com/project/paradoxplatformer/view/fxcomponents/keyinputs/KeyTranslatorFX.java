@@ -15,7 +15,7 @@ public class KeyTranslatorFX implements InputTranslator {
 
     @Override
     public InputType translate() {
-        return InputType.getString(this.keyCode.getName());
+        return InputType.getString(this.keyCode.name());
     }
 
 }

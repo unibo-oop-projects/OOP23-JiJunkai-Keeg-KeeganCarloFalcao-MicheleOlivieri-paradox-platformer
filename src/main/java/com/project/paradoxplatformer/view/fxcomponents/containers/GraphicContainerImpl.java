@@ -4,10 +4,13 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
 import com.project.paradoxplatformer.view.fxcomponents.containers.api.GraphicContainer;
 import com.project.paradoxplatformer.view.fxcomponents.keyinputs.KeyAssetterImpl;
+import com.project.paradoxplatformer.view.fxcomponents.keyinputs.KeyTranslatorFX;
 import com.project.paradoxplatformer.view.fxcomponents.keyinputs.api.FXKeyAssetter;
+import com.project.paradoxplatformer.view.fxcomponents.keyinputs.api.InputType;
 import com.project.paradoxplatformer.view.fxcomponents.keyinputs.api.KeyInputer;
 
 import javafx.scene.Node;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 
 import java.util.Objects;
@@ -15,7 +18,7 @@ import java.util.Objects;
 public class GraphicContainerImpl implements GraphicContainer, KeyInputer{
 
     private final StackPane uiContainer;
-    private final KeyAssetterImpl keyAssetter;
+    private final FXKeyAssetter keyAssetter;
     private boolean isActive;
 
     public GraphicContainerImpl(StackPane container) {
@@ -42,14 +45,18 @@ public class GraphicContainerImpl implements GraphicContainer, KeyInputer{
     @Override
     public void setKeyPressed() {
         if(this.isActive) {
-            this.uiContainer.setOnKeyPressed(this.keyAssetter::add);
+            this.uiContainer.addEventFilter(KeyEvent.KEY_PRESSED, this.keyAssetter::add);
         }
+    }
+
+    private InputType toInputType(KeyEvent event) {
+        return new KeyTranslatorFX(event.getCode()).translate();
     }
 
     @Override
     public void setKeyReleased() {
         if(this.isActive) {
-            this.uiContainer.setOnKeyReleased(this.keyAssetter::remove);
+            this.uiContainer.addEventFilter(KeyEvent.KEY_RELEASED, this.keyAssetter::remove);
         }
     }
 

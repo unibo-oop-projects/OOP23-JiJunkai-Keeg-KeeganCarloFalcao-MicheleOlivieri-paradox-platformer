@@ -39,6 +39,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     
     implementation("org.apache.commons:commons-lang3:3.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.3")
 }
 
 test {
@@ -56,6 +57,25 @@ jlink {
 jlinkZip {
     group = 'distribution'
 }
+
+// eclipse {
+//     classpath {
+//         containers 'org.eclipse.buildship.core.gradleclasspathcontainer'
+//         file {
+//             whenMerged {
+//                 entries.findAll { it.properties.kind.equals('lib') && !it.properties.path.contains("junit") }.each {
+//                     it.entryAttributes['module'] = 'true'
+//                 }
+//                 entries.findAll { it.properties.path.startsWith('org.eclipse.jdt.launching.JRE_CONTAINER') }.each {
+//                     it.entryAttributes['module'] = 'true'
+//                 }
+
+//             }
+//         }
+//     }
+// }
+
+
 
 
 

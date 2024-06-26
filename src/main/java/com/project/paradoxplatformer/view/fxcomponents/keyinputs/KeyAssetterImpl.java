@@ -18,6 +18,13 @@ public class KeyAssetterImpl implements FXKeyAssetter{
         this.pool = new HashSet<InputType>();
     }
 
+    //Made it this way for beaty purposes on KeyImputer graphic container
+    //Now need to thick about correcteness and give up on code beauty
+
+    //REMINDER: prlly add and remove need Inputype as paramater, hence making this class indipendent 
+    //to fx library and potentially moving it to controller branch. Such move lets 
+    //this cyclepool method regarding only model components, and it's good
+     
     public boolean remove(KeyEvent e) {
         return this.pool.remove(new KeyTranslatorFX(e.getCode()).translate());
     }

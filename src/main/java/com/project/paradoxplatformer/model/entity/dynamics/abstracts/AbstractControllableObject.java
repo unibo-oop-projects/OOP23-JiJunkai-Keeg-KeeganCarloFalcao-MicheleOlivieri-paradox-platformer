@@ -8,7 +8,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 public abstract class AbstractControllableObject extends AbstractHorizontalObject implements ControllableObject {
 
 
-    protected AbstractControllableObject(Vector2D initDisplacement, HorizonalStats stats) {
+    protected AbstractControllableObject(final Vector2D initDisplacement, final HorizonalStats stats) {
         super(stats.limit(), stats.delta());
     }
 

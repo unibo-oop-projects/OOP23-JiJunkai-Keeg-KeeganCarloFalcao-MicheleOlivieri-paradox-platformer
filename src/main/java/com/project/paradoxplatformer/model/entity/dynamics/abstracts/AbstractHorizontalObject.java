@@ -14,9 +14,9 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
     private static final double RESET_MAG = 0.;
     private static final double NO_ADDINGS = 0.;
 
-    protected double magnitude;
     private final double limit;
     private final double delta;
+    protected double magnitude;
     protected Vector2D horizontalSpeed;
 
 
@@ -26,7 +26,7 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
         this.limit = limit;
     }
 
-    private void moveBehaviour(MovingType movingDir, double magnitudeSign) {
+    private void moveBehaviour(final MovingType movingDir, final double magnitudeSign) {
         if(movingDir.getStatus()) {
             this.stop();
         }
@@ -40,12 +40,12 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
     
     @Override
     public void moveLeft() {
-        moveBehaviour(MovingType.LEFT, LEFT_MAG_SIGN);
+        this.moveBehaviour(MovingType.LEFT, LEFT_MAG_SIGN);
     }
 
     @Override
     public void moveRight() {
-        moveBehaviour(MovingType.RIGHT, RIGHT_MAG_SIGN);
+        this.moveBehaviour(MovingType.RIGHT, RIGHT_MAG_SIGN);
     }
 
     @Override

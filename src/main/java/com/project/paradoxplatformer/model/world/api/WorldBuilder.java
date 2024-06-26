@@ -8,13 +8,13 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 public interface WorldBuilder {
     
-    WorldBuilder addPlayer(PlayerModel playerModel);
+    WorldBuilder addPlayer(final PlayerModel playerModel);
 
-    WorldBuilder addTrigger(Trigger ...trigger);
+    WorldBuilder addTrigger(final Trigger ...trigger);
 
-    WorldBuilder addObstacle(Obstacle ...obstacle);
+    WorldBuilder addObstacle(final Obstacle ...obstacle);
 
-    WorldBuilder addbounds(Dimension dimension);
+    WorldBuilder addbounds(final Dimension dimension);
 
     World build();
 }

@@ -40,20 +40,22 @@ public class InputFactoryImpl implements InputFactory {
 
     @Override
     public InputModel advancedModel() {
-        return new InputModelDecorator(wasdModel());
+        return new StdModelDecorator(wasdModel());
     }
     
-    private class InputModelDecorator implements InputModel{
+    private class StdModelDecorator implements InputModel{
         private InputModel toDecorate;
+        private EnumMap<InputType, Command> inputmodel;
 
-        private InputModelDecorator(InputModel toDecorate) {
+        private StdModelDecorator(InputModel toDecorate) {
             this.toDecorate = toDecorate;
-            standardModel().getModel().putAll(toDecorate.getModel());
+            inputmodel = this.toDecorate.getModel();
+            inputmodel.putAll(standardModel().getModel());
         }
 
         @Override
         public EnumMap<InputType, Command> getModel() {
-            return this.toDecorate.getModel();
+            return inputmodel;
         }
 
     }

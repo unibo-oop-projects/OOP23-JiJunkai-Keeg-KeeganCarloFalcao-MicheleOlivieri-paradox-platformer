@@ -1,0 +1,33 @@
+
+{
+	"height": 200,
+	"width": 300,
+
+	"gameDTOs": [
+		{
+			"type": "player",
+			"x": 10,
+			"y": 30,
+			"width": 10,
+			"height": 30,
+			"subtype": ""
+			"image": "player.png",
+			"color": null
+		},
+		
+		{
+			"type": "obstacle",
+			"x": 0,
+			"y": 0,
+			"width": 300,
+			"height": 50,
+			"subtype": "platform"
+			"image": "",
+			"color": {
+						"blu": 0,
+						"red": 51,
+						"green": 24,
+						"alpha": 1
+					}	}
+	]
+}

@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.view.counter;
 
 import com.project.paradoxplatformer.model.counter.DeathCounterModel;
-import com.project.paradoxplatformer.utils.world.api.observer.Observer;
+import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
 
 public class DeathCounterView implements Observer {
 

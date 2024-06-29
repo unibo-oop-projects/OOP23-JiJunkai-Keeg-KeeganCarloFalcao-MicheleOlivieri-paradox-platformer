@@ -1,0 +1,107 @@
+{
+	"height": 300,
+	"width": 500,
+
+	"gameDTOs": [
+		{
+			"type": "player",
+			"x": 20,
+			"y": 100,
+			"width": 43,
+			"height": 53,
+			"subtype": "",
+			"image": "player.png",
+			"color": null,
+			"traj": null
+		},
+		
+		{
+			"type": "obstacle",
+			"x": 0,
+			"y": 0,
+			"width": 250,
+			"height": 100,
+			"subtype": "Platform",
+			"image": "",
+			"color": {
+						"blu": 0,
+						"red": 51,
+						"green": 24,
+						"alpha": 1
+			},
+			"traj": null
+		},
+		
+		{
+			"type": "obstacle",
+			"x": 330,
+			"y": 0,
+			"width": 170,
+			"height": 100,
+			"subtype": "Platform",
+			"image": "",
+			"color": {
+						"blu": 0,
+						"red": 51,
+						"green": 24,
+						"alpha": 1
+			},
+			"traj": null
+		},
+		
+		{
+			"type": "obstacle",
+			"x": 330,
+			"y": 100,
+			"width": 30,
+			"height": 100,
+			"subtype": "Wall",
+			"image": "",
+			"color": {
+						"blu": 0,
+						"red": 51,
+						"green": 24,
+						"alpha": 1
+			},
+			"traj": [
+				{
+					"x": 150,
+					"y":100,
+					"duration": 10,
+					"vector": "DISPLACEMENT"
+				},
+				{
+					"x": 150,
+					"y":50,
+					"duration": 4,
+					"vector": "HEIGHT"
+				}
+			]
+		},
+		
+		{
+			"type": "obstacle",
+			"x": 250,
+			"y": 0,
+			"width": 80,
+			"height": 100,
+			"subtype": "Wall",
+			"image": "",
+			"color": {
+						"blu": 90,
+						"red": 20,
+						"green": 90,
+						"alpha": 1
+			},
+			"traj": [
+				{
+					"x": 250,
+					"y":-100,
+					"duration": 10,
+					"vector": "DISPLACEMENT"
+				}
+			]
+		}
+	]
+}
+

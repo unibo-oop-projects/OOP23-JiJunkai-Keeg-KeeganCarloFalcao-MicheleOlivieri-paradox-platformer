@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.project.paradoxplatformer.model.timer.api.TimeProvider;
 import com.project.paradoxplatformer.model.timer.api.Timer;
-import com.project.paradoxplatformer.utils.world.api.observer.Observer;
+import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
 
 /**
  * TimerModel

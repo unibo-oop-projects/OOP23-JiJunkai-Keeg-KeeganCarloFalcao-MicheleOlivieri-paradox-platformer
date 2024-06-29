@@ -1,36 +1,55 @@
 package com.project.paradoxplatformer.model.player;
 
-import com.project.paradoxplatformer.utils.entity.MutableObject;
-import com.project.paradoxplatformer.utils.world.*;
 
-public class PlayerModel implements MutableObject {
+import com.project.paradoxplatformer.model.entity.MutableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
+import com.project.paradoxplatformer.utils.geometries.*;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
+import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
+import com.project.paradoxplatformer.utils.geometries.modifiers.SimpleMovingModifer;
+import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-    private Point position;
-    private Vector speed;
+public class PlayerModel extends AbstractControllableObject implements MutableObject {
+
+    private Coord2D position;
+    private Vector2D speed;
     private Dimension dimension;
+    private SimpleMovingModifer movement;
+    private Vector2D displacement;
+    private final InterpolatorFactory interpFactory;
 
-    public PlayerModel(Point pos, Vector speed) {
+
+    public PlayerModel(Coord2D pos, Dimension dimension, Vector2D speed) {
+        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(70.d, 7.d));//addon
+        movement = new SimpleMovingModifer();//addon
+        interpFactory = new InterpolatorFactoryImpl();//addon
         this.position = pos;
+        this.displacement = new Simple2DVector(pos.x(), pos.y());//addon
         this.speed = speed;
-        this.dimension = new Dimension(16,32); //TODO: modifica con valori sensati
+        this.horizontalSpeed = speed;//addon
+        this.dimension = dimension; //TODO: modifica con valori sensati
     }
 
     @Override
-    public Point getPosition() {
-        return new Point(position.x(),position.y());
+    public Coord2D getPosition() {
+        return new Coord2D(position.x(),position.y());
     }
 
-    public void setPosition(Point pos) {
+    public void setPosition(Coord2D pos) {
         this.position = pos;
     }
 
     @Override
-    public Vector getSpeed() {
-        return this.speed;
+    public Vector2D getSpeed() {
+        return this.horizontalSpeed;
     }
 
-    public void setSpeed(Vector speed) {
+    public void setSpeed(Vector2D speed) {
         this.speed = speed;
+        this.horizontalSpeed = speed;//addon
     }
 
     @Override
@@ -44,7 +63,21 @@ public class PlayerModel implements MutableObject {
 
     @Override
     public void updateState(long dt) {
-        this.position = this.position.sum(speed.mul(0.001*dt));
+        
+        this.displacement = movement.step(this.displacement, 
+            this.displacement.add(this.horizontalSpeed),
+            interpFactory.linear(),
+            dt
+        );//addon
+        
+        // this.position = this.position.sum(speed.mul(0.001*dt));
+        this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));//addon
+    }
+
+    //addon
+    public void collectCoin() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'collectCoin'");
     }
 
 }

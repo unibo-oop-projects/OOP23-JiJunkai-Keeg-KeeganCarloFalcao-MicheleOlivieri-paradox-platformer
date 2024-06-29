@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.view.fxcomponents;
 import java.util.Optional;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractGraphicComponent;
 
 import javafx.scene.Node;
@@ -14,8 +15,8 @@ public class RectangleComponent extends AbstractGraphicComponent {
 
     private final Rectangle blockComponent;
     
-    public RectangleComponent(Node component, Dimension dimension, Color fill) {
-        super(component, dimension);
+    public RectangleComponent(Node component, Dimension dimension, Coord2D position, Color fill) {
+        super(component, dimension, position);
         if (component instanceof Rectangle blockCopy) {
             this.blockComponent = blockCopy;
             this.blockComponent.setFill(fill);

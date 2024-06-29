@@ -14,11 +14,9 @@ public class SimpleMovingModifer implements Modifier {
 
     private static final double CLAMP_VALUE = 1.;
     //initally use protecte, dont know wether it needs on lower classes
-    protected double percentage;
-    protected long elapseTime;
+    protected double elapseTime;
 
     public SimpleMovingModifer() {
-        this.percentage = 0.;
         this.elapseTime = 0L;
     }
 
@@ -26,9 +24,9 @@ public class SimpleMovingModifer implements Modifier {
     //move paramaters are getting numerous
     @Override
     public Pair<Vector2D, Double> moveTo(Vector2D start, Vector2D end, long duration, Interpolator<Vector2D> interpType, long dt) {
-        this.elapseTime += dt;
+        this.elapseTime += 0.06d;
         //doubt, does duration express on nanosec or conventional?, needs a conversion if so
-        this.percentage = Math.min(elapseTime / duration, CLAMP_VALUE);
+        double percentage = Math.min(elapseTime / duration, CLAMP_VALUE);
         return Pair.of(interpType.lerp(start, end, percentage), percentage);
     }
 
@@ -43,6 +41,7 @@ public class SimpleMovingModifer implements Modifier {
     //erased, making every move (left, right, jump, spin) affected by move function
     @Override
     public Vector2D stop() {
+        this.elapseTime = 0.d;
         return Polar2DVector.nullVector();
     }
 

@@ -14,7 +14,9 @@ public interface GraphicComponent extends Component{
 
     Dimension dimension();
 
-    Coord2D position();
+    Coord2D absolutePosition();
+
+    Coord2D relativePosition();
 
     void setDimension(final double width, final double height);
 
@@ -27,5 +29,7 @@ public interface GraphicComponent extends Component{
     Optional<Image> image();
 
     Optional<Color> color();
+
+    void flip();
     
 }

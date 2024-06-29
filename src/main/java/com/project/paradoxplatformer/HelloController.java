@@ -1,92 +1,70 @@
 package com.project.paradoxplatformer;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.paradoxplatformer.controller.deserialization.LevelDeserializer;
+import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
+import com.project.paradoxplatformer.controller.games.GameControllerImpl;
+import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.model.inputmodel.InputFactory;
 import com.project.paradoxplatformer.model.inputmodel.InputFactoryImpl;
-import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
+import com.project.paradoxplatformer.model.world.ModelData;
+import com.project.paradoxplatformer.model.world.PlatfromModelData;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
-import com.project.paradoxplatformer.view.fxcomponents.RectangleComponent;
-import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.view.fxcomponents.ImageComponent;
 import com.project.paradoxplatformer.view.fxcomponents.containers.GraphicContainerImpl;
+import com.project.paradoxplatformer.view.fxcomponents.containers.api.GraphicContainer;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-
-
 
 public class HelloController {
 
     @FXML
     private StackPane gamePane;
 
-    @FXML
-    public void initialize() {
+    private ModelData f;
 
-        
-        ObjectMapper mapper = new ObjectMapper();
-        URL json = HelloController.class.getResource("player.json");
+    @FXML
+    public void initialize() throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+        final LevelDeserializer deserializer = new LevelDeserializer("level1.json");
         LevelDTO level = null;
         try {
-            if(Objects.isNull(json)) {
-                System.out.println("FILE NON TROVATO");
-            }
-            level = mapper.readValue(json, LevelDTO.class);
-        
+            level = deserializer.deserialize();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
+            return;
         }
+        
+        f = new PlatfromModelData(level);
+        Objects.requireNonNull(level);
+        GraphicContainer g = new GraphicContainerImpl(gamePane);
+        GameController gc = new GameControllerImpl(f, g);
+        gc.loadModel();
+        gc.syncView();
 
-        var item1 = List.of(level.getGameDTOs()).get(1);
+        g.activateKeyInput();
+        g.setKeyPressed();
+        g.setKeyReleased();
         
-
-        var container = new GraphicContainerImpl(gamePane);
-        
-        container.setDimension(level.getWidth(), level.getHeight());
-        GraphicComponent rectangle = new RectangleComponent(
-            new Rectangle(),
-            new Dimension(item1.getWidth(), item1.getHeight()),
-            item1.getColor().toFXColor());
-        rectangle.setRelativePositionTo(0, container.dimension().height(), container);
-        GraphicComponent player = new RectangleComponent(
-            new Rectangle(),
-            new Dimension(10, 30),
-            Color.BLACK);
-        player.setRelativePositionTo(0, container.dimension().height()-rectangle.dimension().height(), container);
-        
-        container.render(player);
-        container.render(rectangle);
-        
-        PlayerModel pm = new PlayerModel(player.position(), Polar2DVector.nullVector());
-        
-        container.activateKeyInput();
-        container.setKeyPressed();
-        container.setKeyReleased();
-        InputFactory factory = new InputFactoryImpl();
-        InputController inputController = new InputController(factory.advancedModel(), container.getKeyAssetter());
-        
-        System.out.println(factory.advancedModel().getModel().keySet());
+        InputFactory imfactory = new InputFactoryImpl(); 
+        InputController ic = new InputController(imfactory.advancedModel(), g.getKeyAssetter());
         AnimationTimer a = new AnimationTimer() {
 
             @Override
             public void handle(long now) {
-                inputController.inject(pm);
-                pm.updateState(25000000L);
-                player.setPosition(pm.getPosition().x(), pm.getPosition().y());
+                ic.inject(f);
+                gc.update(25000000L);
             }
-            
         };
         a.start();
     }
@@ -101,7 +79,7 @@ public class HelloController {
          * i.e if player is on first ground, its acceleration on y is 0
          */
         
-        
+        f.getWorld().obstacles().forEach(Obstacle::effect);
         
     }
 }

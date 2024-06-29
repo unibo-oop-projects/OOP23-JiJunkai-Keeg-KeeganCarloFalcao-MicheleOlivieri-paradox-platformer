@@ -12,7 +12,7 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
 
     //position inevitablly immutable expept for static purpose
     protected Dimension dimension;
-    protected Coord2D  position;
+    protected Coord2D position;
 
     protected AbstractObstacle(final Coord2D position, final Dimension dimension, final Queue<TrajectoryInfo> trajStats) {
         super(position, dimension, trajStats);
@@ -39,8 +39,17 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
 
     @Override
     public void updateState(long dt) {
-        this.position = new Coord2D(this.displacement.xComponent(), this.displacement.yComponent());
-        this.dimension = new Dimension(this.widthVector.magnitude(), this.heightVector.magnitude());
+        super.updateState(dt);
+        this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));
+        this.setDimension(new Dimension(this.widthVector.magnitude(), this.heightVector.yComponent()));
+    }
+
+    private void setDimension(Dimension dimension) {
+        this.dimension = dimension;
+    }
+
+    private void setPosition(Coord2D position) {
+        this.position = position;
     }
     
 }

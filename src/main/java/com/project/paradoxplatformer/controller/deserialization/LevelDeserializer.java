@@ -7,6 +7,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.paradoxplatformer.MainApplication;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 
 public class LevelDeserializer{
@@ -19,9 +20,11 @@ public class LevelDeserializer{
 
     public LevelDTO deserialize() throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
-        URL jsonURL = LevelDeserializer.class.getResource(this.json);
-        Objects.requireNonNull(jsonURL);
-        return mapper.readValue(json, LevelDTO.class);
+        URL jsonURL = MainApplication.class.getResource(this.json);
+        if (Objects.isNull(jsonURL)) {
+            throw new IllegalArgumentException();
+        }
+        return mapper.readValue(jsonURL, LevelDTO.class);
     }
 
 }

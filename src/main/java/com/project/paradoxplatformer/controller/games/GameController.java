@@ -1,10 +1,11 @@
 package com.project.paradoxplatformer.controller.games;
 
-
 public interface GameController {
 
-    void loadModel(ModelData gamemodel);
+    void loadModel();
 
-    void sync();
+    void syncView();
+
+    void update(long l);
 
 }

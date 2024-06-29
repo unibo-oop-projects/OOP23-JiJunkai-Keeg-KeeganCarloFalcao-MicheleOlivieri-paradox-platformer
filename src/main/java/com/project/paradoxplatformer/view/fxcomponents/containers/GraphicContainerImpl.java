@@ -7,7 +7,6 @@ import com.project.paradoxplatformer.view.fxcomponents.keyinputs.KeyAssetterImpl
 import com.project.paradoxplatformer.view.fxcomponents.keyinputs.KeyTranslatorFX;
 import com.project.paradoxplatformer.view.fxcomponents.keyinputs.api.FXKeyAssetter;
 import com.project.paradoxplatformer.view.fxcomponents.keyinputs.api.InputType;
-import com.project.paradoxplatformer.view.fxcomponents.keyinputs.api.KeyInputer;
 
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
@@ -15,7 +14,7 @@ import javafx.scene.layout.StackPane;
 
 import java.util.Objects;
 
-public class GraphicContainerImpl implements GraphicContainer, KeyInputer{
+public class GraphicContainerImpl implements GraphicContainer{
 
     private final StackPane uiContainer;
     private final FXKeyAssetter keyAssetter;
@@ -47,10 +46,6 @@ public class GraphicContainerImpl implements GraphicContainer, KeyInputer{
         if(this.isActive) {
             this.uiContainer.addEventFilter(KeyEvent.KEY_PRESSED, this.keyAssetter::add);
         }
-    }
-
-    private InputType toInputType(KeyEvent event) {
-        return new KeyTranslatorFX(event.getCode()).translate();
     }
 
     @Override

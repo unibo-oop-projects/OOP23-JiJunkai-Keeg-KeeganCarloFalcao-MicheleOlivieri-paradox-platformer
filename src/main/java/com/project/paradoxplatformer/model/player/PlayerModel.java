@@ -22,15 +22,15 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
     private final InterpolatorFactory interpFactory;
 
 
-    public PlayerModel(Coord2D pos, Vector2D speed) {
-        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(50.d, 7.d));//addon
+    public PlayerModel(Coord2D pos, Dimension dimension, Vector2D speed) {
+        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(70.d, 7.d));//addon
         movement = new SimpleMovingModifer();//addon
         interpFactory = new InterpolatorFactoryImpl();//addon
         this.position = pos;
         this.displacement = new Simple2DVector(pos.x(), pos.y());//addon
         this.speed = speed;
         this.horizontalSpeed = speed;//addon
-        this.dimension = new Dimension(16,32); //TODO: modifica con valori sensati
+        this.dimension = dimension; //TODO: modifica con valori sensati
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
 
     @Override
     public Vector2D getSpeed() {
-        return this.speed;
+        return this.horizontalSpeed;
     }
 
     public void setSpeed(Vector2D speed) {

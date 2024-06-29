@@ -21,21 +21,31 @@ public abstract class AbstractGraphicComponent implements GraphicComponent{
     private double x;
     private double y;
 
-    public AbstractGraphicComponent(final Node component, Dimension dimension) {
+    public AbstractGraphicComponent(final Node component, Dimension dimension, Coord2D relativePos) {
         this.uiComponent = component;   
         this.dimension = dimension;
+        this.x = relativePos.x();
+        this.y = relativePos.y();
         this.originX = this.dimension.width()/2;
         this.originY = this.dimension.height()/2;
     }
 
+
     @Override
-    public Coord2D position() {
+    public Coord2D absolutePosition() {
         return new Coord2D(
             this.x - this.originX,
             this.y - this.originY
         );
     }
 
+    @Override
+    public Coord2D relativePosition() {
+        return new Coord2D(
+            this.x,
+            this.y 
+        );
+    }
     @Override
     public abstract void setDimension(final double width, final double height);
 
@@ -50,7 +60,7 @@ public abstract class AbstractGraphicComponent implements GraphicComponent{
 
     @Override
     public void translate(final double x, final double y) {
-        this.setPosition(this.x + x, this.y + y);
+        this.setPosition(this.absolutePosition().x() + x, this.absolutePosition().y() + y);
     }
 
     @Override
@@ -73,6 +83,11 @@ public abstract class AbstractGraphicComponent implements GraphicComponent{
         final double containerOriginX = container.dimension().width()/2;
         final double containerOriginY = container.dimension().height()/2;
         this.setPosition(x - containerOriginX , y - containerOriginY);
+    }
+
+    @Override
+    public void flip() {
+        this.uiComponent.setScaleX(-1  * uiComponent.getScaleX());
     }
     
     

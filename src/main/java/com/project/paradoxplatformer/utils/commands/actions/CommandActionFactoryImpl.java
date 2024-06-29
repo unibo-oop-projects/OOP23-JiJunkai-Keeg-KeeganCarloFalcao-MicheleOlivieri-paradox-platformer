@@ -8,7 +8,6 @@ import com.project.paradoxplatformer.utils.commands.Command;
 public class CommandActionFactoryImpl implements CommandActionFactory{
     
     public Command leftCommand() {
-        
         return ControllableObject::moveLeft;
     }
 

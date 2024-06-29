@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer;
+package com.project.paradoxplatformer.controller.deserialization.dtos;
 
 public class ColorDTO {
 

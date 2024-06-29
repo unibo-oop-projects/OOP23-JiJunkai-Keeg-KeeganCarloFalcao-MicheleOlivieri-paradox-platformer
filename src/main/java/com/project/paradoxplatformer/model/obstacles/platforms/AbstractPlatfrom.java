@@ -9,7 +9,7 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class AbstractPlatfrom extends AbstractObstacle implements Collidable{
+public abstract class AbstractPlatfrom extends AbstractObstacle implements Collidable{
 
     protected AbstractPlatfrom(Coord2D position, Dimension dimension, Queue<TrajectoryInfo> trajStats) {
         super(position, dimension, trajStats);

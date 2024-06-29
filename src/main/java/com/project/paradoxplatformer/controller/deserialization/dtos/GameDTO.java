@@ -7,10 +7,18 @@ public class GameDTO {
     private int y;
     private double width;
     private double height;
+    private String subtype;
     private String image;
     private ColorDTO color;
-    private String subtype;
-    
+    private TrajMacro[] traj;
+
+    public TrajMacro[] getTraj() {
+        return traj;
+    }
+
+    public void setTraj(TrajMacro[] traj) {
+        this.traj = traj;
+    }
 
     public void setSubtype(String subtype) {
         this.subtype = subtype;

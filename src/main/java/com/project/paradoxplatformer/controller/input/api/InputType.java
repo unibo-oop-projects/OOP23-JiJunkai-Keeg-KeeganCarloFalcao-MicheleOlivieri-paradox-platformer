@@ -1,14 +1,15 @@
-package com.project.paradoxplatformer.view.fxcomponents.keyinputs.api;
+package com.project.paradoxplatformer.controller.input.api;
 
 import java.util.Arrays;
 
 public enum InputType {
     LEFT, RIGHT, UP,
     A, D, W,
-    UNDEFINED;
+    ESCAPE,
+    UNDEFINED, P, R;
 
 
-    public static InputType getString(String name) {
+    public static InputType getString(final String name) {
         if(Arrays.stream(InputType.values()).map(InputType::name).anyMatch(name::equals)) {
             return valueOf(name);
         } 

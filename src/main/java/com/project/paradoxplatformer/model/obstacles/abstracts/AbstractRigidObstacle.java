@@ -23,7 +23,7 @@ public abstract class AbstractRigidObstacle extends AbstractObstacle implements 
     //RIGID DOES NOT HAVE COLLISION SO FAR
     //IN REAL PHYSICS COLLISION DEPENDS UPON MASS, IN SUCH CASE PLAYER MAY PUSH THE WALL
     @Override
-    public void handleCollision(Collidable other) {
+    public void handleCollision(final Collidable other) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'handleCollision'");
     }

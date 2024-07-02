@@ -10,7 +10,7 @@ public class Polar2DVector extends Simple2DVector{
     }
 
     public static Vector2D nullVector() {
-        return new Polar2DVector(0.0d, 0.0d);
+        return new Polar2DVector(0.d, 0.d);
     } 
     
 }

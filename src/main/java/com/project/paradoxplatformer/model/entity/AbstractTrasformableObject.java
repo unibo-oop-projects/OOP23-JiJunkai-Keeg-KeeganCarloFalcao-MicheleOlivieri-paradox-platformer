@@ -6,7 +6,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.geometries.modifiers.SimpleMovingModifer;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
@@ -27,15 +26,15 @@ public abstract class AbstractTrasformableObject extends AbstractMutableObject{
 
     //RREMINEDER ADD ABSTRACT METHODS
     @Override
-    public void updateState(long dt) {
+    public void updateState(final long dt) {
         if (!this.isIdle && !this.trasformationStats.isEmpty()) {
             TrajectoryInfo currentTransf = trasformationStats.peek();
             switch (currentTransf.transfType()) {
                 case DISPLACEMENT:
                     this.displacement = this.trasform(this.displacement, currentTransf, dt).getKey();
+                    System.out.println(this.displacement.xComponent());
                     break;
                 case HEIGHT:
-                    
                 this.displacement = this.mover.moveTo(
                     this.displacement, 
                     currentTransf.endpoint(),
@@ -57,7 +56,7 @@ public abstract class AbstractTrasformableObject extends AbstractMutableObject{
         
     }
     
-    private void popWhenFinished(double percentage) {
+    private void popWhenFinished(final double percentage) {
         System.out.println(percentage);
         if(percentage >= 1.d) {
             this.mover.stop();
@@ -65,7 +64,7 @@ public abstract class AbstractTrasformableObject extends AbstractMutableObject{
         }
     }
 
-    private Pair<Vector2D, Double> trasform(Vector2D vector2d, TrajectoryInfo trajectoryInfo, long dt) {
+    private Pair<Vector2D, Double> trasform(final Vector2D vector2d, final TrajectoryInfo trajectoryInfo, long dt) {
         Pair<Vector2D, Double> transf = this.mover.moveTo(
                     vector2d, 
                     trajectoryInfo.endpoint(),

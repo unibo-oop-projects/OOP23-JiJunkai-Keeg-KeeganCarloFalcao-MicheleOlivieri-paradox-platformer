@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.model.entity.dynamics.HorizontalObject;
-import com.project.paradoxplatformer.utils.geometries.modifiers.MovingType;
+import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
 import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
@@ -26,7 +26,7 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
         this.limit = limit;
     }
 
-    private void moveBehaviour(final MovingType movingDir, final double magnitudeSign) {
+    private void moveBehaviour(final Direction movingDir, final double magnitudeSign) {
         if(movingDir.getStatus()) {
             this.stop();
         }
@@ -40,12 +40,12 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
     
     @Override
     public void moveLeft() {
-        this.moveBehaviour(MovingType.LEFT, LEFT_MAG_SIGN);
+        this.moveBehaviour(Direction.LEFT, LEFT_MAG_SIGN);
     }
 
     @Override
     public void moveRight() {
-        this.moveBehaviour(MovingType.RIGHT, RIGHT_MAG_SIGN);
+        this.moveBehaviour(Direction.RIGHT, RIGHT_MAG_SIGN);
     }
 
     @Override

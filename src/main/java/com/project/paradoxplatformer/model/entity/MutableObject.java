@@ -7,6 +7,6 @@ public interface MutableObject extends GameObject{
 
     public Vector2D getSpeed();
 
-    public void updateState(long dt);
+    public void updateState(final long dt);
 
 }

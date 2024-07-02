@@ -25,10 +25,10 @@ public class SpriteAnimator {
 
     public void selectFrame(SpriteStatus current, Consumer<Image> imageAction) {
         
-        
+        //FIXX, GRAMES PROB ON SPRITE DTO
         if(this.prev == current) {
             frames += 1;
-            if (frames % 10 == 0) {
+            if (frames % 5 == 0) {
                 this.index += 1;
             }
             

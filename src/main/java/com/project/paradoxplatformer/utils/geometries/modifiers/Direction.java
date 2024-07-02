@@ -2,13 +2,13 @@ package com.project.paradoxplatformer.utils.geometries.modifiers;
 
 
 
-public enum MovingType {
+public enum Direction {
     RIGHT(false),
     LEFT(false);
 
     private boolean activatedStatus;
 
-    private MovingType(boolean active) {
+    private Direction(boolean active) {
         this.activatedStatus = active;
     }
 
@@ -20,8 +20,8 @@ public enum MovingType {
         this.activatedStatus = newStatus;
     }
 
-    public MovingType opposite() {
-        return this == MovingType.LEFT ? MovingType.RIGHT : MovingType.LEFT;
+    public Direction opposite() {
+        return this == Direction.LEFT ? Direction.RIGHT : Direction.LEFT;
     }
 }
 

@@ -3,6 +3,7 @@ package com.project.paradoxplatformer;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -22,7 +23,7 @@ public class MainApplication extends Application implements ViewManager{
     private static final int MIN_GRID_HEGHT = 70;
     private static Scene scene;
     private static Stage stage;
-    private static List<Pair<Parent, Object>> roots;
+    private static List<Pair<Parent, Initializable>> roots;
     private final Alert alert = new Alert(AlertType.NONE);
     
     @Override
@@ -42,6 +43,7 @@ public class MainApplication extends Application implements ViewManager{
         scene.getStylesheets().add(MainApplication.class.getResource("style.css").toExternalForm());
         stage.setScene(scene);      
         stage.show();
+        
     
         
         stage.minWidthProperty().set(MIN_DASHBOARD);
@@ -52,29 +54,29 @@ public class MainApplication extends Application implements ViewManager{
     }
 
     @Override
-    public Object switchView(int id){
+    public Initializable switchView(int id){
         var entry = getParents(id);
         scene.setRoot(entry.getKey());
         stage.sizeToScene();
         return entry.getValue();
     }
 
-    private Pair<Parent, Object> getParents(int id) {
+    private Pair<Parent, Initializable> getParents(int id) {
         return Optional.of(id).filter(i -> i < roots.size() && i >= 0 && !roots.isEmpty())
             .map(roots::get)
             .orElseThrow(IllegalArgumentException::new);
     }
 
-    private List<Pair<Parent, Object>> loadFXML() {
+    private List<Pair<Parent, Initializable>> loadFXML() {
         return ResourcesFinder.FXMLfiles().stream()
             .map(FXMLLoader::new)
             .map(this::loadInput).toList();
     }
 
-    private <T> Pair<Parent, T> loadInput(FXMLLoader loader) {
+    private Pair<Parent, Initializable> loadInput(FXMLLoader loader) {
         try  {
             Parent parent = loader.load();
-            T controller = loader.getController();
+            Initializable controller = loader.getController();
             return Pair.of(parent, controller);
         } catch (IOException e) {
             Alert al = new Alert(AlertType.ERROR, e.getMessage());

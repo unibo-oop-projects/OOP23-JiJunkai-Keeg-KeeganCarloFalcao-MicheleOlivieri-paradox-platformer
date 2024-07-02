@@ -9,6 +9,8 @@ import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
+import com.project.paradoxplatformer.model.world.mappings.model.ModelMappingFactory;
+import com.project.paradoxplatformer.model.world.mappings.model.ModelMappingFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 public class PlatfromModelData implements ModelData {
@@ -16,9 +18,11 @@ public class PlatfromModelData implements ModelData {
     private final LevelDTO packedData;
     private final WorldBuilder worldBuilder;
     private World world;
+    private final ModelMappingFactory modelFactory;
 
     public PlatfromModelData(final LevelDTO packedData) {
         this.packedData = packedData;
+        this.modelFactory = new ModelMappingFactoryImpl();
         this.worldBuilder = new WordBuilderImpl();
     }
 
@@ -31,7 +35,7 @@ public class PlatfromModelData implements ModelData {
     public void init() {
         this.world = this.worldBuilder
             .addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
-            .addPlayer(DataMapper.playerToModel().apply(
+            .addPlayer(modelFactory.playerToModel().map(
                 this.findGameDTOData("player")
                     .stream()
                     .findFirst()
@@ -40,7 +44,7 @@ public class PlatfromModelData implements ModelData {
             )
             .addObstacle(
                 this.findGameDTOData("obstacle").stream()
-                    .map(DataMapper.obstacleToModel()::apply)
+                    .map(modelFactory.obstacleToModel()::map)
                     .toList()
                     .toArray(new Obstacle[0])                
             )

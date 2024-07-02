@@ -1,7 +1,11 @@
-package com.project.paradoxplatformer.model.world;
+package com.project.paradoxplatformer.model.world.mappings.model;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
+import java.util.stream.Collectors;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.TrajMacro;
@@ -9,36 +13,30 @@ import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.entity.TrasformType;
 import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.model.world.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-
 import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 
-import java.util.Queue;
-import java.util.Objects;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-import java.util.LinkedList;
-import java.util.Collections;
-import java.util.List;
-
-//possibly make it separate or build some hierarchy for efficiency
-//make it for view too
-public class DataMapper {
+public class ModelMappingFactoryImpl implements ModelMappingFactory{
 
     private static final String OBSTACLE_PREFIX_NAME = "com.project.paradoxplatformer.model.obstacles.";
 
-    //better make a param for delta and limit speed
-    public static Function<GameDTO, PlayerModel> playerToModel() {
+    public ModelMappingFactoryImpl() {}
+
+    @Override
+    public EntityDataMapper<PlayerModel> playerToModel() {
         return g -> new PlayerModel(new Coord2D(g.getX(), g.getY()), new Dimension(g.getWidth(), g.getHeight()), Polar2DVector.nullVector());
     }
 
-    public static Function<GameDTO, Obstacle> obstacleToModel() {
-        return DataMapper::evaluateObstacleType;
+    @Override
+    public EntityDataMapper<Obstacle> obstacleToModel() {
+        return this::evaluateObstacleType;
     }
 
-    private static Obstacle evaluateObstacleType(GameDTO sub) {
+
+    private Obstacle evaluateObstacleType(GameDTO sub) {
         try {
             return (Obstacle) Class.forName(OBSTACLE_PREFIX_NAME + sub.getSubtype())
                 .getConstructor(
@@ -49,7 +47,7 @@ public class DataMapper {
                 .newInstance(
                     new Coord2D(sub.getX(), sub.getY()),
                     new Dimension(sub.getWidth(), sub.getHeight()),
-                    DataMapper.trajMacro(sub.getTraj())
+                    this.trajMacro(sub.getTraj())
                 );
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
@@ -58,7 +56,7 @@ public class DataMapper {
         return null;
     }
 
-    private static Queue<TrajectoryInfo> trajMacro(TrajMacro[] traj) {
+    private Queue<TrajectoryInfo> trajMacro(TrajMacro[] traj) {
         if(Objects.nonNull(traj)) {
             return Arrays.stream(traj)
                 .map(t -> 
@@ -71,4 +69,7 @@ public class DataMapper {
         }
         return new LinkedList<>();
     }
+
+    
+    
 }

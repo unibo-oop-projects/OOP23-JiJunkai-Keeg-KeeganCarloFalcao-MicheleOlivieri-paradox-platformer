@@ -1,13 +1,16 @@
 package com.project.paradoxplatformer.model.inputmodel;
 
+import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.inputmodel.commands.Command;
+
 public interface InputFactory {
     
-    InputModel standardModel();
+    InputModel<ControllableObject> standardModel();
 
-    InputModel wasdModel();
+    InputModel<ControllableObject> wasdModel();
 
-    InputModel advancedModel();
+    InputModel<ControllableObject> advancedModel();
 
-    InputModel invertedModel();
+    InputModel<ControllableObject> invertedModel(InputModel<ControllableObject> model);
 
 }

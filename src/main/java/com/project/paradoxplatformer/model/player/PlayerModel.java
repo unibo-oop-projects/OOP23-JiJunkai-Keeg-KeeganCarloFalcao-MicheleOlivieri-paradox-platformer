@@ -8,7 +8,7 @@ import com.project.paradoxplatformer.utils.geometries.*;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.modifiers.SimpleMovingModifer;
+import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
@@ -17,14 +17,14 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
     private Coord2D position;
     private Vector2D speed;
     private Dimension dimension;
-    private SimpleMovingModifer movement;
+    private PhysicsEngine movement;
     private Vector2D displacement;
     private final InterpolatorFactory interpFactory;
 
 
     public PlayerModel(Coord2D pos, Dimension dimension, Vector2D speed) {
         super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(70.d, 7.d));//addon
-        movement = new SimpleMovingModifer();//addon
+        movement = new PhysicsEngine();//addon
         interpFactory = new InterpolatorFactoryImpl();//addon
         this.position = pos;
         this.displacement = new Simple2DVector(pos.x(), pos.y());//addon
@@ -57,7 +57,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
         return this.dimension;
     }
 
-    public void changeSize(int factorX, int factorY) {
+    public void changeSize(double factorX, double factorY) {
         this.dimension = new Dimension(this.dimension.width()*factorX,this.dimension.height()*factorY);
     }
 

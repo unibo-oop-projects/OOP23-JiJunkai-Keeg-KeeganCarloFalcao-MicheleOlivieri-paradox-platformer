@@ -38,17 +38,17 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
     }
 
     @Override
-    public void updateState(long dt) {
+    public void updateState(final long dt) {
         super.updateState(dt);
         this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));
         this.setDimension(new Dimension(this.widthVector.magnitude(), this.heightVector.yComponent()));
     }
 
-    private void setDimension(Dimension dimension) {
+    private void setDimension(final Dimension dimension) {
         this.dimension = dimension;
     }
 
-    private void setPosition(Coord2D position) {
+    private void setPosition(final Coord2D position) {
         this.position = position;
     }
     

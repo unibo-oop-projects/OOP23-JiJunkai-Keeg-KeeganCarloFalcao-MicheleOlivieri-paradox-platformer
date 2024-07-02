@@ -2,17 +2,17 @@ package com.project.paradoxplatformer.model.entity;
 
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.modifiers.SimpleMovingModifer;
+import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
 
 public abstract class AbstractMutableObject implements MutableObject {
 
-    protected final SimpleMovingModifer mover;
+    protected final PhysicsEngine mover;
     protected final InterpolatorFactory interFactory;
     protected boolean isIdle;
 
     protected AbstractMutableObject() {
         this.isIdle = true;
-        this.mover = new SimpleMovingModifer();
+        this.mover = new PhysicsEngine();
         this.interFactory = new InterpolatorFactoryImpl();
     }
 

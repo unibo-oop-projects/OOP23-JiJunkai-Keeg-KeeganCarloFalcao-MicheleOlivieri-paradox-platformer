@@ -2,7 +2,6 @@ package com.project.paradoxplatformer.view.fxcomponents.api;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.fxcomponents.containers.api.GraphicContainer;
 import com.project.paradoxplatformer.view.renders.Component;
 
 import javafx.scene.image.Image;
@@ -23,8 +22,6 @@ public interface GraphicComponent extends Component{
     void setPosition(final double x, final double y);
 
     void translate(final double x, final double y);
-
-    void setRelativePositionTo(final double x, final double y, final GraphicContainer container);
 
     Optional<Image> image();
 

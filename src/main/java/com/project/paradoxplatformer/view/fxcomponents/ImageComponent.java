@@ -26,7 +26,7 @@ public class ImageComponent extends AbstractGraphicComponent implements Spriteab
             this.imgComponent = imgCopy;
             //SHOULD DO IF SPRITE SO MAKE DISTINCT CLASSES
             imgComponent.setImage(new Image(MainApplication.class.getResource(imageURL).toExternalForm()));
-            // this.setDimension(dimension.width(), dimension.height());
+            this.setDimension(dimension.width(), dimension.height());
             System.out.println(this.imgComponent.getImage().getHeight());
             System.out.println(this.imgComponent.getImage().getWidth());
             this.spriteAnimator = new SpriteAnimator(

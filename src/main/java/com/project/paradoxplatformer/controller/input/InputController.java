@@ -1,21 +1,23 @@
 package com.project.paradoxplatformer.controller.input;
 
-import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.controller.input.api.KeyAssetter;
 import com.project.paradoxplatformer.model.inputmodel.InputModel;
-import com.project.paradoxplatformer.model.world.ModelData;
-import com.project.paradoxplatformer.view.fxcomponents.keyinputs.api.FXKeyAssetter;
+import com.project.paradoxplatformer.model.inputmodel.commands.Command;
 
-public class InputController {
+public class InputController<T> {
     
-    private final FXKeyAssetter keyAssets;
-    private final InputModel inModel;
+    //NEED TO MAKE FXKEY ASSETTER A FX INDEPENDENT CONCEPT ::DONE::
+    private final KeyAssetter keyAssets;
+    private final InputModel<T> inModel;
 
-    public InputController(final InputModel inModel, final FXKeyAssetter assets) {
+    public InputController(final InputModel<T> inModel, final KeyAssetter assets) {
         this.inModel = inModel;
         this.keyAssets = assets;
     }
 
-    public void inject(final ModelData modelData) {
-        keyAssets.cyclePool(inModel, modelData.getWorld().player());
+    public void inject(T actor, Command<T> onIdle) {
+        //MAKE IMMUTABLE KEYASSETS LIST SO I CAN USE IT HERE AND NOT IN VIEW
+        //CHECK DONE
+        this.keyAssets.cyclePool(inModel, actor, onIdle);
     }
 }

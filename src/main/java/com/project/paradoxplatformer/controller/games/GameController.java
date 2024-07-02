@@ -6,6 +6,6 @@ public interface GameController {
 
     void syncView();
 
-    void update(long l);
+    void update(final long l);
 
 }

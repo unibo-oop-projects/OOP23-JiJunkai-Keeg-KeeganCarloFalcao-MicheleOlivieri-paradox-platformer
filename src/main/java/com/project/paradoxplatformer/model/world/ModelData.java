@@ -11,6 +11,7 @@ public interface ModelData {
 
     LevelDTO getPackedData();
 
+    //shouldn' handle
     void stop();
 
     void resume();

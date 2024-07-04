@@ -12,13 +12,13 @@ import com.project.paradoxplatformer.model.inputmodel.commands.actions.CommandAc
 
 
 
-public class InputFactoryImpl implements InputFactory {
+public class InputMovesFactoryImpl implements InputMovesFactory {
 
     private final CommandActionFactory cmdFactory;
     private Map<Command<ControllableObject>, Command<ControllableObject>> oppositeMap;
 
 
-    public InputFactoryImpl() {
+    public InputMovesFactoryImpl() {
         this.cmdFactory = new CommandActionFactoryImpl();
         this.oppositeMap = new HashMap<>(Map.of(
             cmdFactory.leftCommand(), cmdFactory.rightCommand(),
@@ -67,7 +67,7 @@ public class InputFactoryImpl implements InputFactory {
         private StdModelDecorator(final InputModel<ControllableObject> toDecorate) {
             this.toDecorate = toDecorate;
             this.inputmodel = this.toDecorate.getModel();
-            this.inputmodel.putAll(InputFactoryImpl.this.standardModel().getModel());
+            this.inputmodel.putAll(InputMovesFactoryImpl.this.standardModel().getModel());
         }
 
         @Override

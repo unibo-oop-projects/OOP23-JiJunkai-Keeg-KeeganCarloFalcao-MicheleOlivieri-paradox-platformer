@@ -32,7 +32,9 @@ public class GameLoopFactoryImpl implements TaskLoopFactory{
 
         @Override
         public void handle(final long now) {
+            final long prevTime = System.nanoTime() - now;
             this.isRunning = true;
+            //TO FIX
             loop.loop(60);
         }
 

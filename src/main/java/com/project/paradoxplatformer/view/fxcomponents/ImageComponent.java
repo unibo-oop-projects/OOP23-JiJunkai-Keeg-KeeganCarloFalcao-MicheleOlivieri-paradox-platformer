@@ -9,7 +9,7 @@ import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractGraphic
 import com.project.paradoxplatformer.view.fxcomponents.api.Spriteable;
 import com.project.paradoxplatformer.view.fxcomponents.api.SpriteStatus;
 
-import javafx.scene.Node;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -20,15 +20,13 @@ public class ImageComponent extends AbstractGraphicComponent implements Spriteab
     private SpriteAnimator spriteAnimator;
 
     //MUST ADD WETHER AN IMAGE IS SPRITEABLE
-    public ImageComponent(Node component, Dimension dimension, Coord2D position, String imageURL)  {
-        super(component, dimension, position); 
-        if (component instanceof ImageView imgCopy) {
+    public ImageComponent(Dimension dimension, Coord2D position, String imageURL)  {
+        super(new ImageView(), dimension, position); 
+        if (this.uiComponent instanceof ImageView imgCopy) {
             this.imgComponent = imgCopy;
             //SHOULD DO IF SPRITE SO MAKE DISTINCT CLASSES
             imgComponent.setImage(new Image(MainApplication.class.getResource(imageURL).toExternalForm()));
             this.setDimension(dimension.width(), dimension.height());
-            System.out.println(this.imgComponent.getImage().getHeight());
-            System.out.println(this.imgComponent.getImage().getWidth());
             this.spriteAnimator = new SpriteAnimator(
                     new SpriterSetter(
                         imageURL, 
@@ -68,7 +66,6 @@ public class ImageComponent extends AbstractGraphicComponent implements Spriteab
 
     @Override
     public void animate(SpriteStatus status) {
-        
         this.spriteAnimator.selectFrame(status, this.imgComponent::setImage);
     }
 

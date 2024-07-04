@@ -25,7 +25,7 @@ public class ControllerImpl implements Controller {
 
     @Override
     public void updateGame(final long dt) {
-        this.inputController.inject(model.getWorld().player(), p -> p.stop());
+        this.inputController.inject(model.getWorld().player(), ControllableObject::stop);
         this.gController.update(dt);
     }
     

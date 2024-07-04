@@ -14,21 +14,22 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public class PlayerModel extends AbstractControllableObject implements MutableObject {
 
-    private Coord2D position;
-    private Vector2D speed;
+    private Point position;
     private Dimension dimension;
     private PhysicsEngine movement;
     private Vector2D displacement;
     private final InterpolatorFactory interpFactory;
 
+    //VECTORS ARE NOW VECTOR2d, Point is Coord2d
+    //OBVisously any can modfiy their name to avoid further misunderstooding
 
     public PlayerModel(Coord2D pos, Dimension dimension, Vector2D speed) {
+        //THIS IS REQUIRED CAUSE PLAYER CAN BE CONTROLLED BY USER
         super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(70.d, 7.d));//addon
         movement = new PhysicsEngine();//addon
         interpFactory = new InterpolatorFactoryImpl();//addon
-        this.position = pos;
+        this.position = new Point(pos.x(), pos.y());
         this.displacement = new Simple2DVector(pos.x(), pos.y());//addon
-        this.speed = speed;
         this.horizontalSpeed = speed;//addon
         this.dimension = dimension; //TODO: modifica con valori sensati
     }
@@ -39,7 +40,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
     }
 
     public void setPosition(Coord2D pos) {
-        this.position = pos;
+        this.position = new Point(pos.x(), pos.y());
     }
 
     @Override
@@ -47,8 +48,13 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
         return this.horizontalSpeed;
     }
 
+    //ADD ON
+    public Vector getSp() {
+        return this.speed;
+    }
+
     public void setSpeed(Vector2D speed) {
-        this.speed = speed;
+        // this.speed = speed;
         this.horizontalSpeed = speed;//addon
     }
 
@@ -63,14 +69,15 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
 
     @Override
     public void updateState(long dt) {
-        
+        //MY TESTING; FEEL FREE TO MODIFY
+        this.fall();
         this.displacement = movement.step(this.displacement, 
-            this.displacement.add(this.horizontalSpeed),
+            this.displacement.add(this.horizontalSpeed.add(verticalSpeed)),
             interpFactory.linear(),
             dt
         );//addon
         
-        // this.position = this.position.sum(speed.mul(0.001*dt));
+        // this.position = this.position.sum(this.speed.mul(0.001*dt));
         this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));//addon
     }
 

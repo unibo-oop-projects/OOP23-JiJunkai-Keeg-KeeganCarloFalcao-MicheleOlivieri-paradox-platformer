@@ -15,9 +15,9 @@ public class RectangleComponent extends AbstractGraphicComponent {
 
     private final Rectangle blockComponent;
     
-    public RectangleComponent(Node component, Dimension dimension, Coord2D position, Color fill) {
-        super(component, dimension, position);
-        if (component instanceof Rectangle blockCopy) {
+    public RectangleComponent(Dimension dimension, Coord2D position, Color fill) {
+        super(new Rectangle(), dimension, position);
+        if (this.uiComponent instanceof Rectangle blockCopy) {
             this.blockComponent = blockCopy;
             this.blockComponent.setFill(fill);
             this.setDimension(dimension.width(), dimension.height());

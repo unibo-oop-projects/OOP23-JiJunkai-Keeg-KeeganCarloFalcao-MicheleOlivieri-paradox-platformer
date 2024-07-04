@@ -14,8 +14,6 @@ public interface Vector2D {
 
     Vector2D scalar(double scalar);
 
-    void setMag(double magnitude, double limit);
-
     Vector2D sub(Vector2D e);
     
 }

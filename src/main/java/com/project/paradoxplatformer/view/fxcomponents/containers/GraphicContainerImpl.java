@@ -49,7 +49,6 @@ public class GraphicContainerImpl implements GraphicContainer, InputTranslator<K
         if(this.isActive) {
             this.uiContainer.addEventFilter(
                 KeyEvent.KEY_PRESSED, 
-                //this.keyAssetter.add(this.translate(e.getCode()))
                 e -> this.decoupleAction(e.getCode(), this.keyAssetter::add)
             );
         }
@@ -77,6 +76,8 @@ public class GraphicContainerImpl implements GraphicContainer, InputTranslator<K
         this.isActive = true;
     }
 
+    //MUST BE PRIVATE CAUSE ITS DONE INTERNALLY
+    //TO FIX
     @Override
     public InputType translate(KeyCode k) {
         return InputType.getString(k.name());

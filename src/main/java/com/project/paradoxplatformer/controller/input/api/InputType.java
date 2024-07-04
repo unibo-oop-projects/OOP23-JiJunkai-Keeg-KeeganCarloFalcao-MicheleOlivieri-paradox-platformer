@@ -6,7 +6,7 @@ public enum InputType {
     LEFT, RIGHT, UP,
     A, D, W,
     ESCAPE,
-    UNDEFINED, P, R;
+    UNDEFINED, P, R, T;
 
 
     public static InputType getString(final String name) {

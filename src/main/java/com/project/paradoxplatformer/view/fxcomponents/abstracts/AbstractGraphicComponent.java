@@ -10,9 +10,11 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+import java.util.function.Supplier;
+
 public abstract class AbstractGraphicComponent implements GraphicComponent{
 
-    private final Node uiComponent;
+    protected final Node uiComponent;
     protected final Dimension dimension;
     private double x;
     private double y;
@@ -46,8 +48,8 @@ public abstract class AbstractGraphicComponent implements GraphicComponent{
     //Must decide wether relative or absolute
     @Override
     public void setPosition(final double x, final double y) {
-        this.uiComponent.setLayoutX(x );
-        this.uiComponent.setLayoutY(y );
+        this.uiComponent.setTranslateX(x );
+        this.uiComponent.setTranslateY(y );
         
     }
 

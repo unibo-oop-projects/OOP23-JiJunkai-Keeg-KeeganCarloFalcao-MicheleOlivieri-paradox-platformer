@@ -30,10 +30,6 @@ public abstract class AbstractVector implements Vector2D{
 
     public abstract double xComponent();
 
-    public void setMag(double magnitude, double speedLimit) {
-        this.magnitude = (Math.abs(magnitude) <= Math.abs(speedLimit)) ? magnitude : speedLimit;
-    }
-
 
     @Override
     public String toString() {

@@ -1,7 +1,6 @@
 package com.project.paradoxplatformer.model.world;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
@@ -26,11 +25,7 @@ public class PlatfromModelData implements ModelData {
         this.worldBuilder = new WordBuilderImpl();
     }
 
-    @Override
-    public LevelDTO getPackedData() {
-        return this.packedData;
-    }
-
+    //COULD BETTER PERFORM
     @Override
     public void init() {
         this.world = this.worldBuilder
@@ -57,18 +52,8 @@ public class PlatfromModelData implements ModelData {
             .toList();
     }
 
-    @Override
-    public void stop() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'stop'");
-    }
-
-    @Override
-    public void resume() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resume'");
-    }
-
+    //GOTTA CHECK INIT HAS DONE
+    //RETURNING AN MUTABLE MUST FIX
     @Override
     public World getWorld() {
         return this.world;

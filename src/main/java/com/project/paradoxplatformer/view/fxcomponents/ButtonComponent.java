@@ -15,9 +15,9 @@ public class ButtonComponent extends AbstractGraphicComponent implements Actiona
 
     private final Button buttonCompo;
 
-    public ButtonComponent(Node component, Dimension dimension, Coord2D relativePos, String text) {
-        super(component, dimension, relativePos);
-        if (component instanceof Button buttonCopy) {
+    public ButtonComponent(Dimension dimension, Coord2D relativePos, String text) {
+        super(new Button(), dimension, relativePos);
+        if (this.uiComponent instanceof Button buttonCopy) {
             this.buttonCompo = buttonCopy;
             this.buttonCompo.setText(text);
             

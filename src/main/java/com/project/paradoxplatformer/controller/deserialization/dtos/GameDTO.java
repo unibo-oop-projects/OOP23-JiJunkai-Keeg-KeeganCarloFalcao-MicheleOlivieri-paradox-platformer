@@ -1,43 +1,46 @@
 package com.project.paradoxplatformer.controller.deserialization.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class GameDTO {
 
+    @JsonProperty
     private String type;
+
+    @JsonProperty
     private int x;
+
+    @JsonProperty
     private int y;
+
+    @JsonProperty
     private double width;
+
+    @JsonProperty
     private double height;
+
+    @JsonProperty
     private String subtype;
+
+    @JsonProperty
     private String image;
+
+    @JsonProperty
     private ColorDTO color;
+
+    @JsonProperty
     private TrajMacro[] traj;
 
     public TrajMacro[] getTraj() {
         return traj;
     }
 
-    public void setTraj(TrajMacro[] traj) {
-        this.traj = traj;
-    }
-
-    public void setSubtype(String subtype) {
-        this.subtype = subtype;
-    }
-
     public ColorDTO getColor() {
         return color;
     }
 
-    public void setColor(ColorDTO color) {
-        this.color = color;
-    }
-
     public String getImage() {
         return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public GameDTO() {}
@@ -46,40 +49,20 @@ public class GameDTO {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public int getX() {
         return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
     }
 
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public double getWidth() {
         return width;
     }
 
-    public void setWidth(double width) {
-        this.width = width;
-    }
-
     public double getHeight() {
         return height;
-    }
-
-    public void setHeight(double height) {
-        this.height = height;
     }
 
     public String getSubtype() {

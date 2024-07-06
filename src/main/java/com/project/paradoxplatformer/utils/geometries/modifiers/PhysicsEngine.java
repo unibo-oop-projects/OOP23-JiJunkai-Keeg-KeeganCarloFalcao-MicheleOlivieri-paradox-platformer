@@ -24,7 +24,7 @@ public class PhysicsEngine implements Physics {
     public Pair<Vector2D, Double> moveTo(final Vector2D start, final Vector2D end, final long duration, Interpolator<Vector2D> interpType, long dt) {
         this.elapseTime += dt;
         double y = elapseTime / (duration*1000.);
-        System.out.println(y);
+        
         //doubt, does duration express on nanosec or conventional?, needs a conversion if so
         double percentage = Math.min(y, CLAMP_VALUE);
         return Pair.of(interpType.lerp(start, end, percentage), percentage);

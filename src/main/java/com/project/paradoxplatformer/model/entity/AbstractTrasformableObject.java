@@ -32,7 +32,7 @@ public abstract class AbstractTrasformableObject extends AbstractMutableObject{
             switch (currentTransf.transfType()) {
                 case DISPLACEMENT:
                     this.displacement = this.trasform(this.displacement, currentTransf, dt).getKey();
-                    System.out.println(this.displacement.xComponent());
+                    
                     break;
                 case HEIGHT:
                 this.displacement = this.mover.moveTo(
@@ -57,7 +57,7 @@ public abstract class AbstractTrasformableObject extends AbstractMutableObject{
     }
     
     private void popWhenFinished(final double percentage) {
-        System.out.println(percentage);
+        
         if(percentage >= 1.d) {
             this.mover.stop();
             this.trasformationStats.remove();

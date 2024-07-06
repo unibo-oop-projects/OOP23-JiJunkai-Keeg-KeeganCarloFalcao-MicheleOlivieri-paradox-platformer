@@ -18,8 +18,10 @@ public class DeserializerFactoryImpl implements DeserializerFactory {
             ObjectMapper mapper = new ObjectMapper();
             URL jsonURL = MainApplication.class.getResource(json);
             if (Objects.isNull(jsonURL)) {
+                System.out.println("ERRORR");
                 throw new IllegalArgumentException();
             }
+            
             return mapper.readValue(jsonURL, clazz);
         };
     }

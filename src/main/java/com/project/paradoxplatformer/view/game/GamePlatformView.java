@@ -14,8 +14,11 @@ import com.project.paradoxplatformer.model.world.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.model.world.mappings.view.ViewMappingFactory;
 import com.project.paradoxplatformer.model.world.mappings.view.ViewMappingFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
-import com.project.paradoxplatformer.view.fxcomponents.containers.api.GraphicContainer;
+import com.project.paradoxplatformer.view.graphics.GraphicComponent;
+import com.project.paradoxplatformer.view.graphics.GraphicContainer;
+
+import javafx.scene.Node;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -24,11 +27,11 @@ import java.util.LinkedList;
 public class GamePlatformView implements GameView {
 
     private final LevelDTO packedData;
-    private final GraphicContainer container;
+    private final GraphicContainer<Node> container;
     private Set<GraphicComponent> listComponents;
     private final ViewMappingFactory viewMappingFactory;
 
-    public GamePlatformView(final LevelDTO packedData, GraphicContainer g) {
+    public GamePlatformView(final LevelDTO packedData, GraphicContainer<Node> g) {
         this.packedData = packedData;
         this.viewMappingFactory = new ViewMappingFactoryImpl();
         this.container = g;

@@ -4,9 +4,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.Objects;
 
 public class ResourcesFinder {
 
@@ -31,5 +33,19 @@ public class ResourcesFinder {
         
         return null;
                 
+    }
+
+    public static URL getURL(String image) {
+        try {
+            System.out.println(image);
+            return Optional.of(MainApplication.class.getResource(image))
+                .filter(Objects::nonNull)
+                .orElseThrow(() -> new IllegalArgumentException("Resource does not exists"));    
+        } catch (Exception e) {
+            System.out.println("RESOURCEEEE");
+        }
+        return null;
+        
+        
     }
 }

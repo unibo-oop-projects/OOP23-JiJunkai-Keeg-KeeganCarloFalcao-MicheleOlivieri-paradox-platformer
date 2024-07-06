@@ -1,15 +1,12 @@
-package com.project.paradoxplatformer.view.fxcomponents.api;
+package com.project.paradoxplatformer.view.graphics;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.renders.Component;
 
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
+import javafx.scene.Node;
 
-import java.util.Optional;
-
-public interface GraphicComponent extends Component{
+public interface GraphicComponent extends Component<Node>{
 
     Dimension dimension();
 
@@ -22,10 +19,6 @@ public interface GraphicComponent extends Component{
     void setPosition(final double x, final double y);
 
     void translate(final double x, final double y);
-
-    Optional<Image> image();
-
-    Optional<Color> color();
 
     void flip();
     

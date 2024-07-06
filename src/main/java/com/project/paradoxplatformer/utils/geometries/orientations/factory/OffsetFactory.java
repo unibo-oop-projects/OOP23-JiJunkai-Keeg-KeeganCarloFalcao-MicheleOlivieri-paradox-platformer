@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.utils.geometries.orientations.factory;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.orientations.BoxOffset;
 import com.project.paradoxplatformer.utils.geometries.orientations.Offset;
-import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
 
 public interface OffsetFactory {
     

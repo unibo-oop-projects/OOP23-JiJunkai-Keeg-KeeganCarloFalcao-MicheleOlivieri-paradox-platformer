@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.view.game;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
+import com.project.paradoxplatformer.view.graphics.GraphicComponent;
 
 import java.util.Set;
 

@@ -2,10 +2,12 @@ package com.project.paradoxplatformer.model.obstacles.abstracts;
 
 import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
+import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
+import java.util.Optional;
 import java.util.Queue;
 
 public abstract class AbstractObstacle extends AbstractTrasformableObject implements Obstacle {
@@ -31,7 +33,7 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
     }
 
     @Override
-    public void effect() {
+    public void effect(Optional<ControllableObject> ob) {
         if(!trasformationStats.isEmpty()) {
             this.isIdle = false;
         }

@@ -1,8 +1,10 @@
 package com.project.paradoxplatformer.model.obstacles;
 
+import java.util.Optional;
 import java.util.Queue;
 
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
+import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.Wall;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractRigidObstacle;
 import com.project.paradoxplatformer.utils.collision.api.Collidable;
@@ -24,8 +26,9 @@ public class Wall extends AbstractRigidObstacle{
     }
 
     @Override
-    public void effect() {
-        super.effect();
+    public void effect(Optional<ControllableObject> ob) {
+        super.effect(ob);
+        ob.ifPresent(ControllableObject::stop);
     }
 
     @Override

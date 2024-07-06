@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.utils.geometries.vector.api;
 
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.coordinates.api.Cartesian;
 
 public abstract class AbstractVector implements Vector2D{
@@ -20,6 +21,10 @@ public abstract class AbstractVector implements Vector2D{
 
     public double direction() {
         return this.angle;
+    }
+
+    public Coord2D convert() {
+        return new Coord2D(this.xComponent(), this.yComponent());
     }
 
     public abstract Vector2D add(Vector2D vector);

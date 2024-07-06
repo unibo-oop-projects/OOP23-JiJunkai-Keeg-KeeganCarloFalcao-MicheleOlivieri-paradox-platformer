@@ -1,11 +1,11 @@
-package com.project.paradoxplatformer.view.fxcomponents.containers;
+package com.project.paradoxplatformer.view.fxcomponents;
 
 import com.project.paradoxplatformer.controller.input.KeyAssetterImpl;
 import com.project.paradoxplatformer.controller.input.api.InputTranslator;
 import com.project.paradoxplatformer.controller.input.api.InputType;
 import com.project.paradoxplatformer.controller.input.api.KeyAssetter;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.view.fxcomponents.containers.api.GraphicContainer;
+import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.renders.Component;
 
 import java.lang.Runnable;
@@ -14,24 +14,22 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
-import java.util.Objects;
 import java.util.function.Consumer;
 
-public class GraphicContainerImpl implements GraphicContainer, InputTranslator<KeyCode>{
+public class FXGraphicContainer implements GraphicContainer<Node>, InputTranslator<KeyCode>{
 
     private final Pane uiContainer;
     private final KeyAssetter keyAssetter;
     private boolean isActive;
 
-    public GraphicContainerImpl(Pane container) {
+    public FXGraphicContainer(Pane container) {
         this.uiContainer = container;
         this.keyAssetter = new KeyAssetterImpl();
     }
 
     @Override
-    public boolean render(Component component) throws AssertionError{
-        assert component.unwrap() instanceof Node;
-        return uiContainer.getChildren().add((Node)component.unwrap());
+    public boolean render(Component<Node> component){
+        return uiContainer.getChildren().add(component.unwrap());
     }
 
     @Override
@@ -66,7 +64,6 @@ public class GraphicContainerImpl implements GraphicContainer, InputTranslator<K
 
     @Override
     public KeyAssetter getKeyAssetter() {
-        Objects.requireNonNull(this.keyAssetter);
         return this.keyAssetter;
     }
 

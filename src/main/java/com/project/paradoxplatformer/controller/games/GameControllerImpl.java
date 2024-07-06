@@ -11,10 +11,10 @@ import com.project.paradoxplatformer.utils.geometries.orientations.OffsetCorrect
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactory;
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
-import com.project.paradoxplatformer.view.fxcomponents.ImageComponent;
-import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
-import com.project.paradoxplatformer.view.fxcomponents.api.SpriteStatus;
+import com.project.paradoxplatformer.view.fxcomponents.FXImageComponent;
 import com.project.paradoxplatformer.view.game.GameView;
+import com.project.paradoxplatformer.view.graphics.GraphicComponent;
+import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
 
 import java.util.Objects;
 import java.util.Set;
@@ -107,12 +107,8 @@ public class GameControllerImpl implements GameController{
                                 g.flip();
                                 this.isFlipped = false;
                             }
-                            if(g instanceof ImageComponent gr) { 
-                                if (pl.getSp().module() > 0) {
-                                    gr.animate(SpriteStatus.RUNNING);
-                                } else {
-                                    gr.animate(SpriteStatus.IDLE);
-                                }
+                            if(g instanceof FXImageComponent gr) { 
+                                gr.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
                                 
                             }
                         }

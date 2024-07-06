@@ -8,5 +8,5 @@ public class Views {
 
     public static final int EXIT_CODE = -8;
 
-    public static final double SIZE_FACTOR = 1.;
+    public static final double SIZE_FACTOR = 1.5;
 }

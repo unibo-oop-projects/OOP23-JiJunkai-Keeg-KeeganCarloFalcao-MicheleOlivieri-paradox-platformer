@@ -4,7 +4,6 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.orientations.BoxOffset;
 import com.project.paradoxplatformer.utils.geometries.orientations.Offset;
-import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
 
 import java.util.function.BiFunction;
 

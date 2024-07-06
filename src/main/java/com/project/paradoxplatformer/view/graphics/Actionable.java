@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.fxcomponents;
+package com.project.paradoxplatformer.view.graphics;
 
 public interface Actionable {
 

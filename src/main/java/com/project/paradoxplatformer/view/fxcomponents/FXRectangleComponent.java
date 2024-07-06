@@ -7,18 +7,17 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractGraphicComponent;
 
 import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class RectangleComponent extends AbstractGraphicComponent {
+public class FXRectangleComponent extends AbstractGraphicComponent {
 
     private final Rectangle blockComponent;
     
-    public RectangleComponent(Dimension dimension, Coord2D position, Color fill) {
+    public FXRectangleComponent(Dimension dimension, Coord2D position, Color fill) {
         super(new Rectangle(), dimension, position);
         if (this.uiComponent instanceof Rectangle blockCopy) {
-            this.blockComponent = blockCopy;
+            this.blockComponent = blockCopy;      
             this.blockComponent.setFill(fill);
             this.setDimension(dimension.width(), dimension.height());
             
@@ -28,7 +27,7 @@ public class RectangleComponent extends AbstractGraphicComponent {
     }
 
     @Override
-    public void setDimension(double width, double height) {
+    public void setDimension(final double width, final double height) {
         this.blockComponent.setWidth(width);
         this.blockComponent.setHeight(height);
     }
@@ -38,14 +37,10 @@ public class RectangleComponent extends AbstractGraphicComponent {
         return this.blockComponent;
     }
 
-    @Override
-    public Optional<Image> image() {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Color> color() {
-        return Optional.of((Color)this.blockComponent.getFill());
+    protected Optional<Color> color() {
+        return Optional.of(this.blockComponent.getFill())
+            .filter(Color.class::isInstance)
+            .map(Color.class::cast);
     }
 
 }

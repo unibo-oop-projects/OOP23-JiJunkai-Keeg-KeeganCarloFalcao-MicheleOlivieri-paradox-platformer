@@ -12,9 +12,9 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
 
     protected Vector2D verticalSpeed;
     
-    private static final int POWER = 40;
-    private static final int ANTI_GRAVITY = -POWER+1;
-    private int grav = ANTI_GRAVITY;
+    private static final double POWER = 13;
+    private static final double ANTI_GRAVITY = -POWER+1;
+    private double grav = ANTI_GRAVITY;
 
     protected AbstractControllableObject(final Vector2D initDisplacement, final HorizonalStats stats) {
         super(stats.limit(), stats.delta());
@@ -34,16 +34,13 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
     @Override
     public void fall() {
         if(grav > ANTI_GRAVITY && grav <= POWER) {
-            
             this.verticalSpeed = new Simple2DVector(0., grav-=1);
-            
-            
         }else {
             this.verticalSpeed = Polar2DVector.nullVector();
             
         }
         
-        System.out.println(grav);
+        
     }
     //end comment
 

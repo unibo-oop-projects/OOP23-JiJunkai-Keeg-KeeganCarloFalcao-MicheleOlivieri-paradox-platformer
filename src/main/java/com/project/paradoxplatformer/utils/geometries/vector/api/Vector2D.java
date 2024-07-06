@@ -1,6 +1,8 @@
 package com.project.paradoxplatformer.utils.geometries.vector.api;
 
-public interface Vector2D {
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+
+public interface Vector2D extends Converter<Coord2D>{
     
     double magnitude();
 

@@ -1,28 +1,28 @@
 package com.project.paradoxplatformer.controller.deserialization.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class LevelDTO {
 
+    @JsonProperty
     private double width;
+
+    @JsonProperty
     private double height;
+
+    @JsonProperty
     private GameDTO[] gameDTOs;
 
     public double getWidth() {
         return width;
     }
-    public void setWidth(double width) {
-        this.width = width;
-    }
+
     public double getHeight() {
         return height;
     }
-    public void setHeight(double height) {
-        this.height = height;
-    }
+
     public GameDTO[] getGameDTOs() {
         return gameDTOs;
-    }
-    public void setGameDTOs(GameDTO[] gameDTOs) {
-        this.gameDTOs = gameDTOs;
     }
 
 }

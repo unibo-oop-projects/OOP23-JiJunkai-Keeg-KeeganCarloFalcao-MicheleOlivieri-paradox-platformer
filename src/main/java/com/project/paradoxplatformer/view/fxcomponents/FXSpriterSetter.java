@@ -1,20 +1,18 @@
 package com.project.paradoxplatformer.view.fxcomponents;
 
 import java.util.List;
+import java.util.Optional;
 
-import com.project.paradoxplatformer.MainApplication;
+import com.project.paradoxplatformer.utils.ImageLoader;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.view.fxcomponents.api.SpriteStatus;
+import com.project.paradoxplatformer.view.graphics.sprites.Spriter;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
-import java.util.EnumMap;
-import java.util.function.Consumer;
-import java.util.Objects;
 
-public class SpriterSetter implements Spriter{
+public class FXSpriterSetter implements Spriter<Image>{
     
     private String sheetPath;
     private Dimension bounds;
@@ -22,7 +20,7 @@ public class SpriterSetter implements Spriter{
     private Dimension tileSize;
     
 
-    public SpriterSetter(final String sheetPath, Dimension bounds, Dimension tileSize) {
+    public FXSpriterSetter(final String sheetPath, Dimension bounds, Dimension tileSize) {
         this.sheetPath = sheetPath;
         this.bounds = bounds;
         this.tileSize = tileSize;
@@ -30,8 +28,7 @@ public class SpriterSetter implements Spriter{
     }
 
     private void loadSpriteSheet() {
-        this.img = new Image(MainApplication.class.getResource(this.sheetPath).toExternalForm());
-        Objects.requireNonNull(this.img);
+        this.img = ImageLoader.FXImage(sheetPath);
     }
 
     @Override
@@ -45,19 +42,13 @@ public class SpriterSetter implements Spriter{
     }
 
     private List<Image> collection(double init, double end) {
-        if(tileSize.width() == bounds.width()) {
-            return List.of(this.img);
-        }
-        return Stream.iterate(init, x -> x < end, x -> x + tileSize.width())
-            .map(x -> new WritableImage(
-                    this.img.getPixelReader(), 
-                    x.intValue(),
-                    0,
-                    (int)this.tileSize.width(), 
-                    (int)this.tileSize.height()
-                )
-            )
-            .collect(Collectors.toList());
+        return Optional.of(this.img)
+            .filter(j -> tileSize.width() == bounds.width())
+            .map(List::of)
+            .orElse(Stream.iterate(init, x -> x < end, x -> x + tileSize.width())
+                .map(this::createImage)
+                .collect(Collectors.toList())
+            );
     }
 
     public List<Image> jumpingImages() {
@@ -66,5 +57,15 @@ public class SpriterSetter implements Spriter{
 
     public List<Image> fallingImages() {
         return List.of(this.img);
+    }
+
+    private Image createImage(Double x) {
+        return new WritableImage(
+            this.img.getPixelReader(), 
+            x.intValue(),
+            0,
+            (int)this.tileSize.width(), 
+            (int)this.tileSize.height()
+        );
     }
 }

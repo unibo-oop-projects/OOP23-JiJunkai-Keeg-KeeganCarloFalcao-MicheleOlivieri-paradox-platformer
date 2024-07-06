@@ -1,16 +1,10 @@
 package com.project.paradoxplatformer.view.fxcomponents.abstracts;
 
-import java.util.Optional;
-
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
+import com.project.paradoxplatformer.view.graphics.GraphicComponent;
 
 import javafx.scene.Node;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-
-import java.util.function.Supplier;
 
 public abstract class AbstractGraphicComponent implements GraphicComponent{
 
@@ -65,12 +59,6 @@ public abstract class AbstractGraphicComponent implements GraphicComponent{
     public  Dimension dimension() {
         return this.dimension;
     }
-
-    @Override
-    public abstract Optional<Image> image();
-
-    @Override
-    public abstract Optional<Color> color();
 
     @Override
     public void flip() {

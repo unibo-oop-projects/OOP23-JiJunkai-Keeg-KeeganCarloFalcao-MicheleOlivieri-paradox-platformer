@@ -8,11 +8,13 @@ public enum InputType {
     ESCAPE,
     UNDEFINED, P, R, T;
 
-
-    public static InputType getString(final String name) {
-        if(Arrays.stream(InputType.values()).map(InputType::name).anyMatch(name::equals)) {
-            return valueOf(name);
-        } 
-        return UNDEFINED;
+    public static InputType getString(final String inputStr) {
+        return Arrays.stream(InputType.values())
+            .map(InputType::name)
+            .filter(inputStr::equals)
+            .findFirst()
+            .map(InputType::valueOf)
+            .orElse(InputType.UNDEFINED);
+        
     }
 }

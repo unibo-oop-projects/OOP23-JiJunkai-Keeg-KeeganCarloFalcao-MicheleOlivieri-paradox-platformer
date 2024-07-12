@@ -6,4 +6,6 @@ public interface Controller {
 
     void updateGame(final long dt);
 
+    void quit();
+
 }

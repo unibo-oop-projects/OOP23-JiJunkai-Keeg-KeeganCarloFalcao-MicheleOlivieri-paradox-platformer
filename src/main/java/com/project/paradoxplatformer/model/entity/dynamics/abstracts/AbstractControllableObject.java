@@ -24,6 +24,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
     //should implement by abstract class
     @Override
     public void jump() {
+        //TO FIX
         if(grav == ANTI_GRAVITY) {
             this.verticalSpeed = new Simple2DVector(0., POWER);
             grav = POWER;
@@ -33,11 +34,11 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
 
     @Override
     public void fall() {
+        //TO FIX
         if(grav > ANTI_GRAVITY && grav <= POWER) {
             this.verticalSpeed = new Simple2DVector(0., grav-=1);
         }else {
-            this.verticalSpeed = Polar2DVector.nullVector();
-            
+            this.verticalSpeed = Polar2DVector.nullVector();   
         }
         
         

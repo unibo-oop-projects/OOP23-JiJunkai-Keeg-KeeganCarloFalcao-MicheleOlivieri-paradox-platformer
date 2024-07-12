@@ -5,6 +5,7 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
+import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import java.util.List;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class WordBuilderImpl implements WorldBuilder {
 
     private final List<Trigger> triggers;
     private final List<Obstacle> obstacles;
-    private PlayerModel player;
+    private SecureWrapper<PlayerModel> player;
     private Dimension bounds;
     private boolean isBuild;
 
@@ -21,12 +22,14 @@ public class WordBuilderImpl implements WorldBuilder {
         this.obstacles = new ArrayList<>();
         this.triggers = new ArrayList<>();
         this.isBuild = false;
+        this.player = null;
+        //SHOULD FIX CAUSE GAME CANNOt builD WITHOUT PLAYER
     }
 
     @Override
     public WorldBuilder addPlayer(PlayerModel playerModel) {
         buildCheck();
-        this.player = playerModel;
+        this.player = SecureWrapper.of(playerModel);
         return this;
     }
 
@@ -55,7 +58,7 @@ public class WordBuilderImpl implements WorldBuilder {
     public World build() {
         buildCheck();
         this.isBuild = true;
-        return new WorldImpl(obstacles, triggers, player, bounds);
+        return new WorldImpl(obstacles, triggers, player.get(), bounds);
     }
     
     private void buildCheck() {

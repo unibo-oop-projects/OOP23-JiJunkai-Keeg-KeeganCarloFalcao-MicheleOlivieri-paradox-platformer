@@ -29,7 +29,7 @@ public class GameDTO {
     private ColorDTO color;
 
     @JsonProperty
-    private TrajMacro[] traj;
+    private final TrajMacro[] traj;
 
     public TrajMacro[] getTraj() {
         return traj;
@@ -43,7 +43,9 @@ public class GameDTO {
         return image;
     }
 
-    public GameDTO() {}
+    public GameDTO() {
+        this.traj = new TrajMacro[0];
+    }
 
     public String getType() {
         return type;
@@ -68,5 +70,4 @@ public class GameDTO {
     public String getSubtype() {
         return this.subtype;
     }
-    
 }

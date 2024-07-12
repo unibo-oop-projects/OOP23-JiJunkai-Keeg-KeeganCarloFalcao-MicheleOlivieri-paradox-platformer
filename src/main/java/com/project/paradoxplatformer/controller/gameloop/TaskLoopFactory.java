@@ -2,7 +2,7 @@ package com.project.paradoxplatformer.controller.gameloop;
 
 public interface TaskLoopFactory {
     
-    LoopManager animationLoop();
+    ObservableLoopManager animationLoop();
 
     LoopManager threadLoop();
 }

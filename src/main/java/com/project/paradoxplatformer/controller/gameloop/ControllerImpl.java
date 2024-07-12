@@ -28,5 +28,11 @@ public class ControllerImpl implements Controller {
         this.inputController.inject(model.getWorld().player(), ControllableObject::stop);
         this.gController.update(dt);
     }
+
+    @Override
+    public void quit() {
+        //Proply use view to close
+        System.exit(0);
+    }
     
 }

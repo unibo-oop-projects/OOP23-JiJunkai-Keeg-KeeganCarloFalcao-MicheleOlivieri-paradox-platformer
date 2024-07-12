@@ -2,11 +2,11 @@ package com.project.paradoxplatformer.view.graphics;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.renders.Component;
+import com.project.paradoxplatformer.view.renders.ViewComponent;
 
 import javafx.scene.Node;
 
-public interface GraphicComponent extends Component<Node>{
+public interface GraphicAdapter extends ViewComponent<Node> {
 
     Dimension dimension();
 

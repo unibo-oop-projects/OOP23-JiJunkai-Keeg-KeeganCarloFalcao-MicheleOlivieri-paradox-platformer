@@ -5,7 +5,10 @@ import java.net.URL;
 import java.util.EnumMap;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 import java.util.ResourceBundle;
+
+import javax.crypto.spec.SecretKeySpec;
 
 import com.project.paradoxplatformer.controller.deserialization.DeserializerFactory;
 import com.project.paradoxplatformer.controller.deserialization.DeserializerFactoryImpl;
@@ -14,6 +17,7 @@ import com.project.paradoxplatformer.controller.gameloop.ControllerImpl;
 import com.project.paradoxplatformer.controller.gameloop.TaskLoopFactory;
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.gameloop.LoopManager;
+import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
 import com.project.paradoxplatformer.controller.gameloop.Controller;
 import com.project.paradoxplatformer.controller.games.GameControllerImpl;
 import com.project.paradoxplatformer.controller.games.GameController;
@@ -23,15 +27,14 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.inputmodel.InputMovesFactory;
 import com.project.paradoxplatformer.model.inputmodel.InputMovesFactoryImpl;
 import com.project.paradoxplatformer.model.inputmodel.InputModel;
-import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
 import com.project.paradoxplatformer.model.world.ModelData;
 import com.project.paradoxplatformer.model.world.PlatfromModelData;
-import com.project.paradoxplatformer.utils.ImageLoader;
+import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.fxcomponents.FXButtonComponent;
-import com.project.paradoxplatformer.view.fxcomponents.FXGraphicContainer;
-import com.project.paradoxplatformer.view.fxcomponents.FXImageComponent;
+import com.project.paradoxplatformer.view.fxcomponents.FXButtonAdapter;
+import com.project.paradoxplatformer.view.fxcomponents.FXContainerAdapter;
 import com.project.paradoxplatformer.view.game.GamePlatformView;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
@@ -51,6 +54,8 @@ import java.util.List;
 
 public class HelloController implements Initializable{
 
+    private static final String KEY = "0123456789abcdef";
+
     @FXML
     private AnchorPane gamePane;
 
@@ -58,7 +63,7 @@ public class HelloController implements Initializable{
     private VBox pausePane;
 
     private ModelData f;
-    private LoopManager loopManager;
+    private ObservableLoopManager loopManager;
 
     @FXML
     @Override
@@ -70,6 +75,7 @@ public class HelloController implements Initializable{
             System.out.println("OLD " + o);
             System.out.println("RATIO "+ u);
         });
+        
         //HUST FOR TESTINGS
 
         pausePane.setVisible(false);
@@ -88,7 +94,7 @@ public class HelloController implements Initializable{
         //BETTER HAVE INTERNAL METHODS TO ACCESS TO MODEL OR VIEW COMPONENTS
         //E:G COTTROLLER Acceses to gameview, if controlloer wants to manipulate gamview
         //he can do it only via Gameview
-        final GraphicContainer<Node> g = new FXGraphicContainer(gamePane);
+        final GraphicContainer<Node> g = new FXContainerAdapter(gamePane);
         final GameView gameV = new GamePlatformView(level, g);
         final GameController gc = new GameControllerImpl(f, gameV);
         gc.loadModel();
@@ -100,11 +106,12 @@ public class HelloController implements Initializable{
         g.setKeyReleased();
         
         InputMovesFactory imfactory = new InputMovesFactoryImpl(); 
-        InputController<ControllableObject> ic = new InputController<>(imfactory.advancedModel(), g.getKeyAssetter());
-        GraphicContainer<Node> pause = new FXGraphicContainer(pausePane);
-
-        var res = new FXButtonComponent(new Dimension(0,0), new Coord2D(0, 0), "RESUME");
-        var ret = new FXButtonComponent(new Dimension(0,0), new Coord2D(0, 0), "RETRY");
+        InputController<ControllableObject> ic = new InputController<>(imfactory.advancedModel(), g.getKeyAssetter().get());
+        GraphicContainer<Node> pause = new FXContainerAdapter(pausePane);
+        
+        
+        var res = new FXButtonAdapter(new Dimension(0,0), new Coord2D(0, 0), "RESUME");
+        var ret = new FXButtonAdapter(new Dimension(0,0), new Coord2D(0, 0), "RETRY");
         res.onAction(() -> {
             gamePane.setEffect(null);
             this.loopManager.start();
@@ -112,42 +119,59 @@ public class HelloController implements Initializable{
             g.activateKeyInput(() -> Platform.runLater(gamePane::requestFocus));
         });
         ret.onAction(() -> {
-            
             loopManager.stop();
             this.gamePane.getChildren().clear();
+            //MUST FIX, if retry then pause must not rinitialize
             this.pausePane.getChildren().removeIf(Button.class::isInstance);
             gamePane.setEffect(null);
             this.initialize(null, null);
         });
-        var qui = new FXButtonComponent(new Dimension(0,0), new Coord2D(0, 0), "QUIT");
+        var qui = new FXButtonAdapter(new Dimension(0,0), new Coord2D(0, 0), "QUIT");
         qui.onAction(() -> {
             Platform.exit();
         });
         List.of(res,ret,qui).forEach(pause::render);
 
         InputModel<LoopManager> w = () -> new EnumMap<>(Map.of(
-            InputType.P, this::showPauseMenu,
-            InputType.ESCAPE, this::showPauseMenu,
-            InputType.R, l -> {
-                gamePane.setEffect(null);
-                l.start();
-                pausePane.setVisible(false);
-            },
+            InputType.P, LoopManager::stop,
+            InputType.ESCAPE, LoopManager::stop,
             InputType.T, l -> this.test()
         ));
-        InputController<LoopManager> ig = new InputController<>(w, g.getKeyAssetter());
+
+        // gamePane.setEffect(null);
+        //         // l.start();
+        //         // pausePane.setVisible(false);
+        InputController<LoopManager> ig = new InputController<>(w, g.getKeyAssetter().get());
         
         final Controller cont = new ControllerImpl(gc, ic, f);
         TaskLoopFactory gFactory = new GameLoopFactoryImpl(dt -> {
             cont.updateGame(dt);
             //cont.updateTimer();
-            
         });
 
         loopManager = gFactory.animationLoop();
 
         TaskLoopFactory kk = new GameLoopFactoryImpl(dt -> ig.inject(this.loopManager, o -> {}));
         kk.animationLoop().start();
+
+        Observer lo = new Observer() {
+            
+            @Override
+            public void update() {
+                if(!loopManager.isRunning() && Objects.isNull(gamePane.getEffect()) && !pausePane.isVisible()) {
+                    gamePane.setEffect(new GaussianBlur(10.));
+                    pausePane.setVisible(true);
+                }
+            }
+
+        };
+        loopManager.addObserver(lo);
+
+        // SecureWrapper<String> j = SecureWrapper.of("Damn");
+        // j.secure(new Random(1234));
+        
+        // j.release(new Random(12345));
+        // System.out.println(j.get());
         
         // Thread tr = new Thread(() -> {
         //     while(true) {

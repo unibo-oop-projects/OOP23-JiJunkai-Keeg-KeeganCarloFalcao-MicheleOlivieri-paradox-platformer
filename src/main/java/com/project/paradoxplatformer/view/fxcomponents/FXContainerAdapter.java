@@ -4,9 +4,10 @@ import com.project.paradoxplatformer.controller.input.KeyAssetterImpl;
 import com.project.paradoxplatformer.controller.input.api.InputTranslator;
 import com.project.paradoxplatformer.controller.input.api.InputType;
 import com.project.paradoxplatformer.controller.input.api.KeyAssetter;
+import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
-import com.project.paradoxplatformer.view.renders.Component;
+import com.project.paradoxplatformer.view.renders.ViewComponent;
 
 import java.lang.Runnable;
 import javafx.scene.Node;
@@ -16,37 +17,47 @@ import javafx.scene.layout.Pane;
 
 import java.util.function.Consumer;
 
-public class FXGraphicContainer implements GraphicContainer<Node>, InputTranslator<KeyCode>{
+public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslator<KeyCode>{
 
-    private final Pane uiContainer;
+    private final SecureWrapper<Pane> uiContainer;
     private final KeyAssetter keyAssetter;
     private boolean isActive;
 
-    public FXGraphicContainer(Pane container) {
-        this.uiContainer = container;
+    public FXContainerAdapter(Pane container) {
+        this.uiContainer = SecureWrapper.of(container);
         this.keyAssetter = new KeyAssetterImpl();
     }
 
     @Override
-    public boolean render(Component<Node> component){
-        return uiContainer.getChildren().add(component.unwrap());
+    public boolean render(final ViewComponent<Node> component){
+        return uiContainer.get().getChildren().add(component.unwrap());
     }
 
     @Override
     public Dimension dimension() {
-        return new Dimension(this.uiContainer.getPrefWidth(), this.uiContainer.getPrefHeight());
+        return new Dimension(this.uiContainer.get().getPrefWidth(), this.uiContainer.get().getPrefHeight());
     }
 
     @Override
     public void setDimension(double width, double height) {
-        this.uiContainer.setPrefSize(width, height);
+        this.uiContainer.get().setPrefSize(width, height);
     }
 
     @Override
     public void setKeyPressed() {
         if(this.isActive) {
-            this.uiContainer.addEventFilter(
+            this.uiContainer.get().addEventFilter(
                 KeyEvent.KEY_PRESSED, 
+                e -> this.decoupleAction(e.getCode(), this.keyAssetter::add)
+            );
+        }
+    }
+
+    @Override
+    public void setKeyTyped() {
+        if(this.isActive) {
+            this.uiContainer.get().addEventFilter(
+                KeyEvent.KEY_TYPED, 
                 e -> this.decoupleAction(e.getCode(), this.keyAssetter::add)
             );
         }
@@ -55,7 +66,7 @@ public class FXGraphicContainer implements GraphicContainer<Node>, InputTranslat
     @Override
     public void setKeyReleased() {
         if(this.isActive) {
-            this.uiContainer.addEventFilter(
+            this.uiContainer.get().addEventFilter(
                 KeyEvent.KEY_RELEASED, 
                 e -> this.decoupleAction(e.getCode(), this.keyAssetter::remove)
             );
@@ -63,8 +74,8 @@ public class FXGraphicContainer implements GraphicContainer<Node>, InputTranslat
     }
 
     @Override
-    public KeyAssetter getKeyAssetter() {
-        return this.keyAssetter;
+    public SecureWrapper<KeyAssetter> getKeyAssetter() {
+        return SecureWrapper.of(this.keyAssetter);
     }
 
     @Override

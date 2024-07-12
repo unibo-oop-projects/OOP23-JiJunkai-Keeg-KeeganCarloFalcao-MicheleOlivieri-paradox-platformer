@@ -36,6 +36,7 @@ public class KeyAssetterImpl implements KeyAssetter{
 
     @Override
     public <T> void cyclePool(final InputModel<T> modelInput, T executor, Command<T> onIdle) {
+        
         if(!pool.isEmpty()) {
             this.pool.stream()
                 .filter(in -> !in.equals(InputType.UNDEFINED))

@@ -6,7 +6,7 @@ public enum InputType {
     LEFT, RIGHT, UP,
     A, D, W,
     ESCAPE,
-    UNDEFINED, P, R, T;
+    UNDEFINED, P, R, T, K;
 
     public static InputType getString(final String inputStr) {
         return Arrays.stream(InputType.values())

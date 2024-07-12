@@ -1,13 +1,14 @@
 package com.project.paradoxplatformer.view.fxcomponents;
 
 import java.util.Optional;
+import java.io.File;
 import java.util.Arrays;
 import java.util.Objects;
 
 import com.project.paradoxplatformer.utils.ImageLoader;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractGraphicComponent;
+import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteAnimator;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
 import com.project.paradoxplatformer.view.graphics.sprites.Spriteable;
@@ -15,13 +16,13 @@ import com.project.paradoxplatformer.view.graphics.sprites.Spriteable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class FXImageComponent extends AbstractGraphicComponent implements Spriteable<SpriteStatus>{
+public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteable<SpriteStatus>{
 
     private final ImageView imgComponent;
     private SpriteAnimator<Image> spriteAnimator;
 
     //MUST ADD WETHER AN IMAGE IS SPRITEABLE
-    public FXImageComponent(Dimension dimension, Coord2D position, String imageURL)  {
+    protected FXImageAdapter(Dimension dimension, Coord2D position, String imageURL)  {
         super(new ImageView(), dimension, position); 
         if (this.uiComponent instanceof ImageView imgCopy) {
             this.imgComponent = imgCopy;
@@ -42,16 +43,11 @@ public class FXImageComponent extends AbstractGraphicComponent implements Sprite
         }
     }
 
-    @Override
-    public ImageView unwrap() {
-        return this.imgComponent;
-    }
-
     protected Optional<String> image() {
         return Optional.of(this.imgComponent.getImage())
             .filter(Objects::nonNull)
             .map(javafx.scene.image.Image::getUrl)
-            .map(i -> i.split("/"))
+            .map(i -> i.split(File.pathSeparator))
             .map(Arrays::stream)
             .flatMap(s -> s.reduce((a, b) -> b));
             

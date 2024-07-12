@@ -2,18 +2,25 @@ package com.project.paradoxplatformer.controller.deserialization.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class TrajMacro {
+public final class TrajMacro {
     @JsonProperty
-    private int x;
+    private final int x;
 
     @JsonProperty
-    private int y;
+    private final int y;
 
     @JsonProperty
-    private long duration;
+    private final long duration;
 
     @JsonProperty
-    private String vector;
+    private final String vector;
+
+    private TrajMacro() {
+        this.x = 0;
+        this.y = 0;
+        this.duration = 0;
+        this.vector = "";
+    }
 
     public int getX() {
         return x;

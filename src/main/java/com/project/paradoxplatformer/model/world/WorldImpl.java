@@ -6,19 +6,20 @@ import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 public class WorldImpl implements World{
 
     private final List<Obstacle> obstacles;
     private final List<Trigger> triggers;
-    private final PlayerModel player;
+    private final SecureWrapper<PlayerModel> player;
     private final Dimension bounds;
 
     public WorldImpl(final List<Obstacle> obstacles, final List<Trigger> triggers, final PlayerModel player, final Dimension bounds) {
-        this.obstacles = obstacles;
-        this.triggers = triggers;
-        this.player = player;
+        this.obstacles = new ArrayList<>(obstacles);
+        this.triggers = new ArrayList<>(triggers);
+        this.player = SecureWrapper.of(player);
         this.bounds = bounds;
     }
 
@@ -35,7 +36,7 @@ public class WorldImpl implements World{
     //unmodifiable
     @Override
     public PlayerModel player() {
-        return this.player;
+        return this.player.get();
     }
 
     //Should be unmodifiable

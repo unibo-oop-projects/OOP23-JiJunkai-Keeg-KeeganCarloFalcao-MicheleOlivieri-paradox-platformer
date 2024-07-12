@@ -11,13 +11,14 @@ import com.project.paradoxplatformer.utils.geometries.orientations.OffsetCorrect
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactory;
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
-import com.project.paradoxplatformer.view.fxcomponents.FXImageComponent;
+import com.project.paradoxplatformer.view.fxcomponents.FXImageAdapter;
 import com.project.paradoxplatformer.view.game.GameView;
-import com.project.paradoxplatformer.view.graphics.GraphicComponent;
+import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.HashMap;
 import java.util.Map;
 
 import java.util.stream.Collectors;
@@ -28,15 +29,13 @@ import org.apache.commons.lang3.tuple.Pair;
 public class GameControllerImpl implements GameController{
 
     private final ModelData gameModel;
-    private Map<MutableObject, GraphicComponent> gamePair;
-    private boolean isFlipped;
-    private OffsetCorrector offsetCorrector;
+    private Map<MutableObject, GraphicAdapter> gamePair;
     private GameView gameView;
 
     public GameControllerImpl(final ModelData model, final GameView view) {
         this.gameModel = model;
         this.gameView = view;
-        //SHOULD GET FROM VIEW ACTUALLY
+        this.gamePair = new HashMap<>();
     }
 
     @Override
@@ -56,17 +55,12 @@ public class GameControllerImpl implements GameController{
 
         //PROB DO IN VIEW UPDATE
         //CONFIRMED BY SPOTBUGS; ITS DEREFENCED
-        final OffsetFactory factory = new OffsetFactoryImpl(this.gameView.dimension());
-        this.offsetCorrector = new GraphicOffsetCorrector(
-            factory.bottomLeft(), //BETTER SEPARATE LAYOUT AND BOX IN FACTORY, MAKE A LIST
-            factory.boxOffset(),// SO CAN USE REDUCE IN IMPLEMENTATIOn
-            new Simple2DVector(1, -1)
-        );
+        
         
             
     }
 
-    private Pair<MutableObject, GraphicComponent> bind(GraphicComponent g, World world) {
+    private Pair<MutableObject, GraphicAdapter> bind(GraphicAdapter g, World world) {
         //SHOULD GET FROM WORLD, JUST TO MAKE THINGS EASY
         //MAKE A CONCAT OF ALL ENTITIES
         final Set<MutableObject> str = Stream.concat(this.gameModel.getWorld().obstacles().stream(),
@@ -79,7 +73,7 @@ public class GameControllerImpl implements GameController{
     }
 
 
-    private boolean joinPredicate(final MutableObject obstacle1, GraphicComponent gComponent) {
+    private boolean joinPredicate(final MutableObject obstacle1, GraphicAdapter gComponent) {
         return obstacle1.getDimension().equals(gComponent.dimension()) 
             && obstacle1.getPosition().equals(gComponent.relativePosition());
     }
@@ -87,36 +81,8 @@ public class GameControllerImpl implements GameController{
     @Override
     public void update(final long dt) {
         if(Objects.nonNull(gamePair)) {
-            //TO FIX; TOO BULKY
-            gamePair.forEach((m, g) -> {
-                    {
-                        // System.out.println(g.absolutePosition());
-                        m.updateState(dt);
-                        //to fix
-                        final Coord2D c = offsetCorrector.correct(g.dimension(), m.getPosition());
-                        
-                        g.setPosition(c.x() * Views.SIZE_FACTOR, c.y() * Views.SIZE_FACTOR);
-                        
-                        g.setDimension(m.getDimension().width() * Views.SIZE_FACTOR, m.getDimension().height() * Views.SIZE_FACTOR);
-                        if(m instanceof PlayerModel pl) {
-                            //JUST FOR TESTING, MUST DO BETTER
-                            if(pl.getSp().x() < 0 && !this.isFlipped) {
-                                g.flip();
-                                this.isFlipped = true;
-                            } else if(pl.getSp().x() > 0 && this.isFlipped) {
-                                g.flip();
-                                this.isFlipped = false;
-                            }
-                            if(g instanceof FXImageComponent gr) { 
-                                gr.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
-                                
-                            }
-                        }
-                        
-                    }
-                    
-                }
-            );
+            gamePair.forEach((m, g) -> m.updateState(dt));
+            gamePair.forEach(gameView::updateEnitityState);
         }
     }
 

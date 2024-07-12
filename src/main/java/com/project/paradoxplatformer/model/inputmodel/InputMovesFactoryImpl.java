@@ -1,6 +1,7 @@
 package com.project.paradoxplatformer.model.inputmodel;
 
 import java.util.Map;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
 
@@ -15,33 +16,33 @@ import com.project.paradoxplatformer.model.inputmodel.commands.actions.CommandAc
 public class InputMovesFactoryImpl implements InputMovesFactory {
 
     private final CommandActionFactory cmdFactory;
-    private Map<Command<ControllableObject>, Command<ControllableObject>> oppositeMap;
+    private final Map<Command<ControllableObject>, Command<ControllableObject>> oppositeMap;
 
 
     public InputMovesFactoryImpl() {
         this.cmdFactory = new CommandActionFactoryImpl();
-        this.oppositeMap = new HashMap<>(Map.of(
+        this.oppositeMap = Collections.unmodifiableMap(new HashMap<>(Map.of(
             cmdFactory.leftCommand(), cmdFactory.rightCommand(),
             cmdFactory.rightCommand(), cmdFactory.leftCommand()
-        ));
+        )));
     }
 
     @Override
     public InputModel<ControllableObject> standardModel() {
-        return () -> new EnumMap<InputType, Command<ControllableObject>>(Map.of(
+        return () -> Collections.unmodifiableMap(new EnumMap<InputType, Command<ControllableObject>>(Map.of(
             InputType.LEFT, cmdFactory.leftCommand(),
             InputType.RIGHT, cmdFactory.rightCommand(),
             InputType.UP, cmdFactory.upCommand()
-        ));
+        )));
     }
 
     @Override
     public InputModel<ControllableObject> wasdModel() {
-        return () -> new EnumMap<InputType, Command<ControllableObject>>(Map.of(
+        return () -> Collections.unmodifiableMap(new EnumMap<InputType, Command<ControllableObject>>(Map.of(
             InputType.A, cmdFactory.leftCommand(),
             InputType.D, cmdFactory.rightCommand(),
             InputType.W, cmdFactory.upCommand()
-        ));
+        )));
     }
 
     @Override
@@ -62,17 +63,17 @@ public class InputMovesFactoryImpl implements InputMovesFactory {
     
     private class StdModelDecorator implements InputModel<ControllableObject>{
         private final InputModel<ControllableObject> toDecorate;
-        private final EnumMap<InputType, Command<ControllableObject>> inputmodel;
+        private final Map<InputType, Command<ControllableObject>> modifMapModel;
 
         private StdModelDecorator(final InputModel<ControllableObject> toDecorate) {
             this.toDecorate = toDecorate;
-            this.inputmodel = this.toDecorate.getModel();
-            this.inputmodel.putAll(InputMovesFactoryImpl.this.standardModel().getModel());
+            this.modifMapModel = new HashMap<>(this.toDecorate.getModel());
+            this.modifMapModel.putAll(InputMovesFactoryImpl.this.standardModel().getModel());
         }
 
         @Override
-        public EnumMap<InputType, Command<ControllableObject>> getModel() {
-            return this.inputmodel;
+        public Map<InputType, Command<ControllableObject>> getModel() {
+            return Collections.unmodifiableMap(this.modifMapModel);
         }
 
     }

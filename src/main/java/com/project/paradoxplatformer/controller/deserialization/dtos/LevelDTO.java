@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.controller.deserialization.dtos;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class LevelDTO {
@@ -11,7 +12,12 @@ public class LevelDTO {
     private double height;
 
     @JsonProperty
-    private GameDTO[] gameDTOs;
+    private final GameDTO[] gameDTOs;
+
+
+    private LevelDTO(){
+        this.gameDTOs = new GameDTO[0];
+    }
 
     public double getWidth() {
         return width;

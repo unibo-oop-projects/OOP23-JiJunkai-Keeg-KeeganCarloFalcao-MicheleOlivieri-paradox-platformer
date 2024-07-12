@@ -1,19 +1,20 @@
 package com.project.paradoxplatformer.view.fxcomponents.abstracts;
 
+import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.graphics.GraphicComponent;
+import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 
 import javafx.scene.Node;
 
-public abstract class AbstractGraphicComponent implements GraphicComponent{
+public abstract class AbstractFXGraphicAdapter implements GraphicAdapter{
 
     protected final Node uiComponent;
     protected final Dimension dimension;
     private double x;
     private double y;
 
-    public AbstractGraphicComponent(final Node component, Dimension dimension, Coord2D relativePos) {
+    protected AbstractFXGraphicAdapter(final Node component, Dimension dimension, Coord2D relativePos) {
         this.uiComponent = component;   
         this.dimension = dimension;
         this.x = relativePos.x();
@@ -42,9 +43,8 @@ public abstract class AbstractGraphicComponent implements GraphicComponent{
     //Must decide wether relative or absolute
     @Override
     public void setPosition(final double x, final double y) {
-        this.uiComponent.setTranslateX(x );
-        this.uiComponent.setTranslateY(y );
-        
+        this.uiComponent.setTranslateX(x);
+        this.uiComponent.setTranslateY(y);   
     }
 
     @Override
@@ -53,7 +53,9 @@ public abstract class AbstractGraphicComponent implements GraphicComponent{
     }
 
     @Override
-    public abstract Node unwrap();
+    public Node unwrap() {
+        return SecureWrapper.of(this.uiComponent).get();
+    }
 
     @Override
     public  Dimension dimension() {

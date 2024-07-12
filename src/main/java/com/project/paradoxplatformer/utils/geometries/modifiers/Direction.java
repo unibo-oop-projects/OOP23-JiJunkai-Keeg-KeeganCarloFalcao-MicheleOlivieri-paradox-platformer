@@ -8,7 +8,7 @@ public enum Direction {
 
     private boolean activatedStatus;
 
-    private Direction(boolean active) {
+    private Direction(final boolean active) {
         this.activatedStatus = active;
     }
 
@@ -16,7 +16,7 @@ public enum Direction {
         return this.activatedStatus;
     }
 
-    public void setStatus(boolean newStatus) {
+    public void setStatus(final boolean newStatus) {
         this.activatedStatus = newStatus;
     }
 

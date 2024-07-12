@@ -10,13 +10,14 @@ import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
 import com.project.paradoxplatformer.model.world.mappings.model.ModelMappingFactory;
 import com.project.paradoxplatformer.model.world.mappings.model.ModelMappingFactoryImpl;
+import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 public class PlatfromModelData implements ModelData {
 
     private final LevelDTO packedData;
     private final WorldBuilder worldBuilder;
-    private World world;
+    private SecureWrapper<World> world;
     private final ModelMappingFactory modelFactory;
 
     public PlatfromModelData(final LevelDTO packedData) {
@@ -28,7 +29,7 @@ public class PlatfromModelData implements ModelData {
     //COULD BETTER PERFORM
     @Override
     public void init() {
-        this.world = this.worldBuilder
+        this.world = SecureWrapper.of(this.worldBuilder
             .addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
             .addPlayer(modelFactory.playerToModel().map(
                 this.findGameDTOData("player")
@@ -43,7 +44,7 @@ public class PlatfromModelData implements ModelData {
                     .toList()
                     .toArray(new Obstacle[0])                
             )
-            .build();
+            .build());
     }
 
     private Collection<GameDTO> findGameDTOData(final String attribute) {
@@ -56,7 +57,7 @@ public class PlatfromModelData implements ModelData {
     //RETURNING AN MUTABLE MUST FIX
     @Override
     public World getWorld() {
-        return this.world;
+        return this.world.get();
     }
     
 }

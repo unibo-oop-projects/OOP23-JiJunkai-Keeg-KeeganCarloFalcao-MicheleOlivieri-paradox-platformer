@@ -20,7 +20,8 @@ public class ImageLoader {
 
     public static java.awt.image.BufferedImage AWTImage(final String imagePath) {
         try {
-            return ImageIO.read(ResourcesFinder.getURL(imagePath));
+            var t = ImageIO.read(ResourcesFinder.getURL(imagePath));
+            return t;
         } catch (IOException e) {
             System.out.println("IMAGE NOT DOWNLOADED" + e.getCause());
         }

@@ -25,7 +25,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
 
     public PlayerModel(Coord2D pos, Dimension dimension, Vector2D speed) {
         //THIS IS REQUIRED CAUSE PLAYER CAN BE CONTROLLED BY USER
-        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(50.d, 3));//addon
+        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14));//addon
         movement = new PhysicsEngine();//addon
         interpFactory = new InterpolatorFactoryImpl();//addon
         this.position = new Point(pos.x(), pos.y());
@@ -39,7 +39,8 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
         return new Coord2D(position.x(),position.y());
     }
 
-    public void setPosition(Coord2D pos) {
+    //COULD SHOW INTERNAL
+    private void setPosition(Coord2D pos) {
         this.position = new Point(pos.x(), pos.y());
     }
 
@@ -53,6 +54,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
         return this.speed;
     }
 
+    //COULD SHOW INTERNAL
     public void setSpeed(Vector2D speed) {
         // this.speed = speed;
         this.horizontalSpeed = speed;//addon
@@ -81,7 +83,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
         this.displacement.add(verticalSpeed), 1, interpFactory.easeIn(),
         dt);
         this.displacement = k.getKey();
-        System.out.println(displacement.yComponent());
+        
         
         // this.position = this.position.sum(this.speed.mul(0.001*dt));
         this.setPosition(this.displacement.convert());//addon

@@ -84,7 +84,7 @@
 				{
 					"x": 150,
 					"y":100,
-					"duration": 5,
+					"duration": 2,
 					"vector": "DISPLACEMENT"
 				},
 				{
@@ -137,7 +137,7 @@
 				{
 					"x": 250,
 					"y":100,
-					"duration": 3,
+					"duration": 1,
 					"vector": "HEIGHT"
 				}
 			]

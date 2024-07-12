@@ -32,7 +32,7 @@ public class PhysicsEngine implements Physics {
 
     @Override
     public Vector2D step(final Vector2D start, final Vector2D end, final Interpolator<Vector2D> interpType, long dt) {
-        return interpType.lerp(start, end, 0.06);
+        return interpType.lerp(start, end, dt / 1000.);
     }
 
     //alternatives: 

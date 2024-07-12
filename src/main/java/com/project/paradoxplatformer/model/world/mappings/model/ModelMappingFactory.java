@@ -8,5 +8,5 @@ public interface ModelMappingFactory {
     
     EntityDataMapper<PlayerModel> playerToModel();
 
-    EntityDataMapper<Obstacle> obstacleToModel();
+    EntityDataMapper<? extends Obstacle> obstacleToModel();
 }

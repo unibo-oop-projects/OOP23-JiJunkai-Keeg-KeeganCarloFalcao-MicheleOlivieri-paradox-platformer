@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.utils.geometries.vector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.AbstractVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class Simple2DVector extends AbstractVector{
+public sealed class Simple2DVector extends AbstractVector permits Polar2DVector{
 
     public Simple2DVector(double x, double y) {
         super(x, y);

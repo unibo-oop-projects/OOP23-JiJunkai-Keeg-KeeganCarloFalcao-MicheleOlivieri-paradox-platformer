@@ -7,7 +7,7 @@ module com.project.paradoxplatformer {
     requires commons.lang3;
     requires java.sql;
     requires com.fasterxml.jackson.databind;
-    requires javafx.base;
+    requires transitive javafx.base;
 
     opens com.project.paradoxplatformer.controller.deserialization.dtos to com.fasterxml.jackson.databind;
     opens com.project.paradoxplatformer to javafx.fxml;

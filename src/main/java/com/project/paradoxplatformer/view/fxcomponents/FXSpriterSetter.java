@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.project.paradoxplatformer.utils.ImageLoader;
+import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.graphics.sprites.Spriter;
 
@@ -20,14 +21,14 @@ public class FXSpriterSetter implements Spriter<Image>{
     private Dimension tileSize;
     
 
-    public FXSpriterSetter(final String sheetPath, Dimension bounds, Dimension tileSize) {
+    public FXSpriterSetter(final String sheetPath, Dimension bounds, Dimension tileSize) throws InvalidResourceException {
         this.sheetPath = sheetPath;
         this.bounds = bounds;
         this.tileSize = tileSize;
         this.loadSpriteSheet();
     }
 
-    private void loadSpriteSheet() {
+    private void loadSpriteSheet() throws InvalidResourceException {
         this.img = ImageLoader.FXImage(sheetPath);
     }
 

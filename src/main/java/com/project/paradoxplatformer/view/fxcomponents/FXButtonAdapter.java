@@ -8,6 +8,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.Actionable;
 
+import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
@@ -43,4 +44,8 @@ public class FXButtonAdapter extends AbstractFXGraphicAdapter implements Actiona
         this.buttonCompo.get().setOnAction(e -> action.run());
     }
     
+    @Override
+    public void bindPropreties(ObservableDoubleValue wratio, ObservableDoubleValue hratio) {
+        
+    }
 }

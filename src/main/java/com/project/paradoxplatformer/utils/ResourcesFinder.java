@@ -1,8 +1,10 @@
-package com.project.paradoxplatformer;
+package com.project.paradoxplatformer.utils;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Native;
 import java.net.URL;
+import java.nio.file.InvalidPathException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -10,13 +12,14 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import com.project.paradoxplatformer.MainApplication;
 
 import java.util.Objects;
 
 public class ResourcesFinder{
 
     private static final List<String> fxmlFiles = List.of(
-        
+        "hello-view.fxml"
     );
 
     private static final List<String> imagesStreams = List.of(
@@ -28,7 +31,7 @@ public class ResourcesFinder{
     private static final String IMAGE_DIR = "images/";
 
     public static List<URL> FXMLfiles() {
-        return fxmlFiles.stream().map(ResourcesFinder.class::getResource).toList();
+        return fxmlFiles.stream().map(MainApplication.class::getResource).toList();
         
     }
 
@@ -38,17 +41,11 @@ public class ResourcesFinder{
                 
     }
 
-    public static URL getURL(String filePath) {
-        try {
-            System.out.println(filePath);
-            return Optional.of(MainApplication.class.getResource(filePath))
-                .filter(Objects::nonNull)
-                .orElseThrow(() -> new IllegalArgumentException("Resource does not exists"));    
-        } catch (Exception e) {
-            System.out.println("RESOURCEEEE not found " + e.getMessage());
-        }
-        return null;
-        
+    public static URL getURL(String filePath) throws InvalidResourceException{
+            return Optional.ofNullable(MainApplication.class.getResource(filePath))
+                .orElseThrow(() -> 
+                    new InvalidResourceException(filePath)
+                );    
         
     }
 }

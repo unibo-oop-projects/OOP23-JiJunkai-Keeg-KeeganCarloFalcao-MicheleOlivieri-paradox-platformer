@@ -11,6 +11,8 @@ public interface ViewManager {
 
     void displayMessage(String title, String header, String content);
 
+    void displayError(String content);
+
     void closeWithMessage(String header, String closingContent);
 
     void close();

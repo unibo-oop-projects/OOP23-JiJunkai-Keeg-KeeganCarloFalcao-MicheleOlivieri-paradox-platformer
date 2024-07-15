@@ -10,9 +10,8 @@
 			"width": 43,
 			"height": 53,
 			"subtype": "",
-			"image": "player.png",
-			"color": null,
-			"traj": null
+			"image": "player.png"
+			
 		},
 		
 		{
@@ -22,14 +21,12 @@
 			"width": 250,
 			"height": 100,
 			"subtype": "Platform",
-			"image": "",
 			"color": {
 				"blu": 42,
 				"red": 180,
 				"green": 77,
 				"alpha": 1
-			},
-			"traj": null
+			}
 		},
 		
 		{
@@ -39,14 +36,12 @@
 			"width": 170,
 			"height": 100,
 			"subtype": "Platform",
-			"image": "",
 			"color": {
 				"blu": 42,
 				"red": 180,
 				"green": 77,
 				"alpha": 1
-			},
-			"traj": null
+			}
 		},
 		
 		{
@@ -56,14 +51,12 @@
 			"width": 500,
 			"height": 50,
 			"subtype": "Platform",
-			"image": "",
 			"color": {
 				"blu": 42,
 				"red": 180,
 				"green": 77,
 				"alpha": 1
-			},
-			"traj": null
+			}
 		},
 		
 		{
@@ -73,7 +66,6 @@
 			"width": 30,
 			"height": 100,
 			"subtype": "Wall",
-			"image": "",
 			"color": {
 				"blu": 42,
 				"red": 180,
@@ -103,7 +95,6 @@
 			"width": 80,
 			"height": 100,
 			"subtype": "Wall",
-			"image": "",
 			"color": {
 				"blu": 42,
 				"red": 180,
@@ -126,7 +117,6 @@
 			"width": 30,
 			"height": 150,
 			"subtype": "Wall",
-			"image": "",
 			"color": {
 				"blu": 42,
 				"red": 180,

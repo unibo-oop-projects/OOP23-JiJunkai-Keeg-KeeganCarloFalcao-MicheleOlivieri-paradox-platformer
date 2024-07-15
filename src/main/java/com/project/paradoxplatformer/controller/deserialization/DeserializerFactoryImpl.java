@@ -1,28 +1,25 @@
 package com.project.paradoxplatformer.controller.deserialization;
 
 import java.net.URL;
-import java.util.Objects;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.paradoxplatformer.ResourcesFinder;
 import com.project.paradoxplatformer.controller.deserialization.dtos.ColorDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
+import com.project.paradoxplatformer.utils.ResourcesFinder;
 
 public class DeserializerFactoryImpl implements DeserializerFactory {
 
 
     public DeserializerFactoryImpl() {}
 
-    private <D> JsonDeserializer<D> genericJackson(final Class<D> clazz) {
+    private <D> JsonDeserializer<D> genericJackson(final Class<D> clazz){
         return json -> {
             ObjectMapper mapper = new ObjectMapper();
-            URL jsonURL = ResourcesFinder.getURL(json);
-            if (Objects.isNull(jsonURL)) {
-                System.out.println("ERRORR");
-                throw new IllegalArgumentException();
-            }
             
+            URL jsonURL = ResourcesFinder.getURL(json);
             return mapper.readValue(jsonURL, clazz);
+            
+            
         };
     }
 
@@ -32,7 +29,7 @@ public class DeserializerFactoryImpl implements DeserializerFactory {
     }
 
     @Override
-    public JsonDeserializer<ColorDTO> colorDeserialzer() {
+    public JsonDeserializer<ColorDTO> colorDeserialzer(){
         return this.genericJackson(ColorDTO.class);
     }
     

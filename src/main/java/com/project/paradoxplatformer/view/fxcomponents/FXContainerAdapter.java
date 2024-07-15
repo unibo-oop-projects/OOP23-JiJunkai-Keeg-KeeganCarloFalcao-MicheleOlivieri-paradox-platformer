@@ -10,6 +10,8 @@ import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.renders.ViewComponent;
 
 import java.lang.Runnable;
+
+import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -93,6 +95,16 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
 
     private void decoupleAction(KeyCode e, Consumer<InputType> action) {
         action.accept(this.translate(e));
+    }
+
+    @Override
+    public ObservableDoubleValue widthProperty() {
+        return this.uiContainer.get().widthProperty();
+    }
+
+    @Override
+    public ObservableDoubleValue heightProperty() {
+        return this.uiContainer.get().heightProperty();
     }
     
 }

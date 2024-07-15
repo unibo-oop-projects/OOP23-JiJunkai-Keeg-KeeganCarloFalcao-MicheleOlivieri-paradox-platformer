@@ -4,6 +4,8 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.renders.ViewComponent;
 
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.Node;
 
 public interface GraphicAdapter extends ViewComponent<Node> {
@@ -19,6 +21,8 @@ public interface GraphicAdapter extends ViewComponent<Node> {
     void setPosition(final double x, final double y);
 
     void translate(final double x, final double y);
+
+    void bindPropreties(ObservableDoubleValue wRatio, ObservableDoubleValue hRatio);
 
     void flip();
     

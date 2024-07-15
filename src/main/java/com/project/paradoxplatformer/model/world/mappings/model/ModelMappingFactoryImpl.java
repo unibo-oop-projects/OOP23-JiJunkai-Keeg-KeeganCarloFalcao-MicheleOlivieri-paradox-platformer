@@ -31,7 +31,7 @@ public class ModelMappingFactoryImpl implements ModelMappingFactory{
     }
 
     @Override
-    public EntityDataMapper<Obstacle> obstacleToModel() {
+    public EntityDataMapper<Obstacle> obstacleToModel(){
         return this::evaluateObstacleType;
     }
 
@@ -51,9 +51,9 @@ public class ModelMappingFactoryImpl implements ModelMappingFactory{
                 );
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new IllegalStateException("failed to create obstacle through reflection\nCause: " + e.getMessage(), e);
         }
-        return null;
+        
     }
 
     private Queue<TrajectoryInfo> trajMacro(TrajMacro[] traj) {

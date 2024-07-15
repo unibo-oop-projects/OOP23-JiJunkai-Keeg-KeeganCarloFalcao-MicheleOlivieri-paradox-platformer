@@ -1,24 +1,29 @@
 package com.project.paradoxplatformer.view.fxcomponents.abstracts;
 
+import com.project.paradoxplatformer.Views;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.Node;
 
 public abstract class AbstractFXGraphicAdapter implements GraphicAdapter{
 
     protected final Node uiComponent;
     protected final Dimension dimension;
-    private double x;
-    private double y;
+    protected DoubleProperty xProperty;
+    protected DoubleProperty yProperty;
 
     protected AbstractFXGraphicAdapter(final Node component, Dimension dimension, Coord2D relativePos) {
         this.uiComponent = component;   
         this.dimension = dimension;
-        this.x = relativePos.x();
-        this.y = relativePos.y();
+        this.xProperty = new SimpleDoubleProperty(relativePos.x());
+        this.yProperty = new SimpleDoubleProperty(relativePos.y());
+        
     }
 
 
@@ -33,8 +38,8 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter{
     @Override
     public Coord2D relativePosition() {
         return new Coord2D(
-            this.x,
-            this.y 
+            this.xProperty.doubleValue(),
+            this.yProperty.doubleValue() 
         );
     }
     @Override
@@ -43,8 +48,10 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter{
     //Must decide wether relative or absolute
     @Override
     public void setPosition(final double x, final double y) {
-        this.uiComponent.setTranslateX(x);
-        this.uiComponent.setTranslateY(y);   
+        
+        this.xProperty.set(x);
+        this.yProperty.set(y);
+        
     }
 
     @Override
@@ -65,6 +72,12 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter{
     @Override
     public void flip() {
         this.uiComponent.setScaleX(-1  * uiComponent.getScaleX());
+    }
+
+    @Override 
+    public void bindPropreties(ObservableDoubleValue wratio, ObservableDoubleValue hRatio) {
+        this.uiComponent.translateYProperty().bind(yProperty.multiply(hRatio));
+        this.uiComponent.translateXProperty().bind(xProperty.multiply(wratio));
     }
     
     

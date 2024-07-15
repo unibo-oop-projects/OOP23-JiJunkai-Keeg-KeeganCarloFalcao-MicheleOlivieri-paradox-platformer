@@ -12,7 +12,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory{
 
     private final GameLoop loop;
     private static final int SECONDS_TO_MILLIS = 1_000; // millis in a second
-    private static final int FPS = 50; // in-game fps
+    private static final int FPS = 60; // in-game fps
     private static final long PERIOD = SECONDS_TO_MILLIS / FPS;
 
     public GameLoopFactoryImpl(final GameLoop loop) {
@@ -49,6 +49,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory{
             final long dt = TimeUnit.NANOSECONDS.toMillis(delta);
             
             loop.loop(dt);
+            
             this.delay(dt);
         }
 
@@ -56,7 +57,6 @@ public class GameLoopFactoryImpl implements TaskLoopFactory{
             
             if (dt < PERIOD) {
                 try {
-                    
                     Thread.sleep(PERIOD - dt);
                 } catch (final InterruptedException e) {
                     throw new IllegalStateException(e);
@@ -85,7 +85,6 @@ public class GameLoopFactoryImpl implements TaskLoopFactory{
 
         @Override
         public void notifyObservers() {
-            System.out.println("DDAMS");
             this.observers.forEach(Observer::update);
         }
     

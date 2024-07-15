@@ -9,6 +9,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
+import com.project.paradoxplatformer.utils.geometries.modifiers.api.Physics;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
@@ -16,7 +17,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
 
     private Point position;
     private Dimension dimension;
-    private PhysicsEngine movement;
+    private Physics physics;
     private Vector2D displacement;
     private final InterpolatorFactory interpFactory;
 
@@ -26,7 +27,7 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
     public PlayerModel(Coord2D pos, Dimension dimension, Vector2D speed) {
         //THIS IS REQUIRED CAUSE PLAYER CAN BE CONTROLLED BY USER
         super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14));//addon
-        movement = new PhysicsEngine();//addon
+        physics = new PhysicsEngine();//addon
         interpFactory = new InterpolatorFactoryImpl();//addon
         this.position = new Point(pos.x(), pos.y());
         this.displacement = new Simple2DVector(pos.x(), pos.y());//addon
@@ -73,13 +74,13 @@ public class PlayerModel extends AbstractControllableObject implements MutableOb
     public void updateState(long dt) {
         //MY TESTING; FEEL FREE TO MODIFY
         this.fall();
-        this.displacement = movement.step(this.displacement, 
+        this.displacement = physics.step(this.displacement, 
             this.displacement.add(this.horizontalSpeed),
             interpFactory.linear(),
             dt
         );//addon
 
-        var k = movement.moveTo(this.displacement,
+        var k = physics.moveTo(this.displacement,
         this.displacement.add(verticalSpeed), 1, interpFactory.easeIn(),
         dt);
         this.displacement = k.getKey();

@@ -1,26 +1,16 @@
 package com.project.paradoxplatformer.controller.games;
 
-import com.project.paradoxplatformer.Views;
 import com.project.paradoxplatformer.model.entity.MutableObject;
-import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.world.ModelData;
 import com.project.paradoxplatformer.model.world.api.World;
-import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.geometries.orientations.GraphicOffsetCorrector;
-import com.project.paradoxplatformer.utils.geometries.orientations.OffsetCorrector;
-import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactory;
-import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
-import com.project.paradoxplatformer.view.fxcomponents.FXImageAdapter;
+import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
-import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
 
 import java.util.Objects;
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Map;
-
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,7 +20,7 @@ public class GameControllerImpl implements GameController{
 
     private final ModelData gameModel;
     private Map<MutableObject, GraphicAdapter> gamePair;
-    private GameView gameView;
+    private final GameView gameView;
 
     public GameControllerImpl(final ModelData model, final GameView view) {
         this.gameModel = model;
@@ -45,12 +35,12 @@ public class GameControllerImpl implements GameController{
 
     //Need abstraction for view creation
     @Override
-    public void syncView() {
+    public void syncView() throws InvalidResourceException{
         
         this.gameView.init();
         gamePair = this.gameView.getControls().stream()
             //FIX DUPLICATE KEYYS
-            .map(g -> this.bind(g, this.gameModel.getWorld()))
+            .map(g -> this.join(g, this.gameModel.getWorld()))
             .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
 
         //PROB DO IN VIEW UPDATE
@@ -60,7 +50,7 @@ public class GameControllerImpl implements GameController{
             
     }
 
-    private Pair<MutableObject, GraphicAdapter> bind(GraphicAdapter g, World world) {
+    private Pair<MutableObject, GraphicAdapter> join(GraphicAdapter g, World world) {
         //SHOULD GET FROM WORLD, JUST TO MAKE THINGS EASY
         //MAKE A CONCAT OF ALL ENTITIES
         final Set<MutableObject> str = Stream.concat(this.gameModel.getWorld().obstacles().stream(),

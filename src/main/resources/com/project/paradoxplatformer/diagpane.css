@@ -1,0 +1,24 @@
+.dialog {
+	-fx-background-color: black;
+	-fx-font-family: Ubuntu;
+}
+
+.header {
+	-fx-text-fill: red;
+	-fx-font-weight: bold;
+	-fx-font-size: 15px;
+	-fx-padding: 5px 0px 0px 0px;	
+	-fx-effect: dropshadow(three-pass-box, rgb(255, 0, 0), 10, 0, 0, 0);
+}
+
+.content {
+	-fx-font-size: 12px;
+	-fx-text-fill: white;
+	-fx-background-color: #1a1818
+	
+}
+
+.line {
+	-fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 10, 0, 0, 0);
+}
+

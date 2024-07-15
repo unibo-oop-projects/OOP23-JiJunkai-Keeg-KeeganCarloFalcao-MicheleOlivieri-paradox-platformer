@@ -1,19 +1,12 @@
 package com.project.paradoxplatformer.controller.deserialization.dtos;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class ColorDTO {
-
-    @JsonProperty
+    
     private int red;
-    @JsonProperty
     private int green;
-    @JsonProperty
     private int blu;
-    @JsonProperty
     private double alpha;
 
-    
     public ColorDTO(int red, int green, int blu, double alfa) {
         this.red = red;
         this.green = green;

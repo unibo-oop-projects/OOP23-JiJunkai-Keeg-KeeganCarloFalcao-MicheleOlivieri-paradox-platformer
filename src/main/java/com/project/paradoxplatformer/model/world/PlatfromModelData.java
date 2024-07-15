@@ -1,6 +1,10 @@
 package com.project.paradoxplatformer.model.world;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
@@ -12,6 +16,10 @@ import com.project.paradoxplatformer.model.world.mappings.model.ModelMappingFact
 import com.project.paradoxplatformer.model.world.mappings.model.ModelMappingFactoryImpl;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
+
+import static java.util.function.Predicate.not;
+
+import java.sql.Array;
 
 public class PlatfromModelData implements ModelData {
 
@@ -29,6 +37,16 @@ public class PlatfromModelData implements ModelData {
     //COULD BETTER PERFORM
     @Override
     public void init() {
+        Optional.of(
+            Arrays.stream(packedData.getGameDTOs())
+            .map(GameDTO::getType)
+            .anyMatch(Objects::isNull)
+        )
+        .filter(u -> !u)
+        .orElseThrow(() -> 
+            new IllegalStateException("Attribute type of game DTO is undefined, could not map")
+        );
+        
         this.world = SecureWrapper.of(this.worldBuilder
             .addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
             .addPlayer(modelFactory.playerToModel().map(
@@ -48,9 +66,12 @@ public class PlatfromModelData implements ModelData {
     }
 
     private Collection<GameDTO> findGameDTOData(final String attribute) {
-        return Set.of(packedData.getGameDTOs()).stream()
+        
+        return Optional.of(Set.of(packedData.getGameDTOs()).stream()
             .filter(g-> g.getType().equals(attribute))
-            .toList();
+            .toList())
+            .filter(not(List::isEmpty))
+            .orElseThrow(() -> new IllegalArgumentException("attribute does not match any game dto type: " + attribute));
     }
 
     //GOTTA CHECK INIT HAS DONE

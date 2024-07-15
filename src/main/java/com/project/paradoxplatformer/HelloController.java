@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.EnumMap;
 import java.util.Objects;
@@ -33,6 +32,7 @@ import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.fxcomponents.FXButtonAdapter;
 import com.project.paradoxplatformer.view.fxcomponents.FXContainerAdapter;
 import com.project.paradoxplatformer.view.game.GamePlatformView;
@@ -44,20 +44,28 @@ import javafx.fxml.Initializable;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.application.*;
 
 import java.util.Map;
 import java.util.List;
 
-public class HelloController implements Initializable{
+public class HelloController implements Initializable, Page<String>{
 
     private static final String KEY = "0123456789abcdef";
 
     @FXML
     private AnchorPane gamePane;
+
+    @FXML
+    private StackPane pagePane;
 
     @FXML
     private VBox pausePane;
@@ -68,28 +76,26 @@ public class HelloController implements Initializable{
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
-        gamePane.widthProperty().addListener((obs, o, n) -> {
-            var u = n.doubleValue() / 500;
-            System.out.println("NEW " + n);
-            System.out.println("OLD " + o);
-            System.out.println("RATIO "+ u);
-        });
-        
-        //HUST FOR TESTINGS
-
         pausePane.setVisible(false);
+        pausePane.prefHeightProperty().bind(gamePane.heightProperty());
+        pausePane.prefWidthProperty().bind(gamePane.widthProperty().multiply(.3));
+    }
+
+    protected void test() {    
+        f.getWorld().obstacles().forEach(ob -> ob.effect(Optional.of(f.getWorld().player())));
+        // A im = new A(new Dimension(10, 10), new Coord2D(0, 0), "player.png");
+        // im.deliver();
+        
+    }
+
+    @Override
+    public void create(String param) throws Exception {
+
         DeserializerFactory dFactory = new DeserializerFactoryImpl();
         LevelDTO level = null;
-        try {
-            level = dFactory.levelDeserialzer().deserialize("level1.json");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         
-        if(Objects.isNull(level)) {
-            throw new IllegalArgumentException();
-        }
+        level = dFactory.levelDeserialzer().deserialize(param);
+        
         f = new PlatfromModelData(level);
         //BETTER HAVE INTERNAL METHODS TO ACCESS TO MODEL OR VIEW COMPONENTS
         //E:G COTTROLLER Acceses to gameview, if controlloer wants to manipulate gamview
@@ -97,6 +103,7 @@ public class HelloController implements Initializable{
         final GraphicContainer<Node> g = new FXContainerAdapter(gamePane);
         final GameView gameV = new GamePlatformView(level, g);
         final GameController gc = new GameControllerImpl(f, gameV);
+        
         gc.loadModel();
         gc.syncView();
 
@@ -124,7 +131,12 @@ public class HelloController implements Initializable{
             //MUST FIX, if retry then pause must not rinitialize
             this.pausePane.getChildren().removeIf(Button.class::isInstance);
             gamePane.setEffect(null);
-            this.initialize(null, null);
+            try {
+                create(param);
+                pausePane.setVisible(false);
+            } catch (Exception e) {
+                
+            }
         });
         var qui = new FXButtonAdapter(new Dimension(0,0), new Coord2D(0, 0), "QUIT");
         qui.onAction(() -> {
@@ -159,8 +171,9 @@ public class HelloController implements Initializable{
             @Override
             public void update() {
                 if(!loopManager.isRunning() && Objects.isNull(gamePane.getEffect()) && !pausePane.isVisible()) {
-                    gamePane.setEffect(new GaussianBlur(10.));
                     pausePane.setVisible(true);
+                    gamePane.setEffect(new GaussianBlur(10.));
+                    
                 }
             }
 
@@ -192,21 +205,5 @@ public class HelloController implements Initializable{
         // tr.start();
         
         loopManager.start();
-    }
-
-    private void showPauseMenu(LoopManager l) { 
-        gamePane.setEffect(new GaussianBlur(10.));
-        l.stop();
-        System.out.println("RUNN");
-        pausePane.setVisible(true);
-    }
-
-    @FXML
-    protected void test() {
-        
-        f.getWorld().obstacles().forEach(ob -> ob.effect(Optional.of(f.getWorld().player())));
-        // A im = new A(new Dimension(10, 10), new Coord2D(0, 0), "player.png");
-        // im.deliver();
-        
     }
 }

@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.model.obstacles.harmlessobstacles;
 
-import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
+import com.project.paradoxplatformer.model.obstacles.Obstacle;
 
 
 //THEY MUST INTERFERE WITH WORLD

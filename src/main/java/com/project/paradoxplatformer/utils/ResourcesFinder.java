@@ -14,8 +14,6 @@ import java.util.stream.Stream;
 
 import com.project.paradoxplatformer.MainApplication;
 
-import java.util.Objects;
-
 public class ResourcesFinder{
 
     private static final List<String> fxmlFiles = List.of(

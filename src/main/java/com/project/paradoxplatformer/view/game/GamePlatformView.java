@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.view.game;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -8,15 +7,11 @@ import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
-import com.project.paradoxplatformer.Views;
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.model.entity.MutableObject;
+import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.model.world.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -27,14 +22,13 @@ import com.project.paradoxplatformer.utils.geometries.orientations.factory.Offse
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 import com.project.paradoxplatformer.view.fxcomponents.FXImageAdapter;
-import com.project.paradoxplatformer.view.fxcomponents.ViewMappingFactoryImpl;
+import com.project.paradoxplatformer.view.fxcomponents.FXViewMappingFactoryImpl;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.event.EventDispatcher;
 import javafx.scene.Node;
 
 import java.util.Objects;
@@ -53,7 +47,7 @@ public class GamePlatformView implements GameView {
 
     public GamePlatformView(final LevelDTO packedData, GraphicContainer<Node> g) {
         this.packedData = packedData;
-        this.viewMappingFactory = new ViewMappingFactoryImpl();
+        this.viewMappingFactory = new FXViewMappingFactoryImpl();
         this.container = SecureWrapper.of(g);
         this.offsetCorrector = null;
     }
@@ -75,13 +69,14 @@ public class GamePlatformView implements GameView {
             .flatMap(Set::stream)
             .collect(Collectors.toSet());
 
+        //make a method
         final DoubleProperty l = new SimpleDoubleProperty();
         l.bind(container.get().widthProperty());
         
         final DoubleProperty l1 = new SimpleDoubleProperty();
         l1.bind(container.get().heightProperty());
         
-
+        
         this.listComponents.stream()
             .filter(this.container.get()::render)
             .forEach(o -> o.bindPropreties(l.divide(this.packedData.getWidth()), l1.divide(this.packedData.getHeight())));

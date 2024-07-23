@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.obstacles.api;
+package com.project.paradoxplatformer.model.obstacles;
 
 import java.util.Optional;
 

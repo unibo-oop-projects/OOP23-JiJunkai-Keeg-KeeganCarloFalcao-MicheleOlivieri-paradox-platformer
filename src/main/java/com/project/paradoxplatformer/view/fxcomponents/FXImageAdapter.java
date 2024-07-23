@@ -2,11 +2,9 @@ package com.project.paradoxplatformer.view.fxcomponents;
 
 import java.util.Optional;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
-import com.project.paradoxplatformer.Views;
 import com.project.paradoxplatformer.utils.ImageLoader;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -32,6 +30,7 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteab
     //MUST ADD WETHER AN IMAGE IS SPRITEABLE
     protected FXImageAdapter(Dimension dimension, Coord2D position, String imageURL) throws InvalidResourceException  {
         super(new ImageView(), dimension, position);
+
         if (this.uiComponent instanceof ImageView imgCopy) {
             this.imgComponent = imgCopy;
             widthProperty = new SimpleDoubleProperty(dimension.width());

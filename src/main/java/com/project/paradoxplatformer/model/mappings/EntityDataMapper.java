@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.world.mappings;
+package com.project.paradoxplatformer.model.mappings;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 

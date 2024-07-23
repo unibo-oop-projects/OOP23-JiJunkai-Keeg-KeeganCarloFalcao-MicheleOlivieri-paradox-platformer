@@ -3,6 +3,7 @@ package com.project.paradoxplatformer;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -12,22 +13,18 @@ import com.project.paradoxplatformer.view.Page;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 
 public class MainApplication extends Application implements ViewManager{
@@ -35,37 +32,51 @@ public class MainApplication extends Application implements ViewManager{
     private static Scene scene;
     private static Stage stage;
     private static List<Pair<Parent, Page<String>>> roots;
-    private final Alert alert = new Alert(AlertType.NONE);
+    private boolean created;
+    private static CountDownLatch latch;
     
     @Override
-    public void start(Stage primeStage) throws Exception {
+    public synchronized void start(Stage primeStage) throws Exception {
+        if(!created) {
+            throw new IllegalStateException("Cannot create application, Security reasons");
+        }
         stage = primeStage;
         stage.setTitle("Paradox Platformer");
-        stage.setOnCloseRequest(e -> System.exit(0));
+        stage.setOnCloseRequest(e -> this.close());
+        roots = this.loadFXML();
         setScene("Paradox Platformer");
+        stage.show();
+        latch.countDown();
+        
     }
 
-    public MainApplication() {}
-
-    public void setScene(String title) {
-        roots = this.loadFXML();
-        scene = new Scene(roots.get(Views.MAIN).getKey(), Color.rgb(237, 152, 112));
-        stage.setScene(scene);      
-        stage.show();
-    
-        // stage.minWidthProperty().set(MIN_DASHBOARD);
-        // stage.minHeightProperty().set(MIN_WIDTH + MIN_GRID_HEGHT);
-        // stage.maxHeightProperty().bind(stage.minHeightProperty().multiply(2));
-        // stage.maxWidthProperty().bind(stage.minWidthProperty().multiply(2));
-
+    public MainApplication() {
+        this.created = true;
+        
     }
 
     @Override
-    public Page<String> switchView(int id){
-        var entry = getParents(id);
-        scene.setRoot(entry.getKey());
+    public void create() {
+        MainApplication.launch();
+    }
+
+    private void setScene(String title) {
+        scene = new Scene(new Pane(), 640, 360, Color.rgb(237, 152, 112));
         stage.sizeToScene();
-        return entry.getValue();
+        stage.setScene(scene); 
+        
+    }
+
+    @Override
+    public Page<String> switchPage(PageIdentifier id) {
+        if(Platform.isFxApplicationThread()) {
+            var entry = this.getParents(id.ordinal());
+            scene.setRoot(entry.getKey());
+            // stage.setScene(new Scene(entry.getKey()));
+            stage.sizeToScene();
+            return entry.getValue();
+        }
+        throw new IllegalStateException("Not in FX Thread");
         
     }
 
@@ -85,29 +96,13 @@ public class MainApplication extends Application implements ViewManager{
         try  {
             Parent parent = loader.load();
             Page<String> controller = loader.getController();
-            controller.create("level1.json");
+            
             return Pair.of(parent, controller);
         } catch (IOException e) {
             this.displayError("IO exception error: " + e.getMessage());   
             System.exit(-1);
-        } catch (Exception ex) {
-            
-            this.displayError(Optional.ofNullable(ex.getCause())
-                .map(Throwable::getClass)
-                .map(Class::getSimpleName)
-                .orElse(ex.getClass().getSimpleName()) + " \nRaised → " +  
-                Optional.ofNullable(ex.getCause())
-                    .map(Throwable::getMessage)
-                    .or(() -> Optional.ofNullable(ex.getCause())
-                        .filter(RuntimeException.class::isInstance)
-                        .map(RuntimeException.class::cast)
-                        .map(RuntimeException::getMessage)
-                    )
-                .map(ex.getMessage()::concat)
-                .orElse(ex.getMessage())
-            ); 
-            System.exit(-1);
-        }
+        } 
+        
         return null;
     }
 
@@ -140,25 +135,32 @@ public class MainApplication extends Application implements ViewManager{
 
     @Override
     public void displayMessage(String title, String header, String content) {
-        this.setAndShowAlert(AlertType.INFORMATION, title, header, content);
-        this.performReactiveAction(this.alert::showAndWait);
+        final Alert alert = new Alert(AlertType.NONE);
+        this.setAndShowAlert(alert, AlertType.INFORMATION, title, header, content);
+        this.performReactiveAction(alert::showAndWait);
     }
 
-    private void setAndShowAlert(AlertType alertType, String title, String header, String content) {
-        this.alert.setAlertType(alertType);
-        this.alert.setTitle(title);
-        this.alert.setHeaderText(header);
-        this.alert.setContentText(content);
+    private void setAndShowAlert(Alert alert, AlertType alertType, String title, String header, String content) {
+        alert.setAlertType(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
     }
 
     @Override
     public void closeWithMessage(String header, String closingContent) {
-        this.setAndShowAlert(AlertType.CONFIRMATION, "CLOSING", header, closingContent);
-        this.performReactiveAction(() -> this.alert.showAndWait().ifPresent(b -> this.exit()));
+        final Alert alert = new Alert(AlertType.NONE);
+        this.setAndShowAlert(alert, AlertType.CONFIRMATION, "CLOSING", header, closingContent);
+        this.performReactiveAction(() -> alert.showAndWait().ifPresent(b -> this.exit()));
     }
 
     @Override
     public void close() {
+        this.exit();
+    }
+
+    @Override
+    public void safeError() {
         this.exit();
     }
 
@@ -168,7 +170,16 @@ public class MainApplication extends Application implements ViewManager{
     }
 
     @Override
-    public void performReactiveAction(Runnable runner) {
+    public void performReactiveAction(Runnable runner)  {
         Platform.runLater(runner);
+        
     }
+
+    @Override
+    public void create(final CountDownLatch latch1) {
+        latch = latch1;
+        this.create();
+    }
+
+    
 }

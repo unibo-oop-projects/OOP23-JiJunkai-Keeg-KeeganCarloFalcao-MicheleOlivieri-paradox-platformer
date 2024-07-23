@@ -32,6 +32,7 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
 
     @Override
     public boolean render(final ViewComponent<Node> component){
+        
         return uiContainer.get().getChildren().add(component.unwrap());
     }
 
@@ -105,6 +106,11 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
     @Override
     public ObservableDoubleValue heightProperty() {
         return this.uiContainer.get().heightProperty();
+    }
+
+    @Override
+    public boolean delete(ViewComponent<Node> component) {
+        return this.uiContainer.get().getChildren().remove(component.unwrap());
     }
     
 }

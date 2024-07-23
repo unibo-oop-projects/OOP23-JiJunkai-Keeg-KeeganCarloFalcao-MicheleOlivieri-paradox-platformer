@@ -1,8 +1,8 @@
-package com.project.paradoxplatformer.model.world.mappings.model;
+package com.project.paradoxplatformer.model.mappings.model;
 
-import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
+import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
+import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.model.world.mappings.EntityDataMapper;
 
 public interface ModelMappingFactory {
     

@@ -1,6 +1,6 @@
 {
-	"height": 300,
-	"width": 500,
+	"height": 360,
+	"width": 640,
 
 	"gameDTOs": [
 		{
@@ -33,7 +33,7 @@
 			"type": "obstacle",
 			"x": 330,
 			"y": 0,
-			"width": 170,
+			"width": 310,
 			"height": 100,
 			"subtype": "Platform",
 			"color": {
@@ -47,8 +47,8 @@
 		{
 			"type": "obstacle",
 			"x": 0,
-			"y": 250,
-			"width": 500,
+			"y": 310,
+			"width": 640,
 			"height": 50,
 			"subtype": "Platform",
 			"color": {
@@ -119,7 +119,7 @@
 			"subtype": "Wall",
 			"color": {
 				"blu": 42,
-				"red": 180,
+				"red": 170,
 				"green": 77,
 				"alpha": 1
 			},

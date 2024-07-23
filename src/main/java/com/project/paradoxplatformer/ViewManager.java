@@ -1,13 +1,14 @@
 package com.project.paradoxplatformer;
 
+import java.util.concurrent.CountDownLatch;
+
 public interface ViewManager {
 
-    /**
-     * Get unique view id, it's better rather then passing the entire viewImpl
-     * or the fxml file (this could be used to separate model from view too)
-     * @param id
-     */
-    Object switchView(int id);
+    Object switchPage(PageIdentifier pageID);
+
+    void create();
+
+    void create(final CountDownLatch latch);
 
     void displayMessage(String title, String header, String content);
 
@@ -18,6 +19,8 @@ public interface ViewManager {
     void close();
 
     void exit();
+
+    void safeError();
 
     void performReactiveAction(Runnable runner);
 

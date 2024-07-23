@@ -9,19 +9,17 @@ import java.util.Set;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
-import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
+import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactory;
+import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactoryImpl;
+import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
-import com.project.paradoxplatformer.model.world.mappings.model.ModelMappingFactory;
-import com.project.paradoxplatformer.model.world.mappings.model.ModelMappingFactoryImpl;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 import static java.util.function.Predicate.not;
 
-import java.sql.Array;
-
-public class PlatfromModelData implements ModelData {
+public class PlatfromModelData implements GameModelData {
 
     private final LevelDTO packedData;
     private final WorldBuilder worldBuilder;

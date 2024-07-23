@@ -9,15 +9,15 @@ import java.util.ResourceBundle;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import com.project.paradoxplatformer.controller.Controller;
+import com.project.paradoxplatformer.controller.ControllerImpl;
 import com.project.paradoxplatformer.controller.deserialization.DeserializerFactory;
 import com.project.paradoxplatformer.controller.deserialization.DeserializerFactoryImpl;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
-import com.project.paradoxplatformer.controller.gameloop.ControllerImpl;
 import com.project.paradoxplatformer.controller.gameloop.TaskLoopFactory;
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.gameloop.LoopManager;
 import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
-import com.project.paradoxplatformer.controller.gameloop.Controller;
 import com.project.paradoxplatformer.controller.games.GameControllerImpl;
 import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.controller.input.InputController;
@@ -26,7 +26,7 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.inputmodel.InputMovesFactory;
 import com.project.paradoxplatformer.model.inputmodel.InputMovesFactoryImpl;
 import com.project.paradoxplatformer.model.inputmodel.InputModel;
-import com.project.paradoxplatformer.model.world.ModelData;
+import com.project.paradoxplatformer.model.world.GameModelData;
 import com.project.paradoxplatformer.model.world.PlatfromModelData;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -70,7 +70,7 @@ public class HelloController implements Initializable, Page<String>{
     @FXML
     private VBox pausePane;
 
-    private ModelData f;
+    private GameModelData f;
     private ObservableLoopManager loopManager;
 
     @FXML
@@ -155,9 +155,10 @@ public class HelloController implements Initializable, Page<String>{
         //         // pausePane.setVisible(false);
         InputController<LoopManager> ig = new InputController<>(w, g.getKeyAssetter().get());
         
-        final Controller cont = new ControllerImpl(gc, ic, f);
+        // final Controller cont = new ControllerImpl(gc, ic, f);
         TaskLoopFactory gFactory = new GameLoopFactoryImpl(dt -> {
-            cont.updateGame(dt);
+            ic.inject(f.getWorld().player(), ControllableObject::stop);
+            gc.update(dt);
             //cont.updateTimer();
         });
 

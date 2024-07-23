@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.world.mappings.model;
+package com.project.paradoxplatformer.model.mappings.model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
@@ -11,9 +11,9 @@ import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.TrajMacro;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.entity.TrasformType;
-import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
+import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
+import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.model.world.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
@@ -21,7 +21,8 @@ import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 
 public class ModelMappingFactoryImpl implements ModelMappingFactory{
 
-    private static final String OBSTACLE_PREFIX_NAME = "com.project.paradoxplatformer.model.obstacles.";
+    private static final String DOT = ".";
+    private static final String OBSTACLE_PREFIX_NAME = Obstacle.class.getPackageName() + DOT;
 
     public ModelMappingFactoryImpl() {}
 
@@ -51,7 +52,7 @@ public class ModelMappingFactoryImpl implements ModelMappingFactory{
                 );
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-            throw new IllegalStateException("failed to create obstacle through reflection\nCause: " + e.getMessage(), e);
+            throw new IllegalStateException("failed to create obstacle through reflection\nCheck: ", e);
         }
         
     }

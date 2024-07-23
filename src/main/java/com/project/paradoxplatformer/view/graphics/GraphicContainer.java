@@ -14,6 +14,8 @@ public interface GraphicContainer<T> extends KeyInputer{
     
     boolean render(final ViewComponent<T> component);
 
+    boolean delete(final ViewComponent<T> component);
+
     ObservableDoubleValue widthProperty();
 
     ObservableDoubleValue heightProperty();

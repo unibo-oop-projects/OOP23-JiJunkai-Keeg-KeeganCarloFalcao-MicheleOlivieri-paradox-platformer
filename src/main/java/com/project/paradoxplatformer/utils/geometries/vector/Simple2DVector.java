@@ -34,8 +34,8 @@ public sealed class Simple2DVector extends AbstractVector permits Polar2DVector{
     @Override
     public Vector2D sub(Vector2D vector) {
         return new Simple2DVector(
-            vector.xComponent() - this.xComponent(),
-            vector.yComponent() - this.yComponent()); 
+            -vector.xComponent() + this.xComponent(),
+            -vector.yComponent() + this.yComponent()); 
     }
 
      

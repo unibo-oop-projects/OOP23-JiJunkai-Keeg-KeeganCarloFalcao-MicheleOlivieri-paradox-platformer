@@ -2,7 +2,6 @@ package com.project.paradoxplatformer.view.fxcomponents;
 
 import java.util.Optional;
 
-import com.project.paradoxplatformer.Views;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractFXGraphicAdapter;
@@ -26,7 +25,6 @@ public class FXRectangleAdapter extends AbstractFXGraphicAdapter {
             this.blockComponent.setFill(fill);
             widthProperty = new SimpleDoubleProperty(dimension.width());
             heighProperty = new SimpleDoubleProperty(dimension.height());
-            
             //SHOULD DO IF SPRITE SO MAKE DISTINCT CLASSES
             
             this.setDimension(dimension.width(), dimension.height());

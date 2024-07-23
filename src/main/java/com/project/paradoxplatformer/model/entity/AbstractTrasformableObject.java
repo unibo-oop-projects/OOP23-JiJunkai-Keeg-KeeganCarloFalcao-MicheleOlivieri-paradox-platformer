@@ -11,14 +11,19 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public abstract class AbstractTrasformableObject extends AbstractMutableObject{
     
-    protected Queue<TrajectoryInfo> trasformationStats;
+    protected final Queue<TrajectoryInfo> trasformationStats;
     protected Vector2D displacement;
     protected Vector2D heightVector;
     protected Vector2D widthVector;
+    //TODO fro withd and x also
+    private final double anchorY;
+    private final double anchorHeight;
 
     protected AbstractTrasformableObject(final Coord2D position, final Dimension dimension, Queue<TrajectoryInfo> trasfStats) {
         super();
         this.displacement = new Simple2DVector(position.x(), position.y());
+        this.anchorY = position.y();
+        this.anchorHeight = dimension.height();
         this.heightVector = new Simple2DVector(0.d, dimension.height());
         this.widthVector = new Simple2DVector(dimension.width(), 0.);
         this.trasformationStats = trasfStats;
@@ -34,14 +39,14 @@ public abstract class AbstractTrasformableObject extends AbstractMutableObject{
                     this.displacement = this.trasform(this.displacement, currentTransf, dt).getKey();
                     
                     break;
-                case HEIGHT:
-                this.displacement = this.mover.moveTo(
-                    this.displacement, 
-                    currentTransf.endpoint(),
-                    currentTransf.duration(),
-                    interFactory.easeIn(),
-                    dt
-                ).getKey();
+                case HEIGHT:    
+                    this.displacement = this.mover.moveTo(
+                        this.displacement, 
+                        currentTransf.endpoint().sub(new Simple2DVector(0.d, (anchorHeight - anchorY))),
+                        currentTransf.duration(),
+                        interFactory.easeIn(),
+                        dt
+                    ).getKey();
                     this.heightVector = this.trasform(this.heightVector, currentTransf, dt).getKey();
                     break;
                 case WIDTH:

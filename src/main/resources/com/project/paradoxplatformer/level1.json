@@ -115,7 +115,7 @@
 			"x": 250,
 			"y": 100,
 			"width": 30,
-			"height": 150,
+			"height": 110,
 			"subtype": "Wall",
 			"color": {
 				"blu": 42,
@@ -126,7 +126,7 @@
 			"traj": [
 				{
 					"x": 250,
-					"y":100,
+					"y":50,
 					"duration": 1,
 					"vector": "HEIGHT"
 				}

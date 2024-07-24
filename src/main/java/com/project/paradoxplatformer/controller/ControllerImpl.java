@@ -4,14 +4,14 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 
-import com.project.paradoxplatformer.MainApplication;
-import com.project.paradoxplatformer.PageIdentifier;
-import com.project.paradoxplatformer.ViewManager;
 import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.world.GameModelData;
+import com.project.paradoxplatformer.view.MainApplication;
 import com.project.paradoxplatformer.view.Page;
+import com.project.paradoxplatformer.view.PageIdentifier;
+import com.project.paradoxplatformer.view.ViewManager;
 
 public class ControllerImpl implements Controller {
 
@@ -51,7 +51,7 @@ public class ControllerImpl implements Controller {
         try {
             latch.await();
             System.out.println("Application Started");
-            view.performReactiveAction(() -> this.switchView(PageIdentifier.MENU, "level1.json"));
+            view.runOnAppThread(() -> this.switchView(PageIdentifier.MENU, "level1.json"));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (IllegalStateException e) {

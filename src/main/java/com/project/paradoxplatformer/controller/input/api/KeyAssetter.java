@@ -1,15 +1,29 @@
 package com.project.paradoxplatformer.controller.input.api;
 
-import com.project.paradoxplatformer.model.inputmodel.InputModel;
-import com.project.paradoxplatformer.model.inputmodel.commands.Command;
+import java.util.Set;
 
+/**
+ * Interface for setting input keys
+ */
+public interface KeyAssetter<K> {
+    /**
+     * Removes a key when it is not pressed from the pool of current keys
+     * @param e
+     * @return
+     */
+    public boolean remove(final K e);
 
-public interface KeyAssetter {
+    /**
+     * * Adds a key when it is not pressed from the pool of current keys
+     * @param e
+     * @return
+     */
+    public boolean add(final K e);
 
-    public boolean remove(final InputType e);
-
-    public boolean add(final InputType e);
-
-    <T> void cyclePool(final InputModel<T> modelInput, T executor, Command<T> onIdle);
-
+    /**
+     * Useful for doing any computions for current pool of keys
+     * @return unmodifiable because caller cannot modify, it is mangaged upon this interface.
+     * So to make class immutable, implementation needs to create a defensive copy
+     */
+    public Set<InputType> getUnmodifiablePool();
 }

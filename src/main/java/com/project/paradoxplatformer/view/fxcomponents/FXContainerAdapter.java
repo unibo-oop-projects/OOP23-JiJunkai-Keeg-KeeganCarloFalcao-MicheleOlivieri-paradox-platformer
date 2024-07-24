@@ -12,6 +12,7 @@ import com.project.paradoxplatformer.view.renders.ViewComponent;
 import java.lang.Runnable;
 
 import javafx.beans.value.ObservableDoubleValue;
+import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -22,12 +23,12 @@ import java.util.function.Consumer;
 public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslator<KeyCode>{
 
     private final SecureWrapper<Pane> uiContainer;
-    private final KeyAssetter keyAssetter;
+    private final KeyAssetter<KeyCode> keyAssetter;
     private boolean isActive;
 
     public FXContainerAdapter(Pane container) {
         this.uiContainer = SecureWrapper.of(container);
-        this.keyAssetter = new KeyAssetterImpl();
+        this.keyAssetter = new KeyAssetterImpl<>(this);
     }
 
     @Override
@@ -58,27 +59,18 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
 
     @Override
     public void setKeyTyped() {
-        if(this.isActive) {
-            this.uiContainer.get().addEventFilter(
-                KeyEvent.KEY_TYPED, 
-                e -> this.decoupleAction(e.getCode(), this.keyAssetter::add)
-            );
-        }
+        this.manageKeyEvent(KeyEvent.KEY_PRESSED, this.keyAssetter::add);
     }
 
     @Override
     public void setKeyReleased() {
-        if(this.isActive) {
-            this.uiContainer.get().addEventFilter(
-                KeyEvent.KEY_RELEASED, 
-                e -> this.decoupleAction(e.getCode(), this.keyAssetter::remove)
-            );
-        }
+        this.manageKeyEvent(KeyEvent.KEY_RELEASED, this.keyAssetter::remove);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public SecureWrapper<KeyAssetter> getKeyAssetter() {
-        return SecureWrapper.of(this.keyAssetter);
+    public KeyAssetter<KeyCode> getKeyAssetter() {
+        return new KeyAssetterImpl<>(this.keyAssetter);
     }
 
     @Override
@@ -87,15 +79,13 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
         this.isActive = true;
     }
 
-    //MUST BE PRIVATE CAUSE ITS DONE INTERNALLY
-    //TO FIX
     @Override
     public InputType translate(KeyCode k) {
         return InputType.getString(k.name());
     }
 
-    private void decoupleAction(KeyCode e, Consumer<InputType> action) {
-        action.accept(this.translate(e));
+    private void decoupleAction(KeyCode e, Consumer<KeyCode> action) {
+        action.accept(e);
     }
 
     @Override
@@ -111,6 +101,15 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
     @Override
     public boolean delete(ViewComponent<Node> component) {
         return this.uiContainer.get().getChildren().remove(component.unwrap());
+    }
+
+    private void manageKeyEvent(EventType<KeyEvent> eventType, Consumer<KeyCode> action) {
+        if(this.isActive) {
+            this.uiContainer.get().addEventFilter(
+                eventType, 
+                e -> this.decoupleAction(e.getCode(), action)
+            );
+        }
     }
     
 }

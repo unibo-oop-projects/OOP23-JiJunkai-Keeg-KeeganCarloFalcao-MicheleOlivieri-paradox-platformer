@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer;
+package com.project.paradoxplatformer.view;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -22,6 +22,6 @@ public interface ViewManager {
 
     void safeError();
 
-    void performReactiveAction(Runnable runner);
+    void runOnAppThread(Runnable runner);
 
 }

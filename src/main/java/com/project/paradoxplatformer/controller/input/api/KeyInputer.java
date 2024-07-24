@@ -1,10 +1,8 @@
 package com.project.paradoxplatformer.controller.input.api;
 
-import com.project.paradoxplatformer.utils.SecureWrapper;
-
 public interface KeyInputer {
 
-    SecureWrapper<KeyAssetter> getKeyAssetter();
+    <K> KeyAssetter<K> getKeyAssetter();
 
     //Useful for fx as it needs to request the focus
     void activateKeyInput(final Runnable activateInput);

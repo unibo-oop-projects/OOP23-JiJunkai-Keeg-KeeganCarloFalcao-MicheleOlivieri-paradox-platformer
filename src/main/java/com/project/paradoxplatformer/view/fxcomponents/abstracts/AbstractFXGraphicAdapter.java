@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.view.fxcomponents.abstracts;
 
-import com.project.paradoxplatformer.Views;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;

@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer;
 import com.project.paradoxplatformer.controller.ControllerImpl;
+import com.project.paradoxplatformer.view.MainApplication;
 
 public class HelloApplication{
 

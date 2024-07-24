@@ -4,13 +4,8 @@ import java.net.URL;
 import java.util.EnumMap;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.ResourceBundle;
 
-import javax.crypto.spec.SecretKeySpec;
-
-import com.project.paradoxplatformer.controller.Controller;
-import com.project.paradoxplatformer.controller.ControllerImpl;
 import com.project.paradoxplatformer.controller.deserialization.DeserializerFactory;
 import com.project.paradoxplatformer.controller.deserialization.DeserializerFactoryImpl;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
@@ -28,7 +23,6 @@ import com.project.paradoxplatformer.model.inputmodel.InputMovesFactoryImpl;
 import com.project.paradoxplatformer.model.inputmodel.InputModel;
 import com.project.paradoxplatformer.model.world.GameModelData;
 import com.project.paradoxplatformer.model.world.PlatfromModelData;
-import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -42,16 +36,11 @@ import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.effect.GaussianBlur;
-import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.application.*;
 
 import java.util.Map;
@@ -79,13 +68,11 @@ public class HelloController implements Initializable, Page<String>{
         pausePane.setVisible(false);
         pausePane.prefHeightProperty().bind(gamePane.heightProperty());
         pausePane.prefWidthProperty().bind(gamePane.widthProperty().multiply(.3));
+        
     }
 
     protected void test() {    
         f.getWorld().obstacles().forEach(ob -> ob.effect(Optional.of(f.getWorld().player())));
-        // A im = new A(new Dimension(10, 10), new Coord2D(0, 0), "player.png");
-        // im.deliver();
-        
     }
 
     @Override
@@ -113,7 +100,7 @@ public class HelloController implements Initializable, Page<String>{
         g.setKeyReleased();
         
         InputMovesFactory imfactory = new InputMovesFactoryImpl(); 
-        InputController<ControllableObject> ic = new InputController<>(imfactory.advancedModel(), g.getKeyAssetter().get());
+        InputController<ControllableObject> ic = new InputController<>(imfactory.advancedModel());
         GraphicContainer<Node> pause = new FXContainerAdapter(pausePane);
         
         
@@ -153,18 +140,18 @@ public class HelloController implements Initializable, Page<String>{
         // gamePane.setEffect(null);
         //         // l.start();
         //         // pausePane.setVisible(false);
-        InputController<LoopManager> ig = new InputController<>(w, g.getKeyAssetter().get());
+        InputController<LoopManager> ig = new InputController<>(w);
         
         // final Controller cont = new ControllerImpl(gc, ic, f);
         TaskLoopFactory gFactory = new GameLoopFactoryImpl(dt -> {
-            ic.inject(f.getWorld().player(), ControllableObject::stop);
+            ic.cyclePool(g.getKeyAssetter(), f.getWorld().player(), ControllableObject::stop);
             gc.update(dt);
             //cont.updateTimer();
         });
 
         loopManager = gFactory.animationLoop();
 
-        TaskLoopFactory kk = new GameLoopFactoryImpl(dt -> ig.inject(this.loopManager, o -> {}));
+        TaskLoopFactory kk = new GameLoopFactoryImpl(dt -> ig.cyclePool(g.getKeyAssetter(), this.loopManager, o -> {}));
         kk.animationLoop().start();
 
         Observer lo = new Observer() {
@@ -180,31 +167,6 @@ public class HelloController implements Initializable, Page<String>{
 
         };
         loopManager.addObserver(lo);
-
-        // SecureWrapper<String> j = SecureWrapper.of("Damn");
-        // j.secure(new Random(1234));
-        
-        // j.release(new Random(12345));
-        // System.out.println(j.get());
-        
-        // Thread tr = new Thread(() -> {
-        //     while(true) {
-        //         var r = System.currentTimeMillis();
-        //         // ic.inject(f);
-        //         var min_frame_waiting = 1000 / 40;
-        //         var residuo = System.currentTimeMillis() - r;
-        //         gc.update(min_frame_waiting + residuo);
-        //         residuo = System.currentTimeMillis() - r;
-        //         try {
-        //             Thread.sleep(min_frame_waiting - residuo);
-        //         } catch (InterruptedException e) {
-        //             // TODO Auto-generated catch block
-        //             e.printStackTrace();
-        //         }
-        //     }
-        // });
-        // tr.start();
-        
         loopManager.start();
     }
 }

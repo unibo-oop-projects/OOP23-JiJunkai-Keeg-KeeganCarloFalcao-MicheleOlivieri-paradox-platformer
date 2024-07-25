@@ -10,7 +10,6 @@ import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.controller.games.GameControllerImpl;
 import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.controller.input.InputController;
-import com.project.paradoxplatformer.controller.input.api.KeyAssetter;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.inputmodel.InputMovesFactoryImpl;
 import com.project.paradoxplatformer.model.world.GameModelData;

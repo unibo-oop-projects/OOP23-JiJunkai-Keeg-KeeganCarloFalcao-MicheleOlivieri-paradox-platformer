@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.fxcomponents.abstracts;
+package com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts;
 
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -10,7 +10,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.Node;
 
-public abstract class AbstractFXGraphicAdapter implements GraphicAdapter{
+public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
 
     protected final Node uiComponent;
     protected final Dimension dimension;

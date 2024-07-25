@@ -4,11 +4,9 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.renders.ViewComponent;
 
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ObservableDoubleValue;
-import javafx.scene.Node;
 
-public interface GraphicAdapter extends ViewComponent<Node> {
+public interface GraphicAdapter<C> extends ViewComponent<C> {
 
     Dimension dimension();
 

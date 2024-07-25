@@ -14,13 +14,6 @@ public class ResourcesFinder{
         "hello-view.fxml"
     );
 
-    private static final List<String> imagesStreams = List.of(
-        
-    );
-
-    private static final String EXTENSION = ".png"; 
-    private static final String IMAGE_DIR = "images/";
-
     public static List<URL> FXMLfiles() throws InvalidResourceException{
         
         return fxmlFiles.stream().map(t -> {

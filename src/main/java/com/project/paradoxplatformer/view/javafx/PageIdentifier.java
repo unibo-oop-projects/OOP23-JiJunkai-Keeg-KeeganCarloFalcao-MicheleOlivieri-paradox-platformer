@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view;
+package com.project.paradoxplatformer.view.javafx;
 
 public enum PageIdentifier {
     MENU,

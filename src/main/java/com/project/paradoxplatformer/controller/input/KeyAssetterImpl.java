@@ -8,14 +8,15 @@ import com.project.paradoxplatformer.controller.input.api.KeyAssetter;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 
 public class KeyAssetterImpl<K> implements KeyAssetter<K>{
 
-    private final Set<InputType> pool;
+    private final Set<Optional<InputType>> pool;
     private InputTranslator<K> translator;
 
     public KeyAssetterImpl(InputTranslator<K> translator) {
-        this.pool = new HashSet<InputType>();
+        this.pool = new HashSet<Optional<InputType>>();
         this.translator = translator;
     }
 
@@ -23,7 +24,7 @@ public class KeyAssetterImpl<K> implements KeyAssetter<K>{
         this.pool = new HashSet<>(copy.getUnmodifiablePool());
     }
 
-    public Set<InputType> getUnmodifiablePool() {
+    public Set<Optional<InputType>> getUnmodifiablePool() {
         return Collections.unmodifiableSet(pool);
     }
 

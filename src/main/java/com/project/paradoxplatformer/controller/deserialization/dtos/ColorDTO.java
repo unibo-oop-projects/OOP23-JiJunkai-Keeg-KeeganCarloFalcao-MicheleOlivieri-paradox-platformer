@@ -1,11 +1,11 @@
 package com.project.paradoxplatformer.controller.deserialization.dtos;
 
-public class ColorDTO {
+public final class ColorDTO {
     
-    private int red;
-    private int green;
-    private int blu;
-    private double alpha;
+    private final int red;
+    private final int green;
+    private final int blu;
+    private final double alpha;
 
     public ColorDTO(int red, int green, int blu, double alfa) {
         this.red = red;
@@ -14,7 +14,12 @@ public class ColorDTO {
         this.alpha = alfa;
     }
 
-    public ColorDTO() {}
+    public ColorDTO() {
+        this.red = 0;
+        this.green = 0;
+        this.blu = 0;
+        this.alpha = 0;
+    }
 
     public int getRed() {
         return red;

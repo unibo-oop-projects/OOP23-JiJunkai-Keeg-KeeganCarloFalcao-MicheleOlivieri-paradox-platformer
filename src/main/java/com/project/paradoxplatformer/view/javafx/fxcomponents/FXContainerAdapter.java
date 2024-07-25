@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.fxcomponents;
+ package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
 import com.project.paradoxplatformer.controller.input.KeyAssetterImpl;
 import com.project.paradoxplatformer.controller.input.api.InputTranslator;
@@ -18,9 +18,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
-public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslator<KeyCode>{
+public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, InputTranslator<KeyCode>{
 
     private final SecureWrapper<Pane> uiContainer;
     private final KeyAssetter<KeyCode> keyAssetter;
@@ -33,7 +34,6 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
 
     @Override
     public boolean render(final ViewComponent<Node> component){
-        
         return uiContainer.get().getChildren().add(component.unwrap());
     }
 
@@ -49,16 +49,6 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
 
     @Override
     public void setKeyPressed() {
-        if(this.isActive) {
-            this.uiContainer.get().addEventFilter(
-                KeyEvent.KEY_PRESSED, 
-                e -> this.decoupleAction(e.getCode(), this.keyAssetter::add)
-            );
-        }
-    }
-
-    @Override
-    public void setKeyTyped() {
         this.manageKeyEvent(KeyEvent.KEY_PRESSED, this.keyAssetter::add);
     }
 
@@ -67,7 +57,6 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
         this.manageKeyEvent(KeyEvent.KEY_RELEASED, this.keyAssetter::remove);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public KeyAssetter<KeyCode> getKeyAssetter() {
         return new KeyAssetterImpl<>(this.keyAssetter);
@@ -80,7 +69,7 @@ public class FXContainerAdapter implements GraphicContainer<Node>, InputTranslat
     }
 
     @Override
-    public InputType translate(KeyCode k) {
+    public Optional<InputType> translate(KeyCode k) {
         return InputType.getString(k.name());
     }
 

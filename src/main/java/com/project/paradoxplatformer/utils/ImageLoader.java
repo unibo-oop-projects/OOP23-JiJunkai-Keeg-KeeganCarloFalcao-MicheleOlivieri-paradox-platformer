@@ -7,12 +7,11 @@ import javafx.scene.image.Image;
 
 public class ImageLoader {
 
-    public ImageLoader() {
+    private ImageLoader() {
         throw new UnsupportedOperationException("Image loader cannot be initialized");
     }
 
     public static Image FXImage(final String imagePath) throws InvalidResourceException{
-        
         return new Image(ResourcesFinder.getURL(imagePath).toExternalForm());
     }
 

@@ -5,16 +5,15 @@ import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 
-import java.io.IOException;
 import java.util.Set;
 
-public interface GameView {
-    
+public interface GameView<C> {
+
     void init() throws InvalidResourceException;
 
-    Set<GraphicAdapter> getControls();
+    Set<GraphicAdapter<C>> getUnmodifiableControls();
 
     Dimension dimension();
 
-    void updateEnitityState(MutableObject m, GraphicAdapter g);
+    void updateEnitityState(MutableObject m, GraphicAdapter<C> g);
 }

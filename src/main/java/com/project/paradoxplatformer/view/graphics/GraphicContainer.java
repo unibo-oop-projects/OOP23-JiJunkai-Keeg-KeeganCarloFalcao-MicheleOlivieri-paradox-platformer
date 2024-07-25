@@ -6,7 +6,7 @@ import com.project.paradoxplatformer.view.renders.ViewComponent;
 
 import javafx.beans.value.ObservableDoubleValue;
 
-public interface GraphicContainer<T> extends KeyInputer{
+public interface GraphicContainer<T, K> extends KeyInputer<K>{
 
     Dimension dimension();
 

@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.fxcomponents;
+package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
 import java.util.Optional;
 import java.io.File;
@@ -9,10 +9,10 @@ import com.project.paradoxplatformer.utils.ImageLoader;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteAnimator;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
 import com.project.paradoxplatformer.view.graphics.sprites.Spriteable;
+import com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;

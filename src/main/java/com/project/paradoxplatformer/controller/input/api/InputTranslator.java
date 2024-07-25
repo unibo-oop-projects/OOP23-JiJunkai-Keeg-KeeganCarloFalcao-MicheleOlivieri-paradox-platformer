@@ -1,6 +1,8 @@
 package com.project.paradoxplatformer.controller.input.api;
 
+import java.util.Optional;
+
 @FunctionalInterface
 public interface InputTranslator<T> {
-    InputType translate(T t);
+    Optional<InputType> translate(T t);
 }

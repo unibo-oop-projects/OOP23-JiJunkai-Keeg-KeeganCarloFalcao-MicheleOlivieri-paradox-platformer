@@ -1,8 +1,8 @@
 package com.project.paradoxplatformer.controller.input.api;
 
-public interface KeyInputer {
+public interface KeyInputer<K> {
 
-    <K> KeyAssetter<K> getKeyAssetter();
+    KeyAssetter<K> getKeyAssetter();
 
     //Useful for fx as it needs to request the focus
     void activateKeyInput(final Runnable activateInput);
@@ -10,6 +10,4 @@ public interface KeyInputer {
     void setKeyPressed();
 
     void setKeyReleased();
-
-    void setKeyTyped();
 }

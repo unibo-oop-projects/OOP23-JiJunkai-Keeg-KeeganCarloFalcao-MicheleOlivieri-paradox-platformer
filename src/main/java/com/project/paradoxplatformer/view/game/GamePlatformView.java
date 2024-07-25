@@ -2,10 +2,13 @@ package com.project.paradoxplatformer.view.game;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
@@ -15,53 +18,57 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.orientations.GraphicOffsetCorrector;
 import com.project.paradoxplatformer.utils.geometries.orientations.OffsetCorrector;
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactory;
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
-import com.project.paradoxplatformer.view.fxcomponents.FXImageAdapter;
-import com.project.paradoxplatformer.view.fxcomponents.FXViewMappingFactoryImpl;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
+import com.project.paradoxplatformer.view.javafx.fxcomponents.FXImageAdapter;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.scene.Node;
 
 import java.util.Objects;
 import java.util.Optional;
 
 import java.util.LinkedList;
 
-public class GamePlatformView implements GameView {
+public final class GamePlatformView<C, K> implements GameView<C> {
 
     private final LevelDTO packedData;
-    private final SecureWrapper<GraphicContainer<Node>> container;
-    private Set<GraphicAdapter> listComponents;
-    private final ViewMappingFactory viewMappingFactory;
+    private final SecureWrapper<GraphicContainer<C, K>> container;
+    private Set<GraphicAdapter<C>> setComponents;
+    private final ViewMappingFactory<C> viewMappingFactory;
     private OffsetCorrector offsetCorrector;
     private boolean isFlipped;
 
-    public GamePlatformView(final LevelDTO packedData, GraphicContainer<Node> g) {
+    public GamePlatformView(
+        final LevelDTO packedData,
+        final GraphicContainer<C, K> g,
+        final ViewMappingFactory<C> factory
+    ) 
+    {
         this.packedData = packedData;
-        this.viewMappingFactory = new FXViewMappingFactoryImpl();
-        this.container = SecureWrapper.of(g);
+        this.viewMappingFactory = factory;
+        this.container = SecureWrapper.of(g);//TO FIX
         this.offsetCorrector = null;
+        this.setComponents = new HashSet<>();
+        this.isFlipped = false;
     }
 
     @Override
     public void init() throws InvalidResourceException {
-        
-        
         //NEED TO FIX, MAKE A BINDING OR SOME
         //CANT CHANGE CONTAINER DIMENSION HERE
-        var f = container.get();
-        f.setDimension(this.packedData.getWidth(),this.packedData.getHeight());
+        //CHECK::DONE
+        final var gContainer = container.get();
+        final Pair<DoubleProperty, DoubleProperty> dimScalingPropeties = this.initializePropreties(gContainer);
+        gContainer.setDimension(this.packedData.getWidth(),this.packedData.getHeight());
         
-        this.listComponents = new LinkedList<>(List.of(
+        this.setComponents = new LinkedList<>(List.of(
                 this.forkGraphic(g -> Objects.nonNull(g.getImage()), this.viewMappingFactory.imageToView()),
                 this.forkGraphic(g -> Objects.nonNull(g.getColor()), this.viewMappingFactory.blockToView())
             ))
@@ -69,17 +76,14 @@ public class GamePlatformView implements GameView {
             .flatMap(Set::stream)
             .collect(Collectors.toSet());
 
-        //make a method
-        final DoubleProperty l = new SimpleDoubleProperty();
-        l.bind(container.get().widthProperty());
-        
-        final DoubleProperty l1 = new SimpleDoubleProperty();
-        l1.bind(container.get().heightProperty());
         
         
-        this.listComponents.stream()
+        this.setComponents.stream()
             .filter(this.container.get()::render)
-            .forEach(o -> o.bindPropreties(l.divide(this.packedData.getWidth()), l1.divide(this.packedData.getHeight())));
+            .forEach(o -> o.bindPropreties(
+                dimScalingPropeties.getKey().divide(this.packedData.getWidth()),
+                dimScalingPropeties.getValue().divide(this.packedData.getHeight()))
+            );
         
         final OffsetFactory factory = new OffsetFactoryImpl(this.dimension());
         this.offsetCorrector = new GraphicOffsetCorrector(
@@ -89,18 +93,9 @@ public class GamePlatformView implements GameView {
         );
     }
 
-    private Set<GraphicAdapter> forkGraphic(final Predicate<GameDTO> objectsRendersPred, final EntityDataMapper<GraphicAdapter> dtoToGraphic) {
-        return Arrays.stream(this.packedData.getGameDTOs())
-            .filter(objectsRendersPred)
-            .map(dtoToGraphic::map)
-            //FIX DUPLICATE KEYYS
-            .collect(Collectors.toUnmodifiableSet());
-    }
-
     @Override
-    public Set<GraphicAdapter> getControls() {
-        return Optional.of(this.listComponents)
-            .filter(Objects::nonNull)
+    public Set<GraphicAdapter<C>> getUnmodifiableControls() {
+        return Optional.ofNullable(Collections.unmodifiableSet(this.setComponents))
             .orElse(Collections.emptySet());
     }
 
@@ -110,29 +105,43 @@ public class GamePlatformView implements GameView {
     }
 
     @Override
-    public void updateEnitityState(MutableObject m, GraphicAdapter g) {
+    public void updateEnitityState(MutableObject mutEntity, GraphicAdapter<C> graphicCompo) {
 
-        final Coord2D c = offsetCorrector.correct(g.dimension(), m.getPosition());
-                        
+        final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());
+        graphicCompo.setPosition(c.x(), c.y());
+        graphicCompo.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
         
-        g.setPosition(c.x(), c.y());
-    
-        g.setDimension(m.getDimension().width(), m.getDimension().height());
-        
-        if(m instanceof PlayerModel pl) {
+        if(mutEntity instanceof PlayerModel pl) {
             //JUST FOR TESTING, MUST DO BETTER
             if(pl.getSp().x() < 0 && !this.isFlipped) {
-                g.flip();
+                graphicCompo.flip();
                 this.isFlipped = true;
             } else if(pl.getSp().x() > 0 && this.isFlipped) {
-                g.flip();
+                graphicCompo.flip();
                 this.isFlipped = false;
             }
-            if(g instanceof FXImageAdapter gr) { 
-                gr.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
+            if(graphicCompo instanceof FXImageAdapter spriAdapter) { 
+                spriAdapter.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
                 
             }
         }
+    }
+
+    private Pair<DoubleProperty, DoubleProperty> initializePropreties(final GraphicContainer<C, K> gContainer) {
+        final DoubleProperty widthBinding = new SimpleDoubleProperty();
+        final DoubleProperty heightBinding = new SimpleDoubleProperty();
+
+        widthBinding.bind(gContainer.widthProperty());
+        heightBinding.bind(gContainer.heightProperty());
+        return Pair.of(widthBinding, heightBinding);
+    }
+
+    private Set<GraphicAdapter<C>> forkGraphic(final Predicate<GameDTO> objectsRendersPred, final EntityDataMapper<GraphicAdapter<C>> dtoToGraphic) {
+        return Arrays.stream(this.packedData.getGameDTOs())
+            .filter(objectsRendersPred)
+            .map(dtoToGraphic::map)
+            //FIX DUPLICATE KEYYS
+            .collect(Collectors.toUnmodifiableSet());
     }
     
 }

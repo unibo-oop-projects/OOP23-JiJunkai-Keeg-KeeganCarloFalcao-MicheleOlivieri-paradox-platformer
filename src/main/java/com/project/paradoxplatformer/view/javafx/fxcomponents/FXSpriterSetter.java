@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.fxcomponents;
+package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
 import java.util.List;
 import java.util.Optional;

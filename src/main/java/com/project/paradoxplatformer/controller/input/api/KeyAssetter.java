@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.controller.input.api;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -25,5 +26,5 @@ public interface KeyAssetter<K> {
      * @return unmodifiable because caller cannot modify, it is mangaged upon this interface.
      * So to make class immutable, implementation needs to create a defensive copy
      */
-    public Set<InputType> getUnmodifiablePool();
+    public Set<Optional<InputType>> getUnmodifiablePool();
 }

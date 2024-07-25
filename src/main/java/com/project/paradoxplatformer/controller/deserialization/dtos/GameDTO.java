@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.controller.deserialization.dtos;
 
 
-public class GameDTO {
+public final class GameDTO {
 
     private String type;
     private int x;

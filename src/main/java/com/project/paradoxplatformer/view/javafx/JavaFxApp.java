@@ -1,87 +1,90 @@
-package com.project.paradoxplatformer.view;
+package com.project.paradoxplatformer.view.javafx;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
-
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.project.paradoxplatformer.controller.ExceptionUtils;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.view.Page;
+import com.project.paradoxplatformer.view.PageIdentifier;
+import com.project.paradoxplatformer.view.ViewManager;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
-public class MainApplication extends Application implements ViewManager{
+public class JavaFxApp extends Application implements ViewManager{
 
     private static Scene scene;
     private static Stage stage;
-    private static List<Pair<Parent, Page<String>>> roots;
+    private static FXMLHelper helper;
     private boolean created;
+    private String title;
     private static CountDownLatch latch;
     private static final double ASPECT_RATIO = 16 / 9.d;
 
-    public MainApplication() {
+    public JavaFxApp() {
         this.created = true;
+        this.title = "";
     }
     
     @Override
-    public synchronized void start(Stage primeStage) throws Exception {
+    public void start(Stage primeStage) throws IOException {
         if(!created) {
             throw new IllegalStateException("Cannot create application, Security reasons");
         }
         stage = primeStage;
-        stage.setOnCloseRequest(e -> this.close());
+        stage.setOnCloseRequest(e -> this.exit());
         //COuld be done dynamically hwen pages are called, loads slower
         try {
-            roots = this.loadFXML();
-        } catch(RuntimeException ex) {
-            this.displayError(ex.getMessage());
-            latch.countDown();
+            helper = new FXMLHelper();
+        } catch(InvalidResourceException | RuntimeException ex) {
+            this.displayError(ExceptionUtils.advacendDisplay(ex));
             this.safeError();
         }
-        setScene("Paradox Platformer");
+        stage.setTitle(this.title);
+        this.setInitialScene();
         stage.show();
-        latch.countDown();
+        Optional.ofNullable(latch).ifPresent(CountDownLatch::countDown);
         
     }
 
     @Override
-    public void create() {
-        MainApplication.launch();
+    public void create(final String title) {
+        JavaFxApp.launch();
     }
 
     //CAN PASS ONLY REF SO FB SHUT
     @Override
-    public void create(final CountDownLatch referedLatch) {
+    public void create(final CountDownLatch referedLatch, final String title) {
         latch = referedLatch;
-        this.create();
+        this.create(title);
     }
 
     @Override
     public Page<String> switchPage(PageIdentifier id) {
         if(Platform.isFxApplicationThread()) {
-            var entry = this.getParents(id.ordinal());
-            scene.setRoot(entry.getKey());
-            // stage.setScene(new Scene(entry.getKey()));
+            var entry = helper.mapper().apply(id);
+            entry.map(Pair::getKey).ifPresentOrElse(scene::setRoot, () -> scene.setRoot(new StackPane(new Label("BLANK PAGE"))));
             stage.sizeToScene();
-            return entry.getValue();
+            return entry.map(Pair::getValue).orElse(Page.defaultPage());
         }
         throw new IllegalStateException("Not in FX Thread");
         
@@ -113,17 +116,13 @@ public class MainApplication extends Application implements ViewManager{
     public void closeWithMessage(String header, String closingContent) {
         final Alert alert = new Alert(AlertType.NONE);
         this.setAndShowAlert(alert, AlertType.CONFIRMATION, "CLOSING", header, closingContent);
-        this.runOnAppThread(() -> alert.showAndWait().ifPresent(b -> this.exit()));
-    }
-
-    @Override
-    public void close() {
-        stage.close();
+        alert.showAndWait().ifPresent(b -> this.exit());
     }
 
     @Override
     public void safeError() {
         this.exit();
+        System.exit(-1);
     }
 
     @Override
@@ -136,44 +135,18 @@ public class MainApplication extends Application implements ViewManager{
         Platform.runLater(runner);
     }
 
-    private void setScene(String title) {
+    private void setInitialScene() {
         var primaryScreenBounds = Screen.getPrimary().getBounds();
         var dim = new Dimension(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
         System.out.println(dim);
         final double resoultion = 360;
-        scene = new Scene(new Pane(), resoultion*ASPECT_RATIO, resoultion, Color.rgb(237, 152, 112));
+        scene = new Scene(new Pane(new Label("LOADING...")), resoultion*ASPECT_RATIO, resoultion, Color.TURQUOISE);
         stage.sizeToScene();
         stage.setScene(scene); 
         
     }
 
-    //TODO REIMPLEMENT
-    private Pair<Parent, Page<String>> getParents(int id) {
-        return Optional.of(id).filter(i -> i < roots.size() && i >= 0 && !roots.isEmpty())
-            .map(roots::get)
-            .orElseThrow(IllegalArgumentException::new);
-    }
-
-    private List<Pair<Parent, Page<String>>> loadFXML() throws InvalidResourceException{
-        return ResourcesFinder.FXMLfiles().stream()
-            .map(FXMLLoader::new)
-            .map(this::loadInput).toList();
-    }
-
-    private Pair<Parent, Page<String>> loadInput(FXMLLoader loader) {
-        try  {
-            Parent parent = loader.load();
-            Page<String> controller = loader.getController();
-            
-            return Pair.of(parent, controller);
-        } catch (IOException e) {
-            this.displayError("IO exception error: " + e.getMessage());   
-            System.exit(-1);
-        } 
-        return null;
-    }
-
-    private void setDialoContent(String content, DialogPane p) {
+    private void setDialoContent(final String content, final DialogPane p) {
         p.getChildren().stream()
             .filter(VBox.class::isInstance)
             .map(VBox.class::cast)
@@ -185,7 +158,13 @@ public class MainApplication extends Application implements ViewManager{
             .ifPresent(l -> l.setText(content));
     }
 
-    private void setAndShowAlert(Alert alert, AlertType alertType, String title, String header, String content) {
+    private void setAndShowAlert(
+        final Alert alert,
+        final AlertType alertType,
+        final String title,
+        final String header, 
+        final String content
+    ) {
         alert.setAlertType(alertType);
         alert.setTitle(title);
         alert.setHeaderText(header);

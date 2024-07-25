@@ -1,12 +1,12 @@
-package com.project.paradoxplatformer.view.fxcomponents;
+package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
 import java.util.Optional;
 
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.Actionable;
+import com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.control.Button;

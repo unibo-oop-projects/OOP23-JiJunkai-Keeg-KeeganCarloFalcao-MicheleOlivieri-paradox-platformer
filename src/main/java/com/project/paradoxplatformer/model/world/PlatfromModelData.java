@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
+import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactory;
 import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactoryImpl;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;

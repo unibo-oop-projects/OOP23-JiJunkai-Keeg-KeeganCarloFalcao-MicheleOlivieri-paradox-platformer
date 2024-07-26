@@ -12,7 +12,7 @@ import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
-public class FXButtonAdapter extends AbstractFXGraphicAdapter implements Actionable{
+public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements Actionable{
 
     private final SecureWrapper<Button> buttonCompo;
 
@@ -21,6 +21,7 @@ public class FXButtonAdapter extends AbstractFXGraphicAdapter implements Actiona
         if (this.uiComponent instanceof Button buttonCopy) {
             this.buttonCompo = SecureWrapper.of(buttonCopy);
             this.buttonCompo.get().setText(text);
+
         } else {
             throw new IllegalArgumentException("Require button javafx class");
         }
@@ -33,7 +34,7 @@ public class FXButtonAdapter extends AbstractFXGraphicAdapter implements Actiona
         this.buttonCompo.get().setPrefWidth(width);
     }
 
-    protected Optional<Color> color() {
+    public Optional<Color> color() {
         return Optional.of(this.buttonCompo.get().getTextFill())
             .filter(Color.class::isInstance)
             .map(Color.class::cast);

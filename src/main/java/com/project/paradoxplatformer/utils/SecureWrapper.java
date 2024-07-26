@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Random;
 
 
-public class SecureWrapper<T>{
+public final class SecureWrapper<T>{
 
     private final T value;
     private boolean isLocked;

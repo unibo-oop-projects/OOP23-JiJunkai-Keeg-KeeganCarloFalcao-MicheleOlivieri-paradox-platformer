@@ -5,7 +5,7 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.inputmodel.commands.Command;
 
 
-public class CommandActionFactoryImpl implements CommandActionFactory{
+public final class CommandActionFactoryImpl implements CommandActionFactory{
 
     public CommandActionFactoryImpl() {}
     

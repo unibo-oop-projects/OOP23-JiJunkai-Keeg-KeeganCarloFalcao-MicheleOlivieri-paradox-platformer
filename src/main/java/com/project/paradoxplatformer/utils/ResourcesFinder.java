@@ -8,7 +8,7 @@ import java.util.Optional;
 
 import com.project.paradoxplatformer.HelloApplication;
 
-public class ResourcesFinder{
+public final class ResourcesFinder{
 
     private static final List<String> fxmlFiles = List.of(
         "hello-view.fxml"

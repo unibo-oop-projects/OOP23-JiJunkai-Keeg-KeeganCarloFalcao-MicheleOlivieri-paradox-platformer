@@ -10,7 +10,7 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class Platform extends AbstractObstacle{
+public final class Platform extends AbstractObstacle{
 
     public Platform(Coord2D position, Dimension dimension, Queue<TrajectoryInfo> trajStats) {
         super(position, dimension, trajStats);

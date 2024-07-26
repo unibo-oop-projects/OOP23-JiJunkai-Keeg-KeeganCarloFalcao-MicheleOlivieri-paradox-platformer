@@ -42,16 +42,6 @@ public class SwingContainerAdapter implements GraphicContainer<JComponent, KeyEv
     }
 
     @Override
-    public void setKeyPressed() {
-        throw new UnsupportedOperationException("Unimplemented method 'getKeyAssetter'");
-    }
-
-    @Override
-    public void setKeyReleased() {
-        throw new UnsupportedOperationException("Unimplemented method 'getKeyAssetter'");
-    }
-
-    @Override
     public Optional<InputType> translate(KeyEvent t) {
         return InputType.getString(KeyEvent.getKeyText(t.getKeyCode()).split("VK_")[1]);
     }

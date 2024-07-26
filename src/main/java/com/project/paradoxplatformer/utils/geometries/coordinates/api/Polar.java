@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.utils.geometries.coordinates.api;
 
-public class Polar {
+public final class Polar {
 
     private double angle;
 

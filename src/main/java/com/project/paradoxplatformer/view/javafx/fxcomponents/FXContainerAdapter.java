@@ -48,16 +48,6 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
     }
 
     @Override
-    public void setKeyPressed() {
-        this.manageKeyEvent(KeyEvent.KEY_PRESSED, this.keyAssetter::add);
-    }
-
-    @Override
-    public void setKeyReleased() {
-        this.manageKeyEvent(KeyEvent.KEY_RELEASED, this.keyAssetter::remove);
-    }
-
-    @Override
     public KeyAssetter<KeyCode> getKeyAssetter() {
         return new KeyAssetterImpl<>(this.keyAssetter);
     }
@@ -66,6 +56,8 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
     public void activateKeyInput(Runnable activateInput) {
         activateInput.run();
         this.isActive = true;
+        this.manageKeyEvent(KeyEvent.KEY_PRESSED, this.keyAssetter::add);
+        this.manageKeyEvent(KeyEvent.KEY_RELEASED, this.keyAssetter::remove);
     }
 
     @Override

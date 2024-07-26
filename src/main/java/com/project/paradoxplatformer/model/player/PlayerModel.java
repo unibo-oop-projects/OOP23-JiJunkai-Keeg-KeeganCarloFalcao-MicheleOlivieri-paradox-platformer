@@ -13,7 +13,7 @@ import com.project.paradoxplatformer.utils.geometries.modifiers.api.Physics;
 import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class PlayerModel extends AbstractControllableObject implements MutableObject {
+public final class PlayerModel extends AbstractControllableObject implements MutableObject {
 
     private Point position;
     private Dimension dimension;

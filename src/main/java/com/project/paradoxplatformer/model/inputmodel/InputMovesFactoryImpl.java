@@ -13,7 +13,7 @@ import com.project.paradoxplatformer.model.inputmodel.commands.actions.CommandAc
 
 
 
-public class InputMovesFactoryImpl implements InputMovesFactory {
+public final class InputMovesFactoryImpl implements InputMovesFactory {
 
     private final CommandActionFactory cmdFactory;
     private final Map<Command<ControllableObject>, Command<ControllableObject>> oppositeMap;

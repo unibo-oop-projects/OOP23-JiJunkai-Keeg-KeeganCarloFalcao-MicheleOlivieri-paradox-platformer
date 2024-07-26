@@ -19,7 +19,7 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 import static java.util.function.Predicate.not;
 
-public class PlatfromModelData implements GameModelData {
+public  final class PlatfromModelData implements GameModelData {
 
     private final LevelDTO packedData;
     private final WorldBuilder worldBuilder;

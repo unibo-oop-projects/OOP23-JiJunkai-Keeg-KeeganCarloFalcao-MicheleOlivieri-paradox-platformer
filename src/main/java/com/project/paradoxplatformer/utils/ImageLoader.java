@@ -5,7 +5,7 @@ import javax.imageio.ImageIO;
 
 import javafx.scene.image.Image;
 
-public class ImageLoader {
+public final class ImageLoader {
 
     private ImageLoader() {
         throw new UnsupportedOperationException("Image loader cannot be initialized");

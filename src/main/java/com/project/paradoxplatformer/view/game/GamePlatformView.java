@@ -60,7 +60,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     }
 
     @Override
-    public void init() throws InvalidResourceException {
+    public void init() {
         //NEED TO FIX, MAKE A BINDING OR SOME
         //CANT CHANGE CONTAINER DIMENSION HERE
         //CHECK::DONE
@@ -68,13 +68,17 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         final Pair<DoubleProperty, DoubleProperty> dimScalingPropeties = this.initializePropreties(gContainer);
         gContainer.setDimension(this.packedData.getWidth(),this.packedData.getHeight());
         
-        this.setComponents = new LinkedList<>(List.of(
-                this.forkGraphic(g -> Objects.nonNull(g.getImage()), this.viewMappingFactory.imageToView()),
-                this.forkGraphic(g -> Objects.nonNull(g.getColor()), this.viewMappingFactory.blockToView())
-            ))
-            .stream()
-            .flatMap(Set::stream)
-            .collect(Collectors.toSet());
+        try {
+            this.setComponents = new LinkedList<>(List.of(
+                    this.forkGraphic(g -> Objects.nonNull(g.getImage()), this.viewMappingFactory.imageToView()),
+                    this.forkGraphic(g -> Objects.nonNull(g.getColor()), this.viewMappingFactory.blockToView())
+                ))
+                .stream()
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+        } catch (InvalidResourceException e) {
+            throw new IllegalStateException(e);
+        }
 
         
         

@@ -10,7 +10,7 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import java.util.List;
 import java.util.ArrayList;
 
-public class WordBuilderImpl implements WorldBuilder {
+public final class WordBuilderImpl implements WorldBuilder {
 
     private final List<Trigger> triggers;
     private final List<Obstacle> obstacles;
@@ -58,7 +58,7 @@ public class WordBuilderImpl implements WorldBuilder {
     public World build() {
         buildCheck();
         this.isBuild = true;
-        return new WorldImpl(obstacles, triggers, player.get(), bounds);
+        return new SimpleLevel(obstacles, triggers, player.get(), bounds);
     }
     
     private void buildCheck() {

@@ -4,13 +4,13 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class GraphicOffsetCorrector implements OffsetCorrector{
+public final class GraphicOffsetCorrector implements OffsetCorrector{
 
     private final Vector2D versor;
     private final BoxOffset<Dimension> box;
     private final Offset layout;
 
-    public GraphicOffsetCorrector(Offset layout, BoxOffset<Dimension> box, Vector2D versor) {
+    public GraphicOffsetCorrector(final Offset layout, final BoxOffset<Dimension> box, final Vector2D versor) {
         this.layout = layout;
         this.box = box;
         this.versor = versor;
@@ -27,5 +27,4 @@ public class GraphicOffsetCorrector implements OffsetCorrector{
             pos.y() * versor.yComponent() + layoutOrigin.y() 
         );
     }
-    
 }

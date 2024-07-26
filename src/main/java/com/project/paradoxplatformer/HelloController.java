@@ -76,15 +76,9 @@ public class HelloController implements Initializable, Page<String> {
         
         
         this.initModelAndView(gameController);
-        this.activateInput(gameGraphContainer);
+        gameGraphContainer.activateKeyInput(() -> Platform.runLater(gamePane::requestFocus));
         System.out.println(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
         gameController.startGame(inputController, gameGraphContainer);
-    }
-
-    private void activateInput(GraphicContainer<Node, KeyCode> gameGraphContainer) {
-        gameGraphContainer.activateKeyInput(() -> Platform.runLater(gamePane::requestFocus));
-        gameGraphContainer.setKeyPressed();
-        gameGraphContainer.setKeyReleased();
     }
 
     private void initModelAndView(GameController<Node> gc) throws InvalidResourceException {

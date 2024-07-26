@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 
-public class KeyAssetterImpl<K> implements KeyAssetter<K>{
+public final class KeyAssetterImpl<K> implements KeyAssetter<K>{
 
     private final Set<Optional<InputType>> pool;
     private InputTranslator<K> translator;

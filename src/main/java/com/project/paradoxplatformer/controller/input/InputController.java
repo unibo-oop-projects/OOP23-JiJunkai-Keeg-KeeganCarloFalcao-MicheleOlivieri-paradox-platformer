@@ -6,9 +6,8 @@ import com.project.paradoxplatformer.controller.input.api.KeyAssetter;
 import com.project.paradoxplatformer.model.inputmodel.InputModel;
 import com.project.paradoxplatformer.model.inputmodel.commands.Command;
 
-public class InputController<T> {
+public final class InputController<T> {
     
-    //NEED TO MAKE FXKEY ASSETTER A FX INDEPENDENT CONCEPT ::DONE::
     private final InputModel<T> inModel;
 
     public InputController(final InputModel<T> inModel) {

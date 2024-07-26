@@ -9,6 +9,11 @@ public enum InputType {
     ESCAPE,
     UNDEFINED, P, R, T, K;
 
+    /**
+     * Utility static method to parse a string to an input type.
+     * @param inputStr
+     * @return
+     */
     public static Optional<InputType> getString(final String inputStr) {
         return Arrays.stream(InputType.values())
             .map(InputType::name)

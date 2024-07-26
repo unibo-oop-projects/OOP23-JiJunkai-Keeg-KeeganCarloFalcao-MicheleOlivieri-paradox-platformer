@@ -9,17 +9,13 @@ import com.project.paradoxplatformer.utils.ResourcesFinder;
 
 public class DeserializerFactoryImpl implements DeserializerFactory {
 
-
     public DeserializerFactoryImpl() {}
 
     private <D> JsonDeserializer<D> genericJackson(final Class<D> clazz){
         return json -> {
-            ObjectMapper mapper = new ObjectMapper();
-            
-            URL jsonURL = ResourcesFinder.getURL(json);
+            final ObjectMapper mapper = new ObjectMapper();
+            final URL jsonURL = ResourcesFinder.getURL(json);
             return mapper.readValue(jsonURL, clazz);
-            
-            
         };
     }
 

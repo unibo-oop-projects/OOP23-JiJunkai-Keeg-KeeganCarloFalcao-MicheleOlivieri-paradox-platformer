@@ -4,16 +4,18 @@ import java.util.Optional;
 
 public final class ExceptionUtils {
 
-    public static String advacendDisplay(Exception ex) {
+    private ExceptionUtils() {}
+
+    public static String advacendDisplay(final Exception ex) {
         return Optional.ofNullable(ex.getCause())
             .map(Throwable::getClass)
             .map(Class::getSimpleName)
-            .orElse(ex.getClass().getSimpleName()) + " \nRaised → " +  
-            Optional.ofNullable(ex.getMessage())
-            .map(m -> 
+            .orElse(ex.getClass().getSimpleName()) + " \nRaised → "
+            + Optional.ofNullable(ex.getMessage())
+            .map(m ->
                 Optional.ofNullable(ex.getCause())
                 .map(Throwable::getMessage)
-                .or(() -> 
+                .or(() ->
                     Optional.ofNullable(ex.getCause())
                         .filter(RuntimeException.class::isInstance)
                         .map(RuntimeException.class::cast)
@@ -24,13 +26,11 @@ public final class ExceptionUtils {
             ).orElse("");
     }
 
-    public static String simpleDisplay(Exception ex) {
+    public static String simpleDisplay(final Exception ex) {
         return ex.getMessage() + "\n";
     }
 
     public static String basicDisplay() {
         return "Error encounterd\n";
     }
-
-
 }

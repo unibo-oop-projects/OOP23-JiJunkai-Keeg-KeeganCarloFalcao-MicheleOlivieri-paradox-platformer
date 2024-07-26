@@ -7,20 +7,23 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Line?>
-
+<?import javafx.scene.shape.Rectangle?>
 
 <StackPane fx:id="pagePane" style="-fx-background-color: transparent;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.paradoxplatformer.HelloController">
    <children>
       <AnchorPane fx:id="gamePane" minWidth="0.0" style="-fx-background-color: transparent;" />
       <VBox fx:id="pausePane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="196.0" spacing="15.0" style="-fx-background-color: black;" stylesheets="@pause.css">
          <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ff9419" height="200.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
             <Label alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Paused" textAlignment="CENTER" textFill="#f2eded">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>
             </Label>
-            <Line endX="50.0" startX="-50.0" stroke="#9b4615">
+            <Line endX="50.0" startX="-50.0">
                <effect>
                   <DropShadow blurType="GAUSSIAN" height="10.0" radius="7.25" spread="0.73">
                      <color>
@@ -28,6 +31,22 @@
                      </color>
                   </DropShadow>
                </effect>
+               <stroke>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="0.4868420958518982" green="0.27486294507980347" blue="0.015777289867401123" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="1.0" green="0.7888117432594299" blue="0.44907405972480774" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </stroke>
             </Line>
          </children>
       </VBox>

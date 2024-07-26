@@ -25,6 +25,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -139,7 +142,11 @@ public class JavaFxApp extends Application implements ViewManager{
         var dim = new Dimension(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
         System.out.println(dim);
         final double resoultion = 360;
-        scene = new Scene(new Pane(new Label("LOADING...")), resoultion*ASPECT_RATIO, resoultion, Color.TURQUOISE);
+        LinearGradient paint = new LinearGradient(
+            0.9762, 0.0, 1.0, 1.0, true, CycleMethod.NO_CYCLE,
+            new Stop(0.0, new Color(1.0, 0.3924, 0.02, 1.0)),
+            new Stop(1.0, new Color(0.6842, 0.4257, 0.038, 1.0)));
+        scene = new Scene(new Pane(new Label("LOADING...")), resoultion*ASPECT_RATIO, resoultion, paint);
         stage.sizeToScene();
         stage.setScene(scene); 
         

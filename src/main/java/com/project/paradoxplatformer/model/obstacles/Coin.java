@@ -8,7 +8,7 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class Coin extends AbstractObstacle{
+public final class Coin extends AbstractObstacle{
 
     protected Coin(Coord2D position, Dimension dimension, Queue<TrajectoryInfo> trajStats) {
         super(position, dimension, trajStats);

@@ -2,18 +2,17 @@ package com.project.paradoxplatformer.controller;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
 import com.project.paradoxplatformer.view.ViewManager;
 import com.project.paradoxplatformer.view.javafx.JavaFxApp;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
-public class SimpleController implements Controller {
+public final class SimpleController implements Controller {
 
-    private static final CountDownLatch latch = new CountDownLatch(1);
+    private final CountDownLatch latch = new CountDownLatch(1);
     private final ViewManager view;
     private final String title;
 
-    public SimpleController(ViewManager vm, final String title) {
+    public SimpleController(final ViewManager vm, final String title) {
         view = vm;
         this.title = title;
     }
@@ -30,9 +29,7 @@ public class SimpleController implements Controller {
         try {
             latch.await();
             System.out.println("Application Started");
-            
-            
-            view.runOnAppThread(() -> this.switchView(PageIdentifier.GAME, "level1.json"));
+            view.runOnAppThread(() -> this.switchView(PageIdentifier.GAME, "level1.json"));// IT MUST BE MENU
         } catch (InterruptedException | IllegalStateException e) {
             System.err.println("\nErrors encounterd within view creation:\n → " + ExceptionUtils.simpleDisplay(e));
             view.safeError();
@@ -40,15 +37,14 @@ public class SimpleController implements Controller {
         
     }
 
-    private void switchView(PageIdentifier id, String param){
-        if(view instanceof JavaFxApp ma) {
+    private void switchView(final PageIdentifier id, final String param) {
+        if (view instanceof JavaFxApp ma) {
             try {
                 ma.switchPage(id).create(param);
-            }catch (Exception ex){
-                view.displayError(ExceptionUtils.advacendDisplay(ex)); 
+            } catch (Exception ex){
+                view.displayError(ExceptionUtils.advacendDisplay(ex));
                 view.safeError();
             }
-        }     
+        }
     }
-    
 }

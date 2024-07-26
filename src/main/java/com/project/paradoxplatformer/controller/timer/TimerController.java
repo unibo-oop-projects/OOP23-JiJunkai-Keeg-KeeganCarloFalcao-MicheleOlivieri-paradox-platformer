@@ -5,7 +5,7 @@ import com.project.paradoxplatformer.model.timer.TimerModel;
 import com.project.paradoxplatformer.model.timer.api.TimeProvider;
 import com.project.paradoxplatformer.view.timer.TimerView;
 
-public class TimerController {
+public  final class TimerController {
     private static TimerController instance;
     private TimerModel model;
     private TimerView view;

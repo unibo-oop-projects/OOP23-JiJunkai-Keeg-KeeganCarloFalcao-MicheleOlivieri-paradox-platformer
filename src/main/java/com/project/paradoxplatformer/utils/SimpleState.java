@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.utils;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class SimpleState implements State<String> {
+public final class SimpleState implements State<String> {
 
     private String initial;
     private Optional<Consumer<String>> action;

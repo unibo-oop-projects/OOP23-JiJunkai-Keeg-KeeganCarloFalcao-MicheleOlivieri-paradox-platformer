@@ -1,7 +1,8 @@
 package com.project.paradoxplatformer.utils.geometries.modifiers;
 
-
-
+/**
+ * 
+ */
 public enum Direction {
     RIGHT(false),
     LEFT(false);

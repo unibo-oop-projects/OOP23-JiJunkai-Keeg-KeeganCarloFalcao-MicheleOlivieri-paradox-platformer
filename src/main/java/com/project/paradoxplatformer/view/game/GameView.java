@@ -1,7 +1,6 @@
 package com.project.paradoxplatformer.view.game;
 
 import com.project.paradoxplatformer.model.entity.MutableObject;
-import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 
@@ -9,7 +8,7 @@ import java.util.Set;
 
 public interface GameView<C> {
 
-    void init() throws InvalidResourceException;
+    void init();
 
     Set<GraphicAdapter<C>> getUnmodifiableControls();
 

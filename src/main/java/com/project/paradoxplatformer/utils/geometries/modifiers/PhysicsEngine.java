@@ -21,7 +21,7 @@ public class PhysicsEngine implements Physics {
     //deltatime is ambigous, dont know whether it needs to be put as contructor paramter or function neccessity
     //move paramaters are getting numerous
     @Override
-    public Pair<Vector2D, Double> moveTo(final Vector2D start, final Vector2D end, final long duration, Interpolator<Vector2D> interpType, long dt) {
+    public Pair<Vector2D, Double> moveTo(Vector2D start, Vector2D end, long duration, Interpolator<Vector2D> interpType, long dt) {
         this.elapseTime += dt;
         double y = elapseTime / (duration*1000.);
         
@@ -31,7 +31,7 @@ public class PhysicsEngine implements Physics {
     }
 
     @Override
-    public Vector2D step(final Vector2D start, final Vector2D end, final Interpolator<Vector2D> interpType, long dt) {
+    public Vector2D step(Vector2D start, Vector2D end, Interpolator<Vector2D> interpType, long dt) {
         return interpType.lerp(start, end, dt / 1000.);
     }
 
@@ -43,7 +43,4 @@ public class PhysicsEngine implements Physics {
         this.elapseTime = 0.d;
         return Polar2DVector.nullVector();
     }
-
-    
-
 }

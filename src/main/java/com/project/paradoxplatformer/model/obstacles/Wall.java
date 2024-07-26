@@ -13,7 +13,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class Wall extends AbstractRigidObstacle{
+public final class Wall extends AbstractRigidObstacle{
 
     public Wall(Coord2D position, Dimension dimension, Queue<TrajectoryInfo> trajStats) {
         super(position, dimension, trajStats);

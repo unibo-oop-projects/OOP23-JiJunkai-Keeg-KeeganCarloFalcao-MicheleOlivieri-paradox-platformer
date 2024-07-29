@@ -1,7 +1,6 @@
 package com.project.paradoxplatformer.view.swing;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import java.awt.Color;
 
 import com.project.paradoxplatformer.utils.geometries.Dimension;

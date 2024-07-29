@@ -5,7 +5,6 @@ import java.awt.event.KeyListener;
 import java.util.Optional;
 
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.project.paradoxplatformer.controller.input.KeyAssetterImpl;

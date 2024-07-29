@@ -21,8 +21,7 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
         this.uiComponent = component;   
         this.dimension = dimension;
         this.xProperty = new SimpleDoubleProperty(relativePos.x());
-        this.yProperty = new SimpleDoubleProperty(relativePos.y());
-        
+        this.yProperty = new SimpleDoubleProperty(relativePos.y()); 
     }
 
 

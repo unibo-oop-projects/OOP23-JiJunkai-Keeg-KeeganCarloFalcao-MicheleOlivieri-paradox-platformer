@@ -9,7 +9,7 @@ import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 
 import javafx.scene.Node;
 
-public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node>{
+public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
 
     public FXViewMappingFactoryImpl() {}
 

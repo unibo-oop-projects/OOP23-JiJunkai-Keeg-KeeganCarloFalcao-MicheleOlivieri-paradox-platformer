@@ -2,10 +2,11 @@ package com.project.paradoxplatformer.controller.input.api;
 
 /**
  * Key Inputer serves as a bridge from GraphicContainer to the InputController.
- * <p> NOTE: It is strongly suggested to bridge suche interface to Panels, aka components containers, which are able to listen key input
+ * <p> NOTE: It is strongly suggested to bridge suche interface to Panels, aka components containers, 
+ * which are able to listen key input
  * In such case, it has the responsabilty to capture any key events, which is safer rather than a component
  * 
- * @param K type of view key
+ * @param <K> type of view key
  */
 public interface KeyInputer<K> {
 

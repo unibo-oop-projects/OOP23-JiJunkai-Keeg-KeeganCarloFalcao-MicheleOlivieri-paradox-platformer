@@ -3,6 +3,9 @@ package com.project.paradoxplatformer.controller.input.api;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * Utility static method to parse a string to an input type.
+ */
 public enum InputType {
     LEFT, RIGHT, UP,
     A, D, W,
@@ -11,8 +14,8 @@ public enum InputType {
 
     /**
      * Utility static method to parse a string to an input type.
-     * @param inputStr
-     * @return
+     * @param inputStr something
+     * @return something
      */
     public static Optional<InputType> getString(final String inputStr) {
         return Arrays.stream(InputType.values())

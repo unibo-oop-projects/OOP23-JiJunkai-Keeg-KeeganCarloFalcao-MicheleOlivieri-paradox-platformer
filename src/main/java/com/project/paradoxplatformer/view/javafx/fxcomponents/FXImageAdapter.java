@@ -28,7 +28,7 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteab
     private final DoubleProperty heighProperty;
 
     //MUST ADD WETHER AN IMAGE IS SPRITEABLE
-    protected FXImageAdapter(Dimension dimension, Coord2D position, String imageURL) throws InvalidResourceException  {
+    protected FXImageAdapter(Dimension dimension, Coord2D position, String imageURL) throws InvalidResourceException {
         super(new ImageView(), dimension, position);
 
         if (this.uiComponent instanceof ImageView imgCopy) {

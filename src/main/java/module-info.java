@@ -8,9 +8,11 @@ module com.project.paradoxplatformer {
     requires java.sql;
     requires com.fasterxml.jackson.databind;
     requires transitive javafx.base;
+    requires javafx.swing;
 
     opens com.project.paradoxplatformer.controller.deserialization.dtos to com.fasterxml.jackson.databind;
     opens com.project.paradoxplatformer to javafx.fxml;
     
     exports com.project.paradoxplatformer.view.javafx;
+    exports com.project.paradoxplatformer.view;
 }

@@ -1,5 +1,8 @@
 package com.project.paradoxplatformer.utils;
 
+import java.awt.Graphics;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
@@ -7,6 +10,7 @@ import javafx.scene.image.Image;
 
 public final class ImageLoader {
 
+    
     private ImageLoader() {
         throw new UnsupportedOperationException("Image loader cannot be initialized");
     }

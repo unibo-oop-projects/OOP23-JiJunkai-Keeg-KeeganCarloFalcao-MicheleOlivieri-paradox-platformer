@@ -10,7 +10,7 @@ package com.project.paradoxplatformer.controller.gameloop;
 @FunctionalInterface
 public interface GameLoop {
     /**
-     * Usually an infinite loop refreshed every frame
+     * Usually an infinite loop refreshed every frame.
      * @param dt time elapsed between last frame and current
      */
     void loop(long dt);

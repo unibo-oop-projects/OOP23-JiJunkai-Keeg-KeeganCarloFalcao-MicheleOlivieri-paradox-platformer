@@ -6,7 +6,9 @@ import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 public interface ViewManager {
 
-    Object switchPage(final PageIdentifier pageID);
+    public static final double ASPECT_RATIO = 16 / 9.d;
+
+    Page<String> switchPage(final PageIdentifier pageID);
 
     void create(final String title);
 

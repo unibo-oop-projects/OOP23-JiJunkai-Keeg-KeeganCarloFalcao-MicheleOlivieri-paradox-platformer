@@ -4,7 +4,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.orientations.Offset;
 
 /**
- * Base offset, needed to anchor other offsets
+ * Base offset, needed to anchor other offsets.
  */
 public final class BaseOffset implements Offset {
         

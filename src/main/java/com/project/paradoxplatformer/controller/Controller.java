@@ -8,12 +8,12 @@ package com.project.paradoxplatformer.controller;
 public interface Controller {
 
     /**
-     * Starts the view
+     * Starts the controller.
      */
     void start();
 
     /**
-     * Quits the View
+     * Quits the controller, so all threads must end.
      */
     void quit();
 

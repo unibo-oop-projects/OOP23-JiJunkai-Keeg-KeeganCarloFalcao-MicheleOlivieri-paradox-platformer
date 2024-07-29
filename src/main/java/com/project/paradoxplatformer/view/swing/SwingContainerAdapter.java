@@ -1,10 +1,11 @@
-package com.project.paradoxplatformer.view.javafx.fxcomponents;
+package com.project.paradoxplatformer.view.swing;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Optional;
 
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.project.paradoxplatformer.controller.input.KeyAssetterImpl;
@@ -15,17 +16,21 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.renders.ViewComponent;
 
+import static com.project.paradoxplatformer.utils.OptionalUtils.peek;
+
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
 
-public class SwingContainerAdapter implements GraphicContainer<JComponent, KeyEvent>, InputTranslator<KeyEvent>, KeyListener{
+
+public class SwingContainerAdapter implements GraphicContainer<JComponent, KeyEvent>, InputTranslator<KeyEvent>{
 
     private final JPanel pane;
     private final KeyAssetter<KeyEvent> keyAssetter;
-    private boolean isActive;
 
 
     public SwingContainerAdapter(JPanel panel) {
         this.pane = panel;
+        
         this.keyAssetter = new KeyAssetterImpl<>(this);
     }
 
@@ -37,13 +42,12 @@ public class SwingContainerAdapter implements GraphicContainer<JComponent, KeyEv
     @Override
     public void activateKeyInput(Runnable activateInput) {
         activateInput.run();
-        this.isActive = true;
-        this.pane.addKeyListener(this);
+        this.pane.addKeyListener(this.new SwingKeyListener());
     }
 
     @Override
     public Optional<InputType> translate(KeyEvent t) {
-        return InputType.getString(KeyEvent.getKeyText(t.getKeyCode()).split("VK_")[1]);
+        return InputType.getString(KeyEvent.getKeyText(t.getKeyCode()).toUpperCase());
     }
 
     @Override
@@ -58,53 +62,49 @@ public class SwingContainerAdapter implements GraphicContainer<JComponent, KeyEv
 
     @Override
     public boolean render(ViewComponent<JComponent> component) {
-        try {
-            this.pane.add(component.unwrap());
-            return true;
-        } catch (Exception ex){
-            return false;
-        }
+        return Optional.ofNullable(component.unwrap())
+            .map(peek(c -> this.pane.add(c)))
+            .map(c -> true)
+            .orElse(false);
     }
 
     @Override
     public boolean delete(ViewComponent<JComponent> component) {
-        try {
-            this.pane.remove(component.unwrap());
-            return true;
-        } catch (Exception ex){
-            return false;
-        }
+        return Optional.ofNullable(component.unwrap())
+            .map(peek(this.pane::remove))
+            .map(c -> true)
+            .orElse(false);
     }
 
     @Override
     public ObservableDoubleValue widthProperty() {
-        throw new UnsupportedOperationException("Unimplemented method 'widthProperty'");
+        return new SimpleDoubleProperty(this.pane.getWidth());
     }
 
     @Override
     public ObservableDoubleValue heightProperty() {
-        throw new UnsupportedOperationException("Unimplemented method 'heightProperty'");
+        return new SimpleDoubleProperty(this.pane.getWidth());
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-        
-    }
+    private class SwingKeyListener implements KeyListener {
 
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if(this.isActive) {
-            this.keyAssetter.add(e);
+        @Override
+        public void keyTyped(KeyEvent e) {
+            
         }
-        
+    
+        @Override
+        public void keyPressed(KeyEvent e) {
+            SwingContainerAdapter.this.keyAssetter.add(e);
+        }
+    
+        @Override
+        public void keyReleased(KeyEvent e) {
+            SwingContainerAdapter.this.keyAssetter.remove(e);
+        }
+
     }
 
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if(this.isActive) {
-            this.keyAssetter.remove(e);
-        }
-        
-    }
+    
     
 }

@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,8 +20,7 @@ import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.game.GamePlatformView;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
-import com.project.paradoxplatformer.view.javafx.fxcomponents.FXContainerAdapter;
-import com.project.paradoxplatformer.view.javafx.fxcomponents.FXViewMappingFactoryImpl;
+import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -31,7 +31,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.application.*;
 
-public class HelloController implements Initializable, Page<String> {
+public class HelloController<V, K> implements Initializable, Page<String> {
 
     @FXML
     private AnchorPane gamePane;
@@ -65,16 +65,36 @@ public class HelloController implements Initializable, Page<String> {
     //SHOULD PASS A PARAMETER DETAING THE MODEL STATE
     @Override
     public void create(String param) throws Exception {
+        if (!Platform.isFxApplicationThread()) {
+            ViewLegacy.javaFxFactory().mainAppManager().get().runOnAppThread(() -> {
+                try {
+                    this.runOnFXThread(param);
+                } catch (Exception e) {
+                    throw new IllegalStateException(e.getMessage(), e);
+                }
+            });
+        }
+        else {
+            this.runOnFXThread(param);
+        }
+    }
+
+    private void runOnFXThread(String param) throws Exception {
         //HERE's WHERE MAGIC HAPPENS, looks very free needs to be coupled atleast
         final LevelDTO level = this.getLevel(param);
         final GameModelData gameModel = new PlatfromModelData(level);
-        final GraphicContainer<Node, KeyCode> gameGraphContainer = new FXContainerAdapter(gamePane);
-        final GameView<Node> gameView = new GamePlatformView<>(level, gameGraphContainer, new FXViewMappingFactoryImpl());
+        final GraphicContainer<Node, KeyCode> gameGraphContainer = ViewLegacy.javaFxFactory().containerMapper().apply(gamePane);
+        final GameView<Node> gameView = new GamePlatformView<>(
+            level,
+            gameGraphContainer,
+            ViewLegacy.javaFxFactory()
+                .getComponentsFactory()
+                .get()
+            );
         final GameController<Node> gameController = new GameControllerImpl<>(gameModel, gameView); 
         final InputController<ControllableObject> inputController = new InputController<>(new InputMovesFactoryImpl().advancedModel());
         //FOR BETTER CLARITY THIS COULD BE DONE SEPARATELY
-        
-        
+
         this.initModelAndView(gameController);
         gameGraphContainer.activateKeyInput(() -> Platform.runLater(gamePane::requestFocus));
         System.out.println(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));

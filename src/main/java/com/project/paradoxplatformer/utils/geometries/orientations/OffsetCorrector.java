@@ -4,12 +4,12 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
- * Corrects a coord based on dimension 
+ * Corrects a coord based on dimension.
  */
 @FunctionalInterface
 public interface OffsetCorrector {
     /**
-     * Corrects
+     * Corrects.
      * @param boxDimension dimensions
      * @param elementCoord the wrong coords to be corrected
      * @return a new Coorected coord

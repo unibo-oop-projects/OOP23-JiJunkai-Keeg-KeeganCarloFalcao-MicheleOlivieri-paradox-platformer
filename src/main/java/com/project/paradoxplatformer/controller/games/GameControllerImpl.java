@@ -79,6 +79,7 @@ public final class GameControllerImpl<C> implements GameController<C> {
     }
 
     private boolean joinPredicate(final MutableObject obstacle1, final GraphicAdapter<C> gComponent) {
+        
         return obstacle1.getDimension().equals(dimension.apply(gComponent))
             && obstacle1.getPosition().equals(position.apply(gComponent));
     }
@@ -93,7 +94,7 @@ public final class GameControllerImpl<C> implements GameController<C> {
         .start();
     }
 
-    private void update(final long dt) {
+    public void update(final long dt) {
         if (Objects.nonNull(gamePair)) {
             gamePair.forEach((m, g) -> m.updateState(dt));
             gamePair.forEach(this.gameView::updateEnitityState);

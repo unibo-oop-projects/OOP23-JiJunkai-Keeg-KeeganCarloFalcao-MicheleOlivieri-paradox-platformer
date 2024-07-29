@@ -26,15 +26,17 @@ public interface GameController<C> {
      * {@link #loadModel()}
      */
     void loadModel();
+
     /**
-    * Sycs and inits the view
+    * Sycs and inits the view.
     *
     * <p>NOTE: Should be called only after model is loaded. As model it is not strict coupled with a default view</p>
     *{@link #syncView()}
     */
     void syncView();
+
     /**
-     * Start the game
+     * Start the game.
      * 
      * <p>NOTE: it's relative to game, in our case it is a platform type game, that's the reason why it needs 
      * {@code ControllableObject} and {łcode KeyInputer<K>} </p>

@@ -5,17 +5,14 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.model.entity.MutableObject;
-import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.orientations.GraphicOffsetCorrector;
@@ -33,8 +30,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 
 import java.util.Objects;
 import java.util.Optional;
-
-import java.util.LinkedList;
 
 public final class GamePlatformView<C, K> implements GameView<C> {
 
@@ -68,27 +63,24 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         final Pair<DoubleProperty, DoubleProperty> dimScalingPropeties = this.initializePropreties(gContainer);
         gContainer.setDimension(this.packedData.getWidth(),this.packedData.getHeight());
         
-        try {
-            this.setComponents = new LinkedList<>(List.of(
-                    this.forkGraphic(g -> Objects.nonNull(g.getImage()), this.viewMappingFactory.imageToView()),
-                    this.forkGraphic(g -> Objects.nonNull(g.getColor()), this.viewMappingFactory.blockToView())
-                ))
-                .stream()
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
-        } catch (InvalidResourceException e) {
-            throw new IllegalStateException(e);
-        }
+        this.setComponents = Arrays.stream(this.packedData.getGameDTOs())
+            .collect(Collectors.teeing(
+                Collectors.filtering(g -> Objects.nonNull(g.getImage()),
+                    Collectors.mapping(this.viewMappingFactory.imageToView()::map, Collectors.toList()) 
+                ),
+                Collectors.filtering(g -> Objects.nonNull(g.getColor()),
+                    Collectors.mapping(this.viewMappingFactory.blockToView()::map, Collectors.toList()) 
+                ),
+                (l1, l2) -> Stream.of(l1, l2).flatMap(List::stream).collect(Collectors.toSet())
+            ));
 
-        
-        
         this.setComponents.stream()
             .filter(this.container.get()::render)
             .forEach(o -> o.bindPropreties(
                 dimScalingPropeties.getKey().divide(this.packedData.getWidth()),
                 dimScalingPropeties.getValue().divide(this.packedData.getHeight()))
             );
-        
+
         final OffsetFactory factory = new OffsetFactoryImpl(this.dimension());
         this.offsetCorrector = new GraphicOffsetCorrector(
             factory.bottomLeft(), //BETTER SEPARATE LAYOUT AND BOX IN FACTORY, MAKE A LIST
@@ -138,14 +130,6 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         widthBinding.bind(gContainer.widthProperty());
         heightBinding.bind(gContainer.heightProperty());
         return Pair.of(widthBinding, heightBinding);
-    }
-
-    private Set<GraphicAdapter<C>> forkGraphic(final Predicate<GameDTO> objectsRendersPred, final EntityDataMapper<GraphicAdapter<C>> dtoToGraphic) {
-        return Arrays.stream(this.packedData.getGameDTOs())
-            .filter(objectsRendersPred)
-            .map(dtoToGraphic::map)
-            //FIX DUPLICATE KEYYS
-            .collect(Collectors.toUnmodifiableSet());
     }
     
 }

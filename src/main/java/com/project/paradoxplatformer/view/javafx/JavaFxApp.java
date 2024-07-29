@@ -16,6 +16,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
@@ -38,13 +39,27 @@ public class JavaFxApp extends Application implements ViewManager{
     private static Stage stage;
     private static FXMLHelper helper;
     private boolean created;
-    private String title;
+    private static String staticTitle = "";
     private static CountDownLatch latch;
-    private static final double ASPECT_RATIO = 16 / 9.d;
+
+    private static final class LazyHolder {
+        private static final ViewManager SINGLETON = new JavaFxApp();
+    }
+
+    public static ViewManager getInstance() {
+        return LazyHolder.SINGLETON;
+    }
+
+    public static Scene createScene(Parent root) {
+        return new Scene(root);   
+    }
 
     public JavaFxApp() {
+    }
+    
+    @Override
+    public void init() {
         this.created = true;
-        this.title = "";
     }
     
     @Override
@@ -61,7 +76,7 @@ public class JavaFxApp extends Application implements ViewManager{
             this.displayError(ExceptionUtils.advacendDisplay(ex));
             this.safeError();
         }
-        stage.setTitle(this.title);
+        stage.setTitle(staticTitle);
         this.setInitialScene();
         stage.show();
         Optional.ofNullable(latch).ifPresent(CountDownLatch::countDown);
@@ -69,15 +84,16 @@ public class JavaFxApp extends Application implements ViewManager{
     }
 
     @Override
-    public void create(final String title) {
+    public void create(final String appTitle) {
+        staticTitle = appTitle;
         JavaFxApp.launch();
     }
 
     //CAN PASS ONLY REF SO FB SHUT
     @Override
-    public void create(final CountDownLatch referedLatch, final String title) {
+    public void create(final CountDownLatch referedLatch, final String appTitle) {
         latch = referedLatch;
-        this.create(title);
+        this.create(appTitle);
     }
 
     @Override
@@ -108,10 +124,14 @@ public class JavaFxApp extends Application implements ViewManager{
             al.setDialogPane(p);
             this.setDialoContent(content, p);
 
-        } catch (IOException | InvalidResourceException e) {
-            //SISYEM ERROR HANDLER
+        } catch (IOException | InvalidResourceException | ClassCastException e) {
+            al.setHeaderText("Custom Alert failed, showing Default Alert");
+            al.setContentText(content + "\n\nWhy custom alert failed to load? ¬"
+                + "\n" + ExceptionUtils.advacendDisplay(e));
+        } finally{
+            al.showAndWait();
         }
-        al.showAndWait();
+        
     }
 
     @Override
@@ -152,7 +172,7 @@ public class JavaFxApp extends Application implements ViewManager{
         
     }
 
-    private void setDialoContent(final String content, final DialogPane p) {
+    private void setDialoContent(final String content, final DialogPane p) throws ClassCastException {
         p.getChildren().stream()
             .filter(VBox.class::isInstance)
             .map(VBox.class::cast)

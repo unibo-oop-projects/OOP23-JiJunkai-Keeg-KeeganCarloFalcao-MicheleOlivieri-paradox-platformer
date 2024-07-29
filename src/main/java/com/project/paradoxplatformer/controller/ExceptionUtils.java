@@ -4,7 +4,9 @@ import java.util.Optional;
 
 public final class ExceptionUtils {
 
-    private ExceptionUtils() {}
+    private ExceptionUtils() {
+
+    }
 
     public static String advacendDisplay(final Exception ex) {
         return Optional.ofNullable(ex.getCause())
@@ -23,7 +25,7 @@ public final class ExceptionUtils {
                 )
                 .map(m::concat)
                 .orElse(m)
-            ).orElse("");
+            ).orElse("[No error message avaible]");
     }
 
     public static String simpleDisplay(final Exception ex) {

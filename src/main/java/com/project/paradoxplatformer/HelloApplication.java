@@ -6,7 +6,6 @@ import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 public class HelloApplication{
 
     public static void main(String[] args) {
-        new SimpleController<>(ViewLegacy.javaFxFactory(), "Paradox Platformer").start();
-        
+        new SimpleController<>(ViewLegacy.javaFxFactory(), "Paradox Platformer").start();   
     }
 }

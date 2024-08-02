@@ -14,11 +14,13 @@ public class CollisionHandler {
         this.collisionEffectsMap = collisionEffectsMap;
     }
 
+    // Handle collision by applying the effects associated with the collidable
     public void handleCollision(Collidable collidable) {
         Map<Collidable, List<ChainOfEffects>> collidableMap = collisionEffectsMap.get(collidable.getCollisionType());
         if (collidableMap != null) {
             List<ChainOfEffects> chainsOfEffects = collidableMap.getOrDefault(collidable, List.of());
-            chainsOfEffects.forEach(chain -> chain.applyEffects(Optional.of(collidable)));
+            chainsOfEffects.forEach(chain -> chain.applyEffectsSequentially(Optional.of(collidable))
+                    .thenRun(() -> System.out.println("Effects applied for collision with " + collidable)));
         }
     }
 }

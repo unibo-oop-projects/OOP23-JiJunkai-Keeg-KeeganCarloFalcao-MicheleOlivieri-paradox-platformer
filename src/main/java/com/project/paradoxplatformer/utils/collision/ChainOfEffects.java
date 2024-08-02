@@ -2,10 +2,11 @@ package com.project.paradoxplatformer.utils.collision;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.project.paradoxplatformer.model.trigger.api.Effect;
-
 import java.util.Optional;
+
+import com.project.paradoxplatformer.utils.collision.api.Effect;
+
+import java.util.concurrent.CompletableFuture;
 
 public class ChainOfEffects {
     private final List<Effect> effects;
@@ -14,8 +15,12 @@ public class ChainOfEffects {
         this.effects = effects;
     }
 
-    public void applyEffects(Optional<Object> target) {
-        effects.forEach(effect -> effect.apply(target));
+    public CompletableFuture<Void> applyEffectsSequentially(Optional<Object> target) {
+        CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
+        for (Effect effect : effects) {
+            future = future.thenCompose(v -> effect.apply(target));
+        }
+        return future;
     }
 
     public static Builder builder() {

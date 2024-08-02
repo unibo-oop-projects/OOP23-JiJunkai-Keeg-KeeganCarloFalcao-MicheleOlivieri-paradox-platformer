@@ -1,22 +1,21 @@
 package com.project.paradoxplatformer.utils.collision;
 
 import com.project.paradoxplatformer.utils.collision.api.Collidable;
-import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 
 public class CollisionEvent {
-    private final CollisionType type;
-    private final Collidable target;
+    private final Collidable collider;
+    private final Collidable collidedWith;
 
-    public CollisionEvent(CollisionType type, Collidable target) {
-        this.type = type;
-        this.target = target;
+    public CollisionEvent(Collidable collider, Collidable collidedWith) {
+        this.collider = collider;
+        this.collidedWith = collidedWith;
     }
 
-    public CollisionType getType() {
-        return type;
+    public Collidable getCollider() {
+        return collider;
     }
 
-    public Collidable getTarget() {
-        return target;
+    public Collidable getCollidedWith() {
+        return collidedWith;
     }
 }

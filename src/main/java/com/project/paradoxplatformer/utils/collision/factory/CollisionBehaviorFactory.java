@@ -7,9 +7,11 @@ public class CollisionBehaviorFactory {
 
     public static CollisionBehavior createCollisionBehavior(CollisionType type) {
         switch (type) {
-            case PLAYER_OBSTACLE:
+            case OBSTACLE:
                 return new PlayerObstacleCollision();
-            case PLAYER_TRIGGER:
+            case TRIGGER:
+                return new PlayerTriggerCollision();
+            case BOUNDARY:
                 return new PlayerTriggerCollision();
             // Add more cases for other collision types
             default:

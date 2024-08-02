@@ -1,13 +1,7 @@
 package com.project.paradoxplatformer.utils.collision.api;
 
-import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-
 public interface Collidable {
+    CollisionType getCollisionType();
 
-    Coord2D getPosition();
-
-    Dimension getDimension();
-
-    void handleCollision(Collidable other);
+    boolean checkCollision(Collidable other);
 }

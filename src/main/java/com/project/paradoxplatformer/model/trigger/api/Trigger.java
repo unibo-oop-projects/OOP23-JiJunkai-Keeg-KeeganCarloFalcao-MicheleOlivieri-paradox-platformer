@@ -1,5 +1,10 @@
 package com.project.paradoxplatformer.model.trigger.api;
 
-public interface Trigger {
-    void activate();
+import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.model.entity.GameObject;
+import com.project.paradoxplatformer.utils.collision.api.Collidable;
+import java.util.Optional;
+
+public interface Trigger extends Collidable {
+    void activate(Optional<? extends Collidable> target);
 }

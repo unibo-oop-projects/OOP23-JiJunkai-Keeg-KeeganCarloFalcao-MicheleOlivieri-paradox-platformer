@@ -4,4 +4,5 @@ public enum CollisionType {
     OBSTACLE,
     TRIGGER,
     BOUNDARY,
+    Player
 }

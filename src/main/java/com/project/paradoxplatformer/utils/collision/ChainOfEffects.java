@@ -3,10 +3,10 @@ package com.project.paradoxplatformer.utils.collision;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import com.project.paradoxplatformer.utils.collision.api.Effect;
-
 import java.util.concurrent.CompletableFuture;
+
+import com.project.paradoxplatformer.utils.collision.api.Collidable;
+import com.project.paradoxplatformer.utils.effect.api.Effect;
 
 public class ChainOfEffects {
     private final List<Effect> effects;
@@ -15,7 +15,7 @@ public class ChainOfEffects {
         this.effects = effects;
     }
 
-    public CompletableFuture<Void> applyEffectsSequentially(Optional<Object> target) {
+    public CompletableFuture<Void> applyEffectsSequentially(Optional<? extends Collidable> target) {
         CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
         for (Effect effect : effects) {
             future = future.thenCompose(v -> effect.apply(target));

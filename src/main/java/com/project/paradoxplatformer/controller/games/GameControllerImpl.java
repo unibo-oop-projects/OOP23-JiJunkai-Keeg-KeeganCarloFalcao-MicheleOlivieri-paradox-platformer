@@ -37,7 +37,7 @@ public final class GameControllerImpl<C> implements GameController<C> {
      * A generic constuctor of a gamecontroller.
      * 
      * @param model model type
-     * @param view view type
+     * @param view  view type
      */
     public GameControllerImpl(final GameModelData model, final GameView<C> view) {
         this.gameModel = model;
@@ -50,38 +50,40 @@ public final class GameControllerImpl<C> implements GameController<C> {
     @Override
     public void loadModel() {
         gameModel.init();
+
+        System.out.println("Game Model is loaded.");
     }
 
     @Override
     public void syncView() {
         gameView.init();
         gamePair = this.gameView.getUnmodifiableControls()
-            .stream()
-            .map(g -> this.join(g, this.gameModel.getWorld()))
-            .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+                .stream()
+                .map(g -> this.join(g, this.gameModel.getWorld()))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+
+        System.out.println("Game View is loaded.");
     }
 
     private Pair<MutableObject, GraphicAdapter<C>> join(final GraphicAdapter<C> g, final World world) {
-        //SHOULD GET FROM WORLD, JUST TO MAKE THINGS EASY
-        //MAKE A CONCAT OF ALL ENTITIES
+        // SHOULD GET FROM WORLD, JUST TO MAKE THINGS EASY
+        // MAKE A CONCAT OF ALL ENTITIES
         final Set<MutableObject> str = Stream.concat(this.gameModel.getWorld().obstacles().stream(),
-            Stream.of(this.gameModel.getWorld().player())).collect(Collectors.toSet());
+                Stream.of(this.gameModel.getWorld().player())).collect(Collectors.toSet());
         return str.stream()
-            .filter(m -> this.joinPredicate(m, g))
-            .map(m -> Pair.of(m, g))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(
-                    "Failed to pair object and graphic\nCause: "
-                    + "\nGraphic: " + dimension.apply(g)
-                    + "\nGraphic: " + position.apply(g)
-                )
-            );
+                .filter(m -> this.joinPredicate(m, g))
+                .map(m -> Pair.of(m, g))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Failed to pair object and graphic\nCause: "
+                                + "\nGraphic: " + dimension.apply(g)
+                                + "\nGraphic: " + position.apply(g)));
     }
 
     private boolean joinPredicate(final MutableObject obstacle1, final GraphicAdapter<C> gComponent) {
-        
+
         return obstacle1.getDimension().equals(dimension.apply(gComponent))
-            && obstacle1.getPosition().equals(position.apply(gComponent));
+                && obstacle1.getPosition().equals(position.apply(gComponent));
     }
 
     @Override
@@ -90,8 +92,8 @@ public final class GameControllerImpl<C> implements GameController<C> {
             ic.cyclePool(inputer.getKeyAssetter(), gameModel.getWorld().player(), ControllableObject::stop);
             this.update(dt);
         })
-        .animationLoop()
-        .start();
+                .animationLoop()
+                .start();
     }
 
     public void update(final long dt) {

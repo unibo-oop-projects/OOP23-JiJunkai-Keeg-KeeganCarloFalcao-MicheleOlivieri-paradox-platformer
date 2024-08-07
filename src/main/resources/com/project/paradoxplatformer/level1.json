@@ -131,6 +131,28 @@
 					"vector": "HEIGHT"
 				}
 			]
+		},
+		{
+			"type": "trigger",
+			"x": 590,
+			"y": 200,
+			"width": 30,
+			"height": 110,
+			"subtype": "Warp",
+			"color": {
+				"blu": 42,
+				"red": 170,
+				"green": 77,
+				"alpha": 1
+			},
+			"traj": [
+				{
+					"x": 390,
+					"y":190,
+					"duration": 1,
+					"vector": "HEIGHT"
+				}
+			]
 		}
 	]
 }

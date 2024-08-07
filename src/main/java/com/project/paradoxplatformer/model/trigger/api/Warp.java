@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.trigger.factory;
+package com.project.paradoxplatformer.model.trigger.api;
 
 import com.project.paradoxplatformer.model.trigger.AbstractTrigger;
 import com.project.paradoxplatformer.utils.geometries.Dimension;

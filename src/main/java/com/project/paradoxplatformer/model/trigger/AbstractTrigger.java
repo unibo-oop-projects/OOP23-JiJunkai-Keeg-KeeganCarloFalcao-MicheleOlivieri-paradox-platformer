@@ -4,6 +4,7 @@ import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public abstract class AbstractTrigger implements Trigger {
 
@@ -30,6 +31,18 @@ public abstract class AbstractTrigger implements Trigger {
     @Override
     public CollisionType getCollisionType() {
         return type;
+    }
+
+    @Override
+    public Vector2D getSpeed() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getSpeed'");
+    }
+
+    @Override
+    public void updateState(long dt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateState'");
     }
 
 }

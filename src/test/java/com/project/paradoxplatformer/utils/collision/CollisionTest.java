@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Test;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.model.trigger.api.Warp;
 import com.project.paradoxplatformer.model.trigger.factory.Button;
-import com.project.paradoxplatformer.model.trigger.factory.Warp;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.EffectHandler;
 import com.project.paradoxplatformer.utils.effect.api.Effect;

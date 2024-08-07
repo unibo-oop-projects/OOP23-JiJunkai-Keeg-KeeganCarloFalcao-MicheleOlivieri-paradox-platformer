@@ -9,14 +9,15 @@ import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
-public final class SimpleLevel implements World{
+public final class WorldImpl implements World {
 
     private final List<Obstacle> obstacles;
     private final List<Trigger> triggers;
     private final SecureWrapper<PlayerModel> player;
     private final Dimension bounds;
 
-    public SimpleLevel(final List<Obstacle> obstacles, final List<Trigger> triggers, final PlayerModel player, final Dimension bounds) {
+    public WorldImpl(final List<Obstacle> obstacles, final List<Trigger> triggers, final PlayerModel player,
+            final Dimension bounds) {
         this.obstacles = new ArrayList<>(obstacles);
         this.triggers = new ArrayList<>(triggers);
         this.player = SecureWrapper.of(player);
@@ -33,13 +34,13 @@ public final class SimpleLevel implements World{
         return Collections.unmodifiableCollection(this.triggers);
     }
 
-    //unmodifiable
+    // unmodifiable
     @Override
     public PlayerModel player() {
         return this.player.get();
     }
 
-    //Should be unmodifiable
+    // Should be unmodifiable
     @Override
     public Dimension bounds() {
         return this.bounds;
@@ -55,6 +56,4 @@ public final class SimpleLevel implements World{
         return this.obstacles.remove(selectObstacle);
     }
 
-    
-    
 }

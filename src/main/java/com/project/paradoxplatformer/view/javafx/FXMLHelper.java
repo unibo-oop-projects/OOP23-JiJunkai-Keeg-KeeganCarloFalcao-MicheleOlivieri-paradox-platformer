@@ -17,34 +17,30 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 public final class FXMLHelper {
-    
+
     private Map<PageIdentifier, URL> fxmlPagesPairing;
-    
+
     public FXMLHelper() throws InvalidResourceException {
         this.fxmlPagesPairing = new EnumMap<>(Map.of(
-            PageIdentifier.GAME, ResourcesFinder.getURL("hello-view.fxml")
-        ));
+                PageIdentifier.GAME, ResourcesFinder.getURL("hello-view.fxml")));
     }
-
 
     public Function<PageIdentifier, Optional<Pair<Parent, Page<String>>>> mapper() {
         return p -> Optional.ofNullable(this.fxmlPagesPairing.get(p))
-            .map(FXMLLoader::new)
-            .map(this::loadInput);
-        
+                .map(FXMLLoader::new)
+                .map(this::loadInput);
+
     }
 
     private Pair<Parent, Page<String>> loadInput(FXMLLoader loader) {
-        try  {
+        try {
             Parent parent = loader.load();
             Page<String> controller = loader.getController();
             return Pair.of(parent, controller);
 
         } catch (IOException e) {
             throw new IllegalStateException(e);
-        } 
+        }
     }
 
-
-    
 }

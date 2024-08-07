@@ -23,62 +23,65 @@ import static java.util.function.Predicate.not;
 
 public final class PlatfromModelData implements GameModelData {
 
-    private final LevelDTO packedData;
-    private final WorldBuilder worldBuilder;
-    private SecureWrapper<World> world;
-    private final ModelMappingFactory modelFactory;
+        private final LevelDTO packedData;
+        private final WorldBuilder worldBuilder;
+        private SecureWrapper<World> world;
+        private final ModelMappingFactory modelFactory;
 
-    public PlatfromModelData(final LevelDTO packedData) {
-        this.packedData = packedData;
-        this.modelFactory = new ModelMappingFactoryImpl();
-        this.worldBuilder = new WordBuilderImpl();
-    }
+        public PlatfromModelData(final LevelDTO packedData) {
+                this.packedData = packedData;
+                this.modelFactory = new ModelMappingFactoryImpl();
+                this.worldBuilder = new WordBuilderImpl();
+        }
 
-    // COULD BETTER PERFORM
-    @Override
-    public void init() {
-        Optional.of(
-                Arrays.stream(packedData.getGameDTOs())
-                        .map(GameDTO::getType)
-                        .anyMatch(Objects::isNull))
-                .filter(u -> !u)
-                .orElseThrow(() -> new IllegalStateException("Attribute type of game DTO is undefined, could not map"));
+        // COULD BETTER PERFORM
+        @Override
+        public void init() {
+                Optional.of(
+                                Arrays.stream(packedData.getGameDTOs())
+                                                .map(GameDTO::getType)
+                                                .anyMatch(Objects::isNull))
+                                .filter(u -> !u)
+                                .orElseThrow(() -> new IllegalStateException(
+                                                "Attribute type of game DTO is undefined, could not map"));
 
-        this.world = SecureWrapper.of(this.worldBuilder
-                .addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
-                .addPlayer(modelFactory.playerToModel().map(
-                        this.findGameDTOData("player")
-                                .stream()
-                                .findFirst()
-                                .orElseThrow()))
-                .addObstacle(
-                        this.findGameDTOData("obstacle").stream()
-                                .map(modelFactory.obstacleToModel()::map)
-                                .toList()
-                                .toArray(new Obstacle[0]))
-                // .addTrigger(
-                // this.findGameDTOData("trigger").stream()
-                // .map(modelFactory.triggerToModel()::map)
-                // .toList()
-                // .toArray(new Trigger[0]))
-                .build());
-    }
+                this.world = SecureWrapper.of(this.worldBuilder
+                                .addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
+                                .addPlayer(modelFactory.playerToModel().map(
+                                                this.findGameDTOData("player")
+                                                                .stream()
+                                                                .findFirst()
+                                                                .orElseThrow()))
+                                .addObstacle(
+                                                this.findGameDTOData("obstacle").stream()
+                                                                .map(modelFactory.obstacleToModel()::map)
+                                                                .toList()
+                                                                .toArray(new Obstacle[0]))
+                                .addTrigger(
+                                                this.findGameDTOData("trigger").stream()
+                                                                .map(modelFactory.triggerToModel()::map)
+                                                                .toList()
+                                                                .toArray(new Trigger[0]))
+                                .build());
+        }
 
-    private Collection<GameDTO> findGameDTOData(final String attribute) {
+        private Collection<GameDTO> findGameDTOData(final String attribute) {
 
-        return Optional.of(Set.of(packedData.getGameDTOs()).stream()
-                .filter(g -> g.getType().equals(attribute))
-                .toList())
-                .filter(not(List::isEmpty))
-                .orElseThrow(
-                        () -> new IllegalArgumentException("attribute does not match any game dto type: " + attribute));
-    }
+                return Optional.of(Set.of(packedData.getGameDTOs()).stream()
+                                .filter(g -> g.getType().equals(attribute))
+                                .toList())
+                                .filter(not(List::isEmpty))
+                                .orElseThrow(
+                                                () -> new IllegalArgumentException(
+                                                                "attribute does not match any game dto type: "
+                                                                                + attribute));
+        }
 
-    // GOTTA CHECK INIT HAS DONE
-    // RETURNING AN MUTABLE MUST FIX
-    @Override
-    public World getWorld() {
-        return this.world.get();
-    }
+        // GOTTA CHECK INIT HAS DONE
+        // RETURNING AN MUTABLE MUST FIX
+        @Override
+        public World getWorld() {
+                return this.world.get();
+        }
 
 }

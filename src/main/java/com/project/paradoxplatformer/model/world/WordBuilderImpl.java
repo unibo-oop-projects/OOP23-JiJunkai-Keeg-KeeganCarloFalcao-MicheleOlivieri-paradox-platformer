@@ -23,7 +23,7 @@ public final class WordBuilderImpl implements WorldBuilder {
         this.triggers = new ArrayList<>();
         this.isBuild = false;
         this.player = null;
-        //SHOULD FIX CAUSE GAME CANNOt builD WITHOUT PLAYER
+        // SHOULD FIX CAUSE GAME CANNOt builD WITHOUT PLAYER
     }
 
     @Override
@@ -34,14 +34,14 @@ public final class WordBuilderImpl implements WorldBuilder {
     }
 
     @Override
-    public WorldBuilder addTrigger(Trigger ...trigger) {
+    public WorldBuilder addTrigger(Trigger... trigger) {
         buildCheck();
         this.triggers.addAll(List.of(trigger));
         return this;
     }
 
     @Override
-    public WorldBuilder addObstacle(Obstacle ...obstacle) {
+    public WorldBuilder addObstacle(Obstacle... obstacle) {
         buildCheck();
         this.obstacles.addAll(List.of(obstacle));
         return this;
@@ -58,11 +58,11 @@ public final class WordBuilderImpl implements WorldBuilder {
     public World build() {
         buildCheck();
         this.isBuild = true;
-        return new SimpleLevel(obstacles, triggers, player.get(), bounds);
+        return new WorldImpl(obstacles, triggers, player.get(), bounds);
     }
-    
+
     private void buildCheck() {
-        if(this.isBuild) {
+        if (this.isBuild) {
             throw new IllegalStateException("World is already build, cannot rebuild!");
         }
     }

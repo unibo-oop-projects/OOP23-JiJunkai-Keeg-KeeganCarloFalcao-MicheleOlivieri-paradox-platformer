@@ -12,8 +12,8 @@ public class CollisionDetector {
                 obj1.getPosition().y() >= obj2.getPosition().y() + obj2.getDimension().height());
     }
 
-    public static <T extends CollidableGameObject> boolean hasCollision(T obj, List<T> gameObjects) {
-        return gameObjects.stream()
+    public static <T extends CollidableGameObject> boolean hasCollision(T obj, List<T> collidableGameObjects) {
+        return collidableGameObjects.stream()
                 .anyMatch(other -> !other.equals(obj) && isColliding(obj, other));
     }
 }

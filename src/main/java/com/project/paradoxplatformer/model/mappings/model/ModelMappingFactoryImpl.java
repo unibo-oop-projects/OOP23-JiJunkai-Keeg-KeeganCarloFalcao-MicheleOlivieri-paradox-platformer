@@ -24,6 +24,7 @@ public class ModelMappingFactoryImpl implements ModelMappingFactory {
 
     private static final String DOT = ".";
     private static final String OBSTACLE_PREFIX_NAME = Obstacle.class.getPackageName() + DOT;
+    private static final String TRIGGER_PREFIX_NAME = Trigger.class.getPackageName() + DOT;
 
     public ModelMappingFactoryImpl() {
     }
@@ -70,8 +71,23 @@ public class ModelMappingFactoryImpl implements ModelMappingFactory {
 
     @Override
     public EntityDataMapper<? extends Trigger> triggerToModel() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'triggerToModel'");
+        return this::evaluateTriggerType;
+    }
+
+    private Trigger evaluateTriggerType(GameDTO sub) {
+        try {
+            return (Trigger) Class.forName(TRIGGER_PREFIX_NAME + sub.getSubtype())
+                    .getConstructor(
+                            Coord2D.class,
+                            Dimension.class)
+                    .newInstance(
+                            new Coord2D(sub.getX(), sub.getY()),
+                            new Dimension(sub.getWidth(), sub.getHeight()));
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+            throw new IllegalStateException("failed to create trigger through reflection\nCheck: ", e);
+        }
+
     }
 
 }

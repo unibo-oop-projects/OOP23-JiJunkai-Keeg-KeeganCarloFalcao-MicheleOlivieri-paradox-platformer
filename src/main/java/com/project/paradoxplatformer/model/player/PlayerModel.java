@@ -102,12 +102,4 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
         return CollisionType.Player;
     }
 
-    @Override
-    public boolean checkCollision(Collidable other) {
-        // // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method
-        // 'checkCollision'");
-        return true;
-    }
-
 }

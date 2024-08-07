@@ -2,13 +2,13 @@ package com.project.paradoxplatformer.utils.collision;
 
 import org.junit.jupiter.api.Test;
 
+import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.factory.Button;
 import com.project.paradoxplatformer.model.trigger.factory.Warp;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.EffectHandler;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
-import com.project.paradoxplatformer.utils.collision.api.Collidable;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
@@ -32,7 +32,7 @@ public class CollisionTest {
         // Register effects
         effectHandler.addCollisionEffects(CollisionType.TRIGGER, button, List.of(() -> new Effect() {
             @Override
-            public CompletableFuture<Void> apply(Optional<? extends Collidable> target) {
+            public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target) {
                 System.out.println("Button effect applied");
                 return CompletableFuture.completedFuture(null);
             }
@@ -40,7 +40,7 @@ public class CollisionTest {
 
         effectHandler.addCollisionEffects(CollisionType.TRIGGER, warp, List.of(() -> new Effect() {
             @Override
-            public CompletableFuture<Void> apply(Optional<? extends Collidable> target) {
+            public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target) {
                 if (target.isPresent() && target.get() instanceof PlayerModel) {
                     ((PlayerModel) target.get()).setPosition(new Coord2D(100., 200.));
                 }
@@ -48,8 +48,8 @@ public class CollisionTest {
             }
         }));
 
-        // Simulate a list of collidables
-        List<? extends Collidable> collidables = List.of(player, button, warp);
+        // Simulate a list of CollidableGameObjects
+        List<? extends CollidableGameObject> collidables = List.of(player, button, warp);
 
         // Simulate collision detection
         collisionManager.detectCollisions(collidables);

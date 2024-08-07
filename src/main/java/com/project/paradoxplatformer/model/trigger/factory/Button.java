@@ -1,17 +1,19 @@
 package com.project.paradoxplatformer.model.trigger.factory;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
-import com.project.paradoxplatformer.model.entity.GameObject;
 import com.project.paradoxplatformer.model.trigger.AbstractTrigger;
-import com.project.paradoxplatformer.utils.collision.api.Collidable;
-
-import java.util.Optional;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 public class Button extends AbstractTrigger {
 
-    @Override
-    public void activate(Optional<? extends Collidable> target) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'activate'");
+    public Button(Coord2D position, Dimension dimension) {
+        this.position = position;
+        this.dimension = dimension;
     }
+
+    public Button() {
+        this.position = new Coord2D(100, 200);
+        this.dimension = new Dimension(50, 50);
+    }
+
 }

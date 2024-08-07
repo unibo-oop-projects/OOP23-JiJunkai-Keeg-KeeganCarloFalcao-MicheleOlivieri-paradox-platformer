@@ -3,14 +3,13 @@ package com.project.paradoxplatformer.model.obstacles.abstracts;
 import java.util.Queue;
 
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
-import com.project.paradoxplatformer.utils.collision.api.Collidable;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public abstract class AbstractRigidObstacle extends AbstractObstacle implements Collidable {
+public abstract class AbstractRigidObstacle extends AbstractObstacle {
 
     protected AbstractRigidObstacle(final Coord2D position, final Dimension dimension,
             Queue<TrajectoryInfo> trajStats) {
@@ -30,9 +29,4 @@ public abstract class AbstractRigidObstacle extends AbstractObstacle implements 
         return CollisionType.OBSTACLE;
     }
 
-    @Override
-    public boolean checkCollision(Collidable other) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkCollision'");
-    }
 }

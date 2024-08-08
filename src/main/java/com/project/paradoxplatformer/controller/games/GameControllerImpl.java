@@ -68,8 +68,9 @@ public final class GameControllerImpl<C> implements GameController<C> {
     private Pair<MutableObject, GraphicAdapter<C>> join(final GraphicAdapter<C> g, final World world) {
         // SHOULD GET FROM WORLD, JUST TO MAKE THINGS EASY
         // MAKE A CONCAT OF ALL ENTITIES
-        final Set<MutableObject> str = Stream.concat(this.gameModel.getWorld().obstacles().stream(),
-                Stream.of(this.gameModel.getWorld().player())).collect(Collectors.toSet());
+        final Set<MutableObject> str = Stream.concat(Stream.concat(this.gameModel.getWorld().obstacles().stream(),
+                Stream.of(this.gameModel.getWorld().player())), this.gameModel.getWorld().triggers().stream())
+                .collect(Collectors.toSet());
         return str.stream()
                 .filter(m -> this.joinPredicate(m, g))
                 .map(m -> Pair.of(m, g))

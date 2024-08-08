@@ -20,14 +20,14 @@ import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteable<SpriteStatus>{
+public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteable<SpriteStatus> {
 
     private final ImageView imgComponent;
     private SpriteAnimator<Image> spriteAnimator;
     private final DoubleProperty widthProperty;
     private final DoubleProperty heighProperty;
 
-    //MUST ADD WETHER AN IMAGE IS SPRITEABLE
+    // MUST ADD WETHER AN IMAGE IS SPRITEABLE
     protected FXImageAdapter(Dimension dimension, Coord2D position, String imageURL) throws InvalidResourceException {
         super(new ImageView(), dimension, position);
 
@@ -37,18 +37,16 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteab
             this.imgComponent.setSmooth(true);
             widthProperty = new SimpleDoubleProperty(dimension.width());
             heighProperty = new SimpleDoubleProperty(dimension.height());
-            //SHOULD DO IF SPRITE SO MAKE DISTINCT CLASSES
+            // SHOULD DO IF SPRITE SO MAKE DISTINCT CLASSES
             imgComponent.setImage(ImageLoader.FXImage(imageURL));
             // this.setDimension(dimension.width(), dimension.height());
             this.spriteAnimator = new SpriteAnimator<Image>(
                     new FXSpriterSetter(
-                        imageURL, 
-                        new Dimension(
-                            imgComponent.getImage().getWidth(),
-                            imgComponent.getImage().getHeight()),
-                        dimension
-                    )
-                );        
+                            imageURL,
+                            new Dimension(
+                                    imgComponent.getImage().getWidth(),
+                                    imgComponent.getImage().getHeight()),
+                            dimension));
         } else {
             throw new IllegalArgumentException("Requires imageview");
         }
@@ -56,12 +54,12 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteab
 
     protected Optional<String> image() {
         return Optional.of(this.imgComponent.getImage())
-            .filter(Objects::nonNull)
-            .map(javafx.scene.image.Image::getUrl)
-            .map(i -> i.split(File.pathSeparator))
-            .map(Arrays::stream)
-            .flatMap(s -> s.reduce((a, b) -> b));
-            
+                .filter(Objects::nonNull)
+                .map(javafx.scene.image.Image::getUrl)
+                .map(i -> i.split(File.pathSeparator))
+                .map(Arrays::stream)
+                .flatMap(s -> s.reduce((a, b) -> b));
+
     }
 
     @Override

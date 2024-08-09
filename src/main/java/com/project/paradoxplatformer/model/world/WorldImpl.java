@@ -7,6 +7,7 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.SecureWrapper;
+import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 public final class WorldImpl implements World {
@@ -15,13 +16,15 @@ public final class WorldImpl implements World {
     private final List<Trigger> triggers;
     private final SecureWrapper<PlayerModel> player;
     private final Dimension bounds;
+    private final CollisionManager collisionManager;
 
     public WorldImpl(final List<Obstacle> obstacles, final List<Trigger> triggers, final PlayerModel player,
-            final Dimension bounds) {
+            final Dimension bounds, CollisionManager collisionManager) {
         this.obstacles = new ArrayList<>(obstacles);
         this.triggers = new ArrayList<>(triggers);
         this.player = SecureWrapper.of(player);
         this.bounds = bounds;
+        this.collisionManager = collisionManager;
     }
 
     @Override
@@ -54,6 +57,11 @@ public final class WorldImpl implements World {
     @Override
     public boolean removeObstacle(Obstacle selectObstacle) {
         return this.obstacles.remove(selectObstacle);
+    }
+
+    @Override
+    public CollisionManager getCollisionManager() {
+        return this.collisionManager;
     }
 
 }

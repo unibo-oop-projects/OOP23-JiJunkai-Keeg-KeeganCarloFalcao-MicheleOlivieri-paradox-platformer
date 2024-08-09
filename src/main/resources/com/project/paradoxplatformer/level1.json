@@ -1,7 +1,6 @@
 {
 	"height": 360,
 	"width": 640,
-
 	"gameDTOs": [
 		{
 			"type": "player",
@@ -11,9 +10,7 @@
 			"height": 53,
 			"subtype": "",
 			"image": "player.png"
-			
 		},
-		
 		{
 			"type": "obstacle",
 			"x": 0,
@@ -28,7 +25,6 @@
 				"alpha": 1
 			}
 		},
-		
 		{
 			"type": "obstacle",
 			"x": 330,
@@ -43,7 +39,6 @@
 				"alpha": 1
 			}
 		},
-		
 		{
 			"type": "obstacle",
 			"x": 0,
@@ -58,7 +53,6 @@
 				"alpha": 1
 			}
 		},
-		
 		{
 			"type": "obstacle",
 			"x": 300,
@@ -75,19 +69,18 @@
 			"traj": [
 				{
 					"x": 150,
-					"y":100,
+					"y": 100,
 					"duration": 2,
 					"vector": "DISPLACEMENT"
 				},
 				{
 					"x": 150,
-					"y":50,
+					"y": 50,
 					"duration": 1,
 					"vector": "HEIGHT"
 				}
 			]
 		},
-		
 		{
 			"type": "obstacle",
 			"x": 250,
@@ -104,7 +97,7 @@
 			"traj": [
 				{
 					"x": 250,
-					"y":-100,
+					"y": -100,
 					"duration": 3,
 					"vector": "DISPLACEMENT"
 				}
@@ -126,12 +119,34 @@
 			"traj": [
 				{
 					"x": 390,
-					"y":190,
+					"y": 190,
 					"duration": 1,
 					"vector": "HEIGHT"
 				}
 			]
+		},
+		{
+			"type": "obstacle",
+			"x": 150,
+			"y": 200,
+			"width": 100,
+			"height": 20,
+			"subtype": "Platform",
+			"color": {
+				"blu": 255,
+				"red": 0,
+				"green": 0,
+				"alpha": 1
+			}
+		},
+		{
+			"type": "obstacle",
+			"x": 200,
+			"y": 150,
+			"width": 75,
+			"height": 75,
+			"subtype": "DeathCoin",
+			"image": "coin.png"
 		}
 	]
 }
-

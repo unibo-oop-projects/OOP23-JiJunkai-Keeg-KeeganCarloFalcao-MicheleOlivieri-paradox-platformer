@@ -52,7 +52,7 @@ public class CollisionTest {
         List<? extends CollidableGameObject> collidables = List.of(player, button, warp);
 
         // Simulate collision detection
-        collisionManager.detectCollisions(collidables);
+        collisionManager.detectCollisions(collidables, player);
 
         assertTrue(player.getPosition().x() == 100. && player.getPosition().y() == 200.);
         assertFalse(player.getPosition().x() == 200. && player.getPosition().y() == 400.);

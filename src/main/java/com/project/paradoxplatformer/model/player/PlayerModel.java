@@ -99,7 +99,7 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
 
     @Override
     public CollisionType getCollisionType() {
-        return CollisionType.Player;
+        return CollisionType.PLAYER;
     }
 
 }

@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.utils.collision.api.Collidable;
 
 public interface Effect {
-    CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target);
+    CompletableFuture<Void> apply(Optional<? extends Collidable> target);
 }

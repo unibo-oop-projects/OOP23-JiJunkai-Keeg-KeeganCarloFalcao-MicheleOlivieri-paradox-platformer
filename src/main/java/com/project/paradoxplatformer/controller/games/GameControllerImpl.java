@@ -6,14 +6,16 @@ import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.collision.api.Collidable;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import java.util.Objects;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.function.Function;
 import java.util.HashMap;
 import java.util.Map;
@@ -103,6 +105,11 @@ public final class GameControllerImpl<C> implements GameController<C> {
 
     public void update(final long dt) {
         if (Objects.nonNull(gamePair)) {
+            List<Collidable> collidables = new ArrayList<>(gamePair.keySet());
+
+            this.gameModel.getWorld().getCollisionManager().detectCollisions(this.gameModel.getWorld().player(),
+                    collidables);
+
             gamePair.forEach((m, g) -> m.updateState(dt));
             gamePair.forEach(this.gameView::updateEnitityState);
         }

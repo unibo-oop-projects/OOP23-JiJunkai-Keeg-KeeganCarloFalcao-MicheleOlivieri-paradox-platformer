@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.utils.collision.api.Collidable;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 
 /**
@@ -25,7 +25,7 @@ public class ChainOfEffects {
      *
      * @param target the optional target object to apply effects to
      */
-    public void applyEffectsSequentially(Optional<? extends CollidableGameObject> target) {
+    public void applyEffectsSequentially(Optional<? extends Collidable> target) {
         for (Effect effect : effects) {
             effect.apply(target);
         }

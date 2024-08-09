@@ -4,6 +4,7 @@ import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
+import com.project.paradoxplatformer.utils.collision.api.Collidable;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import java.util.Collection;
 

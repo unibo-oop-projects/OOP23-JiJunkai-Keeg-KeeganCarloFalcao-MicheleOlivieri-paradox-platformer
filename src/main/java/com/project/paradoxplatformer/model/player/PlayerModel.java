@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.model.player;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
@@ -16,6 +15,8 @@ import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public final class PlayerModel extends AbstractControllableObject implements MutableObject, Collidable {
+
+    private final CollisionType TYPE = CollisionType.PLAYER;
 
     private Point position;
     private Dimension dimension;
@@ -99,7 +100,7 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
 
     @Override
     public CollisionType getCollisionType() {
-        return CollisionType.PLAYER;
+        return this.TYPE;
     }
 
 }

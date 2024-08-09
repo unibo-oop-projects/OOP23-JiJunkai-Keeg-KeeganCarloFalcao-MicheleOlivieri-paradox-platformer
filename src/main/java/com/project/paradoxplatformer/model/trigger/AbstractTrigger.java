@@ -9,7 +9,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public abstract class AbstractTrigger implements Trigger {
 
-    private final CollisionType type = CollisionType.TRIGGER;
+    private final CollisionType TYPE = CollisionType.TRIGGER;
     protected Coord2D position;
     protected Dimension dimension;
 
@@ -31,7 +31,7 @@ public abstract class AbstractTrigger implements Trigger {
 
     @Override
     public CollisionType getCollisionType() {
-        return type;
+        return this.TYPE;
     }
 
     @Override

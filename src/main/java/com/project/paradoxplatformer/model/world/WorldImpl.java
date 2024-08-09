@@ -8,6 +8,7 @@ import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
+import com.project.paradoxplatformer.utils.collision.api.Collidable;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 public final class WorldImpl implements World {

@@ -13,6 +13,8 @@ import java.util.Queue;
 
 public abstract class AbstractObstacle extends AbstractTrasformableObject implements Obstacle {
 
+    private final CollisionType TYPE = CollisionType.OBSTACLE;
+
     // position inevitablly immutable expept for static purpose
     protected Dimension dimension;
     protected Coord2D position;
@@ -48,11 +50,6 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
         this.setDimension(new Dimension(this.widthVector.magnitude(), this.heightVector.yComponent()));
     }
 
-    @Override
-    public CollisionType getCollisionType() {
-        return CollisionType.OBSTACLE;
-    }
-
     private void setDimension(final Dimension dimension) {
         this.dimension = dimension;
     }
@@ -61,4 +58,8 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
         this.position = position;
     }
 
+    @Override
+    public CollisionType getCollisionType() {
+        return this.TYPE;
+    }
 }

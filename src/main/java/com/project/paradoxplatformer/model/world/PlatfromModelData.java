@@ -64,6 +64,7 @@ public final class PlatfromModelData implements GameModelData {
                                                                 .map(modelFactory.triggerToModel()::map)
                                                                 .toList()
                                                                 .toArray(new Trigger[0]))
+                                .addCollisionManager(new CollisionManager(new EffectHandler()))
                                 .build());
         }
 

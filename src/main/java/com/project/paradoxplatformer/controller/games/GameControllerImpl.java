@@ -6,6 +6,7 @@ import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -71,6 +72,9 @@ public final class GameControllerImpl<C> implements GameController<C> {
         final Set<MutableObject> str = Stream.concat(Stream.concat(this.gameModel.getWorld().obstacles().stream(),
                 Stream.of(this.gameModel.getWorld().player())), this.gameModel.getWorld().triggers().stream())
                 .collect(Collectors.toSet());
+
+        System.out.println(str);
+
         return str.stream()
                 .filter(m -> this.joinPredicate(m, g))
                 .map(m -> Pair.of(m, g))

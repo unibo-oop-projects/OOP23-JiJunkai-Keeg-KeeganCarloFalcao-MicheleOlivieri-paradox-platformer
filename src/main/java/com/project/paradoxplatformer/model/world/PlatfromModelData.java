@@ -27,7 +27,7 @@ public final class PlatfromModelData implements GameModelData {
 
         private final LevelDTO packedData;
         private final WorldBuilder worldBuilder;
-        private SecureWrapper<World> world;
+        private World world;
         private final ModelMappingFactory modelFactory;
 
         public PlatfromModelData(final LevelDTO packedData) {
@@ -47,7 +47,7 @@ public final class PlatfromModelData implements GameModelData {
                                 .orElseThrow(() -> new IllegalStateException(
                                                 "Attribute type of game DTO is undefined, could not map"));
 
-                this.world = SecureWrapper.of(this.worldBuilder
+                this.world = this.worldBuilder
                                 .addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
                                 .addPlayer(modelFactory.playerToModel().map(
                                                 this.findGameDTOData("player")
@@ -64,11 +64,10 @@ public final class PlatfromModelData implements GameModelData {
                                                                 .map(modelFactory.triggerToModel()::map)
                                                                 .toList()
                                                                 .toArray(new Trigger[0]))
-                                .build());
+                                .build();
         }
 
         private Collection<GameDTO> findGameDTOData(final String attribute) {
-
                 return Optional.of(Set.of(packedData.getGameDTOs()).stream()
                                 .filter(g -> g.getType().equals(attribute))
                                 .toList())
@@ -83,7 +82,7 @@ public final class PlatfromModelData implements GameModelData {
         // RETURNING AN MUTABLE MUST FIX
         @Override
         public World getWorld() {
-                return this.world.get();
+                return this.world;
         }
 
 }

@@ -109,10 +109,10 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         
         if(mutEntity instanceof PlayerModel pl) {
             //JUST FOR TESTING, MUST DO BETTER
-            if(pl.getSp().x() < 0 && !this.isFlipped) {
+            if(pl.getSpeed().magnitude() < 0 && !this.isFlipped) {
                 graphicCompo.flip();
                 this.isFlipped = true;
-            } else if(pl.getSp().x() > 0 && this.isFlipped) {
+            } else if(pl.getSpeed().magnitude() > 0 && this.isFlipped) {
                 graphicCompo.flip();
                 this.isFlipped = false;
             }

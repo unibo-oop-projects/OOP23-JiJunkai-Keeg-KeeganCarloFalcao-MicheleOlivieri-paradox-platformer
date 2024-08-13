@@ -35,12 +35,6 @@ public abstract class AbstractTrigger implements Trigger {
     }
 
     @Override
-    public Vector2D getSpeed() {
-        // TODO
-        return new Simple2DVector(1, 2);
-    }
-
-    @Override
     public void updateState(long dt) {
         // TODO
     }

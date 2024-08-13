@@ -43,12 +43,5 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
         
         
     }
-    //end comment
-
-    @Override
-    public void getStats() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStats'");
-    }
     
 }

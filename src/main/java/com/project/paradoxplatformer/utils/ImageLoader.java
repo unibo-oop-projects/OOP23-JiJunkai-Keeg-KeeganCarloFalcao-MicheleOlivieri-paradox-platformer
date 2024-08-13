@@ -1,8 +1,5 @@
 package com.project.paradoxplatformer.utils;
 
-import java.awt.Graphics;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 

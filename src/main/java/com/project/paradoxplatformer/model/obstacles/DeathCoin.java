@@ -11,10 +11,8 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public final class DeathCoin extends AbstractDeathObstacle {
 
-    private final static int damagePoints = 100;
-
     public DeathCoin(Coord2D position, Dimension dimension, Queue<TrajectoryInfo> trajStats) {
-        super(position, dimension, trajStats, damagePoints);
+        super(position, dimension, trajStats);
     }
 
     @Override

@@ -25,7 +25,7 @@ import org.apache.commons.lang3.tuple.Pair;
  * 
  * @param <C> type of view component
  */
-public final class GameControllerImpl<C> implements GameController<C> {
+public final class GameControllerImpl<C> implements GameController<C>, GameEventListener {
 
     private final GameModelData gameModel;
     private Map<MutableObject, GraphicAdapter<C>> gamePair;
@@ -103,4 +103,23 @@ public final class GameControllerImpl<C> implements GameController<C> {
             gamePair.forEach(this.gameView::updateEnitityState);
         }
     }
+
+    public void restartLevel() {
+        // Reinizzializza il modello del gioco
+        this.gameModel.init();
+        
+        // Resetta la vista in modo che corrisponda al nuovo stato del modello
+        this.syncView();
+    }
+
+    @Override
+    public void onPlayerDeath() {
+        // Ricarica il livello
+        try {
+            this.restartLevel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

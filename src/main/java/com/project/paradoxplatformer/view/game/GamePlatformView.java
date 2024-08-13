@@ -23,7 +23,6 @@ import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
-import com.project.paradoxplatformer.view.javafx.fxcomponents.FXImageAdapter;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.FXSpriteAdapter;
 
 import javafx.beans.property.DoubleProperty;

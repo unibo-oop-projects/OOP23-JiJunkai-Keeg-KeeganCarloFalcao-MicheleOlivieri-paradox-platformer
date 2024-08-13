@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.controller.deserialization.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Data Transfer Object regarding a specific game object, most used in platform games.
  * Such class is used by the deserializer to retrive json objects, 
@@ -17,6 +19,8 @@ public final class GameDTO {
     private String image;
     private ColorDTO color;
     private final TrajMacro[] traj;
+    @JsonProperty 
+    private int nframe;
 
     /**
      * Non-argument constructors which initialises the trajectory moves, making it final.
@@ -110,5 +114,15 @@ public final class GameDTO {
      */
     public String getSubtype() {
         return this.subtype;
+    }
+
+    /**
+     * Has a value greater than zero only if the image is a sprite.
+     * It basically provides the minimum number of frames nedded to change the current sprite. It is useful to give a sense of
+     * animation. Note that its frame management is different than the delta time and gameloop cause it is view dedicated section.
+     * @return the minimum amount of frames for swithichng to next image
+     */
+    public int getFrames() {
+        return this.nframe;
     }
 }

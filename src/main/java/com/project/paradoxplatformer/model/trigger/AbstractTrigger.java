@@ -4,8 +4,6 @@ import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
-import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public abstract class AbstractTrigger implements Trigger {
 

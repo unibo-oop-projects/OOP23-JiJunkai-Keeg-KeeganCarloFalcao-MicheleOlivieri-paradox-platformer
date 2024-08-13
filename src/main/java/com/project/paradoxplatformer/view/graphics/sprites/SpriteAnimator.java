@@ -11,12 +11,14 @@ public class SpriteAnimator<T> {
     private EnumMap<SpriteStatus, List<T>> mapSprite;
     private SpriteStatus prev;
     private int index, frames;
+    private int minFrames;
 
-    public SpriteAnimator(Spriter<T> spriterSetter) {
+    public SpriteAnimator(Spriter<T> spriterSetter, final int minFrames) {
         mapSprite = new EnumMap<SpriteStatus, List<T>>(Map.of(
             SpriteStatus.IDLE, spriterSetter.getIdleImage(),
             SpriteStatus.RUNNING, spriterSetter.runningImages()
         ));
+        this.minFrames = minFrames;
     }
 
     public void selectFrame(SpriteStatus current, Consumer<T> imageAction) {
@@ -24,7 +26,7 @@ public class SpriteAnimator<T> {
         //FIXX, GRAMES PROB ON SPRITE DTO
         if(this.prev == current) {
             frames += 1;
-            if (frames % 5 == 0) {
+            if (frames % minFrames == 0) {
                 this.index += 1;
             }
             

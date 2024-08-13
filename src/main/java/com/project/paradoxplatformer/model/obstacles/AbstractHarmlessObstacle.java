@@ -1,5 +1,6 @@
-package com.project.paradoxplatformer.model.obstacles.abstracts;
+package com.project.paradoxplatformer.model.obstacles;
 
+import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractObstacle;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 

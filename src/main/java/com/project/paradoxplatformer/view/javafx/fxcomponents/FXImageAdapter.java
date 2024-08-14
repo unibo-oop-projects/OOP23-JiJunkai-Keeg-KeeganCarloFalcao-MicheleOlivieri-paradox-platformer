@@ -9,21 +9,17 @@ import com.project.paradoxplatformer.utils.ImageLoader;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.graphics.sprites.SpriteAnimator;
-import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
-import com.project.paradoxplatformer.view.graphics.sprites.Spriteable;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteable<SpriteStatus> {
+public class FXImageAdapter extends AbstractFXGraphicAdapter {
 
-    private final ImageView imgComponent;
-    private SpriteAnimator<Image> spriteAnimator;
+    protected final ImageView imgComponent;
+    
     private final DoubleProperty widthProperty;
     private final DoubleProperty heighProperty;
 
@@ -37,16 +33,8 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteab
             this.imgComponent.setSmooth(true);
             widthProperty = new SimpleDoubleProperty(dimension.width());
             heighProperty = new SimpleDoubleProperty(dimension.height());
-            // SHOULD DO IF SPRITE SO MAKE DISTINCT CLASSES
             imgComponent.setImage(ImageLoader.FXImage(imageURL));
-            // this.setDimension(dimension.width(), dimension.height());
-            this.spriteAnimator = new SpriteAnimator<Image>(
-                    new FXSpriterSetter(
-                            imageURL,
-                            new Dimension(
-                                    imgComponent.getImage().getWidth(),
-                                    imgComponent.getImage().getHeight()),
-                            dimension));
+            this.setDimension(dimension.width(), dimension.height());
         } else {
             throw new IllegalArgumentException("Requires imageview");
         }
@@ -66,11 +54,6 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter implements Spriteab
     public void setDimension(double width, double height) {
         this.widthProperty.set(width);
         this.heighProperty.set(height);
-    }
-
-    @Override
-    public void animate(SpriteStatus status) {
-        this.spriteAnimator.selectFrame(status, imgComponent::setImage);
     }
 
     @Override

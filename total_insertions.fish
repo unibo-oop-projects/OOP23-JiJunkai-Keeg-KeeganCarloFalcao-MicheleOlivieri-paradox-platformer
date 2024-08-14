@@ -40,8 +40,8 @@ end
 #Function for printing stats: insertions and deletions
 #Single param is needed, representing the author
 function print_stats
-	set total_insert (stats $argv[1] "$1")
-	set total_dels (stats $argv[1] "$2")
+	set total_insert (stats $argv[1] $1)
+	set total_dels (stats $argv[1] $2)
 	
 	#Check whether any errors occured, meaning no stats available
 	if test -z "$total_insert" 

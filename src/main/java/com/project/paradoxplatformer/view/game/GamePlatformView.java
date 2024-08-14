@@ -23,7 +23,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
-import com.project.paradoxplatformer.view.javafx.fxcomponents.FXImageAdapter;
+import com.project.paradoxplatformer.view.javafx.fxcomponents.FXSpriteAdapter;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -109,14 +109,15 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         
         if(mutEntity instanceof PlayerModel pl) {
             //JUST FOR TESTING, MUST DO BETTER
-            if(pl.getSp().x() < 0 && !this.isFlipped) {
+            if(pl.getSpeed().xComponent() < 0 && !this.isFlipped) {
                 graphicCompo.flip();
                 this.isFlipped = true;
-            } else if(pl.getSp().x() > 0 && this.isFlipped) {
+            } else if(pl.getSpeed().xComponent() > 0 && this.isFlipped) {
                 graphicCompo.flip();
                 this.isFlipped = false;
             }
-            if(graphicCompo instanceof FXImageAdapter spriAdapter) { 
+            
+            if(graphicCompo instanceof FXSpriteAdapter spriAdapter) { 
                 spriAdapter.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
                 
             }

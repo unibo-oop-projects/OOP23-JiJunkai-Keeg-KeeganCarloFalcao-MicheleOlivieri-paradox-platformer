@@ -4,7 +4,6 @@ import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public abstract class AbstractTrigger implements Trigger {
@@ -35,14 +34,14 @@ public abstract class AbstractTrigger implements Trigger {
     }
 
     @Override
-    public Vector2D getSpeed() {
+    public void updateState(long dt) {
         // TODO
-        return new Simple2DVector(1, 2);
     }
 
     @Override
-    public void updateState(long dt) {
-        // TODO
+    public Vector2D getSpeed() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

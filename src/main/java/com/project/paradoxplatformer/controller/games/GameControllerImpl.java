@@ -75,8 +75,6 @@ public final class GameControllerImpl<C> implements GameController<C> {
                 Stream.of(this.gameModel.getWorld().player())), this.gameModel.getWorld().triggers().stream())
                 .collect(Collectors.toSet());
 
-        System.out.println(str);
-
         return str.stream()
                 .filter(m -> this.joinPredicate(m, g))
                 .map(m -> Pair.of(m, g))

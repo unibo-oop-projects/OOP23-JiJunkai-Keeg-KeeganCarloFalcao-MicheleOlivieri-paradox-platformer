@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.utils.geometries.interpolations;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public final class InterpolatorFactoryImpl implements InterpolatorFactory{

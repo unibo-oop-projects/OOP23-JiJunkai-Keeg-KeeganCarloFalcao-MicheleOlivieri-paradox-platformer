@@ -19,7 +19,7 @@ import com.project.paradoxplatformer.utils.geometries.orientations.GraphicOffset
 import com.project.paradoxplatformer.utils.geometries.orientations.OffsetCorrector;
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactory;
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
@@ -34,7 +34,7 @@ import java.util.Optional;
 public final class GamePlatformView<C, K> implements GameView<C> {
 
     private final LevelDTO packedData;
-    private final SecureWrapper<GraphicContainer<C, K>> container;
+    private final SecureWrapper<GraphicContainer<C, ?>> container;
     private Set<GraphicAdapter<C>> setComponents;
     private final ViewMappingFactory<C> viewMappingFactory;
     private OffsetCorrector offsetCorrector;
@@ -42,7 +42,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
 
     public GamePlatformView(
         final LevelDTO packedData,
-        final GraphicContainer<C, K> g,
+        final GraphicContainer<C, ?> g,
         final ViewMappingFactory<C> factory
     ) 
     {
@@ -124,7 +124,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         }
     }
 
-    private Pair<DoubleProperty, DoubleProperty> initializePropreties(final GraphicContainer<C, K> gContainer) {
+    private Pair<DoubleProperty, DoubleProperty> initializePropreties(final GraphicContainer<C, ?> gContainer) {
         final DoubleProperty widthBinding = new SimpleDoubleProperty();
         final DoubleProperty heightBinding = new SimpleDoubleProperty();
 

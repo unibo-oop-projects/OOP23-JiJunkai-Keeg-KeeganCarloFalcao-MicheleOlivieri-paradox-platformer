@@ -4,7 +4,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public abstract class AbstractPositionableObject implements MutableObject {
@@ -30,7 +30,4 @@ public abstract class AbstractPositionableObject implements MutableObject {
 
     @Override
     public abstract void updateState(long dt);
-
-    
-    
 }

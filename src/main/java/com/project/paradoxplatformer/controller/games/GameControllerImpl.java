@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.controller.games;
 
+import com.google.common.collect.Sets;
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
@@ -15,9 +16,9 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
@@ -50,7 +51,6 @@ public final class GameControllerImpl<C> implements GameController<C> {
     @Override
     public void loadModel() {
         gameModel.init();
-
         System.out.println("Game Model is loaded.");
     }
 
@@ -68,9 +68,7 @@ public final class GameControllerImpl<C> implements GameController<C> {
     private Pair<MutableObject, GraphicAdapter<C>> join(final GraphicAdapter<C> g, final World world) {
         // SHOULD GET FROM WORLD, JUST TO MAKE THINGS EASY
         // MAKE A CONCAT OF ALL ENTITIES
-        final Set<MutableObject> str = Stream.concat(Stream.concat(this.gameModel.getWorld().obstacles().stream(),
-                Stream.of(this.gameModel.getWorld().player())), this.gameModel.getWorld().triggers().stream())
-                .collect(Collectors.toSet());
+        final Set<MutableObject> str = Sets.union(Set.of(world.player()), new LinkedHashSet<>(world.objects()));
 
         return str.stream()
                 .filter(m -> this.joinPredicate(m, g))
@@ -91,13 +89,22 @@ public final class GameControllerImpl<C> implements GameController<C> {
     @Override
     public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer) {
         new GameLoopFactoryImpl(dt -> {
-            ic.cyclePool(inputer.getKeyAssetter(), gameModel.getWorld().player(), ControllableObject::stop);
+            ic.checkPool(
+                inputer.getKeyAssetter(), 
+                gameModel.getWorld().player(),
+                ControllableObject::stop
+            );
             this.update(dt);
         })
-                .animationLoop()
-                .start();
+        .animationLoop()
+        .start();
     }
 
+    /**
+     * 
+     * 
+     * @param dt
+     */
     public void update(final long dt) {
         if (Objects.nonNull(gamePair)) {
             gamePair.forEach((m, g) -> m.updateState(dt));

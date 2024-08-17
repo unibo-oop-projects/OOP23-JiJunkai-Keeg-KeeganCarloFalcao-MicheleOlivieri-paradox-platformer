@@ -10,8 +10,8 @@ import com.project.paradoxplatformer.utils.geometries.interpolations.Interpolato
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.modifiers.api.Physics;
-import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public final class PlayerModel extends AbstractControllableObject implements MutableObject {
@@ -87,8 +87,7 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
 
     // addon
     public void collectCoin() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'collectCoin'");
+        //Something òlike this.inventory.addItem(new Coin())
     }
 
     @Override

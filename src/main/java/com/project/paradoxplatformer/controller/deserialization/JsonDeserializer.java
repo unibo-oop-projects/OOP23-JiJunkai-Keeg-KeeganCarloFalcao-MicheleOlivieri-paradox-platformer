@@ -21,7 +21,7 @@ public interface JsonDeserializer<T> {
      * @param json Must be the json file path
      * @return
      * @throws IOException in case there was an error occuring the reading of the file
-     * @throws InvalidResourceException when path is not found
+     * @throws InvalidResourceException when json foile path is not found
      */
     T deserialize(String json) throws IOException, InvalidResourceException;
 }

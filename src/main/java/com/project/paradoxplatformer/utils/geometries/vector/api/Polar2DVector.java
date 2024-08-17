@@ -1,7 +1,6 @@
-package com.project.paradoxplatformer.utils.geometries.vector;
+package com.project.paradoxplatformer.utils.geometries.vector.api;
 
 import com.project.paradoxplatformer.utils.geometries.coordinates.api.Polar;
-import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public final class Polar2DVector extends Simple2DVector{
 

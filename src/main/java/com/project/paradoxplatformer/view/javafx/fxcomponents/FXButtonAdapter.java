@@ -21,10 +21,13 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
         if (this.uiComponent instanceof Button buttonCopy) {
             this.buttonCompo = SecureWrapper.of(buttonCopy);
             this.buttonCompo.get().setText(text);
-
         } else {
             throw new IllegalArgumentException("Require button javafx class");
         }
+    }
+
+    public FXButtonAdapter(final String text) {
+        this(Dimension.dot(), Coord2D.origin(), text);
     }
 
     @Override

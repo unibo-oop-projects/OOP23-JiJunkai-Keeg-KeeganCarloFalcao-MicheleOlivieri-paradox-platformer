@@ -1,8 +1,8 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 //REMINDER

@@ -78,11 +78,12 @@ public final class PlatfromModelData implements GameModelData {
                                                                                 + attribute));
         }
 
-        // GOTTA CHECK INIT HAS DONE
-        // RETURNING AN MUTABLE MUST FIX
+        /**
+         * Due to security reasons returning world must be defensive copy of itself
+         */
         @Override
         public World getWorld() {
-                return this.world;
+                return new WorldImpl(this.world);
         }
 
 }

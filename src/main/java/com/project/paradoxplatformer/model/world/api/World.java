@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.model.world.api;
 
+import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
@@ -13,9 +15,9 @@ public interface World {
 
     Collection<Trigger> triggers();
 
-    boolean removeTrigger(Trigger selectTrigger);
+    Collection<MutableObject> objects();
 
-    boolean removeObstacle(Obstacle selectObstacle);
+    boolean removeGameObjcts(MutableObject collidableGameObj);
 
     PlayerModel player();
 

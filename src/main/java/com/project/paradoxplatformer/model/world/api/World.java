@@ -17,7 +17,7 @@ public interface World {
 
     Collection<MutableObject> objects();
 
-    boolean removeGameObjcts(MutableObject collidableGameObj);
+    boolean removeGameObjcts(MutableObject mutGameObject);
 
     PlayerModel player();
 

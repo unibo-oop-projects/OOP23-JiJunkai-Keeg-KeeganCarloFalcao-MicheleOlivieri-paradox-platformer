@@ -62,8 +62,13 @@ public final class WorldImpl implements World {
     }
 
     @Override
-    public boolean removeGameObjcts(final MutableObject collidableGameObject) {
-        return this.triggers.remove(collidableGameObject);
+    public boolean removeGameObjcts(final MutableObject mutableGameObj) {
+        if (mutableGameObj instanceof Trigger) {
+            return this.triggers.remove(mutableGameObj);
+        } else if (mutableGameObj instanceof Obstacle){
+            return this.obstacles.remove(mutableGameObj);
+        }
+        return false;
     }
 
     @Override

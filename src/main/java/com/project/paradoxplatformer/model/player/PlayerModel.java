@@ -41,6 +41,10 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
         this.inventory = new SimpleInventory();
     }
 
+    public PlayerModel() {
+        this(Coord2D.origin(), Dimension.dot());
+    }
+
     @Override
     public Coord2D getPosition() {
         return new Coord2D(position.x(), position.y());

@@ -1,7 +1,5 @@
 package com.project.paradoxplatformer.model.player;
 
-import java.util.Map;
-
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
@@ -24,7 +22,7 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
     private Physics physics;
     private Vector2D displacement;
     private final InterpolatorFactory interpFactory;
-    private final Inventory inventory;
+    private Inventory inventory;
 
     // VECTORS ARE NOW VECTOR2d, Point is Coord2d
     // OBVisously any can modfiy their name to avoid further misunderstooding
@@ -38,11 +36,6 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
         this.displacement = new Simple2DVector(pos.x(), pos.y());// addon
         this.horizontalSpeed = Polar2DVector.nullVector();// addon
         this.dimension = dimension;
-        this.inventory = new SimpleInventory();
-    }
-
-    public PlayerModel() {
-        this(Coord2D.origin(), Dimension.dot());
     }
 
     @Override
@@ -97,10 +90,6 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
     // addon
     public void collectItem(CollectableGameObject item) {
         this.inventory.addItem(item);
-    }
-
-    public Map<String, Long> getInventoryData() {
-        return this.inventory.getItemsCounts();
     }
 
     @Override

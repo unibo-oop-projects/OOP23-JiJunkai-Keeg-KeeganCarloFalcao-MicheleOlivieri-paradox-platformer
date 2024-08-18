@@ -7,7 +7,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 public final class Coin extends AbstractObstacle implements CollectableGameObject{
 
-    public Coin(Coord2D position, Dimension dimension) {
+    protected Coin(Coord2D position, Dimension dimension) {
         super(position, dimension);
     }
 }

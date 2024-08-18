@@ -1,9 +1,8 @@
 package com.project.paradoxplatformer.model.player;
 
-import com.project.paradoxplatformer.model.obstacles.CollectableGameObject;
+import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 
 public interface Inventory {
-
 
     void addItem(CollectableGameObject item);
 

@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.utils.effect;
 import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
+import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 
@@ -18,7 +19,7 @@ public class EffectFactoryImpl implements EffectsFactory {
     }
 
     @Override
-    public Effect transitionEffect() {
+    public Effect transitionEffect(final TrajectoryInfo traj) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'movingEffect'");
     }

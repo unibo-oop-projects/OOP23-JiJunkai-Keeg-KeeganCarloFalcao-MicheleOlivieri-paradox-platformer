@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.model.player;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
+import com.project.paradoxplatformer.model.obstacles.CollectableGameObject;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.*;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -21,6 +22,7 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
     private Physics physics;
     private Vector2D displacement;
     private final InterpolatorFactory interpFactory;
+    private Inventory inventory;
 
     // VECTORS ARE NOW VECTOR2d, Point is Coord2d
     // OBVisously any can modfiy their name to avoid further misunderstooding
@@ -86,8 +88,8 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
     }
 
     // addon
-    public void collectCoin() {
-        //Something òlike this.inventory.addItem(new Coin())
+    public void collectItem(CollectableGameObject item) {
+        this.inventory.addItem(item);
     }
 
     @Override

@@ -31,7 +31,4 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
         this.position = position;
     }
 
-    @Override
-    public abstract boolean isCollectable();
-
 }

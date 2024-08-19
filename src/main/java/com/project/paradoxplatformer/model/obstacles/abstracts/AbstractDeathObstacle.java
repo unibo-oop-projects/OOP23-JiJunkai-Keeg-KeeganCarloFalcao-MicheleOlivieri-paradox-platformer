@@ -13,7 +13,7 @@ import com.project.paradoxplatformer.controller.games.GameEventListener;
 public abstract class AbstractDeathObstacle extends AbstractObstacle implements DamageableObstacle {
 
     private final static int lifePoints = 100;
-    protected int damagePoints;
+    protected int damagePoints; //TODO: improve with optional
     private GameEventListener gameEventListener;
 
     protected AbstractDeathObstacle(final Coord2D position, final Dimension dimension, final Queue<TrajectoryInfo> trajStats, final int damagePoints) {
@@ -35,7 +35,7 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     @Override
     public void inflictDamage(ControllableObject player) {
         System.out.println("Inflict damage called on player.");
-        //player.decreaseLifePoints(damagePoints);
+        //if damagePoint: player.decreaseLifePoints(damagePoints);
         this.triggerExplosion();
         if (gameEventListener != null) {
             System.out.println("Player death event triggered.");
@@ -46,4 +46,16 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     }
 
     protected abstract void triggerExplosion();
+    
+
+    @Override
+    public void updateState(final long dt) {
+        super.updateState(dt);
+    }
+
+    public void setGameEventListener(GameEventListener listener) {
+        this.gameEventListener = listener;
+        System.out.println("GameEventListener set: " + (listener != null));
+    }
+
 }

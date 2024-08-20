@@ -32,6 +32,15 @@ public class ChainOfEffects {
     }
 
     /**
+     * Returns the list of effects in this chain.
+     *
+     * @return the list of effects
+     */
+    public List<Effect> getEffects() {
+        return effects;
+    }
+
+    /**
      * Creates a builder for constructing ChainOfEffects instances.
      *
      * @return a new ChainOfEffects builder

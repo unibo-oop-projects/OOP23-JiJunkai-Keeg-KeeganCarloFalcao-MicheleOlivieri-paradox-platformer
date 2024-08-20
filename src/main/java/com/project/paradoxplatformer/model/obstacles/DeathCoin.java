@@ -11,8 +11,8 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public final class DeathCoin extends AbstractDeathObstacle {
 
-    public DeathCoin(Coord2D position, Dimension dimension, Queue<TrajectoryInfo> trajStats) {
-        super(position, dimension, trajStats);
+    public DeathCoin(Coord2D position, Dimension dimension) {
+        super(position, dimension);
     }
 
     @Override
@@ -26,7 +26,6 @@ public final class DeathCoin extends AbstractDeathObstacle {
         // Puoi aggiungere ulteriori logiche specifiche per DeathCoin, se necessario
     }
 
-    @Override
     public Vector2D getSpeed() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getSpeed'");

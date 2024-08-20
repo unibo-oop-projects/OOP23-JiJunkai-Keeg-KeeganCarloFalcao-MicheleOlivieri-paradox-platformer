@@ -16,17 +16,16 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     protected int damagePoints; //TODO: improve with optional
     private GameEventListener gameEventListener;
 
-    protected AbstractDeathObstacle(final Coord2D position, final Dimension dimension, final Queue<TrajectoryInfo> trajStats, final int damagePoints) {
-        super(position, dimension, trajStats);
+    protected AbstractDeathObstacle(final Coord2D position, final Dimension dimension, final int damagePoints) {
+        super(position, dimension);
         this.damagePoints = damagePoints;
     }
 
-    protected AbstractDeathObstacle(final Coord2D position, final Dimension dimension, final Queue<TrajectoryInfo> trajStats) {
-        super(position, dimension, trajStats);
+    protected AbstractDeathObstacle(final Coord2D position, final Dimension dimension) {
+        super(position, dimension);
         this.damagePoints = lifePoints;
     }
 
-    @Override
     public void effect(Optional<ControllableObject> ob) {
         ob.ifPresent(player -> this.inflictDamage(player));
         System.out.println("effect");

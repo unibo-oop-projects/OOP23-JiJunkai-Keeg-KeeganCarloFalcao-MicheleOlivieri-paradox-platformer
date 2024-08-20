@@ -1,10 +1,11 @@
 package com.project.paradoxplatformer.model.player;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import java.util.Map;
+
+import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
-import com.project.paradoxplatformer.utils.collision.api.Collidable;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.*;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -12,29 +13,36 @@ import com.project.paradoxplatformer.utils.geometries.interpolations.Interpolato
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.modifiers.api.Physics;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public final class PlayerModel extends AbstractControllableObject implements MutableObject, Collidable {
+public final class PlayerModel extends AbstractControllableObject implements MutableObject {
 
     private Point position;
     private Dimension dimension;
     private Physics physics;
     private Vector2D displacement;
     private final InterpolatorFactory interpFactory;
+    private final Inventory inventory;
 
     // VECTORS ARE NOW VECTOR2d, Point is Coord2d
     // OBVisously any can modfiy their name to avoid further misunderstooding
 
-    public PlayerModel(Coord2D pos, Dimension dimension, Vector2D speed) {
+    public PlayerModel(Coord2D pos, Dimension dimension) {
         // THIS IS REQUIRED CAUSE PLAYER CAN BE CONTROLLED BY USER
         super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14));// addon
         physics = new PhysicsEngine();// addon
         interpFactory = new InterpolatorFactoryImpl();// addon
         this.position = new Point(pos.x(), pos.y());
         this.displacement = new Simple2DVector(pos.x(), pos.y());// addon
-        this.horizontalSpeed = speed;// addon
-        this.dimension = dimension; // TODO: modifica con valori sensati
+        this.horizontalSpeed = Polar2DVector.nullVector();// addon
+        this.dimension = dimension;
+        this.inventory = new SimpleInventory();
+    }
+
+    public PlayerModel() {
+        this(Coord2D.origin(), Dimension.dot());
     }
 
     @Override
@@ -48,14 +56,9 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
         this.position = new Point(pos.x(), pos.y());
     }
 
-    @Override
+    // ADD ON
     public Vector2D getSpeed() {
         return this.horizontalSpeed;
-    }
-
-    // ADD ON
-    public Vector getSp() {
-        return this.speed;
     }
 
     // COULD SHOW INTERNAL
@@ -92,14 +95,17 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
     }
 
     // addon
-    public void collectCoin() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'collectCoin'");
+    public void collectItem(CollectableGameObject item) {
+        this.inventory.addItem(item);
+    }
+
+    public Map<String, Long> getInventoryData() {
+        return this.inventory.getItemsCounts();
     }
 
     @Override
     public CollisionType getCollisionType() {
-        return CollisionType.Player;
+        return CollisionType.PLAYER;
     }
 
 }

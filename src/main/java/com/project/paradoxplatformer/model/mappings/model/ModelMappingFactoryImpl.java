@@ -17,22 +17,22 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 
 public class ModelMappingFactoryImpl implements ModelMappingFactory {
 
     private static final String DOT = ".";
     private static final String OBSTACLE_PREFIX_NAME = Obstacle.class.getPackageName() + DOT;
     private static final String TRIGGER_PREFIX_NAME = Trigger.class.getPackageName() + DOT;
+    private static final String OBSTACLE_TAG = "obstacle";
+    private static final String TRIGGER_TAG = "trigger";
 
     public ModelMappingFactoryImpl() {
     }
 
     @Override
     public EntityDataMapper<PlayerModel> playerToModel() {
-        return g -> new PlayerModel(new Coord2D(g.getX(), g.getY()), new Dimension(g.getWidth(), g.getHeight()),
-                Polar2DVector.nullVector());
+        return g -> new PlayerModel(new Coord2D(g.getX(), g.getY()), new Dimension(g.getWidth(), g.getHeight()));
     }
 
     @Override
@@ -41,22 +41,9 @@ public class ModelMappingFactoryImpl implements ModelMappingFactory {
     }
 
     private Obstacle evaluateObstacleType(GameDTO sub) {
-        try {
-            return (Obstacle) Class.forName(OBSTACLE_PREFIX_NAME + sub.getSubtype())
-                    .getConstructor(
-                            Coord2D.class,
-                            Dimension.class,
-                            Queue.class)
-                    .newInstance(
-                            new Coord2D(sub.getX(), sub.getY()),
-                            new Dimension(sub.getWidth(), sub.getHeight()),
-                            this.trajMacro(sub.getTraj()));
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-            throw new IllegalStateException("failed to create obstacle through reflection\nCheck: ", e);
-        }
-
+        return (Obstacle) evaluateGenericType(sub, OBSTACLE_PREFIX_NAME, OBSTACLE_TAG);
     }
+
 
     private Queue<TrajectoryInfo> trajMacro(TrajMacro[] traj) {
         if (Objects.nonNull(traj)) {
@@ -75,19 +62,24 @@ public class ModelMappingFactoryImpl implements ModelMappingFactory {
     }
 
     private Trigger evaluateTriggerType(GameDTO sub) {
+        return (Trigger) evaluateGenericType(sub, TRIGGER_PREFIX_NAME, TRIGGER_TAG);
+    }
+
+
+    private Object evaluateGenericType(GameDTO sub, String prefix, final String typeTag) {
         try {
-            return (Trigger) Class.forName(TRIGGER_PREFIX_NAME + sub.getSubtype())
+            return Class.forName(prefix + sub.getSubtype())
                     .getConstructor(
-                            Coord2D.class,
-                            Dimension.class)
-                    .newInstance(
-                            new Coord2D(sub.getX(), sub.getY()),
-                            new Dimension(sub.getWidth(), sub.getHeight()));
+                        Coord2D.class,
+                        Dimension.class
+                    ).newInstance(
+                        new Coord2D(sub.getX(), sub.getY()),
+                        new Dimension(sub.getWidth(), sub.getHeight())
+                    );
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
-            throw new IllegalStateException("failed to create trigger through reflection\nCheck: ", e);
+            throw new IllegalStateException("failed to create " + typeTag + " through reflection\nCheck: ", e);
         }
-
     }
 
 }

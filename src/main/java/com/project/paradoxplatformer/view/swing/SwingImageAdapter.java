@@ -19,7 +19,7 @@ public class SwingImageAdapter extends AbstractSwingAdapter implements Spriteabl
     private SpriteAnimator<BufferedImage> spriteAnimator;
     private JButton imgComponent;
 
-    protected SwingImageAdapter(Dimension dimension, Coord2D coord, String imagePath) {
+    protected SwingImageAdapter(Dimension dimension, Coord2D coord, String imagePath, final int minFrames) {
         super(new JButton(), dimension, coord);
         if(this.uiComponent instanceof JButton jLabel) {
             this.imgComponent = jLabel;
@@ -32,8 +32,9 @@ public class SwingImageAdapter extends AbstractSwingAdapter implements Spriteabl
                             jLabel.getIcon().getIconWidth(),
                             jLabel.getIcon().getIconWidth()
                         ),
-                        dimension
-                    )
+                        dimension         
+                    ),
+                    minFrames
                 ); 
             } catch (IOException | InvalidResourceException e) {
                 throw new IllegalStateException(e.getMessage(), e);

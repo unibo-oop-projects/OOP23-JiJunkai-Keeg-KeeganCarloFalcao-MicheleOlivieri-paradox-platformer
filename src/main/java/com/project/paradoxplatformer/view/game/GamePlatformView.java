@@ -19,11 +19,11 @@ import com.project.paradoxplatformer.utils.geometries.orientations.GraphicOffset
 import com.project.paradoxplatformer.utils.geometries.orientations.OffsetCorrector;
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactory;
 import com.project.paradoxplatformer.utils.geometries.orientations.factory.OffsetFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
-import com.project.paradoxplatformer.view.javafx.fxcomponents.FXImageAdapter;
+import com.project.paradoxplatformer.view.javafx.fxcomponents.FXSpriteAdapter;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -34,7 +34,7 @@ import java.util.Optional;
 public final class GamePlatformView<C, K> implements GameView<C> {
 
     private final LevelDTO packedData;
-    private final SecureWrapper<GraphicContainer<C, K>> container;
+    private final SecureWrapper<GraphicContainer<C, ?>> container;
     private Set<GraphicAdapter<C>> setComponents;
     private final ViewMappingFactory<C> viewMappingFactory;
     private OffsetCorrector offsetCorrector;
@@ -42,7 +42,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
 
     public GamePlatformView(
         final LevelDTO packedData,
-        final GraphicContainer<C, K> g,
+        final GraphicContainer<C, ?> g,
         final ViewMappingFactory<C> factory
     ) 
     {
@@ -109,21 +109,22 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         
         if(mutEntity instanceof PlayerModel pl) {
             //JUST FOR TESTING, MUST DO BETTER
-            if(pl.getSp().x() < 0 && !this.isFlipped) {
+            if(pl.getSpeed().xComponent() < 0 && !this.isFlipped) {
                 graphicCompo.flip();
                 this.isFlipped = true;
-            } else if(pl.getSp().x() > 0 && this.isFlipped) {
+            } else if(pl.getSpeed().xComponent() > 0 && this.isFlipped) {
                 graphicCompo.flip();
                 this.isFlipped = false;
             }
-            if(graphicCompo instanceof FXImageAdapter spriAdapter) { 
+            
+            if(graphicCompo instanceof FXSpriteAdapter spriAdapter) { 
                 spriAdapter.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
                 
             }
         }
     }
 
-    private Pair<DoubleProperty, DoubleProperty> initializePropreties(final GraphicContainer<C, K> gContainer) {
+    private Pair<DoubleProperty, DoubleProperty> initializePropreties(final GraphicContainer<C, ?> gContainer) {
         final DoubleProperty widthBinding = new SimpleDoubleProperty();
         final DoubleProperty heightBinding = new SimpleDoubleProperty();
 

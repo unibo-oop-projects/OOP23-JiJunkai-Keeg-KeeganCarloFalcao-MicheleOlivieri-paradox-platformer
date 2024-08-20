@@ -61,7 +61,7 @@ public class HelloController<V, K> implements Initializable, Page<String> {
         // gameModel.getWorld().obstacles().forEach(ob -> ob.effect(Optional.of(gameModel.getWorld().player())));
     }
 
-    //SHOULD PASS A PARAMETER DETAING THE MODEL STATE
+    //SHOULD PASS A PARAMETER DETANING THE MODEL STATE
     @Override
     public void create(String param) throws Exception {
         if (!Platform.isFxApplicationThread()) {

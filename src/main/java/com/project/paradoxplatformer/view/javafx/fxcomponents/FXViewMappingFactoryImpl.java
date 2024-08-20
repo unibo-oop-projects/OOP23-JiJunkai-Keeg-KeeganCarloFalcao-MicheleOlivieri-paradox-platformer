@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
+import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -15,17 +16,7 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
 
     @Override         
     public EntityDataMapper<GraphicAdapter<Node>> imageToView(){
-        return g ->  {
-            try {
-                return new FXImageAdapter(
-                        new Dimension(g.getWidth(), g.getHeight()),
-                        new Coord2D(g.getX(), g.getY()),
-                        g.getImage()
-                    );
-            } catch (InvalidResourceException e) {
-                throw new IllegalStateException(e);
-            }
-        };     
+        return this::reckonImageFromSprite;
     }
 
     @Override
@@ -35,5 +26,25 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
             new Coord2D(g.getX(), g.getY()),
             g.getColor().toFXColor()
         );
+    }
+
+    private GraphicAdapter<Node> reckonImageFromSprite(GameDTO g) {
+        try {
+            System.out.println(g.getFrames());
+            return g.getFrames() > 0 ? new FXSpriteAdapter(
+                    new Dimension(g.getWidth(), g.getHeight()),
+                    new Coord2D(g.getX(), g.getY()),
+                    g.getImage(), 
+                    g.getFrames()
+                ) :
+                new FXImageAdapter(
+                    new Dimension(g.getWidth(), g.getHeight()),
+                    new Coord2D(g.getX(), g.getY()),
+                    g.getImage()
+                ); 
+        } catch (InvalidResourceException e) {
+            throw new IllegalStateException(e);
+        }
+        
     }
 }

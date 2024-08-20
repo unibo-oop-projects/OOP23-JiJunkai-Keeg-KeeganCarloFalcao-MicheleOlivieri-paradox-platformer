@@ -14,7 +14,7 @@ public final class InputController<T> {
         this.inModel = inModel;
     }
 
-    public <K> void cyclePool(final KeyAssetter<K> keyAssets, final T actor, final Command<T> onIdle) {
+    public <K> void checkPool(final KeyAssetter<K> keyAssets, final T actor, final Command<T> onIdle) {
         if(!keyAssets.getUnmodifiablePool().isEmpty()) {
             keyAssets.getUnmodifiablePool().stream()
                 .filter(Optional::isPresent)

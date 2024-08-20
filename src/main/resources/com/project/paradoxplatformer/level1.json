@@ -9,7 +9,8 @@
 			"width": 43,
 			"height": 53,
 			"subtype": "",
-			"image": "player.png"
+			"image": "player.png",
+			"nframe": 5
 		},
 		{
 			"type": "obstacle",

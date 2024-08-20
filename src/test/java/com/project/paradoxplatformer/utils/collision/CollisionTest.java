@@ -25,7 +25,7 @@ public class CollisionTest {
         EffectHandler effectHandler = new EffectHandler();
         CollisionManager collisionManager = new CollisionManager(effectHandler);
 
-        PlayerModel player = new PlayerModel(new Coord2D(0, 0), new Dimension(50, 50), null);
+        PlayerModel player = new PlayerModel(new Coord2D(0, 0), new Dimension(50, 50));
         Button button = new Button();
         Warp warp = new Warp(100, 200);
 
@@ -52,7 +52,7 @@ public class CollisionTest {
         List<? extends CollidableGameObject> collidables = List.of(player, button, warp);
 
         // Simulate collision detection
-        collisionManager.detectCollisions(collidables);
+        collisionManager.detectCollisions(collidables, player);
 
         assertTrue(player.getPosition().x() == 100. && player.getPosition().y() == 200.);
         assertFalse(player.getPosition().x() == 200. && player.getPosition().y() == 400.);

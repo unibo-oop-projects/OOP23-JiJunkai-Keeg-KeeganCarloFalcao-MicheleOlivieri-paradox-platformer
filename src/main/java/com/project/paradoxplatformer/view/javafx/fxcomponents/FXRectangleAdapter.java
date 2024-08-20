@@ -25,8 +25,6 @@ public class FXRectangleAdapter extends AbstractFXGraphicAdapter {
             this.blockComponent.setFill(fill);
             widthProperty = new SimpleDoubleProperty(dimension.width());
             heighProperty = new SimpleDoubleProperty(dimension.height());
-            //SHOULD DO IF SPRITE SO MAKE DISTINCT CLASSES
-            
             this.setDimension(dimension.width(), dimension.height());
         } else {
             throw new IllegalArgumentException("Require rectangle");
@@ -50,9 +48,7 @@ public class FXRectangleAdapter extends AbstractFXGraphicAdapter {
     public void bindPropreties(ObservableDoubleValue wratio, ObservableDoubleValue hratio) {
         super.bindPropreties(wratio, hratio);
         this.blockComponent.heightProperty().bind(heighProperty.multiply(hratio));
-        this.blockComponent.widthProperty().bind(widthProperty.multiply(wratio));
-        
-        
+        this.blockComponent.widthProperty().bind(widthProperty.multiply(wratio));  
     }
 
 }

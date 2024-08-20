@@ -1,7 +1,10 @@
 package com.project.paradoxplatformer.model.ui.api;
 
-public interface Menu {
-    void display();
+import java.util.List;
 
-    void handleInput(String input);
+public interface Menu {
+    String getTitle();
+
+    List<MenuItem> getItems();
+
 }

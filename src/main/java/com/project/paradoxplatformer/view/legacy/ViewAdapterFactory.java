@@ -9,7 +9,6 @@ import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 
 public interface ViewAdapterFactory<V, P, K> {
 
-    //Should be a singleton
     Supplier<ViewManager> mainAppManager();
 
     P blankPage();

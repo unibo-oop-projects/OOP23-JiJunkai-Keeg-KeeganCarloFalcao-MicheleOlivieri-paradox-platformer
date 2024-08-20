@@ -1,7 +1,4 @@
-package com.project.paradoxplatformer.utils.geometries.vector;
-
-import com.project.paradoxplatformer.utils.geometries.vector.api.AbstractVector;
-import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
+package com.project.paradoxplatformer.utils.geometries.vector.api;
 
 public sealed class Simple2DVector extends AbstractVector permits Polar2DVector{
 

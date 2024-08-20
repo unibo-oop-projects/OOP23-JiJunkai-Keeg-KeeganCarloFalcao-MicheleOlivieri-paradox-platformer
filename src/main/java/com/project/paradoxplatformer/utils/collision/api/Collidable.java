@@ -3,8 +3,7 @@ package com.project.paradoxplatformer.utils.collision.api;
 /**
  * Defines the contract for objects that can participate in collision detection.
  * Objects implementing this interface must provide information about their
- * collision type
- * and a method to check for collisions with other collidable objects.
+ * collision type.
  */
 public interface Collidable {
 

@@ -1,8 +1,11 @@
-package main.java.com.project.paradoxplatformer.model.obstacles;
+package com.project.paradoxplatformer.model.obstacles;
 
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
+
+import java.util.Optional;
 
 public class Saw extends AbstractDeathObstacle {
 

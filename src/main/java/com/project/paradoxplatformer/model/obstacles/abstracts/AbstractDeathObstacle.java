@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.model.obstacles.abstracts;
 import java.util.Optional;
 import java.util.Queue;
 
-import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.DamageableObstacle;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -12,18 +11,17 @@ import com.project.paradoxplatformer.controller.games.GameEventListener;
 
 public abstract class AbstractDeathObstacle extends AbstractObstacle implements DamageableObstacle {
 
-    private final static int lifePoints = 100;
-    protected int damagePoints; //TODO: improve with optional
+    private static final int DEFAULT_DAMAGE_POINTS = 100;
+    protected Optional<Integer> damagePoints; // Modificato in Optional
     private GameEventListener gameEventListener;
 
-    protected AbstractDeathObstacle(final Coord2D position, final Dimension dimension, final int damagePoints) {
+    protected AbstractDeathObstacle(final Coord2D position, final Dimension dimension, final Optional<Integer> damagePoints) {
         super(position, dimension);
         this.damagePoints = damagePoints;
     }
 
     protected AbstractDeathObstacle(final Coord2D position, final Dimension dimension) {
-        super(position, dimension);
-        this.damagePoints = lifePoints;
+        this(position, dimension, Optional.of(DEFAULT_DAMAGE_POINTS));
     }
 
     public void effect(Optional<ControllableObject> ob) {
@@ -34,7 +32,10 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     @Override
     public void inflictDamage(ControllableObject player) {
         System.out.println("Inflict damage called on player.");
-        //if damagePoint: player.decreaseLifePoints(damagePoints);
+        // Usa il valore predefinito se damagePoints è vuoto
+        int damage = damagePoints.orElse(DEFAULT_DAMAGE_POINTS);
+        // player.decreaseLifePoints(damage); // Supponendo che ci sia un metodo del genere
+
         this.triggerExplosion();
         if (gameEventListener != null) {
             System.out.println("Player death event triggered.");
@@ -45,7 +46,6 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     }
 
     protected abstract void triggerExplosion();
-    
 
     @Override
     public void updateState(final long dt) {

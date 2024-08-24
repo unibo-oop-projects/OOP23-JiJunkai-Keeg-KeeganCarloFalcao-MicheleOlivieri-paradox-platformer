@@ -16,7 +16,6 @@ import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
-import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.effect.EffectHandler;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -64,7 +63,7 @@ public final class PlatfromModelData implements GameModelData {
                                                                 .map(modelFactory.triggerToModel()::map)
                                                                 .toList()
                                                                 .toArray(new Trigger[0]))
-                                .addCollisionManager(new CollisionManager(new EffectHandler()))
+                                .addCollisionManager(new CollisionManager(EffectHandler.createDefaultEffectHandler()))
                                 .build();
         }
 

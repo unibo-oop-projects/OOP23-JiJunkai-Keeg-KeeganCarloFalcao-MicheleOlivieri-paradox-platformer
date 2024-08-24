@@ -30,15 +30,7 @@ public class CollisionTest {
         Warp warp = new Warp(100, 200);
 
         // Register effects
-        // effectHandler.addCollisionEffects(CollisionType.TRIGGER, button, List.of(()
-        // -> new Effect() {
-        // @Override
-        // public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject>
-        // target) {
-        // System.out.println("Button effect applied");
-        // return CompletableFuture.completedFuture(null);
-        // }
-        // }));
+        // effectHandler.addSingleEffect(CollisionType.TRIGGER, button, null);
 
         // effectHandler.addCollisionEffects(CollisionType.TRIGGER, warp, List.of(() ->
         // new Effect() {

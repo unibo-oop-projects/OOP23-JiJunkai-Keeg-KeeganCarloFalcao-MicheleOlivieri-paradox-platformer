@@ -19,9 +19,7 @@ public class CollisionManager {
                 .filter(object -> object != player)
                 .forEach(object -> {
                     if (CollisionDetector.isColliding(player, object)) {
-                        System.out.println("HEllo");
                         effectHandler.applyEffects(player, object);
-                        effectHandler.applyEffects(object, player);
                     }
                 });
     }

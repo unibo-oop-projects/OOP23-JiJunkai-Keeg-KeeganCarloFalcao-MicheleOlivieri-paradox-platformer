@@ -52,6 +52,7 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
 
     // COULD SHOW INTERNAL
     // PUBLIC FOR TESTING PURPOSE
+    @Override
     public void setPosition(Coord2D pos) {
         this.position = new Point(pos.x(), pos.y());
     }

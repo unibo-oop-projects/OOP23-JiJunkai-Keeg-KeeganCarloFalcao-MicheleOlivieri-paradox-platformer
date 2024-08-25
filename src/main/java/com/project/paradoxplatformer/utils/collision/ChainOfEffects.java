@@ -28,9 +28,34 @@ public class ChainOfEffects {
      * @return a CompletableFuture that completes when all effects have been applied
      */
     public CompletableFuture<Void> applyEffectsSequentially(Optional<? extends CollidableGameObject> target) {
+        if (effects.isEmpty()) {
+            return CompletableFuture.completedFuture(null);
+        }
+
         CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
         for (Effect effect : effects) {
-            future = future.thenCompose(v -> effect.apply(target));
+            future = future.thenCompose(v -> effect.apply(target, Optional.empty()));
+        }
+        return future;
+    }
+
+    /**
+     * Applies the chain of effects to both target and self objects asynchronously.
+     * The effects are applied sequentially in the order they were added.
+     *
+     * @param target the optional target object to apply effects to
+     * @param self   the optional self object to apply effects to
+     * @return a CompletableFuture that completes when all effects have been applied
+     */
+    public CompletableFuture<Void> applyEffectsSequentially(Optional<? extends CollidableGameObject> target,
+            Optional<? extends CollidableGameObject> self) {
+        if (effects.isEmpty()) {
+            return CompletableFuture.completedFuture(null);
+        }
+
+        CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
+        for (Effect effect : effects) {
+            future = future.thenCompose(v -> effect.apply(target, self));
         }
         return future;
     }

@@ -7,6 +7,7 @@ import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -19,6 +20,8 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
@@ -26,7 +29,7 @@ import org.apache.commons.lang3.tuple.Pair;
  * 
  * @param <C> type of view component
  */
-public final class GameControllerImpl<C> implements GameController<C> {
+public final class GameControllerImpl<C> implements GameController<C>, GameEventListener {
 
     private final GameModelData gameModel;
     private Map<MutableObject, GraphicAdapter<C>> gamePair;
@@ -66,19 +69,27 @@ public final class GameControllerImpl<C> implements GameController<C> {
     }
 
     private Pair<MutableObject, GraphicAdapter<C>> join(final GraphicAdapter<C> g, final World world) {
-        // SHOULD GET FROM WORLD, JUST TO MAKE THINGS EASY
-        // MAKE A CONCAT OF ALL ENTITIES
-        final Set<MutableObject> str = Sets.union(Set.of(world.player()), new LinkedHashSet<>(world.objects()));
-
-        return str.stream()
-                .filter(m -> this.joinPredicate(m, g))
-                .map(m -> Pair.of(m, g))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "Failed to pair object and graphic\nCause: "
-                                + "\nGraphic: " + dimension.apply(g)
-                                + "\nGraphic: " + position.apply(g)));
+        final Set<MutableObject> str = Stream.concat(Stream.concat(this.gameModel.getWorld().obstacles().stream(),
+                Stream.of(this.gameModel.getWorld().player())), this.gameModel.getWorld().triggers().stream())
+                .collect(Collectors.toSet());
+    
+        Pair<MutableObject, GraphicAdapter<C>> pair = str.stream()
+                    .filter(m -> this.joinPredicate(m, g))
+                    .map(m -> Pair.of(m, g))
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException(
+                            "Failed to pair object and graphic\nCause: "
+                                    + "\nGraphic: " + dimension.apply(g)
+                                    + "\nGraphic: " + position.apply(g)));
+            
+        // Imposta il listener se l'oggetto è un AbstractDeathObstacle
+        if (pair.getKey() instanceof AbstractDeathObstacle) {
+            ((AbstractDeathObstacle) pair.getKey()).setGameEventListener(this);
+        }
+    
+        return pair;
     }
+    
 
     private boolean joinPredicate(final MutableObject obstacle1, final GraphicAdapter<C> gComponent) {
 
@@ -108,7 +119,28 @@ public final class GameControllerImpl<C> implements GameController<C> {
     public void update(final long dt) {
         if (Objects.nonNull(gamePair)) {
             gamePair.forEach((m, g) -> m.updateState(dt));
+            this.gameModel.getWorld().getCollisionManager().detectCollisions(gamePair.keySet(),
+                    this.gameModel.getWorld().player());
             gamePair.forEach(this.gameView::updateEnitityState);
         }
     }
+
+    public void restartLevel() {
+        // Reinizzializza il modello del gioco
+        this.gameModel.init();
+        
+        // Resetta la vista in modo che corrisponda al nuovo stato del modello
+        this.syncView();
+    }
+
+    @Override
+    public void onPlayerDeath() {
+        // Ricarica il livello
+        try {
+            this.restartLevel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

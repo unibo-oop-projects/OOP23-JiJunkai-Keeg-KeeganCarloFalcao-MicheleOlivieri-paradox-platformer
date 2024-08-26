@@ -8,14 +8,13 @@ import java.util.Optional;
 
 import com.project.paradoxplatformer.HelloApplication;
 
-public final class ResourcesFinder{
+public final class ResourcesFinder {
 
     private static final List<String> fxmlFiles = List.of(
-        "hello-view.fxml"
-    );
+            "hello-view.fxml");
 
-    public static List<URL> FXMLfiles() throws InvalidResourceException{
-        
+    public static List<URL> FXMLfiles() throws InvalidResourceException {
+
         return fxmlFiles.stream().map(t -> {
             try {
                 return getURL(t);
@@ -26,16 +25,14 @@ public final class ResourcesFinder{
     }
 
     public static Map<String, InputStream> allImages() {
-        
+
         return null;
-                
+
     }
 
-    public static URL getURL(String filePath) throws InvalidResourceException{
-            return Optional.ofNullable(HelloApplication.class.getResource(filePath))
-                .orElseThrow(() -> 
-                    new InvalidResourceException(filePath)
-                );    
-        
+    public static URL getURL(String filePath) throws InvalidResourceException {
+        return Optional.ofNullable(HelloApplication.class.getResource(filePath))
+                .orElseThrow(() -> new InvalidResourceException(filePath));
+
     }
 }

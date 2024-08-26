@@ -16,7 +16,6 @@ import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
-import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.effect.EffectHandler;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -47,6 +46,7 @@ public final class PlatfromModelData implements GameModelData {
 		.filter(u -> !u)
 		.orElseThrow(() -> new IllegalStateException("Attribute type of game DTO is undefined, could not map"));
 
+<<<<<<< HEAD
 		this.world = this.worldBuilder
 			.addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
 			.addPlayer(
@@ -72,6 +72,28 @@ public final class PlatfromModelData implements GameModelData {
 			)
 			.build();
 	}
+=======
+                this.world = this.worldBuilder
+                                .addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
+                                .addPlayer(modelFactory.playerToModel().map(
+                                                this.findGameDTOData("player")
+                                                                .stream()
+                                                                .findFirst()
+                                                                .orElseThrow()))
+                                .addObstacle(
+                                                this.findGameDTOData("obstacle").stream()
+                                                                .map(modelFactory.obstacleToModel()::map)
+                                                                .toList()
+                                                                .toArray(new Obstacle[0]))
+                                .addTrigger(
+                                                this.findGameDTOData("trigger").stream()
+                                                                .map(modelFactory.triggerToModel()::map)
+                                                                .toList()
+                                                                .toArray(new Trigger[0]))
+                                .addCollisionManager(new CollisionManager(EffectHandler.createDefaultEffectHandler()))
+                                .build();
+        }
+>>>>>>> 69a6b16809851b27309902a3132daa6aac5318f0
 
 	private Collection<GameDTO> findGameDTOData(final String attribute) {
 			return Optional.of(

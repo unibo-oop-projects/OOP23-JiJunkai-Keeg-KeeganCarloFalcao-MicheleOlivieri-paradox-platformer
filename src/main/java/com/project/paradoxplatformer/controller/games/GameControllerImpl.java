@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -34,8 +33,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final GameModelData gameModel;
     private Map<MutableObject, GraphicAdapter<C>> gamePair;
     private final GameView<C> gameView;
-    private Function<GraphicAdapter<C>, Coord2D> position;
-    private Function<GraphicAdapter<C>, Dimension> dimension;
+    private final Function<GraphicAdapter<C>, Coord2D> position;
+    private final Function<GraphicAdapter<C>, Dimension> dimension;
 
     /**
      * A generic constuctor of a gamecontroller.
@@ -69,9 +68,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     }
 
     private Pair<MutableObject, GraphicAdapter<C>> join(final GraphicAdapter<C> g, final World world) {
-        final Set<MutableObject> str = Stream.concat(Stream.concat(this.gameModel.getWorld().obstacles().stream(),
-                Stream.of(this.gameModel.getWorld().player())), this.gameModel.getWorld().triggers().stream())
-                .collect(Collectors.toSet());
+        final Set<MutableObject> str = Sets.union(new LinkedHashSet<>(world.gameObjects()), Set.of(world.player()));
     
         Pair<MutableObject, GraphicAdapter<C>> pair = str.stream()
                     .filter(m -> this.joinPredicate(m, g))
@@ -92,7 +89,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     
 
     private boolean joinPredicate(final MutableObject obstacle1, final GraphicAdapter<C> gComponent) {
-
         return obstacle1.getDimension().equals(dimension.apply(gComponent))
                 && obstacle1.getPosition().equals(position.apply(gComponent));
     }

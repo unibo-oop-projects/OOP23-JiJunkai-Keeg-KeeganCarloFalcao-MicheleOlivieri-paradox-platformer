@@ -108,30 +108,17 @@
 			"type": "trigger",
 			"x": 390,
 			"y": 100,
-			"width": 30,
-			"height": 110,
+			"width": 25,
+			"height": 16,
 			"subtype": "Button",
-			"color": {
-				"blu": 180,
-				"red": 180,
-				"green": 180,
-				"alpha": 1
-			},
-			"traj": [
-				{
-					"x": 390,
-					"y": 190,
-					"duration": 1,
-					"vector": "HEIGHT"
-				}
-			]
+			"image": "button.png"
 		},
 		{
 			"type": "obstacle",
 			"x": 200,
-			"y": 100,
-			"width": 75,
-			"height": 75,
+			"y": 110,
+			"width": 25,
+			"height": 25,
 			"subtype": "DeathCoin",
 			"image": "coin.png"
 		}

@@ -33,7 +33,7 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
         // THIS IS REQUIRED CAUSE PLAYER CAN BE CONTROLLED BY USER
         super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14));// addon
         physics = new PhysicsEngine();// addon
-        interpFactory = new InterpolatorFactoryImpl();// addon
+        this.interpFactory = new InterpolatorFactoryImpl();// addon
         this.position = new Point(pos.x(), pos.y());
         this.displacement = new Simple2DVector(pos.x(), pos.y());// addon
         this.horizontalSpeed = Polar2DVector.nullVector();// addon
@@ -94,7 +94,6 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
         this.setPosition(this.displacement.convert());// addon
     }
 
-    // addon
     public void collectItem(CollectableGameObject item) {
         this.inventory.addItem(item);
     }

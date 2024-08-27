@@ -15,7 +15,7 @@ public interface World {
 
     Collection<Trigger> triggers();
 
-    Collection<MutableObject> objects();
+    Collection<MutableObject> gameObjects();
 
     boolean removeGameObjcts(MutableObject mutGameObject);
 

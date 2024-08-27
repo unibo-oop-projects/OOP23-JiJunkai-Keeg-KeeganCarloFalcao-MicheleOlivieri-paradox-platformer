@@ -23,7 +23,6 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
     private final DoubleProperty widthProperty;
     private final DoubleProperty heighProperty;
 
-    // MUST ADD WETHER AN IMAGE IS SPRITEABLE
     protected FXImageAdapter(Dimension dimension, Coord2D position, String imageURL) throws InvalidResourceException {
         super(new ImageView(), dimension, position);
 

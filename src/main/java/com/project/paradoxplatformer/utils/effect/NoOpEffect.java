@@ -12,6 +12,7 @@ public class NoOpEffect extends AbstractEffect {
 
     @Override
     protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
+        System.out.println("Nothing Happened.");
         return CompletableFuture.completedFuture(null); // No operation
     }
 }

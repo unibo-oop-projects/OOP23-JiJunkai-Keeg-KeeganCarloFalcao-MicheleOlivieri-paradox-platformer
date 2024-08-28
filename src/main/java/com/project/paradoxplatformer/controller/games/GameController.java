@@ -10,7 +10,7 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
  * Built this way to give a clear separation of concerns and a much coupled implementation.
  * 
  * <p>NOTE: Both model and view are not specified, however they should be implemented in a way that 
- * {@link startGame(Params)}
+ * {@link #startGame(InputController, KeyInputer)}
  * they have a refercence to the {@code InputController} and {@code KeyInputer},
  *  otherwise updates are like kicking air</p>
  * @param <C> the type of view component used for rendering {@code MutableObject}
@@ -39,10 +39,10 @@ public interface GameController<C> {
      * Start the game.
      * 
      * <p>NOTE: it's relative to game, in our case it is a platform type game, that's the reason why it needs 
-     * {@code ControllableObject} and {łcode KeyInputer<K>} </p>
-     * @param <K> type of key utiity used in view context → [JavaFX ({@code KeyCode}, Swing ({@code KeyEvent}])
+     * {@code ControllableObject} and {@code KeyInputer<K>} </p>
+     * @param <K> type of key utiity used in view context → [ JavaFX ({@code KeyCode}), Swing ({@code KeyEvent}) ]
      * @param inputController of a specified controllable entity
-     * @param inputer it should call {@code KeyAssetter<K>} to pool the avaible pressed key
+     * @param inputer holding key loggins, it should call {@code KeyAssetter<K>} to pool the available pressed key
      */
     <K> void startGame(InputController<ControllableObject> inputController, KeyInputer<K> inputer);
 

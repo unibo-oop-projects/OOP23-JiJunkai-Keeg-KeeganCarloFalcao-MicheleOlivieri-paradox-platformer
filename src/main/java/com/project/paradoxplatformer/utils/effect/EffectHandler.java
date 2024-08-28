@@ -42,7 +42,7 @@ public class EffectHandler {
 
         // Apply effects for a specific CollidableGameObject
         public CompletableFuture<Void> applyEffects(CollidableGameObject source, CollidableGameObject target) {
-                System.out.println("Applying effects for collision between " + source + " and " + target);
+                System.out.println("Applying effects for collision between " + source.getClass().getSimpleName() + " and " + target.getClass().getSimpleName());
 
                 CollisionIdentifier collisionId = new CollisionIdentifier(source, target);
 
@@ -121,6 +121,7 @@ public class EffectHandler {
                                 () -> new SoundEffect(SoundPathUtil.getPathForSound(SoundType.OBSTACLE_HIT)));
                 handler.addCollisionEffectsForType(CollisionType.TRIGGER,
                                 () -> new SoundEffect(SoundPathUtil.getPathForSound(SoundType.OBSTACLE_HIT)));
+               
                 return handler;
         }
 }

@@ -1,7 +1,5 @@
 package com.project.paradoxplatformer.controller.deserialization;
 
-import java.net.URL;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.paradoxplatformer.controller.deserialization.dtos.ColorDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;

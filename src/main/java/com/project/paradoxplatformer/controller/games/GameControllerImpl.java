@@ -115,8 +115,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public void update(final long dt) {
         if (Objects.nonNull(gamePair)) {
             gamePair.forEach((m, g) -> m.updateState(dt));
-            this.gameModel.getWorld().getCollisionManager().detectCollisions(gamePair.keySet(),
-                    this.gameModel.getWorld().player());
+            this.gameModel.getWorld().getCollisionManager().detectCollisions(
+                gamePair.keySet(),
+                this.gameModel.getWorld().player()
+            );
             gamePair.forEach(this.gameView::updateEnitityState);
         }
     }

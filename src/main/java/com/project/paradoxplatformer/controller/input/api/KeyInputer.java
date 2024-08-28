@@ -18,7 +18,7 @@ public interface KeyInputer<K> {
 
     /**
      * Sets the key event handlers/listeners
-     * @param activateInput Very Useful for JavaFX Legacy as it needs to request the focus
+     * @param activateInput Very Useful for dedicated UI classes to activate the keyboard input to current pane.
      */
     void activateKeyInput(Runnable activateInput);
 

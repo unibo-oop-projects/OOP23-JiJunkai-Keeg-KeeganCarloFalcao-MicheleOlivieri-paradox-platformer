@@ -19,7 +19,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public final class PlayerModel extends AbstractControllableObject implements MutableObject {
 
-    private Point position;
+    private Coord2D position;
     private Dimension dimension;
     private Physics physics;
     private Vector2D displacement;
@@ -34,7 +34,7 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
         super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14));// addon
         physics = new PhysicsEngine();// addon
         this.interpFactory = new InterpolatorFactoryImpl();// addon
-        this.position = new Point(pos.x(), pos.y());
+        this.position = new Coord2D(pos.x(), pos.y());
         this.displacement = new Simple2DVector(pos.x(), pos.y());// addon
         this.horizontalSpeed = Polar2DVector.nullVector();// addon
         this.dimension = dimension;
@@ -52,8 +52,9 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
 
     // COULD SHOW INTERNAL
     // PUBLIC FOR TESTING PURPOSE
+    @Override
     public void setPosition(Coord2D pos) {
-        this.position = new Point(pos.x(), pos.y());
+        this.position = new Coord2D(pos.x(), pos.y());
     }
 
     // ADD ON
@@ -105,6 +106,11 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
     @Override
     public CollisionType getCollisionType() {
         return CollisionType.PLAYER;
+    }
+
+    @Override
+    public String toString() {
+        return "Player: " + this.position + ", Inventory: " + this.getInventoryData() + " ";
     }
 
 }

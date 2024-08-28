@@ -1,16 +1,18 @@
 package com.project.paradoxplatformer.utils.effect;
 
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
-import com.project.paradoxplatformer.utils.effect.api.Effect;
 
-public class NoOpEffect implements Effect {
+/**
+ * Represents an effect that performs no operation. Useful as a placeholder or
+ * default effect.
+ */
+public class NoOpEffect extends AbstractEffect {
 
     @Override
-    public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target) {
-        System.out.println("COLLISION HAPPENED");
+    protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
+        System.out.println("Nothing Happened.");
         return CompletableFuture.completedFuture(null); // No operation
     }
 }

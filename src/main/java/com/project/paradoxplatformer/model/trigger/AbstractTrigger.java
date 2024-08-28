@@ -15,6 +15,7 @@ public abstract class AbstractTrigger implements Trigger {
         return position;
     }
 
+    @Override
     public void setPosition(Coord2D position) {
         this.position = position;
     }

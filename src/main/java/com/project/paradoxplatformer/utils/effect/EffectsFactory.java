@@ -6,7 +6,7 @@ import com.project.paradoxplatformer.utils.effect.api.Effect;
 
 public interface EffectsFactory {
     
-    Effect collectingEffect(final PlayerModel player);
+    Effect collectingEffect();
 
     Effect transitionEffect(final TrajectoryInfo trajInfo);
 }

@@ -13,6 +13,7 @@ import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactory;
 import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactoryImpl;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
+import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
@@ -46,24 +47,29 @@ public final class PlatfromModelData implements GameModelData {
 		.filter(u -> !u)
 		.orElseThrow(() -> new IllegalStateException("Attribute type of game DTO is undefined, could not map"));
 
+                PlayerModel player = modelFactory.playerToModel().map(
+                                this.findGameDTOData("player")
+                                                .stream()
+                                                .findFirst()
+                                                .orElseThrow());
+
+                Obstacle[] obstacles = this.findGameDTOData("obstacle").stream()
+                                .map(modelFactory.obstacleToModel()::map)
+                                .toList()
+                                .toArray(new Obstacle[0]);
+
+                Trigger[] triggers = this.findGameDTOData("trigger").stream()
+                                .map(modelFactory.triggerToModel()::map)
+                                .toList()
+                                .toArray(new Trigger[0]);
+
                 this.world = this.worldBuilder
                                 .addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
-                                .addPlayer(modelFactory.playerToModel().map(
-                                                this.findGameDTOData("player")
-                                                                .stream()
-                                                                .findFirst()
-                                                                .orElseThrow()))
-                                .addObstacle(
-                                                this.findGameDTOData("obstacle").stream()
-                                                                .map(modelFactory.obstacleToModel()::map)
-                                                                .toList()
-                                                                .toArray(new Obstacle[0]))
-                                .addTrigger(
-                                                this.findGameDTOData("trigger").stream()
-                                                                .map(modelFactory.triggerToModel()::map)
-                                                                .toList()
-                                                                .toArray(new Trigger[0]))
-                                .addCollisionManager(new CollisionManager(EffectHandler.createDefaultEffectHandler()))
+                                .addPlayer(player)
+                                .addObstacle(obstacles)
+                                .addTrigger(triggers)
+                                .addCollisionManager(
+                                                new CollisionManager(EffectHandler.createDefaultEffectHandler()))
                                 .build();
         }
 

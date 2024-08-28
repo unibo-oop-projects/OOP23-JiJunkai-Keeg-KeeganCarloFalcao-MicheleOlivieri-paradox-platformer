@@ -27,7 +27,8 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
         this.dimension = dimension;
     }
 
-    private void setPosition(final Coord2D position) {
+    @Override
+    public void setPosition(final Coord2D position) {
         this.position = position;
     }
 

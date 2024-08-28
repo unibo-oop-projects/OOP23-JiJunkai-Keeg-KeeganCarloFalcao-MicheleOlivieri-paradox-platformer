@@ -30,8 +30,12 @@ public class SimpleInventory implements Inventory {
     public Map<String, Long> getItemsCounts() {
         return Collections.unmodifiableMap(
             this.items.stream()
-                .collect(Collectors.groupingBy(
-                    i -> i.getClass().getSimpleName(), Collectors.counting())
+                .map(CollectableGameObject::getClass)
+                .collect(
+                    Collectors.groupingBy(
+                        Class::getSimpleName, 
+                        Collectors.counting()
+                    )
                 )
             );
     }

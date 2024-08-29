@@ -7,6 +7,7 @@ package com.project.paradoxplatformer.controller.deserialization.dtos;
  */
 public final class LevelDTO {
 
+    private String type;
     private final double width;
     private final double height;
     private final GameDTO[] gameDTOs;
@@ -20,6 +21,13 @@ public final class LevelDTO {
         this.height = 0;
     }
 
+    /**
+     * Gets the type of the game.
+     * @return a String (specific)
+     */
+    public String getType() {
+        return this.type;
+    }
 
     /**
      * Gets the default width dimension.

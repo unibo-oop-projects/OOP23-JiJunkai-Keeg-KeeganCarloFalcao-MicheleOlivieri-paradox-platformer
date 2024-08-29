@@ -1,7 +1,6 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
@@ -27,7 +26,10 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
     //should implement by abstract class
     @Override
     public void jump() {
-        jumpBehavior.jump().ifPresent(vector -> this.verticalSpeed = vector);
+        jumpBehavior.jump().ifPresent(vector -> {
+            this.verticalSpeed = vector;
+            this.grav = POWER;  // Reset gravità quando si esegue un salto
+        });
     }
 
     @Override
@@ -35,6 +37,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
         //TO FIX
         if(grav > ANTI_GRAVITY && grav <= POWER) {
             this.verticalSpeed = new Simple2DVector(0., grav-=1);
+            this.jumpBehavior.decreaseGrav();
         }else {
             this.verticalSpeed = Polar2DVector.nullVector();   
         }

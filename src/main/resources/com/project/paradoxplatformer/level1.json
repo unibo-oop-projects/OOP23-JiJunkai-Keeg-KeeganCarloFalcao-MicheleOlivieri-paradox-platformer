@@ -1,5 +1,5 @@
 {
-	"type": "flappy",
+	"type": "platformer",
 	"height": 360,
 	"width": 640,
 	"gameDTOs": [

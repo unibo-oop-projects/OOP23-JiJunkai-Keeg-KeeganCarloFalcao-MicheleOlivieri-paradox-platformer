@@ -14,11 +14,15 @@ public class PlatformJump implements JumpBehavior {
     public Optional<Simple2DVector> jump() {
         if(grav == ANTI_GRAVITY) {
             grav = POWER;
-            System.out.println("platforJump");
             return Optional.of(new Simple2DVector(0., POWER));
         } else {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public void decreaseGrav() {
+        this.grav -= 1;
     }
 
 }

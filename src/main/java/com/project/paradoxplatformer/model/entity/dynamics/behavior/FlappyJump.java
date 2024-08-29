@@ -15,4 +15,9 @@ public class FlappyJump implements JumpBehavior {
         return Optional.of(new Simple2DVector(0., POWER));
     }
 
+    @Override
+    public void decreaseGrav() {
+        // TO-DO
+    }
+
 }

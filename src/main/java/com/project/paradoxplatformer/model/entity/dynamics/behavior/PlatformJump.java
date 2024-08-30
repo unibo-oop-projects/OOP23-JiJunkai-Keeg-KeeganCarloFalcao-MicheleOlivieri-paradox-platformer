@@ -3,6 +3,8 @@ package com.project.paradoxplatformer.model.entity.dynamics.behavior;
 import java.util.Optional;
 
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public class PlatformJump implements JumpBehavior {
 
@@ -11,7 +13,7 @@ public class PlatformJump implements JumpBehavior {
     private double grav = ANTI_GRAVITY;
 
     @Override
-    public Optional<Simple2DVector> jump() {
+    public Optional<Vector2D> jump() {
         if(grav == ANTI_GRAVITY) {
             grav = POWER;
             return Optional.of(new Simple2DVector(0., POWER));
@@ -21,8 +23,12 @@ public class PlatformJump implements JumpBehavior {
     }
 
     @Override
-    public void decreaseGrav() {
-        this.grav -= 1;
+    public Vector2D fall() {
+        if(grav > ANTI_GRAVITY && grav <= POWER) {
+            return new Simple2DVector(0., grav-=1);
+        }else {
+            return Polar2DVector.nullVector();   
+        }
     }
 
 }

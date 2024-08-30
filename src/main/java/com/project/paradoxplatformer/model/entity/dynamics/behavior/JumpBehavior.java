@@ -2,11 +2,11 @@ package com.project.paradoxplatformer.model.entity.dynamics.behavior;
 
 import java.util.Optional;
 
-import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public interface JumpBehavior {
 
-    Optional<Simple2DVector> jump();
+    Optional<Vector2D> jump();
 
-    void decreaseGrav();
+    Vector2D fall();
 }

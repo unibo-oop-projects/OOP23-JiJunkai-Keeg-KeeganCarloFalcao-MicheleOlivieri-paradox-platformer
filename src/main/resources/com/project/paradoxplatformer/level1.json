@@ -1,12 +1,12 @@
 {
-	"type": "platformer",
+	"type": "flappy",
 	"height": 360,
 	"width": 640,
 	"gameDTOs": [
 		{
 			"type": "player",
 			"x": 20,
-			"y": 100,
+			"y": 200,
 			"width": 43,
 			"height": 53,
 			"subtype": "",

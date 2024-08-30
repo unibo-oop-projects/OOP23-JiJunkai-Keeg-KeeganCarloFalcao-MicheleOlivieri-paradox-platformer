@@ -123,6 +123,9 @@ public class EffectHandler {
 
                 handler.addCollisionEffectsForType(CollisionType.TRIGGER, chain);
 
+                handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, 
+                                () -> new DeathEffect());
+
                 return handler;
         }
 }

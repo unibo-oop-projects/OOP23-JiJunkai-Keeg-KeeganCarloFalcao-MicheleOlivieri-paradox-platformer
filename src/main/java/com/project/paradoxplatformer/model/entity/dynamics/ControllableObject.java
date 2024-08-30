@@ -7,4 +7,6 @@ public interface ControllableObject extends HorizontalObject, VerticalObject{
 
     public void setJumpBehavior(JumpBehavior jb);
 
+    public void onCollision();
+
 }

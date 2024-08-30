@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
+import com.project.paradoxplatformer.controller.games.GameEventListener;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
@@ -12,6 +13,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
 
     protected Vector2D verticalSpeed;
     private JumpBehavior jumpBehavior;
+    private GameEventListener gameEventListener;
 
     protected AbstractControllableObject(final Vector2D initDisplacement, final HorizonalStats stats) {
         super(stats.limit(), stats.delta());
@@ -35,6 +37,21 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
     @Override
     public void setJumpBehavior(JumpBehavior jb) {
         this.jumpBehavior = jb;
+    }
+
+    public void setGameEventListener(GameEventListener listener) {
+        this.gameEventListener = listener;
+        System.out.println("GameEventListener set: " + (listener != null));
+    }
+
+    @Override
+    public void onCollision() {
+        if (gameEventListener != null) {
+            System.out.println("Player death event triggered.");
+            gameEventListener.onPlayerDeath(); // Notifica l'evento al controller
+        } else {
+            System.out.println("No GameEventListener attached.");
+        }
     }
 
 }

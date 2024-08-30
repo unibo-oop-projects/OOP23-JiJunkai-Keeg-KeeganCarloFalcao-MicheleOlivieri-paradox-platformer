@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.controller.games;
 
-import com.google.common.collect.Sets;
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
@@ -15,16 +14,18 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
+
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
+
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 
 /**
  * An implementation of a basic Game Controller.
@@ -36,8 +37,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final GameModelData gameModel;
     private Map<MutableObject, GraphicAdapter<C>> gamePair;
     private final GameView<C> gameView;
-    private Function<GraphicAdapter<C>, Coord2D> position;
-    private Function<GraphicAdapter<C>, Dimension> dimension;
+    private final Function<GraphicAdapter<C>, Coord2D> position;
+    private final Function<GraphicAdapter<C>, Dimension> dimension;
 
     /**
      * A generic constuctor of a gamecontroller.
@@ -84,9 +85,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                                     + "\nGraphic: " + dimension.apply(g)
                                     + "\nGraphic: " + position.apply(g)));
             
-        // Imposta il listener se l'oggetto è un AbstractDeathObstacle
-        if (pair.getKey() instanceof AbstractDeathObstacle) {
-            ((AbstractDeathObstacle) pair.getKey()).setGameEventListener(this);
+        // Imposta il listener se l'oggetto è il palyer
+        if (pair.getKey() instanceof AbstractControllableObject) {
+            ((AbstractControllableObject) pair.getKey()).setGameEventListener(this);
         }
     
         return pair;
@@ -148,7 +149,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public void onPlayerDeath() {
         // Ricarica il livello
         try {
-            this.restartLevel();
+            // this.restartLevel();
         } catch (Exception e) {
             e.printStackTrace();
         }

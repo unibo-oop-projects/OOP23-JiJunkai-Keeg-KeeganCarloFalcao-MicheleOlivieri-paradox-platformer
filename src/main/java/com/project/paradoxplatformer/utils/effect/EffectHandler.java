@@ -125,6 +125,9 @@ public class EffectHandler {
 
                 handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, 
                                 () -> new DeathEffect());
+                                
+                handler.addCollisionEffectsForType(CollisionType.SPRINGS, 
+                                () -> new SpringEffect());
 
                 return handler;
         }

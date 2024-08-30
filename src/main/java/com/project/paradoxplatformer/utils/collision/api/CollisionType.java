@@ -6,4 +6,5 @@ public enum CollisionType {
     BOUNDARY,
     PLAYER,
     DEATH_OBS,
+    SPRINGS
 }

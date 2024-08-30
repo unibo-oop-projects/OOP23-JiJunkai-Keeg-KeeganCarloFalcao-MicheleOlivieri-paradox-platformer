@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
 
 //REMINDER
 //should extend horizonal and vertical merged abstract class
@@ -11,10 +11,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
 
 
     protected Vector2D verticalSpeed;
-    
-    private static final double POWER = 13;
-    private static final double ANTI_GRAVITY = -POWER+1;
-    private double grav = ANTI_GRAVITY;
+    private JumpBehavior jumpBehavior;
 
     protected AbstractControllableObject(final Vector2D initDisplacement, final HorizonalStats stats) {
         super(stats.limit(), stats.delta());
@@ -24,24 +21,20 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
     //should implement by abstract class
     @Override
     public void jump() {
-        //TO FIX
-        if(grav == ANTI_GRAVITY) {
-            this.verticalSpeed = new Simple2DVector(0., POWER);
-            grav = POWER;
-        }
-        
+
+        jumpBehavior.jump().ifPresent(vector -> {
+            this.verticalSpeed = vector;
+        });
     }
 
     @Override
     public void fall() {
-        //TO FIX
-        if(grav > ANTI_GRAVITY && grav <= POWER) {
-            this.verticalSpeed = new Simple2DVector(0., grav-=1);
-        }else {
-            this.verticalSpeed = Polar2DVector.nullVector();   
-        }
-        
-        
+        this.verticalSpeed = this.jumpBehavior.fall();
     }
     
+    @Override
+    public void setJumpBehavior(JumpBehavior jb) {
+        this.jumpBehavior = jb;
+    }
+
 }

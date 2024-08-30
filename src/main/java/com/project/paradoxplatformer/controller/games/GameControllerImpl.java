@@ -7,6 +7,8 @@ import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -98,7 +100,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     }
 
     @Override
-    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer) {
+    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, String type) {
+        this.setupGameMode(gameModel.getWorld().player(), type);
         new GameLoopFactoryImpl(dt -> {
             ic.checkPool(
                 inputer.getKeyAssetter(), 
@@ -109,6 +112,14 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         })
         .animationLoop()
         .start();
+    }
+    
+    private void setupGameMode(ControllableObject player, String type) {
+        if ("flappy".equalsIgnoreCase(type)) {
+            player.setJumpBehavior(new FlappyJump());
+        } else {
+            player.setJumpBehavior(new PlatformJump());
+        }
     }
 
     /**

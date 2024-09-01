@@ -1,31 +1,29 @@
 package com.project.paradoxplatformer.controller.games;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
-import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
-
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.tuple.Pair;
-
-import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 
 /**
  * An implementation of a basic Game Controller.

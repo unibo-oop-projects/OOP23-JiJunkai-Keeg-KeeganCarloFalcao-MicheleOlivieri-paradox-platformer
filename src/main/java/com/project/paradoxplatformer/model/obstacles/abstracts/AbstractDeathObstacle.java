@@ -1,14 +1,13 @@
 package com.project.paradoxplatformer.model.obstacles.abstracts;
 
 import java.util.Optional;
-import java.util.Queue;
 
+import com.project.paradoxplatformer.controller.games.GameEventListener;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.damageableobstacles.DamageableObstacle;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.controller.games.GameEventListener;
 
 public abstract class AbstractDeathObstacle extends AbstractObstacle implements DamageableObstacle {
 
@@ -26,7 +25,7 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
         this(position, dimension, Optional.of(DEFAULT_DAMAGE_POINTS));
     }
 
-    public void effect(Optional<ControllableObject> ob) {
+    public void onCollision(Optional<ControllableObject> ob) {
         // ob.ifPresent(player -> this.inflictDamage(player));
         
         if (gameEventListener != null) {
@@ -41,9 +40,8 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     public void inflictDamage(ControllableObject player) {
         System.out.println("Inflict damage called on player.");
         // Usa il valore predefinito se damagePoints è vuoto
-        //  int damage = damagePoints.orElse(DEFAULT_DAMAGE_POINTS);
-        // player.decreaseLifePoints(damage); // Supponendo che ci sia un metodo del
-        // genere
+        int damage = damagePoints.orElse(DEFAULT_DAMAGE_POINTS);
+        // player.decreaseLifePoints(damage); 
 
         // this.triggerExplosion();
         if (gameEventListener != null) {
@@ -59,11 +57,6 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     @Override
     public void updateState(final long dt) {
         super.updateState(dt);
-    }
-
-    public void setGameEventListener(GameEventListener listener) {
-        this.gameEventListener = listener;
-        System.out.println("GameEventListener set: " + (listener != null));
     }
 
     @Override

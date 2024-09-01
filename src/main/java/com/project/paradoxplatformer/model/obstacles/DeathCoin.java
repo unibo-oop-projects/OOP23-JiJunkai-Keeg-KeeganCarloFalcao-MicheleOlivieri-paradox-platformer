@@ -1,8 +1,5 @@
 package com.project.paradoxplatformer.model.obstacles;
 
-import java.util.Queue;
-
-import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -23,7 +20,7 @@ public final class DeathCoin extends AbstractDeathObstacle {
     @Override
     public void inflictDamage(ControllableObject player) {
         super.inflictDamage(player);
-        // Puoi aggiungere ulteriori logiche specifiche per DeathCoin, se necessario
+        // possiamo aggiungere ulteriori logiche specifiche per DeathCoin, se necessario
     }
 
     public Vector2D getSpeed() {

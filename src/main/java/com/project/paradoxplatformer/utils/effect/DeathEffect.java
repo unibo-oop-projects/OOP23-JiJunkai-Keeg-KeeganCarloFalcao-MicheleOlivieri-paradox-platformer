@@ -12,7 +12,7 @@ public class DeathEffect extends AbstractEffect {
     @Override
     protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
         return CompletableFuture.runAsync(() -> {
-            ((AbstractDeathObstacle) ((ControllableObject) gameObject)).effect(Optional.empty());
+            ((AbstractDeathObstacle) ((ControllableObject) gameObject)).onCollision(Optional.empty());
         });
     }
     

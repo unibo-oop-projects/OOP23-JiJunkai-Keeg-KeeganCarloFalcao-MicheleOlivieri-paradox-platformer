@@ -12,6 +12,7 @@ public class Warp extends AbstractObstacle {
 
     private final Coord2D destination; // La destinazione del teletrasporto
 
+    // da migliorare con possibilità di costruire l'oggeto con un parametro in più che è la destinazione
     public Warp(Coord2D position, Dimension dimension, Coord2D destination) {
         super(position, dimension);
         this.destination = destination;

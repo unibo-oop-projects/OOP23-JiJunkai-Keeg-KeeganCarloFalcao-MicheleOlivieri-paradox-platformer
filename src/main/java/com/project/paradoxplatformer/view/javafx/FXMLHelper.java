@@ -23,7 +23,6 @@ public final class FXMLHelper {
     public FXMLHelper() throws InvalidResourceException {
         this.fxmlPagesPairing = new EnumMap<>(Map.of(
                 PageIdentifier.GAME, ResourcesFinder.getURL("hello-view.fxml"),
-                PageIdentifier.LEVEL_ONE, ResourcesFinder.getURL("hello-view.fxml"),
                 PageIdentifier.MENU, ResourcesFinder.getURL("new-level-view.fxml")));
     }
 

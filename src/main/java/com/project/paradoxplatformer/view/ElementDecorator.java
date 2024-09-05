@@ -9,7 +9,11 @@ import javafx.scene.shape.Circle;
 
 public class ElementDecorator {
 
-    // Applies styles to the settings button using the ButtonStyleBuilder
+    /**
+     * Applies styles to a Button using the ButtonStyleBuilder.
+     * 
+     * @param button The Button to be styled.
+     */
     public static void decorateSettingsButton(Button button) {
         new ButtonStyleBuilder(button)
                 .withBackgroundColor("#1e90ff")
@@ -18,7 +22,12 @@ public class ElementDecorator {
                 .apply();
     }
 
-    // Applies styles to the level circle using the CircleStyleBuilder
+    /**
+     * Applies styles to a Circle using the CircleStyleBuilder.
+     * 
+     * @param circle    The Circle to be styled.
+     * @param fillColor The color to fill the Circle.
+     */
     public static void decorateLevelCircle(Circle circle, Color fillColor) {
         new CircleStyleBuilder(circle)
                 .withFillColor(fillColor)

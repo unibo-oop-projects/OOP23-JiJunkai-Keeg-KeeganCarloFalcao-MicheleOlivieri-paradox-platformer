@@ -17,14 +17,14 @@ public class ViewNavigator {
     }
 
     public void goToLevelOne() throws InvalidResourceException {
-        openView(PageIdentifier.LEVEL_ONE, "level1.json");
+        openView(PageIdentifier.GAME, "level1.json");
     }
 
     public void goToLevelTwo() throws InvalidResourceException {
-        openView(PageIdentifier.LEVEL_TWO, "level2.json");
+        openView(PageIdentifier.GAME, "level2.json");
     }
 
     public void goToLevelThree() throws InvalidResourceException {
-        openView(PageIdentifier.LEVEL_THREE, "level3.json");
+        openView(PageIdentifier.GAME, "level3.json");
     }
 }

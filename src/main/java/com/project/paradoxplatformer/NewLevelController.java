@@ -43,6 +43,7 @@ public class NewLevelController implements Initializable, Page<String> {
 
     private void applyStyles() {
         ElementDecorator.decorateSettingsButton(settingsButton);
+
         Color circleColor = Color.RED;
         ElementDecorator.decorateLevelCircle(levelOneButton, circleColor);
         ElementDecorator.decorateLevelCircle(levelTwoButton, circleColor);
@@ -75,6 +76,6 @@ public class NewLevelController implements Initializable, Page<String> {
     }
 
     private void runOnFXThread(String param) {
-        System.out.println("Init New Level.");
+        System.out.println("[Main Menu Panel]");
     }
 }

@@ -10,7 +10,7 @@
 			"width": 40,
 			"height": 50,
 			"subtype": "",
-			"image": "player3.png",
+			"image": "player.png",
 			"nframe": 4
 		},
 		{
@@ -134,16 +134,7 @@
 			"width": 70,
 			"height": 70,
 			"subtype": "DeathCoin",
-			"image": "coin3.png"
-		},
-		{
-			"type": "obstacle",
-			"x": 200,
-			"y": 120,
-			"width": 70,
-			"height": 70,
-			"subtype": "Spring",
-			"image": "spring2.png"
+			"image": "coin.png"
 		}
 	]
 }

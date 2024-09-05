@@ -1,0 +1,149 @@
+{
+	"type": "platformer",
+	"height": 450,
+	"width": 720,
+	"gameDTOs": [
+		{
+			"type": "player",
+			"x": 25,
+			"y": 110,
+			"width": 40,
+			"height": 50,
+			"subtype": "",
+			"image": "player3.png",
+			"nframe": 4
+		},
+		{
+			"type": "obstacle",
+			"x": 0,
+			"y": 60,
+			"width": 280,
+			"height": 120,
+			"subtype": "Platform",
+			"color": {
+				"blu": 30,
+				"red": 190,
+				"green": 90,
+				"alpha": 1
+			}
+		},
+		{
+			"type": "obstacle",
+			"x": 320,
+			"y": 60,
+			"width": 250,
+			"height": 120,
+			"subtype": "Platform",
+			"color": {
+				"blu": 30,
+				"red": 190,
+				"green": 90,
+				"alpha": 1
+			}
+		},
+		{
+			"type": "obstacle",
+			"x": 0,
+			"y": 370,
+			"width": 720,
+			"height": 60,
+			"subtype": "Platform",
+			"color": {
+				"blu": 30,
+				"red": 190,
+				"green": 90,
+				"alpha": 1
+			}
+		},
+		{
+			"type": "obstacle",
+			"x": 350,
+			"y": 120,
+			"width": 40,
+			"height": 120,
+			"subtype": "Wall",
+			"color": {
+				"blu": 30,
+				"red": 190,
+				"green": 90,
+				"alpha": 1
+			},
+			"traj": [
+				{
+					"x": 180,
+					"y": 120,
+					"duration": 3,
+					"vector": "DISPLACEMENT"
+				},
+				{
+					"x": 180,
+					"y": 70,
+					"duration": 1,
+					"vector": "HEIGHT"
+				}
+			]
+		},
+		{
+			"type": "obstacle",
+			"x": 290,
+			"y": 50,
+			"width": 90,
+			"height": 120,
+			"subtype": "Wall",
+			"color": {
+				"blu": 30,
+				"red": 190,
+				"green": 90,
+				"alpha": 1
+			},
+			"traj": [
+				{
+					"x": 290,
+					"y": -110,
+					"duration": 4,
+					"vector": "DISPLACEMENT"
+				}
+			]
+		},
+		{
+			"type": "trigger",
+			"x": 450,
+			"y": 120,
+			"width": 40,
+			"height": 120,
+			"subtype": "Button",
+			"color": {
+				"blu": 190,
+				"red": 190,
+				"green": 190,
+				"alpha": 1
+			},
+			"traj": [
+				{
+					"x": 450,
+					"y": 220,
+					"duration": 1.5,
+					"vector": "HEIGHT"
+				}
+			]
+		},
+		{
+			"type": "obstacle",
+			"x": 240,
+			"y": 120,
+			"width": 70,
+			"height": 70,
+			"subtype": "DeathCoin",
+			"image": "coin3.png"
+		},
+		{
+			"type": "obstacle",
+			"x": 200,
+			"y": 120,
+			"width": 70,
+			"height": 70,
+			"subtype": "Spring",
+			"image": "spring2.png"
+		}
+	]
+}

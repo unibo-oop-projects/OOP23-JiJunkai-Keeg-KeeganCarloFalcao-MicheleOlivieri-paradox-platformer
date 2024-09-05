@@ -32,8 +32,7 @@ import javafx.scene.paint.Stop;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-
-public class JavaFxApp extends Application implements ViewManager{
+public class JavaFxApp extends Application implements ViewManager {
 
     private static Scene scene;
     private static Stage stage;
@@ -51,28 +50,28 @@ public class JavaFxApp extends Application implements ViewManager{
     }
 
     public static Scene createScene(Parent root) {
-        return new Scene(root);   
+        return new Scene(root);
     }
 
     public JavaFxApp() {
     }
-    
+
     @Override
     public void init() {
         this.created = true;
     }
-    
+
     @Override
     public void start(Stage primeStage) throws IOException {
-        if(!created) {
+        if (!created) {
             throw new IllegalStateException("Cannot create application, Security reasons");
         }
         stage = primeStage;
         stage.setOnCloseRequest(e -> this.exit());
-        //COuld be done dynamically hwen pages are called, loads slower
+        // COuld be done dynamically hwen pages are called, loads slower
         try {
             helper = new FXMLHelper();
-        } catch(InvalidResourceException | RuntimeException ex) {
+        } catch (InvalidResourceException | RuntimeException ex) {
             this.displayError(ExceptionUtils.advacendDisplay(ex));
             this.safeError();
         }
@@ -80,7 +79,7 @@ public class JavaFxApp extends Application implements ViewManager{
         this.setInitialScene();
         stage.show();
         Optional.ofNullable(latch).ifPresent(CountDownLatch::countDown);
-        
+
     }
 
     @Override
@@ -89,7 +88,7 @@ public class JavaFxApp extends Application implements ViewManager{
         JavaFxApp.launch();
     }
 
-    //CAN PASS ONLY REF SO FB SHUT
+    // CAN PASS ONLY REF SO FB SHUT
     @Override
     public void create(final CountDownLatch referedLatch, final String appTitle) {
         latch = referedLatch;
@@ -98,14 +97,21 @@ public class JavaFxApp extends Application implements ViewManager{
 
     @Override
     public Page<String> switchPage(PageIdentifier id) {
-        if(Platform.isFxApplicationThread()) {
+        if (Platform.isFxApplicationThread()) {
+
+            System.out.println("In SWITCH PANE FUNCTION");
+
             var entry = helper.mapper().apply(id);
-            entry.map(Pair::getKey).ifPresentOrElse(scene::setRoot, () -> scene.setRoot(new StackPane(new Label("BLANK PAGE"))));
+            entry.map(Pair::getKey).ifPresentOrElse(scene::setRoot,
+                    () -> scene.setRoot(new StackPane(new Label("BLANK PAGE"))));
             stage.sizeToScene();
+
+            System.out.println("[PANE]: " + entry.map(Pair::getValue).orElse(Page.defaultPage()));
+
             return entry.map(Pair::getValue).orElse(Page.defaultPage());
         }
         throw new IllegalStateException("Not in FX Thread");
-        
+
     }
 
     @Override
@@ -127,11 +133,11 @@ public class JavaFxApp extends Application implements ViewManager{
         } catch (IOException | InvalidResourceException | ClassCastException e) {
             al.setHeaderText("Custom Alert failed, showing Default Alert");
             al.setContentText(content + "\n\nWhy custom alert failed to load? ¬"
-                + "\n" + ExceptionUtils.advacendDisplay(e));
-        } finally{
+                    + "\n" + ExceptionUtils.advacendDisplay(e));
+        } finally {
             al.showAndWait();
         }
-        
+
     }
 
     @Override
@@ -153,7 +159,7 @@ public class JavaFxApp extends Application implements ViewManager{
     }
 
     @Override
-    public void runOnAppThread(Runnable runner)  {
+    public void runOnAppThread(Runnable runner) {
         Platform.runLater(runner);
     }
 
@@ -163,34 +169,33 @@ public class JavaFxApp extends Application implements ViewManager{
         System.out.println(dim);
         final double resoultion = 360;
         LinearGradient paint = new LinearGradient(
-            0.9762, 0.0, 1.0, 1.0, true, CycleMethod.NO_CYCLE,
-            new Stop(0.0, new Color(1.0, 0.3924, 0.02, 1.0)),
-            new Stop(1.0, new Color(0.6842, 0.4257, 0.038, 1.0)));
-        scene = new Scene(new Pane(new Label("LOADING...")), resoultion*ASPECT_RATIO, resoultion, paint);
+                0.9762, 0.0, 1.0, 1.0, true, CycleMethod.NO_CYCLE,
+                new Stop(0.0, new Color(1.0, 0.3924, 0.02, 1.0)),
+                new Stop(1.0, new Color(0.6842, 0.4257, 0.038, 1.0)));
+        scene = new Scene(new Pane(new Label("LOADING...")), resoultion * ASPECT_RATIO, resoultion, paint);
         stage.sizeToScene();
-        stage.setScene(scene); 
-        
+        stage.setScene(scene);
+
     }
 
     private void setDialoContent(final String content, final DialogPane p) throws ClassCastException {
         p.getChildren().stream()
-            .filter(VBox.class::isInstance)
-            .map(VBox.class::cast)
-            .map(VBox::getChildren)
-            .flatMap(ObservableList::stream)
-            .filter(Label.class::isInstance)
-            .map(Label.class::cast)
-            .findFirst()
-            .ifPresent(l -> l.setText(content));
+                .filter(VBox.class::isInstance)
+                .map(VBox.class::cast)
+                .map(VBox::getChildren)
+                .flatMap(ObservableList::stream)
+                .filter(Label.class::isInstance)
+                .map(Label.class::cast)
+                .findFirst()
+                .ifPresent(l -> l.setText(content));
     }
 
     private void setAndShowAlert(
-        final Alert alert,
-        final AlertType alertType,
-        final String title,
-        final String header, 
-        final String content
-    ) {
+            final Alert alert,
+            final AlertType alertType,
+            final String title,
+            final String header,
+            final String content) {
         alert.setAlertType(alertType);
         alert.setTitle(title);
         alert.setHeaderText(header);

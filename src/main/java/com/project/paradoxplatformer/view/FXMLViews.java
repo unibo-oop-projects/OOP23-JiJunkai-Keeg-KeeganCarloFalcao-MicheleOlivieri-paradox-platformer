@@ -1,10 +1,9 @@
 package com.project.paradoxplatformer.view;
 
 public enum FXMLViews {
-    SETTINGS("SettingsView.fxml"),
-    LEVEL_ONE("hello-view.fxml"),
-    LEVEL_TWO("LevelTwo.fxml"),
-    LEVEL_THREE("LevelThree.fxml");
+    MENU("menu-view.fxml"),
+    SETTINGS("setting-view.fxml"),
+    GAME("game-view.fxml");
 
     private final String fileName;
 

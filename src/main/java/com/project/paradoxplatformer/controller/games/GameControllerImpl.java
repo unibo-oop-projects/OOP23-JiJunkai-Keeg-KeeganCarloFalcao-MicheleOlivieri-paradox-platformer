@@ -5,12 +5,16 @@ import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
+import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.collision.CollisionManager;
+import com.project.paradoxplatformer.utils.collision.CollisionObserver;
+import com.project.paradoxplatformer.utils.effect.EffectHandler;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.game.GameView;
@@ -40,6 +44,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final GameView<C> gameView;
     private final Function<GraphicAdapter<C>, Coord2D> position;
     private final Function<GraphicAdapter<C>, Dimension> dimension;
+    private final CollisionObserver collisionObserver = new CollisionObserver();
 
     /**
      * A generic constuctor of a gamecontroller.
@@ -76,22 +81,21 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         final Set<MutableObject> str = Sets.union(new LinkedHashSet<>(world.gameObjects()), Set.of(world.player()));
     
         Pair<MutableObject, GraphicAdapter<C>> pair = str.stream()
-                    .filter(m -> this.joinPredicate(m, g))
-                    .map(m -> Pair.of(m, g))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException(
-                            "Failed to pair object and graphic\nCause: "
-                                    + "\nGraphic: " + dimension.apply(g)
-                                    + "\nGraphic: " + position.apply(g)));
-            
+                .filter(m -> this.joinPredicate(m, g))
+                .map(m -> Pair.of(m, g))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Failed to pair object and graphic\nCause: "
+                                + "\nGraphic: " + dimension.apply(g)
+                                + "\nGraphic: " + position.apply(g)));
+
         // Imposta il listener se l'oggetto è il palyer
         if (pair.getKey() instanceof AbstractControllableObject) {
             ((AbstractControllableObject) pair.getKey()).setGameEventListener(this);
         }
-    
+
         return pair;
     }
-    
 
     private boolean joinPredicate(final MutableObject obstacle1, final GraphicAdapter<C> gComponent) {
         return obstacle1.getDimension().equals(dimension.apply(gComponent))
@@ -103,16 +107,15 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.setupGameMode(gameModel.getWorld().player(), type);
         new GameLoopFactoryImpl(dt -> {
             ic.checkPool(
-                inputer.getKeyAssetter(), 
-                gameModel.getWorld().player(),
-                ControllableObject::stop
-            );
+                    inputer.getKeyAssetter(),
+                    gameModel.getWorld().player(),
+                    ControllableObject::stop);
             this.update(dt);
         })
-        .animationLoop()
-        .start();
+                .animationLoop()
+                .start();
     }
-    
+
     private void setupGameMode(ControllableObject player, String type) {
         if ("flappy".equalsIgnoreCase(type)) {
             player.setJumpBehavior(new FlappyJump());
@@ -129,10 +132,17 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public void update(final long dt) {
         if (Objects.nonNull(gamePair)) {
             gamePair.forEach((m, g) -> m.updateState(dt));
-            this.gameModel.getWorld().getCollisionManager().detectCollisions(
-                gamePair.keySet(),
-                this.gameModel.getWorld().player()
-            );
+
+            CollisionManager collisionManager = this.gameModel.getWorld().getCollisionManager();
+            EffectHandler effectHandler = collisionManager.getEffectHandler();
+            CollidableGameObject player = this.gameModel.getWorld().player();
+
+            Set<CollidableGameObject> detectedCollisions = collisionManager.detectCollisions(gamePair.keySet(), player);
+
+            collisionObserver.observeCollisions(detectedCollisions,
+                    (obj, type) -> System.out.println("Started colliding : " + obj),
+                    (obj, type) -> effectHandler.reset(obj, type));
+
             gamePair.forEach(this.gameView::updateEnitityState);
         }
     }
@@ -140,7 +150,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public void restartLevel() {
         // Reinizzializza il modello del gioco
         this.gameModel.init();
-        
+
         // Resetta la vista in modo che corrisponda al nuovo stato del modello
         this.syncView();
     }

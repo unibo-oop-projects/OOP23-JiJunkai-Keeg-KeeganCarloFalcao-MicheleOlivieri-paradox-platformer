@@ -4,21 +4,16 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
-import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.collision.ChainOfEffects;
 import com.project.paradoxplatformer.utils.collision.ChainOfEffects.Builder;
-import com.project.paradoxplatformer.utils.collision.CollisionIdentifier;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.sound.SoundPathUtil;
 import com.project.paradoxplatformer.utils.sound.SoundType;
 
 public class EffectHandler {
@@ -29,19 +24,47 @@ public class EffectHandler {
         // Register effects for a specific collision type that applies to all objects of
         // that type
         public void addCollisionEffectsForType(CollisionType type, Supplier<Effect> effectSupplier) {
-                ChainOfEffects chain = ChainOfEffects.builder().addEffect(effectSupplier.get()).build();
-                typeEffectsMap.put(type, chain);
+                typeEffectsMap.merge(type,
+                                ChainOfEffects.builder().addEffect(effectSupplier.get()).build(),
+                                (existingChain, newChain) -> ChainOfEffects.builder()
+                                                .addEffects(existingChain.getEffects())
+                                                .addEffects(newChain.getEffects())
+                                                .build());
         }
 
-        public void addCollisionEffectsForType(CollisionType type, ChainOfEffects chain) {
-                typeEffectsMap.put(type, chain);
+        // Register effects for a specific collision type that applies to all objects of
+        // that type
+        public void addCollisionEffectsForType(CollisionType type, ChainOfEffects newChain) {
+                typeEffectsMap.merge(type,
+                                newChain,
+                                (existingChain, toAddChain) -> ChainOfEffects.builder()
+                                                .addEffects(existingChain.getEffects())
+                                                .addEffects(toAddChain.getEffects())
+                                                .build());
         }
 
         // Register effects for a specific collision type and CollidableGameObject
         public void addCollisionEffectsForObject(CollisionType type, CollidableGameObject collidableGameObject,
                         Supplier<Effect> effectSupplier) {
-                ChainOfEffects chain = ChainOfEffects.builder().addEffect(effectSupplier.get()).build();
-                objectEffectsMap.computeIfAbsent(type, k -> new HashMap<>()).put(collidableGameObject, chain);
+                objectEffectsMap.computeIfAbsent(type, k -> new HashMap<>())
+                                .merge(collidableGameObject,
+                                                ChainOfEffects.builder().addEffect(effectSupplier.get()).build(),
+                                                (existingChain, newChain) -> ChainOfEffects.builder()
+                                                                .addEffects(existingChain.getEffects())
+                                                                .addEffects(newChain.getEffects())
+                                                                .build());
+        }
+
+        // Register effects for a specific collision type and CollidableGameObject
+        public void addCollisionEffectsForObject(CollisionType type, CollidableGameObject collidableGameObject,
+                        ChainOfEffects newChain) {
+                objectEffectsMap.computeIfAbsent(type, k -> new HashMap<>())
+                                .merge(collidableGameObject,
+                                                newChain,
+                                                (existingChain, toAddChain) -> ChainOfEffects.builder()
+                                                                .addEffects(existingChain.getEffects())
+                                                                .addEffects(toAddChain.getEffects())
+                                                                .build());
         }
 
         // Apply effects for a specific CollidableGameObject
@@ -69,8 +92,6 @@ public class EffectHandler {
                                         Optional.of(target));
                 }
 
-                // System.out.println(typeEffectsMap.get(CollisionType.TRIGGER).getEffects());
-
                 // Combine all futures
                 return CompletableFuture.allOf(typeEffectsFuture, objectEffectsFuture);
         }
@@ -91,11 +112,27 @@ public class EffectHandler {
                 return combinedChain.build();
         }
 
-        // Add a single effect to a specific CollidableGameObject
-        public void addSingleEffect(CollisionType type, CollidableGameObject collidableGameObject,
-                        Supplier<Effect> effectSupplier) {
-                ChainOfEffects chain = ChainOfEffects.builder().addEffect(effectSupplier.get()).build();
-                objectEffectsMap.computeIfAbsent(type, k -> new HashMap<>()).put(collidableGameObject, chain);
+        public void reset(CollidableGameObject object, CollisionType type) {
+                // Recreate effects in objectEffectsMap
+                objectEffectsMap.computeIfPresent(type, (t, map) -> {
+                        map.computeIfPresent(object, (obj, chain) -> {
+                                List<Effect> recreatedEffects = chain.getEffects().stream()
+                                                .map(e -> e.recreate())
+                                                .filter(e -> e != null)
+                                                .toList();
+                                return ChainOfEffects.builder().addEffects(recreatedEffects).build();
+                        });
+                        return map;
+                });
+
+                // Recreate effects in typeEffectsMap
+                typeEffectsMap.compute(type, (t, chain) -> chain == null ? null
+                                : ChainOfEffects.builder()
+                                                .addEffects(chain.getEffects().stream()
+                                                                .map(e -> e.recreate())
+                                                                .filter(e -> e != null)
+                                                                .toList())
+                                                .build());
         }
 
         public ChainOfEffects createDefaultChainOfEffects(List<Supplier<Effect>> effectSuppliers) {
@@ -117,16 +154,16 @@ public class EffectHandler {
 
                 ChainOfEffects chain = ChainOfEffects.builder()
                                 .addEffect(new NoOpEffect())
-                                .addEffect(new SoundEffect(SoundPathUtil.getPathForSound(SoundType.OBSTACLE_HIT)))
+                                .addEffect(new SoundEffect(SoundType.OBSTACLE_HIT))
                                 .addEffect(new TransportEffect(new Coord2D(100, 100), false))
                                 .build();
 
                 handler.addCollisionEffectsForType(CollisionType.TRIGGER, chain);
 
-                handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, 
+                handler.addCollisionEffectsForType(CollisionType.DEATH_OBS,
                                 () -> new DeathEffect());
-                                
-                handler.addCollisionEffectsForType(CollisionType.SPRINGS, 
+
+                handler.addCollisionEffectsForType(CollisionType.SPRINGS,
                                 () -> new SpringEffect());
 
                 return handler;

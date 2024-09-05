@@ -2,25 +2,23 @@ package com.project.paradoxplatformer.utils.sound;
 
 import javax.sound.sampled.*;
 
-import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.utils.ResourcesFinder;
-
 import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
 public class SoundLoader {
 
-    // Load and play sound from the provided file path
-    public CompletableFuture<Void> playSound(String soundFilePath) {
+    // Load and play sound from the provided URL
+    public CompletableFuture<Void> playSound(URL soundUrl) {
         return CompletableFuture.runAsync(() -> {
-            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(ResourcesFinder.getURL(soundFilePath))) {
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl)) {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.start();
 
                 // Wait for the clip to finish playing
                 clip.drain();
-            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException | InvalidResourceException e) {
+            } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
                 throw new RuntimeException("Error on sounds ", e);
             }
         });

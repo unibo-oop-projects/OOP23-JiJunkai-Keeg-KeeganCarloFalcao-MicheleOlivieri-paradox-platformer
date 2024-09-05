@@ -1,10 +1,11 @@
 package com.project.paradoxplatformer.view;
 
+import com.project.paradoxplatformer.view.fxmlstyle.ButtonStyleBuilder;
+import com.project.paradoxplatformer.view.fxmlstyle.CircleStyleBuilder;
+
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-
-
 
 public class ElementDecorator {
 

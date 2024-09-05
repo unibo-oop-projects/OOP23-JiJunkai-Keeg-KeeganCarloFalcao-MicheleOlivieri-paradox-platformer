@@ -101,6 +101,8 @@ public class JavaFxApp extends Application implements ViewManager {
 
             System.out.println("In SWITCH PANE FUNCTION");
 
+            System.out.println("[CURRENT ID]: " + id);
+
             var entry = helper.mapper().apply(id);
             entry.map(Pair::getKey).ifPresentOrElse(scene::setRoot,
                     () -> scene.setRoot(new StackPane(new Label("BLANK PAGE"))));

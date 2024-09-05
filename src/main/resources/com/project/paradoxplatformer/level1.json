@@ -1,4 +1,5 @@
 {
+	"type": "platformer",
 	"height": 360,
 	"width": 640,
 	"gameDTOs": [
@@ -6,11 +7,11 @@
 			"type": "player",
 			"x": 20,
 			"y": 100,
-			"width": 43,
-			"height": 53,
+			"width": 18,
+			"height": 38,
 			"subtype": "",
 			"image": "player.png",
-			"nframe": 5
+			"nframe": 10
 		},
 		{
 			"type": "obstacle",
@@ -108,8 +109,8 @@
 			"type": "trigger",
 			"x": 390,
 			"y": 100,
-			"width": 25,
-			"height": 16,
+			"width": 20,
+			"height": 20,
 			"subtype": "Button",
 			"image": "button.png"
 		},
@@ -117,19 +118,19 @@
 			"type": "obstacle",
 			"x": 200,
 			"y": 110,
-			"width": 25,
-			"height": 25,
+			"width": 20,
+			"height": 20,
 			"subtype": "DeathCoin",
 			"image": "coin.png"
 		},
 		{
 			"type": "obstacle",
-			"x": 100,
-			"y": 110,
-			"width": 25,
-			"height": 25,
-			"subtype": "Coin",
-			"image": "coin.png"
+			"x": 150,
+			"y": 100,
+			"width": 20,
+			"height": 20,
+			"subtype": "Spring",
+			"image": "spring.png"
 		}
 	]
 }

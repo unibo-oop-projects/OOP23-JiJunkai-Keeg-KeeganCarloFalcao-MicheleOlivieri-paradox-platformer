@@ -10,7 +10,7 @@ public interface Effect {
     public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target,
             Optional<? extends CollidableGameObject> self);
 
-    default CompletableFuture<Void> empty() {
+    static CompletableFuture<Void> empty() {
         return CompletableFuture.completedFuture(null);
     }
 }

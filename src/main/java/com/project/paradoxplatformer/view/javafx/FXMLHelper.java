@@ -22,7 +22,8 @@ public final class FXMLHelper {
 
     public FXMLHelper() throws InvalidResourceException {
         this.fxmlPagesPairing = new EnumMap<>(Map.of(
-                PageIdentifier.GAME, ResourcesFinder.getURL("hello-view.fxml")));
+                PageIdentifier.GAME, ResourcesFinder.getURL("hello-view.fxml"),
+                PageIdentifier.MENU, ResourcesFinder.getURL("new-level-view.fxml")));
     }
 
     public Function<PageIdentifier, Optional<Pair<Parent, Page<String>>>> mapper() {

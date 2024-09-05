@@ -44,6 +44,6 @@ public interface GameController<C> {
      * @param inputController of a specified controllable entity
      * @param inputer holding key loggins, it should call {@code KeyAssetter<K>} to pool the available pressed key
      */
-    <K> void startGame(InputController<ControllableObject> inputController, KeyInputer<K> inputer);
+    <K> void startGame(InputController<ControllableObject> inputController, KeyInputer<K> inputer, String type);
 
 }

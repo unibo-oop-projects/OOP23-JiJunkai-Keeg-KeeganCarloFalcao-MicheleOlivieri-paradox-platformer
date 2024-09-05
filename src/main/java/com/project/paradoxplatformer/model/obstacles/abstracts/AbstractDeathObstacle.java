@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.damageableobstacles.DamageableObstacle;
+import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.controller.games.GameEventListener;
@@ -26,19 +27,25 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     }
 
     public void effect(Optional<ControllableObject> ob) {
-        ob.ifPresent(player -> this.inflictDamage(player));
-        System.out.println("effect");
+        // ob.ifPresent(player -> this.inflictDamage(player));
+        
+        if (gameEventListener != null) {
+            System.out.println("Player death event triggered.");
+            gameEventListener.onPlayerDeath(); // Notifica l'evento al controller
+        } else {
+            System.out.println("No GameEventListener attached.");
+        }
     }
 
     @Override
     public void inflictDamage(ControllableObject player) {
         System.out.println("Inflict damage called on player.");
         // Usa il valore predefinito se damagePoints è vuoto
-        int damage = damagePoints.orElse(DEFAULT_DAMAGE_POINTS);
+        //  int damage = damagePoints.orElse(DEFAULT_DAMAGE_POINTS);
         // player.decreaseLifePoints(damage); // Supponendo che ci sia un metodo del
         // genere
 
-        this.triggerExplosion();
+        // this.triggerExplosion();
         if (gameEventListener != null) {
             System.out.println("Player death event triggered.");
             gameEventListener.onPlayerDeath(); // Notifica l'evento al controller
@@ -57,6 +64,11 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     public void setGameEventListener(GameEventListener listener) {
         this.gameEventListener = listener;
         System.out.println("GameEventListener set: " + (listener != null));
+    }
+
+    @Override
+    public CollisionType getCollisionType() {
+        return CollisionType.DEATH_OBS;
     }
 
 }

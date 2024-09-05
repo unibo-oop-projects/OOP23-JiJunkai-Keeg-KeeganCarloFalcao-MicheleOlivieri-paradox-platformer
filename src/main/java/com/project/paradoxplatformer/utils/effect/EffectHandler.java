@@ -123,13 +123,11 @@ public class EffectHandler {
 
                 handler.addCollisionEffectsForType(CollisionType.TRIGGER, chain);
 
-                ChainOfEffects chain1 = ChainOfEffects.builder()
-                                .addEffect(new NoOpEffect())
-                                .addEffect(new SoundEffect(SoundPathUtil.getPathForSound(SoundType.OBSTACLE_HIT)))
-                                .addEffect(new EffectFactoryImpl().collectingEffect())
-                                .build();
-
-                handler.addCollisionEffectsForType(CollisionType.OBSTACLE, chain1);
+                handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, 
+                                () -> new DeathEffect());
+                                
+                handler.addCollisionEffectsForType(CollisionType.SPRINGS, 
+                                () -> new SpringEffect());
 
                 return handler;
         }

@@ -7,12 +7,15 @@ import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
+
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
@@ -22,6 +25,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
+
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 
 /**
  * An implementation of a basic Game Controller.
@@ -79,9 +84,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                                     + "\nGraphic: " + dimension.apply(g)
                                     + "\nGraphic: " + position.apply(g)));
             
-        // Imposta il listener se l'oggetto è un AbstractDeathObstacle
-        if (pair.getKey() instanceof AbstractDeathObstacle) {
-            ((AbstractDeathObstacle) pair.getKey()).setGameEventListener(this);
+        // Imposta il listener se l'oggetto è il palyer
+        if (pair.getKey() instanceof AbstractControllableObject) {
+            ((AbstractControllableObject) pair.getKey()).setGameEventListener(this);
         }
     
         return pair;
@@ -94,7 +99,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     }
 
     @Override
-    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer) {
+    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, String type) {
+        this.setupGameMode(gameModel.getWorld().player(), type);
         new GameLoopFactoryImpl(dt -> {
             ic.checkPool(
                 inputer.getKeyAssetter(), 
@@ -105,6 +111,14 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         })
         .animationLoop()
         .start();
+    }
+    
+    private void setupGameMode(ControllableObject player, String type) {
+        if ("flappy".equalsIgnoreCase(type)) {
+            player.setJumpBehavior(new FlappyJump());
+        } else {
+            player.setJumpBehavior(new PlatformJump());
+        }
     }
 
     /**
@@ -135,7 +149,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public void onPlayerDeath() {
         // Ricarica il livello
         try {
-            this.restartLevel();
+            // this.restartLevel();
         } catch (Exception e) {
             e.printStackTrace();
         }

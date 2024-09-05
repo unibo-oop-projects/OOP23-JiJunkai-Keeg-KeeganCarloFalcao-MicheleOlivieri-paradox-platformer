@@ -2,6 +2,7 @@ package com.project.paradoxplatformer.controller;
 
 import java.util.concurrent.CountDownLatch;
 
+import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.view.ViewManager;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewAdapterFactory;
@@ -15,6 +16,9 @@ public final class SimpleController<N, P, K> implements Controller {
     public SimpleController(final ViewAdapterFactory<N, P, K> adapter, final String title) {
         viewManager = adapter.mainAppManager().get();
         this.title = title;
+
+        EventManager.getInstance().subscribe("SWITCH_VIEW", this::handleViewSwitch);
+
     }
 
     @Override
@@ -28,11 +32,15 @@ public final class SimpleController<N, P, K> implements Controller {
             new Thread(() -> viewManager.create(latch, title)).start();
             latch.await();
             System.out.println("Application Started");
-            viewManager.runOnAppThread(() -> this.switchView(PageIdentifier.GAME, "level1.json"));// IT MUST BE MENU
+            viewManager.runOnAppThread(() -> this.switchView(PageIdentifier.MENU, ""));
         } catch (InterruptedException | RuntimeException e) {
             System.err.println("\nErrors encounterd within view creation:\n → " + ExceptionUtils.simpleDisplay(e));
             viewManager.safeError();
         }
+    }
+
+    private void handleViewSwitch(PageIdentifier id, String param) {
+        switchView(id, param);
     }
 
     private void switchView(final PageIdentifier id, final String param) {

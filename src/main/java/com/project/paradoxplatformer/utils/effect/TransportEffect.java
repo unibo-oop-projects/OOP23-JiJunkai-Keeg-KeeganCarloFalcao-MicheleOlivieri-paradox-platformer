@@ -1,6 +1,7 @@
 package com.project.paradoxplatformer.utils.effect;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 import java.util.Optional;
@@ -10,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
  * Represents an effect that transports a game object to a specified
  * destination.
  */
-public class TransportEffect extends AbstractEffect {
+public class TransportEffect extends AbstractRecreatableEffect {
     private final Coord2D destination;
     private final boolean applyToTarget;
 
@@ -54,5 +55,11 @@ public class TransportEffect extends AbstractEffect {
         gameObject.setPosition(new Coord2D(0, 0));
         gameObject.setPosition(destination);
         return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    public RecreateableEffect recreate() {
+        System.out.println("Transport Effect gets recreated");
+        return new TransportEffect(Coord2D.randomX(100), applyToTarget);
     }
 }

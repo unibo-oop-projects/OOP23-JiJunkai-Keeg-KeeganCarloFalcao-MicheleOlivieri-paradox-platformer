@@ -30,4 +30,8 @@ public class CollisionManager {
 
         return collidingObjects;
     }
+
+    public EffectHandler getEffectHandler() {
+        return effectHandler;
+    }
 }

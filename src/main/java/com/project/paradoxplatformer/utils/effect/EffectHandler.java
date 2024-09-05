@@ -13,6 +13,7 @@ import com.project.paradoxplatformer.utils.collision.ChainOfEffects;
 import com.project.paradoxplatformer.utils.collision.ChainOfEffects.Builder;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
+import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.sound.SoundPathUtil;
 import com.project.paradoxplatformer.utils.sound.SoundType;
@@ -111,6 +112,29 @@ public class EffectHandler {
                                 .ifPresent(chain -> combinedChain.addEffects(chain.getEffects()));
 
                 return combinedChain.build();
+        }
+
+        public void reset(CollidableGameObject object, CollisionType type) {
+                // Recreate effects in objectEffectsMap
+                objectEffectsMap.computeIfPresent(type, (t, map) -> {
+                        map.computeIfPresent(object, (obj, chain) -> {
+                                List<Effect> recreatedEffects = chain.getEffects().stream()
+                                                .map(e -> e.recreate())
+                                                .filter(e -> e != null)
+                                                .toList();
+                                return ChainOfEffects.builder().addEffects(recreatedEffects).build();
+                        });
+                        return map;
+                });
+
+                // Recreate effects in typeEffectsMap
+                typeEffectsMap.compute(type, (t, chain) -> chain == null ? null
+                                : ChainOfEffects.builder()
+                                                .addEffects(chain.getEffects().stream()
+                                                                .map(e -> e.recreate())
+                                                                .filter(e -> e != null)
+                                                                .toList())
+                                                .build());
         }
 
         public ChainOfEffects createDefaultChainOfEffects(List<Supplier<Effect>> effectSuppliers) {

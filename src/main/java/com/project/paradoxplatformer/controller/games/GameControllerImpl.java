@@ -11,7 +11,9 @@ import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.collision.CollisionObserver;
+import com.project.paradoxplatformer.utils.effect.EffectHandler;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.game.GameView;
@@ -133,14 +135,15 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         if (Objects.nonNull(gamePair)) {
             gamePair.forEach((m, g) -> m.updateState(dt));
 
-            // Detect collisions and update observer
-            Set<CollidableGameObject> detectedCollisions = this.gameModel.getWorld()
-                    .getCollisionManager()
-                    .detectCollisions(gamePair.keySet(), this.gameModel.getWorld().player());
+            CollisionManager collisionManager = this.gameModel.getWorld().getCollisionManager();
+            EffectHandler effectHandler = collisionManager.getEffectHandler();
+            CollidableGameObject player = this.gameModel.getWorld().player();
+
+            Set<CollidableGameObject> detectedCollisions = collisionManager.detectCollisions(gamePair.keySet(), player);
 
             collisionObserver.observeCollisions(detectedCollisions,
-                    (obj, type) -> System.out.println("Started colliding: " + obj),
-                    (obj, type) -> System.out.println("Stopped colliding: " + obj));
+                    (obj, type) -> System.out.println("Started colliding : " + obj),
+                    (obj, type) -> effectHandler.reset(obj, type));
 
             gamePair.forEach(this.gameView::updateEnitityState);
         }

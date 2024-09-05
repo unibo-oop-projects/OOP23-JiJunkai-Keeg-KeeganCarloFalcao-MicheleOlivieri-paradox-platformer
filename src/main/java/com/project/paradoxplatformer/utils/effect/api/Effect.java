@@ -7,6 +7,14 @@ import java.util.concurrent.CompletableFuture;
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 
 public interface Effect {
-    public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target,
+    CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target,
             Optional<? extends CollidableGameObject> self);
+
+    default boolean isOneTimeEffect() {
+        return false;
+    }
+
+    default Effect recreate() {
+        return this;
+    }
 }

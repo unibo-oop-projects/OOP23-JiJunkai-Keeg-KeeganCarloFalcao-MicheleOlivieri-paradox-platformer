@@ -11,6 +11,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
+import com.project.paradoxplatformer.view.FXMLViews;
 import com.project.paradoxplatformer.view.Page;
 
 import javafx.fxml.FXMLLoader;
@@ -22,8 +23,8 @@ public final class FXMLHelper {
 
     public FXMLHelper() throws InvalidResourceException {
         this.fxmlPagesPairing = new EnumMap<>(Map.of(
-                PageIdentifier.GAME, ResourcesFinder.getURL("hello-view.fxml"),
-                PageIdentifier.MENU, ResourcesFinder.getURL("new-level-view.fxml")));
+                PageIdentifier.MENU, ResourcesFinder.getURL(FXMLViews.MENU.getFileName()),
+                PageIdentifier.GAME, ResourcesFinder.getURL(FXMLViews.GAME.getFileName())));
     }
 
     public Function<PageIdentifier, Optional<Pair<Parent, Page<String>>>> mapper() {

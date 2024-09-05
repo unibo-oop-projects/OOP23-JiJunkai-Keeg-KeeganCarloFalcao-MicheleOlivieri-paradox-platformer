@@ -11,7 +11,7 @@ import com.project.paradoxplatformer.HelloApplication;
 public final class ResourcesFinder {
 
     private static final List<String> fxmlFiles = List.of(
-            "hello-view.fxml");
+            "game-view.fxml");
 
     public static List<URL> FXMLfiles() throws InvalidResourceException {
 

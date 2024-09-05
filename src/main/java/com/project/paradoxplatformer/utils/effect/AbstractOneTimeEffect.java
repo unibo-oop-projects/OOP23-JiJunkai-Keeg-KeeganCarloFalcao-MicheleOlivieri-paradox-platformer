@@ -7,6 +7,10 @@ import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 import com.project.paradoxplatformer.utils.effect.api.OneTimeEffect;
 
+/**
+ * Abstract implementation of a one-time effect that is applied and then
+ * removed.
+ */
 public abstract class AbstractOneTimeEffect extends AbstractEffect implements OneTimeEffect {
 
     @Override

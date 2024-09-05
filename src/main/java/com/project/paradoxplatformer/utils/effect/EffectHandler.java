@@ -13,9 +13,7 @@ import com.project.paradoxplatformer.utils.collision.ChainOfEffects;
 import com.project.paradoxplatformer.utils.collision.ChainOfEffects.Builder;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
-import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.sound.SoundPathUtil;
 import com.project.paradoxplatformer.utils.sound.SoundType;
 
 public class EffectHandler {
@@ -152,11 +150,11 @@ public class EffectHandler {
                 handler.addCollisionEffectsForType(CollisionType.OBSTACLE,
                                 () -> new NoOpEffect());
                 handler.addCollisionEffectsForType(CollisionType.OBSTACLE,
-                                () -> new SoundEffect(SoundPathUtil.getPathForSound(SoundType.OBSTACLE_HIT)));
+                                () -> new SoundEffect(SoundType.OBSTACLE_HIT));
 
                 ChainOfEffects chain = ChainOfEffects.builder()
                                 .addEffect(new NoOpEffect())
-                                .addEffect(new SoundEffect(SoundPathUtil.getPathForSound(SoundType.OBSTACLE_HIT)))
+                                .addEffect(new SoundEffect(SoundType.OBSTACLE_HIT))
                                 .addEffect(new TransportEffect(new Coord2D(100, 100), false))
                                 .build();
 

@@ -6,6 +6,10 @@ import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Abstract implementation of a recreatable effect that can be applied and
+ * recreated.
+ */
 public abstract class AbstractRecreatableEffect extends AbstractEffect implements RecreateableEffect {
 
     @Override

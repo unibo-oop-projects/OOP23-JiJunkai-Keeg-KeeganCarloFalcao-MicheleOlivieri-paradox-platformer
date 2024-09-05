@@ -1,16 +1,16 @@
 package com.project.paradoxplatformer.utils.sound;
 
 import javax.sound.sampled.*;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
 public class SoundLoader {
 
-    // Load and play sound from the provided file path
-    public CompletableFuture<Void> playSound(String soundFilePath) {
+    // Load and play sound from the provided URL
+    public CompletableFuture<Void> playSound(URL soundUrl) {
         return CompletableFuture.runAsync(() -> {
-            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundFilePath))) {
+            try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl)) {
                 Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.start();

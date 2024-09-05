@@ -12,36 +12,36 @@ import java.util.concurrent.CompletableFuture;
  */
 public class TransportEffect extends AbstractEffect {
     private final Coord2D destination;
-    private final boolean applyToSelf;
+    private final boolean applyToTarget;
 
     /**
      * Creates a new TransportEffect.
      *
-     * @param destination the destination coordinates
-     * @param applyToSelf whether to apply the effect to the self object
+     * @param destination   the destination coordinates
+     * @param applyToTarget whether to apply the effect to the self object
      */
-    public TransportEffect(Coord2D destination, boolean applyToSelf) {
+    public TransportEffect(Coord2D destination, boolean applyToTarget) {
         this.destination = destination;
-        this.applyToSelf = applyToSelf;
+        this.applyToTarget = applyToTarget;
     }
 
     @Override
     protected CompletableFuture<Void> applyToTarget(Optional<? extends CollidableGameObject> target) {
-        return target.map(gameObject -> {
-            System.out.println("TransportEffect: Applying to " + target.get() + "to " + destination);
-            return applyToGameObject(gameObject);
-        }).orElseGet(() -> CompletableFuture.completedFuture(null));
-    }
-
-    @Override
-    protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
-        if (applyToSelf) {
-            return self.map(gameObject -> {
-                System.out.println("TransportEffect: Applying to " + self.get());
+        if (applyToTarget) {
+            return target.map(gameObject -> {
+                System.out.println("TransportEffect: Applying to " + target.get() + "to " + destination);
                 return applyToGameObject(gameObject);
             }).orElseGet(() -> CompletableFuture.completedFuture(null));
         }
         return CompletableFuture.completedFuture(null);
+    }
+
+    @Override
+    protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
+        return self.map(gameObject -> {
+            System.out.println("TransportEffect: Applying to " + self.get());
+            return applyToGameObject(gameObject);
+        }).orElseGet(() -> CompletableFuture.completedFuture(null));
     }
 
     /**

@@ -110,6 +110,8 @@ public final class GamePlatformView<C, K> implements GameView<C> {
                 this.isFlipped = false;
             }
 
+            // System.out.println("[Player Position]: " + pl.getPosition());
+
             if (graphicCompo instanceof FXSpriteAdapter spriAdapter) {
                 spriAdapter.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
 

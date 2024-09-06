@@ -23,8 +23,7 @@ public class CollisionManager {
         Set<CollidableGameObject> collidingObjects = detectCollisions(collidableGameObjects, player);
 
         // Observing collisions using method references
-        observeCollisions(collidingObjects, effectHandler::applyEffects, effectHandler::reset);
-
+        observeCollisions(collidingObjects, player, effectHandler::applyEffects, effectHandler::reset);
     }
 
     // Collision detection logic
@@ -45,15 +44,15 @@ public class CollisionManager {
 
     // Observing collisions and applying actions via method references
     private void observeCollisions(Set<CollidableGameObject> collidingObjects,
+            CollidableGameObject player,
             BiConsumer<CollidableGameObject, CollidableGameObject> onCollideStart,
             BiConsumer<CollidableGameObject, CollisionType> onCollideEnd) {
 
-        // For each colliding object, apply the start collision action
-        collidingObjects.forEach(object -> onCollideStart.accept(object, object));
+        collidingObjects.forEach(object -> onCollideStart.accept(player, object));
 
         // For each colliding object, apply the end collision action
         collidingObjects.forEach(object -> {
-            onCollideEnd.accept(object, object.getCollisionType()); // Now passing both the object and type
+            onCollideEnd.accept(object, object.getCollisionType());
         });
     }
 }

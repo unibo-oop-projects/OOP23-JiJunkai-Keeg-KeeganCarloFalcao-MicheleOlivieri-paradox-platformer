@@ -8,4 +8,6 @@ public interface EffectsFactory {
     Effect collectingEffect();
 
     Effect transitionEffect(final TrajectoryInfo trajInfo);
+
+    Effect stoppingEffect();
 }

@@ -22,6 +22,7 @@ import com.project.paradoxplatformer.utils.geometries.orientations.factory.Offse
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
+import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.FXSpriteAdapter;
 
@@ -94,25 +95,30 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     }
 
     @Override
-    public void updateEnitityState(MutableObject mutEntity, GraphicAdapter<C> graphicCompo) {
+    public void updateEnitityState(MutableObject mutEntity, ReadOnlyGraphicDecorator<C> graphicCompo) {
+
+        var graph = this.setComponents.stream()
+            .filter(g -> graphicCompo.equals(g))
+            .findFirst()
+            .orElseThrow(() -> new IllegalStateException("Could not find graphic in current set of components"));
 
         final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());
-        graphicCompo.setPosition(c.x(), c.y());
-        graphicCompo.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
+        graph.setPosition(c.x(), c.y());
+        graph.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
 
         if (mutEntity instanceof PlayerModel pl) {
             // JUST FOR TESTING, MUST DO BETTER
             if (pl.getSpeed().xComponent() < 0 && !this.isFlipped) {
-                graphicCompo.flip();
+                graph.flip();
                 this.isFlipped = true;
             } else if (pl.getSpeed().xComponent() > 0 && this.isFlipped) {
-                graphicCompo.flip();
+                graph.flip();
                 this.isFlipped = false;
             }
 
             // System.out.println("[Player Position]: " + pl.getPosition());
 
-            if (graphicCompo instanceof FXSpriteAdapter spriAdapter) {
+            if (graph instanceof FXSpriteAdapter spriAdapter) {
                 spriAdapter.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
 
             }

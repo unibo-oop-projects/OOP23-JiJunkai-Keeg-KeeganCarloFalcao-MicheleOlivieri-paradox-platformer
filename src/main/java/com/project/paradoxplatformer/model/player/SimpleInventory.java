@@ -10,7 +10,7 @@ import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 
 public class SimpleInventory implements Inventory {
 
-    private List<CollectableGameObject> items;
+    private final List<CollectableGameObject> items;
 
     public SimpleInventory() {
         this.items = new ArrayList<>();

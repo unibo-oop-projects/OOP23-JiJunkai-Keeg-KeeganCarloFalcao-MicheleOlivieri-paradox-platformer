@@ -12,24 +12,28 @@ import javafx.scene.Node;
 
 public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
 
+    private static final double INVERTED_FACTOR = -1.d;
     protected final Node uiComponent;
     protected final Dimension dimension;
     protected DoubleProperty xProperty;
     protected DoubleProperty yProperty;
+    private final Coord2D bindedPosition;
+    private int key;
 
     protected AbstractFXGraphicAdapter(final Node component, Dimension dimension, Coord2D relativePos) {
         this.uiComponent = component;   
         this.dimension = dimension;
         this.xProperty = new SimpleDoubleProperty(relativePos.x());
-        this.yProperty = new SimpleDoubleProperty(relativePos.y()); 
+        this.yProperty = new SimpleDoubleProperty(relativePos.y());
+        this.bindedPosition = relativePos; 
     }
 
 
     @Override
     public Coord2D absolutePosition() {
         return new Coord2D(
-            this.uiComponent.getTranslateX(),
-            this.uiComponent.getTranslateY()
+            this.bindedPosition.x(),
+            this.bindedPosition.y()
         );
     }
 
@@ -46,7 +50,6 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
     //Must decide wether relative or absolute
     @Override
     public void setPosition(final double x, final double y) {
-        
         this.xProperty.set(x);
         this.yProperty.set(y);
         
@@ -69,7 +72,7 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
 
     @Override
     public void flip() {
-        this.uiComponent.setScaleX(-1  * uiComponent.getScaleX());
+        this.uiComponent.setScaleX(INVERTED_FACTOR  * uiComponent.getScaleX());
     }
 
     @Override 
@@ -77,6 +80,30 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
         this.uiComponent.translateYProperty().bind(yProperty.multiply(hRatio));
         this.uiComponent.translateXProperty().bind(xProperty.multiply(wratio));
     }
+
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dimension == null) ? 0 : dimension.hashCode());
+        result = prime * result + ((xProperty == null) ? 0 : xProperty.hashCode());
+        result = prime * result + ((yProperty == null) ? 0 : yProperty.hashCode());
+        return result;
+    }
+
+
+    @Override
+    public void setKey(int key) {
+        this.key = key;
+    }
+
+
+    @Override
+    public int getKey() {
+        return this.key;
+    }
+   
     
     
 }

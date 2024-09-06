@@ -14,7 +14,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.ViewManager;
-import com.project.paradoxplatformer.view.javafx.FXMLHelper;
+import com.project.paradoxplatformer.view.javafx.FXMLPageHelper;
 import com.project.paradoxplatformer.view.javafx.JavaFxApp;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
@@ -25,7 +25,7 @@ public final class SwingApp extends JFrame implements ViewManager{
 
     private final JPanel jpane;
     private CountDownLatch latch;
-    private final FXMLHelper helper;
+    private final FXMLPageHelper helper;
 
     public SwingApp() {
         this.jpane = new JPanel(new BorderLayout());
@@ -35,7 +35,7 @@ public final class SwingApp extends JFrame implements ViewManager{
         this.setSize((int) (resoultion * ASPECT_RATIO), resoultion);
         this.getContentPane().setBackground(Color.WHITE);
         try {
-            helper = new FXMLHelper();
+            helper = new FXMLPageHelper();
         } catch(InvalidResourceException ex) {
             throw new IllegalStateException(ex.getMessage(), ex);
         }

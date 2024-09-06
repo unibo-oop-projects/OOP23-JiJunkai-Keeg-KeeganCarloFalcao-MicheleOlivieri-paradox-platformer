@@ -14,6 +14,7 @@ public abstract class AbstractSwingAdapter implements GraphicAdapter<JComponent>
     protected JComponent uiComponent;
     private Dimension dimension;
     private Coord2D coord;
+    private int key;
 
     protected AbstractSwingAdapter(final JComponent component, Dimension dimension, Coord2D relativePos) {
         this.uiComponent = component;   
@@ -63,5 +64,14 @@ public abstract class AbstractSwingAdapter implements GraphicAdapter<JComponent>
 
     @Override
     public abstract void flip();
+    @Override
+    public void setKey(int key) {
+        this.key = key;
+    }
+    @Override
+    public int getKey() {
+        return this.key;
+    }
+    
     
 }

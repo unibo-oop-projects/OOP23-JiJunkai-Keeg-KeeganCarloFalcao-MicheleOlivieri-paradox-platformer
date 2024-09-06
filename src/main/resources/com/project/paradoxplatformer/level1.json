@@ -125,6 +125,15 @@
 		},
 		{
 			"type": "obstacle",
+			"x": 250,
+			"y": 110,
+			"width": 20,
+			"height": 20,
+			"subtype": "Coin",
+			"image": "coin.png"
+		},
+		{
+			"type": "obstacle",
 			"x": 150,
 			"y": 100,
 			"width": 20,

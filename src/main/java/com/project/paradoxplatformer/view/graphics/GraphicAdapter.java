@@ -23,5 +23,13 @@ public interface GraphicAdapter<C> extends ViewComponent<C> {
     void bindPropreties(ObservableDoubleValue wRatio, ObservableDoubleValue hRatio);
 
     void flip();
+
+    void setKey(int key);
+
+    int getKey();
+
+    default boolean equals(GraphicAdapter<C> other) {
+        return other.dimension().equals(this.dimension()) && other.relativePosition().equals(this.relativePosition());
+    }
     
 }

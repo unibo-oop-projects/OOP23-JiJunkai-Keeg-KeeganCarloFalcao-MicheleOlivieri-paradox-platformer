@@ -3,22 +3,18 @@ package com.project.paradoxplatformer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.ElementDecorator;
 import com.project.paradoxplatformer.view.EventBinder;
-import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.ViewNavigator;
-import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class NewLevelController implements Initializable, Page<String> {
+public class NewLevelController extends AbstractThreadedPage implements Initializable {
 
     @FXML
     private Button settingsButton; // Button to navigate to settings
@@ -59,25 +55,12 @@ public class NewLevelController implements Initializable, Page<String> {
         }
     }
 
-    @Override
-    public void create(String param) throws Exception {
-        // Ensure that the code runs on the JavaFX application thread
-        if (!Platform.isFxApplicationThread()) {
-            ViewLegacy.javaFxFactory().mainAppManager().get().runOnAppThread(() -> safelyRunOnFXThread(param));
-        } else {
-            safelyRunOnFXThread(param);
-        }
-    }
-
-    private void safelyRunOnFXThread(String param) {
-        try {
-            runOnFXThread(param); // Run the given code on the JavaFX thread
-        } catch (Exception e) {
-            throw new IllegalStateException(e.getMessage(), e); // Wrap and rethrow exception
-        }
-    }
-
-    private void runOnFXThread(String param) {
+    protected void runOnFXThread(String param) {
         System.out.println("[Main Menu Panel]"); // Debug output or placeholder for actual logic
+    }
+
+    @Override
+    public String toString() {
+        return "New Level Controller";
     }
 }

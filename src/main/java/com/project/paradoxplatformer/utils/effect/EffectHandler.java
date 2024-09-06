@@ -166,6 +166,13 @@ public class EffectHandler {
                 handler.addCollisionEffectsForType(CollisionType.SPRINGS,
                                 () -> new SpringEffect());
 
+                handler.addCollisionEffectsForType(CollisionType.COLLECTING,
+                        new EffectFactoryImpl()::collectingEffect);
+
+
+                handler.addCollisionEffectsForType(CollisionType.WALLS,
+                        new EffectFactoryImpl()::stoppingEffect);
+
                 return handler;
         }
 }

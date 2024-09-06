@@ -25,9 +25,22 @@ public abstract class AbstractTrasformableObject extends AbstractPositionableObj
     }
 
     @Override
+    public void setPosition(Coord2D position) {
+        this.position = position;
+    }
+
+    @Override
+    public void setDimension(final Dimension dimension) {
+        this.dimension = dimension;
+    }
+
+    @Override
     public abstract CollisionType getCollisionType();
 
     @Override
     public abstract void updateState(long dt);
+
+    
+
     
 }

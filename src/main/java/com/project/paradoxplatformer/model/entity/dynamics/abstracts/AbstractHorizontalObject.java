@@ -1,12 +1,13 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
+import com.project.paradoxplatformer.model.entity.AbstractMutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.HorizontalObject;
 import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 
-public abstract class AbstractHorizontalObject implements HorizontalObject {
+public abstract class AbstractHorizontalObject extends AbstractMutableObject implements HorizontalObject {
 
     //Conventional cartesian values
     private static final int LEFT_MAG_SIGN = -1;

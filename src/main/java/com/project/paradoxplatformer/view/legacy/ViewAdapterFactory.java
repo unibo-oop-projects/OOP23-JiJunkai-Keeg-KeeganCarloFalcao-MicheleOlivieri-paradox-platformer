@@ -13,6 +13,8 @@ public interface ViewAdapterFactory<V, P, K> {
 
     P blankPage();
 
+    P loadingPage();
+
     Supplier<ViewMappingFactory<V>> getComponentsFactory();
 
     Function<P, GraphicContainer<V, K>> containerMapper();

@@ -17,7 +17,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public final class PlayerModel extends AbstractControllableObject implements MutableObject {
+public final class PlayerModel extends AbstractControllableObject {
 
     private Coord2D position;
     private Dimension dimension;
@@ -112,5 +112,11 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
     public String toString() {
         return "Player: " + this.position + ", Inventory: " + this.getInventoryData() + " ";
     }
+
+    @Override
+    public void setDimension(Dimension dimension) {
+        this.dimension = new Dimension(this.dimension.width(), this.dimension.height());
+    }
+
 
 }

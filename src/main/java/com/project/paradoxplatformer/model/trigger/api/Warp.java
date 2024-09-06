@@ -7,13 +7,13 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 public class Warp extends AbstractTrigger {
 
     public Warp(Coord2D position, Dimension dimension) {
+        super(position, dimension);
         this.position = position;
         this.dimension = dimension;
     }
 
     public Warp() {
-        this.position = new Coord2D(100, 200);
-        this.dimension = new Dimension(50, 50);
+        super(new Coord2D(100, 200), new Dimension(50, 50));
     }
 
 }

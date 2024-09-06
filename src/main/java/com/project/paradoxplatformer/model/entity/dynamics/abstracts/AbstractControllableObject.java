@@ -41,7 +41,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
 
     public void setGameEventListener(GameEventListener listener) {
         this.gameEventListener = listener;
-        System.out.println("GameEventListener set: " + (listener != null));
+        
     }
 
     @Override

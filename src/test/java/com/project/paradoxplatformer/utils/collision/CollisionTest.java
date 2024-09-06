@@ -27,7 +27,7 @@ public class CollisionTest {
 
         PlayerModel player = new PlayerModel(new Coord2D(0, 0), new Dimension(50, 50));
         Button button = new Button();
-        Warp warp = new Warp(100, 200);
+        Warp warp = new Warp();
 
         // Register effects
         // effectHandler.addSingleEffect(CollisionType.TRIGGER, button, null);

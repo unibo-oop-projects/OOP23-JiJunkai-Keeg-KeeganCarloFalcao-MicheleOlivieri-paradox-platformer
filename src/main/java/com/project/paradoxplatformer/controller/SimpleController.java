@@ -18,6 +18,7 @@ public final class SimpleController<N, P, K> implements Controller {
         this.title = title;
 
         EventManager.getInstance().subscribe("SWITCH_VIEW", this::handleViewSwitch);
+        EventManager.getInstance().subscribe("INITIALIZE", this::handleViewSwitch);
 
     }
 
@@ -31,16 +32,16 @@ public final class SimpleController<N, P, K> implements Controller {
         try {
             new Thread(() -> viewManager.create(latch, title)).start();
             latch.await();
-            System.out.println("Application Started");
-            viewManager.runOnAppThread(() -> this.switchView(PageIdentifier.MENU, ""));
+            System.out.println("Application Thread Started");
+            viewManager.runOnAppThread(this::initRoutine);
         } catch (InterruptedException | RuntimeException e) {
             System.err.println("\nErrors encounterd within view creation:\n → " + ExceptionUtils.simpleDisplay(e));
             viewManager.safeError();
         }
     }
 
-    private void handleViewSwitch(PageIdentifier id, String param) {
-        switchView(id, param);
+    private void handleViewSwitch(final PageIdentifier id, final String param) {
+        this.switchView(id, param);
     }
 
     private void switchView(final PageIdentifier id, final String param) {
@@ -50,5 +51,9 @@ public final class SimpleController<N, P, K> implements Controller {
             viewManager.displayError(ExceptionUtils.advacendDisplay(ex));
             viewManager.safeError();
         }
+    }
+
+    private void initRoutine() {
+        EventManager.getInstance().publish("INITIALIZE", PageIdentifier.MENU, "");
     }
 }

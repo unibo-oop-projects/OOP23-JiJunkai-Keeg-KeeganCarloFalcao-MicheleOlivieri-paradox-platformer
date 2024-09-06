@@ -17,11 +17,11 @@ import com.project.paradoxplatformer.view.Page;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
-public final class FXMLHelper {
+public final class FXMLPageHelper {
 
     private Map<PageIdentifier, URL> fxmlPagesPairing;
 
-    public FXMLHelper() throws InvalidResourceException {
+    public FXMLPageHelper() throws InvalidResourceException {
         this.fxmlPagesPairing = new EnumMap<>(Map.of(
                 PageIdentifier.MENU, ResourcesFinder.getURL(FXMLViews.MENU.getFileName()),
                 PageIdentifier.GAME, ResourcesFinder.getURL(FXMLViews.GAME.getFileName())));

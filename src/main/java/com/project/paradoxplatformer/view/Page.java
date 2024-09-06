@@ -8,7 +8,12 @@ public interface Page<T> {
 
             @Override
             public void create(String param) throws Exception {
-                System.out.println("Blank Page, entered in Console Mode");
+                System.out.println("Page not Found: showing a Blank Screen");
+            }
+
+            @Override
+            public String toString() {
+                return "DEFAULT PAGE";
             }
             
         };

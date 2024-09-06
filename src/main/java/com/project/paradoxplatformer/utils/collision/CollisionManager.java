@@ -1,21 +1,34 @@
 package com.project.paradoxplatformer.utils.collision;
 
 import java.util.Collection;
-
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
-import com.project.paradoxplatformer.utils.effect.EffectHandler;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.BiConsumer;
+
+import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.utils.collision.api.CollisionType;
+import com.project.paradoxplatformer.utils.effect.EffectHandler;
 
 public class CollisionManager {
+
     private final EffectHandler effectHandler;
 
     public CollisionManager(EffectHandler effectHandler) {
         this.effectHandler = effectHandler;
     }
 
-    // Handle collision detection and return the set of colliding objects
-    public Set<CollidableGameObject> detectCollisions(Collection<? extends CollidableGameObject> collidableGameObjects,
+    // Handle collision detection and actions via method references
+    public void handleCollisions(Collection<? extends CollidableGameObject> collidableGameObjects,
+            CollidableGameObject player) {
+        Set<CollidableGameObject> collidingObjects = detectCollisions(collidableGameObjects, player);
+
+        // Observing collisions using method references
+        observeCollisions(collidingObjects, effectHandler::applyEffects, effectHandler::reset);
+
+    }
+
+    // Collision detection logic
+    private Set<CollidableGameObject> detectCollisions(Collection<? extends CollidableGameObject> collidableGameObjects,
             CollidableGameObject player) {
         Set<CollidableGameObject> collidingObjects = new HashSet<>();
 
@@ -23,7 +36,6 @@ public class CollisionManager {
                 .filter(object -> object != player)
                 .forEach(object -> {
                     if (CollisionDetector.isColliding(player, object)) {
-                        effectHandler.applyEffects(player, object);
                         collidingObjects.add(object);
                     }
                 });
@@ -31,7 +43,17 @@ public class CollisionManager {
         return collidingObjects;
     }
 
-    public EffectHandler getEffectHandler() {
-        return effectHandler;
+    // Observing collisions and applying actions via method references
+    private void observeCollisions(Set<CollidableGameObject> collidingObjects,
+            BiConsumer<CollidableGameObject, CollidableGameObject> onCollideStart,
+            BiConsumer<CollidableGameObject, CollisionType> onCollideEnd) {
+
+        // For each colliding object, apply the start collision action
+        collidingObjects.forEach(object -> onCollideStart.accept(object, object));
+
+        // For each colliding object, apply the end collision action
+        collidingObjects.forEach(object -> {
+            onCollideEnd.accept(object, object.getCollisionType()); // Now passing both the object and type
+        });
     }
 }

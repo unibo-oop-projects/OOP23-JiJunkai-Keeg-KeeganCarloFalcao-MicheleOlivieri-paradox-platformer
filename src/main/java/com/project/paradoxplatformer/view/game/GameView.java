@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.view.game;
 
-import com.project.paradoxplatformer.model.entity.MutableObject;
+import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
@@ -15,5 +15,5 @@ public interface GameView<C> {
 
     Dimension dimension();
 
-    void updateEnitityState(MutableObject m, ReadOnlyGraphicDecorator<C> g);
+    void updateControlState(ReadOnlyMutableObjectWrapper readOnlyMutable, ReadOnlyGraphicDecorator<C> readOnlyGraphic);
 }

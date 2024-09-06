@@ -12,8 +12,10 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.model.entity.MutableObject;
+import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.SecureWrapper;
+import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.orientations.GraphicOffsetCorrector;
 import com.project.paradoxplatformer.utils.geometries.orientations.OffsetCorrector;
@@ -95,7 +97,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     }
 
     @Override
-    public void updateEnitityState(MutableObject mutEntity, ReadOnlyGraphicDecorator<C> graphicCompo) {
+    public void updateControlState(ReadOnlyMutableObjectWrapper mutEntity, ReadOnlyGraphicDecorator<C> graphicCompo) {
 
         var graph = this.setComponents.stream()
             .filter(g -> graphicCompo.equals(g))
@@ -106,20 +108,20 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         graph.setPosition(c.x(), c.y());
         graph.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
 
-        if (mutEntity instanceof PlayerModel pl) {
+        if (mutEntity.getCollisionType().equals(CollisionType.PLAYER)) {
             // JUST FOR TESTING, MUST DO BETTER
-            if (pl.getSpeed().xComponent() < 0 && !this.isFlipped) {
+            if (mutEntity.getSpeed().xComponent() < 0 && !this.isFlipped) {
                 graph.flip();
                 this.isFlipped = true;
-            } else if (pl.getSpeed().xComponent() > 0 && this.isFlipped) {
+            } else if (mutEntity.getSpeed().xComponent() > 0 && this.isFlipped) {
                 graph.flip();
                 this.isFlipped = false;
             }
 
-            // System.out.println("[Player Position]: " + pl.getPosition());
+            // System.out.println("[Player Position]: " + mutEntity.getSpeed());
 
             if (graph instanceof FXSpriteAdapter spriAdapter) {
-                spriAdapter.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
+                spriAdapter.animate(mutEntity.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
 
             }
         }

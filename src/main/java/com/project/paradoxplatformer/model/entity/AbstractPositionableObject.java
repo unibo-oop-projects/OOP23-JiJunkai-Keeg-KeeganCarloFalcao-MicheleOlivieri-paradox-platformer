@@ -16,7 +16,6 @@ public abstract class AbstractPositionableObject extends AbstractMutableObject {
     protected boolean isIdle;
     protected Vector2D displacement;
     protected Coord2D position;
-    protected int key;
 
     protected AbstractPositionableObject(final Coord2D position) {
         this.isIdle = true;

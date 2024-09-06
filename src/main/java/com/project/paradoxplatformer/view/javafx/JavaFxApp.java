@@ -23,8 +23,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
@@ -37,7 +35,7 @@ public class JavaFxApp extends Application implements ViewManager {
 
     private static Scene scene;
     private static Stage stage;
-    private static FXMLPageHelper helper;
+    private static FXMLPageHelper<Page<String>> helper;
     private boolean created;
     private static String staticTitle = "";
     private static CountDownLatch latch;
@@ -71,7 +69,7 @@ public class JavaFxApp extends Application implements ViewManager {
         stage.setOnCloseRequest(e -> this.exit());
         // COuld be done dynamically hwen pages are called, loads slower
         try {
-            helper = new FXMLPageHelper();
+            helper = new FXMLPageHelper<>();
         } catch (InvalidResourceException | RuntimeException ex) {
             this.displayError(ExceptionUtils.advacendDisplay(ex));
             this.safeError();
@@ -172,7 +170,7 @@ public class JavaFxApp extends Application implements ViewManager {
         var primaryScreenBounds = Screen.getPrimary().getBounds();
         var dim = new Dimension(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
         System.out.println(dim);
-        final double resoultion = 360;
+        final double resoultion = 480;
         LinearGradient paint = new LinearGradient(
                 0.9762, 0.0, 1.0, 1.0, true, CycleMethod.NO_CYCLE,
                 new Stop(0.0, new Color(1.0, 0.3924, 0.02, 1.0)),
@@ -180,6 +178,8 @@ public class JavaFxApp extends Application implements ViewManager {
         scene = new Scene(ViewLegacy.javaFxFactory().loadingPage(), resoultion * ASPECT_RATIO, resoultion, paint);
         stage.sizeToScene();
         stage.setScene(scene);
+
+        System.out.println("Dimension view → (w x h) " + scene.getWidth() + " " + scene.getHeight());
 
     }
 

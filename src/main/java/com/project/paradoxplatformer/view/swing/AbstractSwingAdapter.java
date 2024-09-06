@@ -69,7 +69,7 @@ public abstract class AbstractSwingAdapter implements GraphicAdapter<JComponent>
         this.key = key;
     }
     @Override
-    public int getKey() {
+    public int getID() {
         return this.key;
     }
     

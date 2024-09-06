@@ -100,7 +100,7 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
 
 
     @Override
-    public int getKey() {
+    public int getID() {
         return this.key;
     }
    

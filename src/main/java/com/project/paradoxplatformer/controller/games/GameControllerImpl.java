@@ -7,6 +7,7 @@ import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.entity.MutableObject;
+import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
@@ -121,7 +122,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private boolean joinPredicate(final MutableObject mutableObject, final GraphicAdapter<C> gComponent, final boolean firstTime) {
         return firstTime ? mutableObject.getDimension().equals(dimension.apply(gComponent))
                 && mutableObject.getPosition().equals(position.apply(gComponent))
-                : mutableObject.getKey() == gComponent.getKey();
+                : mutableObject.getID() == gComponent.getID();
     }
 
     @Override
@@ -166,11 +167,22 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                     (obj, type) -> System.out.println("Started colliding : " + obj.getClass().getSimpleName()),
                     (obj, type) -> effectHandler.reset(obj, type));
 
-            gamePairs.forEach(this.gameView::updateEnitityState); 
+            this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState); 
 
             this.resync();
             
         }
+    }
+
+    private Map<ReadOnlyMutableObjectWrapper, ReadOnlyGraphicDecorator<C>> readOnlyPairs(final Map<MutableObject, ReadOnlyGraphicDecorator<C>> pairs) {
+        return pairs.entrySet().stream()
+            .map(p -> 
+                Pair.of(
+                    new ReadOnlyMutableObjectWrapper(p.getKey()), 
+                    p.getValue()
+                )
+            )
+            .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     private void resync() {

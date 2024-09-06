@@ -12,36 +12,37 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
 import com.project.paradoxplatformer.view.FXMLViews;
-import com.project.paradoxplatformer.view.Page;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
-public final class FXMLPageHelper {
+public final class FXMLPageHelper<P> {
 
-    private Map<PageIdentifier, URL> fxmlPagesPairing;
+    private final Map<PageIdentifier, URL> fxmlPagesPairing;
 
     public FXMLPageHelper() throws InvalidResourceException {
         this.fxmlPagesPairing = new EnumMap<>(Map.of(
                 PageIdentifier.MENU, ResourcesFinder.getURL(FXMLViews.MENU.getFileName()),
-                PageIdentifier.GAME, ResourcesFinder.getURL(FXMLViews.GAME.getFileName())));
+                PageIdentifier.GAME, ResourcesFinder.getURL(FXMLViews.GAME.getFileName())
+            )
+        );
     }
 
-    public Function<PageIdentifier, Optional<Pair<Parent, Page<String>>>> mapper() {
+    public Function<PageIdentifier, Optional<Pair<Parent, P>>> mapper() {
         return p -> Optional.ofNullable(this.fxmlPagesPairing.get(p))
                 .map(FXMLLoader::new)
                 .map(this::loadInput);
 
     }
 
-    private Pair<Parent, Page<String>> loadInput(FXMLLoader loader) {
+    private Pair<Parent, P> loadInput(FXMLLoader loader) {
         try {
-            Parent parent = loader.load();
-            Page<String> controller = loader.getController();
+            final Parent parent = loader.load();
+            final P controller = loader.getController();
             return Pair.of(parent, controller);
 
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException("Loading controller from FXML error encountered ", e); //Wraping exception with short message and rethrowing
         }
     }
 

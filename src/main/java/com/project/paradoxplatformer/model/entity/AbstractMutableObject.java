@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.model.entity;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public abstract class AbstractMutableObject implements MutableObject{
 
@@ -27,12 +28,15 @@ public abstract class AbstractMutableObject implements MutableObject{
     public abstract void setDimension(Dimension dimension);
 
     @Override
+    public abstract Vector2D getSpeed();
+
+    @Override
     public void setKey(int key) {
         this.key = key;
     }
 
     @Override
-    public int getKey() {
+    public int getID() {
         return this.key;
     }
     

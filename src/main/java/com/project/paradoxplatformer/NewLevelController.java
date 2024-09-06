@@ -55,6 +55,7 @@ public class NewLevelController extends AbstractThreadedPage implements Initiali
         }
     }
 
+    @Override
     protected void runOnFXThread(String param) {
         System.out.println("[Main Menu Panel]"); // Debug output or placeholder for actual logic
     }

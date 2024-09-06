@@ -10,7 +10,6 @@ import javafx.beans.value.ObservableDoubleValue;
 public class ReadOnlyGraphicDecorator<C> implements GraphicAdapter<C>{
 
     private final GraphicAdapter<C> graphicReader;
-    private int key;
 
     public ReadOnlyGraphicDecorator(final GraphicAdapter<C> copyGraphic) {
         Objects.requireNonNull(copyGraphic);
@@ -76,8 +75,8 @@ public class ReadOnlyGraphicDecorator<C> implements GraphicAdapter<C>{
     }
 
     @Override
-    public int getKey() {
-        return graphicReader.getKey();
+    public int getID() {
+        return graphicReader.getID();
     }
     
 }

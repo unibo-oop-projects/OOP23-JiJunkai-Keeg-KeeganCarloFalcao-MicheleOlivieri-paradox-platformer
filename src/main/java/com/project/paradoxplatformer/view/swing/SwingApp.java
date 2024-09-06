@@ -25,7 +25,7 @@ public final class SwingApp extends JFrame implements ViewManager{
 
     private final JPanel jpane;
     private CountDownLatch latch;
-    private final FXMLPageHelper helper;
+    private final FXMLPageHelper<Page<String>> helper;
 
     public SwingApp() {
         this.jpane = new JPanel(new BorderLayout());
@@ -35,7 +35,7 @@ public final class SwingApp extends JFrame implements ViewManager{
         this.setSize((int) (resoultion * ASPECT_RATIO), resoultion);
         this.getContentPane().setBackground(Color.WHITE);
         try {
-            helper = new FXMLPageHelper();
+            helper = new FXMLPageHelper<>();
         } catch(InvalidResourceException ex) {
             throw new IllegalStateException(ex.getMessage(), ex);
         }

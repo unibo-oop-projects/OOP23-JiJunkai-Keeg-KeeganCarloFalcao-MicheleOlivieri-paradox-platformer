@@ -49,8 +49,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
     private final CollisionObserver collisionObserver;
     private final CollisionManager collisionManager;
-    private final Random rand = new Random();
     private EffectHandler effectHandler;
+
+    private final Random rand = new Random();
 
     /**
      * A generic constuctor of a gamecontroller.

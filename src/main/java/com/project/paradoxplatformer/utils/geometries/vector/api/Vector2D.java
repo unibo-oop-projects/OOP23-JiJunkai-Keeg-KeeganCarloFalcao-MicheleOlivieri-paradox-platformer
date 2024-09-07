@@ -1,6 +1,8 @@
 package com.project.paradoxplatformer.utils.geometries.vector.api;
 
-public interface Vector2D {
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+
+public sealed interface Vector2D permits AbstractVector{
     
     double magnitude();
 
@@ -14,8 +16,8 @@ public interface Vector2D {
 
     Vector2D scalar(double scalar);
 
-    void setMag(double magnitude, double limit);
-
     Vector2D sub(Vector2D e);
+
+    Coord2D convert();
     
 }

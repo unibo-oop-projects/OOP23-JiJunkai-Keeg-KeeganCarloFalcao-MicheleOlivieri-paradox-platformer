@@ -1,8 +1,9 @@
 package com.project.paradoxplatformer.utils.geometries.vector.api;
 
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.coordinates.api.Cartesian;
 
-public abstract class AbstractVector implements Vector2D{
+public sealed abstract class AbstractVector implements Vector2D permits Simple2DVector{
 
     protected Cartesian cartesian;
     private double magnitude;
@@ -14,12 +15,19 @@ public abstract class AbstractVector implements Vector2D{
         this.angle = cartesian.toPolar().getAngle();
     }
 
+    @Override
     public double magnitude() {
         return this.magnitude;
     }
 
+    @Override
     public double direction() {
         return this.angle;
+    }
+
+    @Override
+    public Coord2D convert() {
+        return new Coord2D(this.xComponent(), this.yComponent());
     }
 
     public abstract Vector2D add(Vector2D vector);
@@ -29,10 +37,6 @@ public abstract class AbstractVector implements Vector2D{
     public abstract double yComponent();
 
     public abstract double xComponent();
-
-    public void setMag(double magnitude, double speedLimit) {
-        this.magnitude = (Math.abs(magnitude) <= Math.abs(speedLimit)) ? magnitude : speedLimit;
-    }
 
 
     @Override

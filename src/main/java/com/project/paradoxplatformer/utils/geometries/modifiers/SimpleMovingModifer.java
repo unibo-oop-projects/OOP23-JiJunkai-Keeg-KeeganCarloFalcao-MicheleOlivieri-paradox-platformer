@@ -4,7 +4,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.utils.geometries.interpolations.Interpolator;
 import com.project.paradoxplatformer.utils.geometries.modifiers.api.Modifier;
-import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 

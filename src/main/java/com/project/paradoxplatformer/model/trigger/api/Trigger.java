@@ -1,5 +1,10 @@
+
 package com.project.paradoxplatformer.model.trigger.api;
 
-public interface Trigger {
-    void activate();
+import com.project.paradoxplatformer.model.entity.MutableObject;
+
+/**
+ * Marker interface for trigger objects.
+ */
+public interface Trigger extends MutableObject {
 }

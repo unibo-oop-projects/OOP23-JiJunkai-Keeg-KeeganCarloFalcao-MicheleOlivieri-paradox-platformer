@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+
+<StackPane fx:id="mainPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.paradoxplatformer.NewLevelController">
+   <children>
+      <!-- Top-left button to enable settings or switch view -->
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="400.0">
+         <children>
+            <Button fx:id="settingsButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Settings" />
+            
+            <!-- Rounded shapes for navigation -->
+            <Circle fx:id="levelOneButton" layoutX="100.0" layoutY="150.0" radius="50.0" />
+            <Circle fx:id="levelTwoButton" layoutX="250.0" layoutY="150.0" radius="50.0" />
+            <Circle fx:id="levelThreeButton" layoutX="175.0" layoutY="300.0" radius="50.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

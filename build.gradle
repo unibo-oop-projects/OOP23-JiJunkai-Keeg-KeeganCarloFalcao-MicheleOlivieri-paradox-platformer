@@ -4,10 +4,13 @@ plugins {
     id 'org.javamodularity.moduleplugin' version '1.8.12'
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.25.0'
+    id("org.danilopianini.gradle-java-qa") version "0.40.0"
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+
 }
 
 group 'com.project'
-version '1.0-SNAPSHOT'
+version '4.0'
 
 repositories {
     mavenCentral()
@@ -29,8 +32,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'com.project.paradoxplatformer'
-    mainClass = 'com.project.paradoxplatformer.HelloApplication'
+    // mainModule = 'com.project.paradoxplatformer'
+    mainClass = 'com.project.paradoxplatformer.App'
     applicationDefaultJvmArgs = [
         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
         '--add-opens', 'java.base/java.util=ALL-UNNAMED'
@@ -40,17 +43,28 @@ application {
 
 javafx {
     version = '17.0.6'
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics']
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base', 'javafx.swing']
 }
 
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     
+    def javaFxVersion = "17"
+    def javaFxModules = ["base","controls","fxml","swing","graphics"]
+    def supportedSystems = ["win", "linux", "mac"]
+    for (module in javaFxModules) {
+        for (sys in supportedSystems) {
+            implementation("org.openjfx:javafx-$module:$javaFxVersion:$sys")
+        }
+    }
     implementation("org.apache.commons:commons-lang3:3.0")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.12.0")
     implementation("com.fasterxml.jackson.core:jackson-core:2.12.0")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.12.0")
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation 'com.google.guava:guava:11.0.2'
+
 }
 
 test {
@@ -76,23 +90,33 @@ jlinkZip {
     group = 'distribution'
 }
 
-// eclipse {
-//     classpath {
-//         containers 'org.eclipse.buildship.core.gradleclasspathcontainer'
-//         file {
-//             whenMerged {
-//                 entries.findAll { it.properties.kind.equals('lib') && !it.properties.path.contains("junit") }.each {
-//                     it.entryAttributes['module'] = 'true'
-//                 }
-//                 entries.findAll { it.properties.path.startsWith('org.eclipse.jdt.launching.JRE_CONTAINER') }.each {
-//                     it.entryAttributes['module'] = 'true'
-//                 }
+//  eclipse {
+//      classpath {
+//          containers 'org.eclipse.buildship.core.gradleclasspathcontainer'
+//          file {
+//              whenMerged {
+//                  entries.findAll { it.properties.kind.equals('lib') && !it.properties.path.contains("junit") }.each {
+//                      it.entryAttributes['module'] = 'true'
+//                  }
+//                  entries.findAll { it.properties.path.startsWith('org.eclipse.jdt.launching.JRE_CONTAINER') }.each {
+//                      it.entryAttributes['module'] = 'true'
+//                  }
 
-//             }
-//         }
-//     }
-// }
+//              }
+//          }
+//      }
+//  }
 
+shadowJar {
+    mergeServiceFiles()
+    manifest {
+        attributes ('Main-Class': application.mainClass)
+    }
+}
+
+run {
+    standardInput = System.in
+}
 
 
 

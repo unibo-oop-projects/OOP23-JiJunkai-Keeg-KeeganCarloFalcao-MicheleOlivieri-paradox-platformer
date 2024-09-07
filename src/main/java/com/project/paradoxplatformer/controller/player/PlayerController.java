@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.controller.player;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.view.player.PlayerView;
 
-public class PlayerController {
+public final class PlayerController {
 
     private PlayerModel playerModel;
     private PlayerView playerView;

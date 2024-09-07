@@ -18,6 +18,6 @@ public class PlayerView {
     }
 
     public void updateState(Coord2D newPosition){
-        this.model.setPosition(newPosition);
+        // this.model.setPosition(newPosition);
     }
 }

@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.utils.geometries.coordinates.api;
 
-public class Cartesian {
+public final class Cartesian {
     private double y;
     private double x;
 

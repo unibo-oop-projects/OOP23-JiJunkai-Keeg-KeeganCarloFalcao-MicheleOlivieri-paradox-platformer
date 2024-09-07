@@ -1,0 +1,24 @@
+.button {
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(255, 255, 255, 0.4);
+    -fx-font-size: 14px;
+    -fx-background-radius: 11px;
+    -fx-border-width: 2px;
+    -fx-border-color: transparent;
+}
+
+.button:focused {
+    -fx-text-fill: rgb(112, 66, 20);
+    -fx-transition: -fx-border-color 0.5s, -fx-border-width, 0.5s;
+}
+
+.button:hover{
+    -fx-cursor:hand;
+    -fx-text-fill: rgb(255, 255, 255);
+    -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 30, 0, 0, 0);
+    -fx-transition: -fx-border-color 0.5s, -fx-border-width, 0.5s;
+}
+
+.stack-pane {
+	-fx-background-color: transparent;
+}

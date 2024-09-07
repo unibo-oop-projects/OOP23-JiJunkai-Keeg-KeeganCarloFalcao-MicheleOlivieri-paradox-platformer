@@ -1,38 +1,49 @@
 package com.project.paradoxplatformer.utils.geometries.interpolations;
 
-import com.project.paradoxplatformer.utils.geometries.vector.Simple2DVector;
+import java.util.Optional;
+import java.util.function.UnaryOperator;
+
+import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class InterpolatorFactoryImpl implements InterpolatorFactory{
+public final class InterpolatorFactoryImpl implements InterpolatorFactory{
+
+
+    private static final double LINEAR_EXPO = 1.d;
+    private static final double EASY_IN_EXPO = 3.d;
+    private static final double EASY_OUT_EXPO = 2.d;
+    private static final double UNIT = 1.d;
+    private static final double NULL_ALGEBRIC_VALUE = 0.d;
+
+    private Interpolator<Vector2D> templateEase(UnaryOperator<Double> base, double exponent, Optional<Double> residuo) {
+        return (s, e, t) -> new Simple2DVector(
+            s.xComponent() + (e.xComponent() - s.xComponent()) * 
+                (residuo.orElse(NULL_ALGEBRIC_VALUE) * residuo.map(sign -> -UNIT).orElse(UNIT) 
+                + Math.min(Math.pow(base.apply(t), exponent), UNIT)), 
+            s.yComponent() + (e.yComponent() - s.yComponent()) * 
+                (residuo.orElse(NULL_ALGEBRIC_VALUE) * residuo.map(sign -> -UNIT).orElse(UNIT) 
+                + Math.min(Math.pow(base.apply(t), exponent), UNIT))
+        );
+    }
 
     @Override
     public Interpolator<Vector2D> linear() {
-        return (s, e, t) -> new Simple2DVector(
-            s.xComponent() + (e.xComponent() - s.xComponent()) * Math.min(t, 1.0), 
-            s.yComponent() + (e.yComponent() - s.yComponent()) * Math.min(t, 1.0));
+        return templateEase(UnaryOperator.identity(), LINEAR_EXPO, Optional.empty());
     }
 
     @Override
     public Interpolator<Vector2D> easeIn() {
-        return (s, e, t) -> new Simple2DVector(
-            s.xComponent() + (e.xComponent() - s.xComponent()) * Math.min(Math.pow(t, 3d), 1.0), 
-            s.yComponent() + (e.yComponent() - s.yComponent()) * Math.min(Math.pow(t, 3d), 1.0));
+        return templateEase(UnaryOperator.identity(), EASY_IN_EXPO, Optional.empty());
     }
 
     @Override
     public Interpolator<Vector2D> easeOut() {
-        return (s, e, t) -> new Simple2DVector(
-            s.xComponent() + (e.xComponent() - s.xComponent()) * (1 - Math.min(Math.pow(1 - t, 2d), 1.0)), 
-            s.yComponent() + (e.yComponent() - s.yComponent()) * (1 - Math.min(Math.pow(1 - t, 2d), 1.0)));
+        return templateEase(t -> 1 - t, EASY_OUT_EXPO, Optional.of(UNIT));
     }
 
     @Override
     public Interpolator<Vector2D> easeInOut() {
-        return (s, e, t) -> new Simple2DVector(
-            s.xComponent() + (e.xComponent() - s.xComponent()) * 
-                (1 - Math.min(Math.pow(1 - t, 2d), 1.0)), 
-            s.yComponent() + (e.yComponent() - s.yComponent()) * 
-                (1 - Math.min(Math.pow(1 - t, 2d), 1.0)));
+        return templateEase(t -> 1 - t, 2.d, Optional.of(UNIT));
     }
 
     

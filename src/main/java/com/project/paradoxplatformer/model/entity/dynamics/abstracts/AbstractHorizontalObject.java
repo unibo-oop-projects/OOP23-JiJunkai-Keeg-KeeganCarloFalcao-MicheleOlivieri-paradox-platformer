@@ -1,12 +1,13 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
+import com.project.paradoxplatformer.model.entity.AbstractMutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.HorizontalObject;
-import com.project.paradoxplatformer.utils.geometries.modifiers.MovingType;
-import com.project.paradoxplatformer.utils.geometries.vector.Polar2DVector;
+import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
+import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 
-public abstract class AbstractHorizontalObject implements HorizontalObject {
+public abstract class AbstractHorizontalObject extends AbstractMutableObject implements HorizontalObject {
 
     //Conventional cartesian values
     private static final int LEFT_MAG_SIGN = -1;
@@ -26,9 +27,9 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
         this.limit = limit;
     }
 
-    private void moveBehaviour(final MovingType movingDir, final double magnitudeSign) {
+    private void moveBehaviour(final Direction movingDir, final double magnitudeSign) {
         if(movingDir.getStatus()) {
-            this.stop();
+            this.magnitude = RESET_MAG;
         }
         this.magnitude += this.magnitude > this.limit ? NO_ADDINGS : this.delta;
         //should do a moving set of things, using move function
@@ -40,17 +41,21 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
     
     @Override
     public void moveLeft() {
-        this.moveBehaviour(MovingType.LEFT, LEFT_MAG_SIGN);
+        this.moveBehaviour(Direction.LEFT, LEFT_MAG_SIGN);
     }
 
     @Override
     public void moveRight() {
-        this.moveBehaviour(MovingType.RIGHT, RIGHT_MAG_SIGN);
+        this.moveBehaviour(Direction.RIGHT, RIGHT_MAG_SIGN);
     }
 
     @Override
     public void stop() {
-        this.magnitude = RESET_MAG;
+        
+        this.magnitude -= this.magnitude > 0 ? delta : 0.; 
+        this.horizontalSpeed = new Polar2DVector(
+            this.magnitude * (horizontalSpeed.xComponent() >= 0. ? 1 : -1),
+            0.0);
         this.horizontalSpeed = Polar2DVector.nullVector();
     }
 

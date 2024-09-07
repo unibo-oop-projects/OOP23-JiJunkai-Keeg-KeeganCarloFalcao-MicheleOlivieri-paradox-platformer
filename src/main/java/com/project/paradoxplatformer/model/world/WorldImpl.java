@@ -2,24 +2,40 @@ package com.project.paradoxplatformer.model.world;
 
 import java.util.*;
 
-import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
+import com.google.common.collect.Sets;
+import com.project.paradoxplatformer.model.entity.MutableObject;
+import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.SecureWrapper;
+import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
-public class WorldImpl implements World{
+public final class WorldImpl implements World {
 
-    private final List<Obstacle> obstacles;
-    private final List<Trigger> triggers;
-    private final PlayerModel player;
+    private final Set<Obstacle> obstacles;
+    private final Set<Trigger> triggers;
+    private final SecureWrapper<PlayerModel> player;
     private final Dimension bounds;
+    private final CollisionManager collisionManager;
 
-    public WorldImpl(final List<Obstacle> obstacles, final List<Trigger> triggers, final PlayerModel player, final Dimension bounds) {
-        this.obstacles = obstacles;
-        this.triggers = triggers;
-        this.player = player;
+    public WorldImpl(final Collection<Obstacle> obstacles, final Collection<Trigger> triggers, final PlayerModel player,
+            final Dimension bounds, CollisionManager collisionManager) {
+        this.obstacles = new LinkedHashSet<>(obstacles);
+        this.triggers = new LinkedHashSet<>(triggers);
+        this.player = SecureWrapper.of(player);
         this.bounds = bounds;
+        this.collisionManager = collisionManager;
+    }
+
+    public WorldImpl(final World copy) {
+        this(copy.obstacles(), 
+            copy.triggers(),
+            copy.player(),
+            copy.bounds(),
+            copy.getCollisionManager()
+        );
     }
 
     @Override
@@ -32,28 +48,35 @@ public class WorldImpl implements World{
         return Collections.unmodifiableCollection(this.triggers);
     }
 
-    //unmodifiable
+    // unmodifiable
     @Override
     public PlayerModel player() {
-        return this.player;
+        return this.player.get();
     }
 
-    //Should be unmodifiable
     @Override
     public Dimension bounds() {
         return this.bounds;
     }
 
     @Override
-    public boolean removeTrigger(Trigger selectTrigger) {
-        return this.triggers.remove(selectTrigger);
+    public boolean removeGameObjcts(final MutableObject mutableGameObj) {
+        if (mutableGameObj instanceof Trigger) {
+            return this.triggers.remove(mutableGameObj);
+        } else if (mutableGameObj instanceof Obstacle){
+            return this.obstacles.remove(mutableGameObj);
+        }
+        return false;
     }
 
     @Override
-    public boolean removeObstacle(Obstacle selectObstacle) {
-        return this.obstacles.remove(selectObstacle);
+    public CollisionManager getCollisionManager() {
+        return this.collisionManager;
     }
 
-    
-    
+    @Override
+    public Collection<MutableObject> gameObjects() {
+        return Sets.union(this.obstacles, this.triggers);
+    }
+
 }

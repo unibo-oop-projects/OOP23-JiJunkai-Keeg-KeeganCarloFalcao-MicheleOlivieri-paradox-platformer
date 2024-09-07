@@ -1,150 +1,202 @@
 package com.project.paradoxplatformer.controller.games;
 
-import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
-import com.project.paradoxplatformer.model.entity.GameObject;
+import com.google.common.collect.Sets;
+import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
+import com.project.paradoxplatformer.controller.input.InputController;
+import com.project.paradoxplatformer.controller.input.api.KeyInputer;
+import com.project.paradoxplatformer.model.GameModelData;
+import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.entity.MutableObject;
-import com.project.paradoxplatformer.model.obstacles.api.Obstacle;
-import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.model.world.DataViewMapper;
-import com.project.paradoxplatformer.model.world.ModelData;
+import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
+import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.collision.CollisionManager;
+import com.project.paradoxplatformer.utils.effect.EffectHandler;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.fxcomponents.ImageComponent;
-import com.project.paradoxplatformer.view.fxcomponents.api.GraphicComponent;
-import com.project.paradoxplatformer.view.fxcomponents.api.SpriteStatus;
-import com.project.paradoxplatformer.view.fxcomponents.containers.api.GraphicContainer;
-import com.project.paradoxplatformer.view.fxcomponents.orientations.Offset;
-import com.project.paradoxplatformer.view.fxcomponents.orientations.OffsetFactory;
-import com.project.paradoxplatformer.view.fxcomponents.orientations.OffsetFactoryImpl;
+import com.project.paradoxplatformer.view.game.GameView;
+import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
+import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 
-import javafx.application.Platform;
-
-import java.util.function.Function;
-import java.util.function.Predicate;
-
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
-
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-public class GameControllerImpl implements GameController{
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 
-    private final GraphicContainer gameView;
-    private final ModelData gameModel;
-    private Map<MutableObject, GraphicComponent> gamePair;
-    private boolean isFlipped;
+/**
+ * An implementation of a basic Game Controller.
+ * 
+ * @param <C> type of view component
+ */
+public final class GameControllerImpl<C> implements GameController<C>, GameEventListener {
 
-    public GameControllerImpl(final ModelData gamemodel, final GraphicContainer gContainer) {
-        this.gameModel = gamemodel;
-        this.gameView = gContainer;
+    private final GameModelData gameModel;
+    private Map<MutableObject, ReadOnlyGraphicDecorator<C>> gamePairs;
+    private final GameView<C> gameView;
+    private final Function<GraphicAdapter<C>, Coord2D> position;
+    private final Function<GraphicAdapter<C>, Dimension> dimension;
+
+    private final CollisionManager collisionManager;
+
+    private final Random rand = new Random();
+
+    /**
+     * A generic constuctor of a gamecontroller.
+     * 
+     * @param model model type
+     * @param view  view type
+     */
+    public GameControllerImpl(final GameModelData model, final GameView<C> view) {
+        this.gameModel = model;
+        this.gameView = view;
+        this.gamePairs = new HashMap<>();
+        this.position = GraphicAdapter::relativePosition;
+        this.dimension = GraphicAdapter::dimension;
+        this.collisionManager = new CollisionManager(EffectHandler.createDefaultEffectHandler());
     }
-
 
     @Override
     public void loadModel() {
-        this.gameModel.init();
+        gameModel.init();
+        System.out.println("Game Model is loaded.");
     }
 
-    //Need abstraction for view creation
     @Override
     public void syncView() {
-        this.gameView.setDimension(
-            this.gameModel.getPackedData().getWidth(),
-            this.gameModel.getPackedData().getHeight()
-        );
+        gameView.init();
+        this.sync(true);
 
-        gamePair = this.flattenComponents(Set.of(
-                this.syncGameObjects(g -> !g.getImage().isEmpty(), DataViewMapper.imageToView()::apply),
-                this.syncGameObjects(g -> Objects.nonNull(g.getColor()), DataViewMapper.obstacleToModel()::apply)
-            )
-        );
-
-        OffsetFactory factory = new OffsetFactoryImpl(this.gameView.dimension());
-        //renders
-        gamePair.entrySet().stream()
-            .map(Map.Entry::getValue)//create a factory
-            .peek(this.gameView::render)
-            .forEach(g -> this.changeOrigin(g, factory.bottomLeft()));
-            
-        
+        System.out.println("Game View is loaded.");
     }
 
-    private void changeOrigin(GraphicComponent g, Offset offset) {
-        Coord2D newOrigin = offset.anchor(g.relativePosition().x(), g.relativePosition().y());
-        g.setRelativePositionTo(newOrigin.x(), newOrigin.y(), this.gameView);
+    private void sync(final boolean firstTime) {
+        gamePairs = this.gameView.getUnmodifiableControls()
+                .stream()
+                .map(g -> this.join(new ReadOnlyGraphicDecorator<>(g), this.gameModel.getWorld(), firstTime))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
-    private Map<MutableObject, GraphicComponent> syncGameObjects(final Predicate<GameDTO> objectsRendersPred, final Function<GameDTO, GraphicComponent> dtoToGraphic) {
-        return Arrays.stream(this.gameModel.getPackedData().getGameDTOs())
-            .filter(objectsRendersPred)
-            .map(dtoToGraphic)
-            .map(g -> this.bind(g, this.gameModel.getWorld()))
-            .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+    private Pair<MutableObject, ReadOnlyGraphicDecorator<C>> join(
+            final ReadOnlyGraphicDecorator<C> g,
+            final World world,
+            final boolean firstTime) {
+
+        final Set<MutableObject> str = Sets.union(new LinkedHashSet<>(world.gameObjects()), Set.of(world.player()));
+
+        Pair<MutableObject, ReadOnlyGraphicDecorator<C>> pair = str.stream()
+                .filter(m -> this.joinPredicate(m, g, firstTime))
+                .map(m -> Pair.of(m, g))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Failed to pair object and graphic\nCause: "
+                                + "\nGraphic: " + dimension.apply(g)
+                                + "\nGraphic: " + position.apply(g)));
+
+        // Imposta il listener se l'oggetto è il palyer
+        if (pair.getKey() instanceof AbstractControllableObject) {
+            ((AbstractControllableObject) pair.getKey()).setGameEventListener(this);
+        }
+
+        if (firstTime) {
+            this.assignKey(pair.getKey(), pair.getValue());
+        }
+
+        return pair;
     }
 
-    private Pair<MutableObject, GraphicComponent> bind(GraphicComponent g, World world) {
-        Set<MutableObject> str = Stream.concat(this.gameModel.getWorld().obstacles().stream(),
-            Stream.of(this.gameModel.getWorld().player())).collect(Collectors.toSet());
-        return str.stream()
-            .filter(m -> this.joinPredicate(m, g))
-            .map(m -> Pair.of(m, g))
-            .findAny()
-            .orElseThrow(IllegalArgumentException::new);
+    private void assignKey(MutableObject mutableObject, ReadOnlyGraphicDecorator<C> graphicDecorator) {
+        final int key = rand.nextInt();
+        mutableObject.setKey(key);
+        graphicDecorator.setKey(key);
     }
 
-
-    private Map<MutableObject, GraphicComponent> flattenComponents(Set<Map<MutableObject, GraphicComponent>> sets ) {
-        return sets.stream()
-            .flatMap(s -> s.entrySet().stream())
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    private boolean joinPredicate(final MutableObject mutableObject, final GraphicAdapter<C> gComponent,
+            final boolean firstTime) {
+        return firstTime ? mutableObject.getDimension().equals(dimension.apply(gComponent))
+                && mutableObject.getPosition().equals(position.apply(gComponent))
+                : mutableObject.getID() == gComponent.getID();
     }
-
-
-    private boolean joinPredicate(final MutableObject obstacle1, GraphicComponent gComponent) {
-        return obstacle1.getDimension().equals(gComponent.dimension()) 
-            && obstacle1.getPosition().equals(gComponent.relativePosition());
-    }
-
 
     @Override
-    public void update(long dt) {
-        if(Objects.nonNull(gamePair)) {
-            gamePair.forEach((m, g) -> {
-                    {
-                        // System.out.println(g.absolutePosition());
-                        m.updateState(dt);
-                        //to fix
-                        g.setPosition(m.getPosition().x()-gameView.dimension().width()/2, -m.getPosition().y()+gameView.dimension().height()/2);
-                        g.setDimension(m.getDimension().width(), m.getDimension().height());
-                        if(m instanceof PlayerModel) {
-                            if(m.getSpeed().xComponent() < 0 && !this.isFlipped) {
-                                g.flip();
-                                this.isFlipped = true;
-                            } else if(m.getSpeed().xComponent() > 0 && this.isFlipped) {
-                                g.flip();
-                                this.isFlipped = false;
-                            }
-                            if(g instanceof ImageComponent gr) { 
-                                if (m.getSpeed().magnitude() > 0) {
-                                    gr.animate(SpriteStatus.RUNNING);
-                                } else {
-                                    gr.animate(SpriteStatus.IDLE);
-                                }
-                                
-                            }
-                        }
-                        
-                    }
-                    
-                }
-            );
+    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, String type) {
+        this.setupGameMode(gameModel.getWorld().player(), type);
+        new GameLoopFactoryImpl(dt -> {
+            ic.checkPool(
+                    inputer.getKeyAssetter(),
+                    gameModel.getWorld().player(),
+                    ControllableObject::stop);
+            this.update(dt);
+        })
+                .animationLoop()
+                .start();
+    }
+
+    private void setupGameMode(ControllableObject player, String type) {
+        if ("flappy".equalsIgnoreCase(type)) {
+            player.setJumpBehavior(new FlappyJump());
+        } else {
+            player.setJumpBehavior(new PlatformJump());
         }
     }
 
-    
+    /**
+     * 
+     * 
+     * @param dt
+     */
+    public void update(final long dt) {
+        if (Objects.nonNull(gamePairs)) {
+            gamePairs.forEach((m, g) -> m.updateState(dt));
+
+            CollidableGameObject player = this.gameModel.getWorld().player();
+
+            this.collisionManager.handleCollisions(gamePairs.keySet(),
+                    player);
+
+            this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
+            this.resync();
+        }
+    }
+
+    private Map<ReadOnlyMutableObjectWrapper, ReadOnlyGraphicDecorator<C>> readOnlyPairs(
+            final Map<MutableObject, ReadOnlyGraphicDecorator<C>> pairs) {
+        return pairs.entrySet().stream()
+                .map(p -> Pair.of(
+                        new ReadOnlyMutableObjectWrapper(p.getKey()),
+                        p.getValue()))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+    }
+
+    private void resync() {
+        this.sync(false);
+    }
+
+    public void restartLevel() {
+        // Reinizzializza il modello del gioco
+        this.gameModel.init();
+
+        // Resetta la vista in modo che corrisponda al nuovo stato del modello
+        this.syncView();
+    }
+
+    @Override
+    public void onPlayerDeath() {
+        // Ricarica il livello
+        try {
+            // this.restartLevel();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

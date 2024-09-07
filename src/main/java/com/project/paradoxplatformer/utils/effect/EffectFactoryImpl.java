@@ -18,7 +18,7 @@ public class EffectFactoryImpl implements EffectsFactory {
 
     @Override
     public Effect collectingEffect() {
-        return new AbstractOneTimeEffect() {
+        return new AbstractRecreatableEffect() {
 
             private Optional<PlayerModel> player = Optional.empty();
 
@@ -43,6 +43,11 @@ public class EffectFactoryImpl implements EffectsFactory {
                             .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " collected")))
                             .ifPresent(this.player.get()::collectItem);
                 });
+            }
+
+            @Override
+            public RecreateableEffect recreate() {
+                return this;
             }
 
         };

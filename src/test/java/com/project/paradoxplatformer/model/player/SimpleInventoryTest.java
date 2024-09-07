@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import com.project.paradoxplatformer.controller.gameloop.GameLoop;
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
-import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.obstacles.Coin;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
@@ -21,6 +20,9 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 public class SimpleInventoryTest {
+    private static final double COIN_POSITION_X_2 = 20;
+    private static final double COIN_POSTION_X_1 = 50;
+
     @Test
     void simpleCollectingItem() {
 
@@ -48,30 +50,24 @@ public class SimpleInventoryTest {
     void collectingWithCollision() {
 
         final PlayerModel player = new PlayerModel();
-        final CollectableGameObject coin = new Coin(new Coord2D(20, 0), new Dimension(20, 20));
-        final CollectableGameObject coin2 = new Coin(new Coord2D(50, 0), new Dimension(20, 20));
+        final CollectableGameObject coin = new Coin(new Coord2D(COIN_POSTION_X_1, 0), new Dimension(20, 20));
+        final CollectableGameObject coin2 = new Coin(new Coord2D(COIN_POSITION_X_2, 0), new Dimension(20, 20));
 
         final EffectHandler effectHandler = new EffectHandler();
         effectHandler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         final CollisionManager collisionManager = new CollisionManager(effectHandler);
 
-        List<? extends CollidableGameObject> collidables = List.of(player, coin, coin2);
+        final List<? extends CollidableGameObject> collidables = List.of(player, coin, coin2);
 
         //Main gameloop 
         final GameLoop loop = dt -> {
             player.moveRight();
             player.updateState(dt);
-            collisionManager.detectCollisions(collidables, player);
+            collisionManager.handleCollisions(collidables, player);
         };
 
         //Simulates a gameloop manager
         simulateLoop(loop, 20);
-        
-
-        // Simulate collision detection
-        
-
-        System.out.println(player);
 
         //Prevents accessing to unexistent data
         assertFalse(player.getInventoryData().isEmpty());
@@ -79,11 +75,9 @@ public class SimpleInventoryTest {
         //Collects one coin
         assertTrue(player.getInventoryData().get(Coin.class.getSimpleName()) == 1L);
 
-
-        simulateLoop(loop, 20);
+        simulateLoop(loop, 40);
         //Collects two different coins
         assertTrue(player.getInventoryData().get(Coin.class.getSimpleName()) == 2L);
-        
         
     }
 

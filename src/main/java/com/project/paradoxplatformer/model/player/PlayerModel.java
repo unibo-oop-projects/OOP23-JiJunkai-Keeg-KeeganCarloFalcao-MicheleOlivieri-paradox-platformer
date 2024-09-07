@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.model.player;
 import java.util.Map;
 
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
-import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;

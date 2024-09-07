@@ -167,9 +167,6 @@ public class JavaFxApp extends Application implements ViewManager {
     }
 
     private void setInitialScene() {
-        var primaryScreenBounds = Screen.getPrimary().getBounds();
-        var dim = new Dimension(primaryScreenBounds.getWidth(), primaryScreenBounds.getHeight());
-        System.out.println(dim);
         final double resoultion = 480;
         LinearGradient paint = new LinearGradient(
                 0.9762, 0.0, 1.0, 1.0, true, CycleMethod.NO_CYCLE,
@@ -179,7 +176,7 @@ public class JavaFxApp extends Application implements ViewManager {
         stage.sizeToScene();
         stage.setScene(scene);
 
-        System.out.println("Dimension view → (w x h) " + scene.getWidth() + " " + scene.getHeight());
+        System.out.println("Main View Size → " + new Dimension(scene.getWidth(),scene.getHeight()));
 
     }
 

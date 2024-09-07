@@ -28,7 +28,7 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
 
         if (this.uiComponent instanceof ImageView imgCopy) {
             this.imgComponent = imgCopy;
-            this.imgComponent.setPreserveRatio(true);
+            // this.imgComponent.setPreserveRatio(true);
             this.imgComponent.setSmooth(true);
             widthProperty = new SimpleDoubleProperty(dimension.width());
             heighProperty = new SimpleDoubleProperty(dimension.height());

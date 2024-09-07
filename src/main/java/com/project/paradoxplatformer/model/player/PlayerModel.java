@@ -6,6 +6,7 @@ import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.*;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -19,6 +20,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public final class PlayerModel extends AbstractControllableObject {
 
+    private static final Dimension DEFAULT_SIZE = new Dimension(10, 20);
     private Coord2D position;
     private Dimension dimension;
     private Physics physics;
@@ -42,7 +44,8 @@ public final class PlayerModel extends AbstractControllableObject {
     }
 
     public PlayerModel() {
-        this(Coord2D.origin(), Dimension.dot());
+        this(Coord2D.origin(), DEFAULT_SIZE);
+        this.setJumpBehavior(new PlatformJump());
     }
 
     @Override

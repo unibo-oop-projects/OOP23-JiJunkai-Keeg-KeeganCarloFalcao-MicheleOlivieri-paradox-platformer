@@ -2,6 +2,7 @@ package com.project.paradoxplatformer.utils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
@@ -26,8 +27,15 @@ public class EventManager {
 
     // Method to publish events with two parameters
     public void publish(String eventName, PageIdentifier pageIdentifier, String param) {
-        if (eventMap.containsKey(eventName)) {
-            eventMap.get(eventName).accept(pageIdentifier, param);
-        }
+        // if (eventMap.containsKey(eventName)) {
+        //     eventMap.get(eventName).accept(pageIdentifier, param);
+        // }
+        Optional.of(eventName)
+            .filter(eventMap::containsKey)
+            .map(eventMap::get)
+            .ifPresentOrElse(
+                f -> f.accept(pageIdentifier, param),
+                () -> System.out.println("Could not find event "+eventName+", event not published")
+            );
     }
 }

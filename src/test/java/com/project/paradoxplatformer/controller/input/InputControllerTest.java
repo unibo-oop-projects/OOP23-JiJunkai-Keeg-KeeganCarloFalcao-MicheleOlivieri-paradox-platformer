@@ -3,6 +3,7 @@ import com.project.paradoxplatformer.controller.input.api.InputType;
 import com.project.paradoxplatformer.controller.input.api.KeyAssetter;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.inputmodel.*;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -21,6 +22,7 @@ public class InputControllerTest {
         var inputController = new InputController<>(factory.wasdModel());
 
         PlayerModel player = new PlayerModel(new Coord2D(0, 0), new Dimension(30, 30));
+        player.setJumpBehavior(new PlatformJump());
 
         //Simulate a jump and moving simulteanosly
         KeyInputerImpl keyInput = new KeyInputerImpl();

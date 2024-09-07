@@ -54,6 +54,9 @@ public class HelloController<V, K> extends AbstractThreadedPage implements Initi
         pausePane.setVisible(false);
         pausePane.prefHeightProperty().bind(gamePane.heightProperty());
         pausePane.prefWidthProperty().bind(gamePane.widthProperty().multiply(.3)); 
+
+        pagePane.widthProperty().addListener((ob, old, n) -> System.out.println("Width: " + n));
+        pagePane.heightProperty().addListener((ob, old, n) -> System.out.println("Height: " + n));
     }
 
     protected void test() {    
@@ -85,7 +88,7 @@ public class HelloController<V, K> extends AbstractThreadedPage implements Initi
         gameController.startGame(inputController, gameGraphContainer, level.getType());
     }
 
-    private void initModelAndView(GameController<Node> gc) throws InvalidResourceException {
+    private void initModelAndView(final GameController<Node> gc) throws InvalidResourceException {
         gc.loadModel();
         gc.syncView();
     }

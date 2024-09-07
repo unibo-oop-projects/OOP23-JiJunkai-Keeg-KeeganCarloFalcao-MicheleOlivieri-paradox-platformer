@@ -121,5 +121,4 @@ public final class PlayerModel extends AbstractControllableObject {
         this.dimension = new Dimension(this.dimension.width(), this.dimension.height());
     }
 
-
 }

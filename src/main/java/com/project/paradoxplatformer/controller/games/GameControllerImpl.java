@@ -13,7 +13,6 @@ import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
-import com.project.paradoxplatformer.utils.collision.CollisionObserver;
 import com.project.paradoxplatformer.utils.effect.EffectHandler;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -46,7 +45,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final GameView<C> gameView;
     private final Function<GraphicAdapter<C>, Coord2D> position;
     private final Function<GraphicAdapter<C>, Dimension> dimension;
-    private final CollisionObserver collisionObserver = new CollisionObserver();
+
+    private final CollisionManager collisionManager;
+
     private final Random rand = new Random();
 
     /**
@@ -61,6 +62,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
+        this.collisionManager = new CollisionManager(EffectHandler.createDefaultEffectHandler());
     }
 
     @Override
@@ -85,13 +87,12 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     }
 
     private Pair<MutableObject, ReadOnlyGraphicDecorator<C>> join(
-        final ReadOnlyGraphicDecorator<C> g, 
-        final World world, 
-        final boolean firstTime
-        ) {
+            final ReadOnlyGraphicDecorator<C> g,
+            final World world,
+            final boolean firstTime) {
 
         final Set<MutableObject> str = Sets.union(new LinkedHashSet<>(world.gameObjects()), Set.of(world.player()));
-    
+
         Pair<MutableObject, ReadOnlyGraphicDecorator<C>> pair = str.stream()
                 .filter(m -> this.joinPredicate(m, g, firstTime))
                 .map(m -> Pair.of(m, g))
@@ -106,7 +107,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             ((AbstractControllableObject) pair.getKey()).setGameEventListener(this);
         }
 
-        if(firstTime) {
+        if (firstTime) {
             this.assignKey(pair.getKey(), pair.getValue());
         }
 
@@ -119,7 +120,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         graphicDecorator.setKey(key);
     }
 
-    private boolean joinPredicate(final MutableObject mutableObject, final GraphicAdapter<C> gComponent, final boolean firstTime) {
+    private boolean joinPredicate(final MutableObject mutableObject, final GraphicAdapter<C> gComponent,
+            final boolean firstTime) {
         return firstTime ? mutableObject.getDimension().equals(dimension.apply(gComponent))
                 && mutableObject.getPosition().equals(position.apply(gComponent))
                 : mutableObject.getID() == gComponent.getID();
@@ -132,8 +134,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             ic.checkPool(
                     inputer.getKeyAssetter(),
                     gameModel.getWorld().player(),
-                    ControllableObject::stop
-                );
+                    ControllableObject::stop);
             this.update(dt);
         })
                 .animationLoop()
@@ -157,32 +158,23 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         if (Objects.nonNull(gamePairs)) {
             gamePairs.forEach((m, g) -> m.updateState(dt));
 
-            CollisionManager collisionManager = this.gameModel.getWorld().getCollisionManager();
-            EffectHandler effectHandler = collisionManager.getEffectHandler();
             CollidableGameObject player = this.gameModel.getWorld().player();
 
-            Set<CollidableGameObject> detectedCollisions = collisionManager.detectCollisions(gamePairs.keySet(), player);
+            this.collisionManager.handleCollisions(gamePairs.keySet(),
+                    player);
 
-            collisionObserver.observeCollisions(detectedCollisions,
-                    (obj, type) -> System.out.println("Started colliding : " + obj.getClass().getSimpleName()),
-                    (obj, type) -> effectHandler.reset(obj, type));
-
-            this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState); 
-
+            this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
             this.resync();
-            
         }
     }
 
-    private Map<ReadOnlyMutableObjectWrapper, ReadOnlyGraphicDecorator<C>> readOnlyPairs(final Map<MutableObject, ReadOnlyGraphicDecorator<C>> pairs) {
+    private Map<ReadOnlyMutableObjectWrapper, ReadOnlyGraphicDecorator<C>> readOnlyPairs(
+            final Map<MutableObject, ReadOnlyGraphicDecorator<C>> pairs) {
         return pairs.entrySet().stream()
-            .map(p -> 
-                Pair.of(
-                    new ReadOnlyMutableObjectWrapper(p.getKey()), 
-                    p.getValue()
-                )
-            )
-            .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
+                .map(p -> Pair.of(
+                        new ReadOnlyMutableObjectWrapper(p.getKey()),
+                        p.getValue()))
+                .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     private void resync() {

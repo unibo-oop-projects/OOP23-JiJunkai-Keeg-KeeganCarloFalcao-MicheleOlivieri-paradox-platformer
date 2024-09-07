@@ -1,156 +1,102 @@
 package com.project.paradoxplatformer.utils.effect;
 
-import java.util.EnumMap;
-import java.util.HashMap;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.utils.collision.ChainOfEffects;
-import com.project.paradoxplatformer.utils.collision.ChainOfEffects.Builder;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
+import com.project.paradoxplatformer.utils.effect.managers.ObjectEffectsManager;
+import com.project.paradoxplatformer.utils.effect.managers.TypeEffectsManager;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.sound.SoundType;
 
 public class EffectHandler {
-        private final Map<CollisionType, ChainOfEffects> typeEffectsMap = new EnumMap<>(CollisionType.class);
-        private final Map<CollisionType, Map<CollidableGameObject, ChainOfEffects>> objectEffectsMap = new EnumMap<>(
-                        CollisionType.class);
 
-        // Register effects for a specific collision type that applies to all objects of
-        // that type
+        private final TypeEffectsManager typeEffectsManager = new TypeEffectsManager();
+        private final ObjectEffectsManager objectEffectsManager = new ObjectEffectsManager();
+
         public void addCollisionEffectsForType(CollisionType type, Supplier<Effect> effectSupplier) {
-                typeEffectsMap.merge(type,
-                                ChainOfEffects.builder().addEffect(effectSupplier.get()).build(),
-                                (existingChain, newChain) -> ChainOfEffects.builder()
-                                                .addEffects(existingChain.getEffects())
-                                                .addEffects(newChain.getEffects())
-                                                .build());
+                typeEffectsManager.addEffects(type, effectSupplier);
         }
 
-        // Register effects for a specific collision type that applies to all objects of
-        // that type
         public void addCollisionEffectsForType(CollisionType type, ChainOfEffects newChain) {
-                typeEffectsMap.merge(type,
-                                newChain,
-                                (existingChain, toAddChain) -> ChainOfEffects.builder()
-                                                .addEffects(existingChain.getEffects())
-                                                .addEffects(toAddChain.getEffects())
-                                                .build());
+                typeEffectsManager.addEffects(type, newChain);
         }
 
-        // Register effects for a specific collision type and CollidableGameObject
-        public void addCollisionEffectsForObject(CollisionType type, CollidableGameObject collidableGameObject,
+        public void addCollisionEffectsForObject(CollisionType type, CollidableGameObject object,
                         Supplier<Effect> effectSupplier) {
-                objectEffectsMap.computeIfAbsent(type, k -> new HashMap<>())
-                                .merge(collidableGameObject,
-                                                ChainOfEffects.builder().addEffect(effectSupplier.get()).build(),
-                                                (existingChain, newChain) -> ChainOfEffects.builder()
-                                                                .addEffects(existingChain.getEffects())
-                                                                .addEffects(newChain.getEffects())
-                                                                .build());
+                objectEffectsManager.addEffects(type, object, effectSupplier);
         }
 
-        // Register effects for a specific collision type and CollidableGameObject
-        public void addCollisionEffectsForObject(CollisionType type, CollidableGameObject collidableGameObject,
+        public void addCollisionEffectsForObject(CollisionType type, CollidableGameObject object,
                         ChainOfEffects newChain) {
-                objectEffectsMap.computeIfAbsent(type, k -> new HashMap<>())
-                                .merge(collidableGameObject,
-                                                newChain,
-                                                (existingChain, toAddChain) -> ChainOfEffects.builder()
-                                                                .addEffects(existingChain.getEffects())
-                                                                .addEffects(toAddChain.getEffects())
-                                                                .build());
+                objectEffectsManager.addEffects(type, object, newChain);
         }
 
-        // Apply effects for a specific CollidableGameObject
         public CompletableFuture<Void> applyEffects(CollidableGameObject source, CollidableGameObject target) {
-                // System.out.println("Applying effects for collision between " + source + " and
-                // " + target);
 
-                CompletableFuture<Void> typeEffectsFuture = CompletableFuture.completedFuture(null);
-                CompletableFuture<Void> objectEffectsFuture = CompletableFuture.completedFuture(null);
+                CompletableFuture<Void> typeEffectsFuture = applyEffects(
+                                typeEffectsManager.getEffects(target.getCollisionType()), source, target);
 
-                // Apply effects for the target
-                if (typeEffectsMap.containsKey(target.getCollisionType())) {
-                        ChainOfEffects typeEffectsChain = typeEffectsMap.get(target.getCollisionType());
-                        System.out.println(
-                                        "Applying type-based effects for collision type: " + target.getCollisionType());
-                        typeEffectsFuture = typeEffectsChain.applyEffectsSequentially(Optional.of(source),
-                                        Optional.of(target));
-                }
+                CompletableFuture<Void> objectEffectsFuture = applyEffects(
+                                objectEffectsManager.getEffects(target.getCollisionType(), target), source, target);
 
-                if (objectEffectsMap.containsKey(target.getCollisionType()) &&
-                                objectEffectsMap.get(target.getCollisionType()).containsKey(target)) {
-                        ChainOfEffects objectEffectsChain = objectEffectsMap.get(target.getCollisionType()).get(target);
-                        System.out.println("Applying object-specific effects for object: " + target);
-                        objectEffectsFuture = objectEffectsChain.applyEffectsSequentially(Optional.of(source),
-                                        Optional.of(target));
-                }
-
-                // Combine all futures
                 return CompletableFuture.allOf(typeEffectsFuture, objectEffectsFuture);
         }
 
-        // Get all effects for a specific CollidableGameObject
-        public ChainOfEffects getAllEffects(CollidableGameObject collidableGameObject) {
-                Builder combinedChain = ChainOfEffects.builder();
+        private CompletableFuture<Void> applyEffects(ChainOfEffects effectsChain, CollidableGameObject source,
+                        CollidableGameObject target) {
+                return effectsChain.applyEffectsSequentially(Optional.of(source), Optional.of(target));
+        }
 
-                // Add effects for the collision type
-                Optional.ofNullable(typeEffectsMap.get(collidableGameObject.getCollisionType()))
-                                .ifPresent(chain -> combinedChain.addEffects(chain.getEffects()));
+        public ChainOfEffects getAllEffects(CollidableGameObject object) {
+                ChainOfEffects.Builder combinedChain = ChainOfEffects.builder();
 
-                // Add effects specific to the object
-                Optional.ofNullable(objectEffectsMap.get(collidableGameObject.getCollisionType()))
-                                .map(objectMap -> objectMap.get(collidableGameObject))
-                                .ifPresent(chain -> combinedChain.addEffects(chain.getEffects()));
+                combinedChain.addEffects(typeEffectsManager.getEffects(object.getCollisionType()).getEffects());
 
+                combinedChain.addEffects(
+                                objectEffectsManager.getEffects(object.getCollisionType(), object).getEffects());
                 return combinedChain.build();
         }
 
         public void reset(CollidableGameObject object, CollisionType type) {
-                // Recreate effects in objectEffectsMap
-                objectEffectsMap.computeIfPresent(type, (t, map) -> {
-                        map.computeIfPresent(object, (obj, chain) -> {
-                                List<Effect> recreatedEffects = chain.getEffects().stream()
-                                                .map(e -> e.recreate())
-                                                .filter(e -> e != null)
-                                                .toList();
-                                return ChainOfEffects.builder().addEffects(recreatedEffects).build();
-                        });
-                        return map;
-                });
+                objectEffectsManager.addEffects(type, object,
+                                ChainOfEffects.builder().addEffects(recreateIfPossible(
+                                                objectEffectsManager.getEffects(type, object).getEffects())).build());
 
-                // Recreate effects in typeEffectsMap
-                typeEffectsMap.compute(type, (t, chain) -> chain == null ? null
-                                : ChainOfEffects.builder()
-                                                .addEffects(chain.getEffects().stream()
-                                                                .map(e -> e.recreate())
-                                                                .filter(e -> e != null)
-                                                                .toList())
-                                                .build());
+                typeEffectsManager.replaceEffects(type,
+                                ChainOfEffects.builder().addEffects(recreateIfPossible(
+                                                typeEffectsManager.getEffects(type).getEffects())).build());
+        }
+
+        private List<Effect> recreateIfPossible(List<? extends Effect> effects) {
+                return effects.stream()
+                                .map(this::tryRecreate)
+                                .flatMap(Optional::stream)
+                                .toList();
+        }
+
+        private Optional<Effect> tryRecreate(Effect effect) {
+                try {
+                        return Optional.ofNullable((Effect) effect.getClass().getMethod("recreate").invoke(effect));
+                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                        return Optional.empty();
+                }
         }
 
         public ChainOfEffects createDefaultChainOfEffects(List<Supplier<Effect>> effectSuppliers) {
-                ChainOfEffects.Builder builder = ChainOfEffects.builder();
-                for (Supplier<Effect> supplier : effectSuppliers) {
-                        builder.addEffect(supplier.get());
-                }
-                return builder.build();
+                return ChainOfEffects.builder()
+                                .addEffects(effectSuppliers.stream().map(Supplier::get).toList())
+                                .build();
         }
 
-        // Factory method for creating default collision effects for an object
         public static EffectHandler createDefaultEffectHandler() {
                 EffectHandler handler = new EffectHandler();
-
-                // handler.addCollisionEffectsForType(CollisionType.OBSTACLE,
-                //                 () -> new NoOpEffect());
-                // handler.addCollisionEffectsForType(CollisionType.OBSTACLE,
-                //                 () -> new SoundEffect(SoundPathUtil.getPathForSound(SoundType.OBSTACLE_HIT)));
 
                 ChainOfEffects chain = ChainOfEffects.builder()
                                 .addEffect(new NoOpEffect())
@@ -159,19 +105,11 @@ public class EffectHandler {
                                 .build();
 
                 handler.addCollisionEffectsForType(CollisionType.TRIGGER, chain);
-
-                handler.addCollisionEffectsForType(CollisionType.DEATH_OBS,
-                                () -> new DeathEffect());
-
-                handler.addCollisionEffectsForType(CollisionType.SPRINGS,
-                                () -> new SpringEffect());
-
-                handler.addCollisionEffectsForType(CollisionType.COLLECTING,
-                        new EffectFactoryImpl()::collectingEffect);
-
-
-                handler.addCollisionEffectsForType(CollisionType.WALLS,
-                        new EffectFactoryImpl()::stoppingEffect);
+                handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
+                handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
+                handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
+                handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
+                handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
 
                 return handler;
         }

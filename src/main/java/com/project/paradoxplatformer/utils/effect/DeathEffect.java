@@ -7,7 +7,7 @@ import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 
-public class DeathEffect extends AbstractEffect {
+public class DeathEffect extends AbstractOneTimeEffect {
 
     @Override
     protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
@@ -15,7 +15,7 @@ public class DeathEffect extends AbstractEffect {
             ((AbstractDeathObstacle) ((ControllableObject) gameObject)).effect(Optional.empty());
         });
     }
-    
+
     @Override
     protected CompletableFuture<Void> applyToTarget(Optional<? extends CollidableGameObject> target) {
         return CompletableFuture.runAsync(() -> {

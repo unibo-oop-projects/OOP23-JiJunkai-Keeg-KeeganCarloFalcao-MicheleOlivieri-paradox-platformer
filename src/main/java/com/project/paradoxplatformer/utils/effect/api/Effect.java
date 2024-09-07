@@ -32,9 +32,7 @@ public interface Effect {
      * @return true if this effect is meant to be applied only once and then
      *         removed; false otherwise.
      */
-    default boolean isOneTimeEffect() {
-        return false;
-    }
+    boolean isOneTimeEffect();
 
     /**
      * Recreates a new instance of this effect. The default implementation returns
@@ -44,7 +42,5 @@ public interface Effect {
      * @return A new instance of this effect, or the current instance if no specific
      *         recreation logic is needed.
      */
-    default Effect recreate() {
-        return this;
-    }
+    Effect recreate();
 }

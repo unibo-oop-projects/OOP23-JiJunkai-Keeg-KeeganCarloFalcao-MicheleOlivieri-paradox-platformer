@@ -9,4 +9,8 @@ public interface GameObject {
 
     public Dimension getDimension();
 
+    public void setPosition(Coord2D position);
+
+    public void setDimension(final Dimension dimension);
+
 }

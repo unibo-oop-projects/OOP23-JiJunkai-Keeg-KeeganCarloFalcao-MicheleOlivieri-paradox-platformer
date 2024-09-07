@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Interface for setting input keys.
+ * KeyAsseter handles what is pressed during the gameplay and holds the logs to a pool.
  * @param <K> type of view key
  * @author Keegan Carlo Falcao
  */
@@ -24,10 +24,9 @@ public interface KeyAssetter<K> {
     boolean add(K e);
 
     /**
-     * Useful for doing any computions for current pool of keys.
-     * @return {@code Set<Optional<InputType>>} unmodifiable because caller cannot modify, 
-     * it is mangaged upon this interface.
-     * So to make class immutable, implementation needs to create a defensive copy
+     * Useful for doing any computions to current pool of keys.
+     * @return {@code Set<Optional<InputType>>} an unmodifiable set because caller cannot modify it.
+     * So it is required to make this set immutable, (suggested: implementation needs to create a defensive copy).
      */
     Set<Optional<InputType>> getUnmodifiablePool();
 }

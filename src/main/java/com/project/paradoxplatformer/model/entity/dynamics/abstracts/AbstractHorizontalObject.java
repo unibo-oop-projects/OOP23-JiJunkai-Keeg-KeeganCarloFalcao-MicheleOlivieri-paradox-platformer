@@ -1,13 +1,13 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
+import com.project.paradoxplatformer.model.entity.AbstractMutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.HorizontalObject;
-import com.project.paradoxplatformer.utils.geometries.Vector;
 import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 
-public abstract class AbstractHorizontalObject implements HorizontalObject {
+public abstract class AbstractHorizontalObject extends AbstractMutableObject implements HorizontalObject {
 
     //Conventional cartesian values
     private static final int LEFT_MAG_SIGN = -1;
@@ -19,7 +19,6 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
     private final double delta;
     protected double magnitude;
     protected Vector2D horizontalSpeed;
-    protected Vector speed = new Vector(0, 0);
 
 
     protected AbstractHorizontalObject(final double limit, final double delta) {
@@ -42,13 +41,11 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
     
     @Override
     public void moveLeft() {
-        this.speed = new Vector(-10, 0);
         this.moveBehaviour(Direction.LEFT, LEFT_MAG_SIGN);
     }
 
     @Override
     public void moveRight() {
-        this.speed = new Vector(10, 0);
         this.moveBehaviour(Direction.RIGHT, RIGHT_MAG_SIGN);
     }
 
@@ -59,8 +56,7 @@ public abstract class AbstractHorizontalObject implements HorizontalObject {
         this.horizontalSpeed = new Polar2DVector(
             this.magnitude * (horizontalSpeed.xComponent() >= 0. ? 1 : -1),
             0.0);
-        // this.horizontalSpeed = Polar2DVector.nullVector();
-        this.speed = new Vector(0, 0);
+        this.horizontalSpeed = Polar2DVector.nullVector();
     }
 
     //ALTERNATIVE

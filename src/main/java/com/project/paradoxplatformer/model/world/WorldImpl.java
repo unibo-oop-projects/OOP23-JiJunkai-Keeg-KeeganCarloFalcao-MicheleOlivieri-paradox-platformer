@@ -2,9 +2,7 @@ package com.project.paradoxplatformer.model.world;
 
 import java.util.*;
 
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Sets;
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
@@ -77,7 +75,7 @@ public final class WorldImpl implements World {
     }
 
     @Override
-    public Collection<MutableObject> objects() {
+    public Collection<MutableObject> gameObjects() {
         return Sets.union(this.obstacles, this.triggers);
     }
 

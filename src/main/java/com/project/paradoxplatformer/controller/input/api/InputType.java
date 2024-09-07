@@ -4,18 +4,63 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * Utility static method to parse a string to an input type.
+ * Made to create a common key bindings protocol for controller and model's classes
  */
 public enum InputType {
-    LEFT, RIGHT, UP,
-    A, D, W,
+    /**
+     * Left key String representative
+     */
+    LEFT,
+    /**
+     * Right key String representative
+     */
+    RIGHT, 
+    /**
+     * Up key String representative
+     */
+    UP,
+    /**
+     * A key String representative
+     */
+    A,
+    /**
+     * D key String representative
+     */ 
+    D,
+    /**
+     * W key String representative
+     */ 
+    W,
+    /**
+     * Esc key String representative
+     */
     ESCAPE,
-    UNDEFINED, P, R, T, K;
+    /**
+     * Undefined key
+     */
+    UNDEFINED,
+    /**
+     * P key String representative
+     */ 
+    P,
+    /**
+     * R key String representative
+     */ 
+    R,
+    /**
+     * T key String representative
+     */ 
+    T,
+    /**
+     * K key String representative
+     */ 
+    K;
 
     /**
-     * Utility static method to parse a string to an input type.
-     * @param inputStr something
-     * @return something
+     * Utility static method to parse a string to an input type. So it basically finds the raw string 
+     * matching in the enum values, withoud any modifications to the string itself.
+     * @param inputStr raw (unmodified) input key string coming from the toString() methods of key-view.  
+     * @return the matching string found in the values array.
      */
     public static Optional<InputType> getString(final String inputStr) {
         return Arrays.stream(InputType.values())

@@ -15,7 +15,6 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.inputmodel.InputMovesFactoryImpl;
 import com.project.paradoxplatformer.model.world.PlatfromModelData;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.game.GamePlatformView;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
@@ -30,7 +29,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.application.*;
 
-public class HelloController<V, K> implements Initializable, Page<String> {
+public class HelloController<V, K> extends AbstractThreadedPage implements Initializable {
 
     @FXML
     private AnchorPane gamePane;
@@ -55,6 +54,9 @@ public class HelloController<V, K> implements Initializable, Page<String> {
         pausePane.setVisible(false);
         pausePane.prefHeightProperty().bind(gamePane.heightProperty());
         pausePane.prefWidthProperty().bind(gamePane.widthProperty().multiply(.3)); 
+
+        pagePane.widthProperty().addListener((ob, old, n) -> System.out.println("Width: " + n));
+        pagePane.heightProperty().addListener((ob, old, n) -> System.out.println("Height: " + n));
     }
 
     protected void test() {    
@@ -62,27 +64,13 @@ public class HelloController<V, K> implements Initializable, Page<String> {
     }
 
     //SHOULD PASS A PARAMETER DETANING THE MODEL STATE
+   
     @Override
-    public void create(String param) throws Exception {
-        if (!Platform.isFxApplicationThread()) {
-            ViewLegacy.javaFxFactory().mainAppManager().get().runOnAppThread(() -> {
-                try {
-                    this.runOnFXThread(param);
-                } catch (Exception e) {
-                    throw new IllegalStateException(e.getMessage(), e);
-                }
-            });
-        }
-        else {
-            this.runOnFXThread(param);
-        }
-    }
-
-    private void runOnFXThread(String param) throws Exception {
+    protected void runOnFXThread(final String param) throws Exception {
         //HERE's WHERE MAGIC HAPPENS, looks very free needs to be coupled atleast
         final LevelDTO level = this.getLevel(param);
         final GameModelData gameModel = new PlatfromModelData(level);
-        final GraphicContainer<Node, KeyCode> gameGraphContainer = ViewLegacy.javaFxFactory().containerMapper().apply(gamePane);
+        final GraphicContainer<Node, KeyCode> gameGraphContainer = ViewLegacy.javaFxFactory().containerMapper().apply(this.gamePane);
         final GameView<Node> gameView = new GamePlatformView<>(
             level,
             gameGraphContainer,
@@ -96,11 +84,11 @@ public class HelloController<V, K> implements Initializable, Page<String> {
 
         this.initModelAndView(gameController);
         gameGraphContainer.activateKeyInput(() -> Platform.runLater(gamePane::requestFocus));
-        System.out.println(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
-        gameController.startGame(inputController, gameGraphContainer);
+        // System.out.println(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
+        gameController.startGame(inputController, gameGraphContainer, level.getType());
     }
 
-    private void initModelAndView(GameController<Node> gc) throws InvalidResourceException {
+    private void initModelAndView(final GameController<Node> gc) throws InvalidResourceException {
         gc.loadModel();
         gc.syncView();
     }
@@ -109,6 +97,12 @@ public class HelloController<V, K> implements Initializable, Page<String> {
         return new DeserializerFactoryImpl()
             .levelDeserialzer()
             .deserialize(param);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Main Game Controller";
     }
 
 

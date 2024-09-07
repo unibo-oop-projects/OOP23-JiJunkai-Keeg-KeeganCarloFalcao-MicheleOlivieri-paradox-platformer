@@ -23,12 +23,4 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
         return CollisionType.OBSTACLE;
     }
 
-    private void setDimension(final Dimension dimension) {
-        this.dimension = dimension;
-    }
-
-    private void setPosition(final Coord2D position) {
-        this.position = position;
-    }
-
 }

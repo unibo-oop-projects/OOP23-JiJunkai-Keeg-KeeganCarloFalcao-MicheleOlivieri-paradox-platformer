@@ -1,22 +1,57 @@
 package com.project.paradoxplatformer.utils.effect;
 
-import java.util.Optional;
+import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.utils.InvalidResourceException;
+import com.project.paradoxplatformer.utils.ResourcesFinder;
+import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
+import com.project.paradoxplatformer.utils.sound.SoundLoader;
+import com.project.paradoxplatformer.utils.sound.SoundType;
+
 import java.util.concurrent.CompletableFuture;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
-import com.project.paradoxplatformer.utils.effect.api.Effect;
+/**
+ * Represents an effect that plays a sound. The sound is played only once
+ * unless explicitly reset.
+ */
+public class SoundEffect extends AbstractRecreatableEffect {
+    private final SoundType soundType;
+    private final SoundLoader soundLoader;
+    private boolean hasPlayed = false;
 
-public class SoundEffect implements Effect {
-    private final String sound;
-
-    public SoundEffect(String sound) {
-        this.sound = sound;
+    /**
+     * Creates a new SoundEffect.
+     *
+     * @param soundFilePath the path to the sound file to play
+     */
+    public SoundEffect(SoundType soundType) {
+        this.soundType = soundType;
+        this.soundLoader = new SoundLoader();
     }
 
     @Override
-    public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target) {
-        return CompletableFuture.runAsync(() -> {
-            System.out.println("Playing sound effect: " + sound);
-        });
+    protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
+        if (hasPlayed) {
+            return CompletableFuture.completedFuture(null);
+        }
+        hasPlayed = true; // Set flag to true once sound starts playing
+        try {
+            return soundLoader.playSound(ResourcesFinder.getURL(soundType.getSoundName()));
+        } catch (InvalidResourceException e) {
+            e.printStackTrace();
+        }
+        return CompletableFuture.completedFuture(null);
+    }
+
+    /**
+     * Resets the sound effect so that the sound can be played again.
+     */
+    public void reset() {
+        hasPlayed = false;
+    }
+
+    @Override
+    public RecreateableEffect recreate() {
+        System.out.println("Sound Effect gets recreated");
+        return new SoundEffect(soundType);
     }
 }

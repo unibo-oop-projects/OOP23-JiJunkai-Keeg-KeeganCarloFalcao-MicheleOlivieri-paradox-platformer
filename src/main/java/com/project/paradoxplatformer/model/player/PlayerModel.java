@@ -1,9 +1,12 @@
 package com.project.paradoxplatformer.model.player;
 
+import java.util.Map;
+
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.*;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -15,9 +18,10 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public final class PlayerModel extends AbstractControllableObject implements MutableObject {
+public final class PlayerModel extends AbstractControllableObject {
 
-    private Point position;
+    private static final Dimension DEFAULT_SIZE = new Dimension(10, 20);
+    private Coord2D position;
     private Dimension dimension;
     private Physics physics;
     private Vector2D displacement;
@@ -31,11 +35,17 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
         // THIS IS REQUIRED CAUSE PLAYER CAN BE CONTROLLED BY USER
         super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14));// addon
         physics = new PhysicsEngine();// addon
-        interpFactory = new InterpolatorFactoryImpl();// addon
-        this.position = new Point(pos.x(), pos.y());
+        this.interpFactory = new InterpolatorFactoryImpl();// addon
+        this.position = new Coord2D(pos.x(), pos.y());
         this.displacement = new Simple2DVector(pos.x(), pos.y());// addon
         this.horizontalSpeed = Polar2DVector.nullVector();// addon
         this.dimension = dimension;
+        this.inventory = new SimpleInventory();
+    }
+
+    public PlayerModel() {
+        this(Coord2D.origin(), DEFAULT_SIZE);
+        this.setJumpBehavior(new PlatformJump());
     }
 
     @Override
@@ -45,8 +55,9 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
 
     // COULD SHOW INTERNAL
     // PUBLIC FOR TESTING PURPOSE
+    @Override
     public void setPosition(Coord2D pos) {
-        this.position = new Point(pos.x(), pos.y());
+        this.position = new Coord2D(pos.x(), pos.y());
     }
 
     // ADD ON
@@ -87,7 +98,6 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
         this.setPosition(this.displacement.convert());// addon
     }
 
-    // addon
     public void collectItem(CollectableGameObject item) {
         this.inventory.addItem(item);
     }
@@ -95,6 +105,20 @@ public final class PlayerModel extends AbstractControllableObject implements Mut
     @Override
     public CollisionType getCollisionType() {
         return CollisionType.PLAYER;
+    }
+
+    @Override
+    public String toString() {
+        return "Player: " + this.position + ", Inventory: " + this.getInventoryData() + " ";
+    }
+
+    public Map<String, Long> getInventoryData() {
+        return this.inventory.getItemsCounts();
+    }
+
+    @Override
+    public void setDimension(Dimension dimension) {
+        this.dimension = new Dimension(this.dimension.width(), this.dimension.height());
     }
 
 }

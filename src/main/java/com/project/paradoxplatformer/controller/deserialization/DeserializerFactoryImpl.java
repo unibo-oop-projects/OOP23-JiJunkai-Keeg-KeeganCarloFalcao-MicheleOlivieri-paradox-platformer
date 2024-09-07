@@ -1,7 +1,5 @@
 package com.project.paradoxplatformer.controller.deserialization;
 
-import java.net.URL;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.paradoxplatformer.controller.deserialization.dtos.ColorDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
@@ -9,6 +7,7 @@ import com.project.paradoxplatformer.utils.ResourcesFinder;
 
 /**
  * a basic jackson deserializer factory implementation.
+ * 
  * @see {@link DeserializerFactory}
  */
 public class DeserializerFactoryImpl implements DeserializerFactory {
@@ -16,11 +15,14 @@ public class DeserializerFactoryImpl implements DeserializerFactory {
     /**
      * an empty constructor.
      */
-    public DeserializerFactoryImpl() {}
+    public DeserializerFactoryImpl() {
+    }
 
     /**
-     * Template method to deserialize using a jackson deserializer based on a class name.
-     * @param <D> type of output deserializer
+     * Template method to deserialize using a jackson deserializer based on a class
+     * name.
+     * 
+     * @param <D>   type of output deserializer
      * @param clazz class type, helps the jackson ds to handle injection
      * @return a jsondeserializer interface
      */

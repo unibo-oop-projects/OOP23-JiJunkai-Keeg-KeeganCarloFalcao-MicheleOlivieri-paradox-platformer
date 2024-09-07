@@ -40,8 +40,6 @@ public class EffectHandler {
 
         public CompletableFuture<Void> applyEffects(CollidableGameObject source, CollidableGameObject target) {
 
-                System.out.println("Source : " + source + " -------" + "Target: " + target);
-
                 CompletableFuture<Void> typeEffectsFuture = applyEffects(
                                 typeEffectsManager.getEffects(target.getCollisionType()), source, target);
 

@@ -13,7 +13,6 @@ import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
-import com.project.paradoxplatformer.utils.collision.CollisionObserver;
 import com.project.paradoxplatformer.utils.effect.EffectHandler;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -47,9 +46,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final Function<GraphicAdapter<C>, Coord2D> position;
     private final Function<GraphicAdapter<C>, Dimension> dimension;
 
-    private final CollisionObserver collisionObserver;
     private final CollisionManager collisionManager;
-    private EffectHandler effectHandler;
 
     private final Random rand = new Random();
 
@@ -65,10 +62,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
-
-        this.effectHandler = EffectHandler.createDefaultEffectHandler();
-        this.collisionManager = new CollisionManager(effectHandler);
-        this.collisionObserver = new CollisionObserver();
+        this.collisionManager = new CollisionManager(EffectHandler.createDefaultEffectHandler());
     }
 
     @Override

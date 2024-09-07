@@ -39,6 +39,11 @@ public class TransportEffect extends AbstractRecreatableEffect {
 
     @Override
     protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
+
+        if (applyToTarget) {
+            return CompletableFuture.completedFuture(null);
+        }
+
         return self.map(gameObject -> {
             System.out.println("TransportEffect: Applying to " + self.get());
             return applyToGameObject(gameObject);
@@ -52,9 +57,7 @@ public class TransportEffect extends AbstractRecreatableEffect {
      * @return a CompletableFuture that completes when the effect is applied
      */
     protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
-        gameObject.setPosition(new Coord2D(0, 0));
-        gameObject.setPosition(destination);
-        return CompletableFuture.completedFuture(null);
+        return CompletableFuture.runAsync(() -> gameObject.setPosition(destination));
     }
 
     @Override

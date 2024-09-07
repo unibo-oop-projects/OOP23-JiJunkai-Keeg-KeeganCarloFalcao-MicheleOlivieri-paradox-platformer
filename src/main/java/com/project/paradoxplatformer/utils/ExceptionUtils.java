@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.controller;
+package com.project.paradoxplatformer.utils;
 
 import java.util.Optional;
 

@@ -29,7 +29,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.application.*;
 
-public class HelloController<V, K> extends AbstractThreadedPage implements Initializable {
+public class GamePage<V, K> extends AbstractThreadedPage implements Initializable {
 
     @FXML
     private AnchorPane gamePane;
@@ -41,7 +41,7 @@ public class HelloController<V, K> extends AbstractThreadedPage implements Initi
     private VBox pausePane;
 
 
-    public HelloController() {
+    public GamePage() {
         //CREATION COULD BE DONE HERE BUT SINCE FXML NEEDS AN NON-ARGUMENT CONTROCUTOR
         //EVERYTHING IS CREATED IN A SECURE STRICT create(Params) method, (such to ensure a page structure).
         //FXML COULD TO THE START A CONTROLLER DYNAMICALLY (SET a FACTORY, via CallBack) but 

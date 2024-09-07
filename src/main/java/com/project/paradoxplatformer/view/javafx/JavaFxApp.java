@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.project.paradoxplatformer.controller.ExceptionUtils;
+import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
 import com.project.paradoxplatformer.utils.geometries.Dimension;

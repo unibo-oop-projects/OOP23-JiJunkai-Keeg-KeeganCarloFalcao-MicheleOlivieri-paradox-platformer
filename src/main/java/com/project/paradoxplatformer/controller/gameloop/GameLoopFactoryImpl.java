@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.text.ViewFactory;
 
-import com.project.paradoxplatformer.controller.ExceptionUtils;
+import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 

@@ -22,7 +22,8 @@ public class MenuPage extends AbstractThreadedPage implements Initializable {
     @FXML
     private Circle levelOneButton, levelTwoButton, levelThreeButton; // Circles representing different game levels
 
-    private final ViewNavigator viewNavigator = new ViewNavigator(); // Handles navigation between views
+    private final ViewNavigator viewNavigator = ViewNavigator.getInstance(); // Handles navigation between views
+    Color circleColor = Color.RED; // Color for level circles
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -41,7 +42,6 @@ public class MenuPage extends AbstractThreadedPage implements Initializable {
     private void applyStyles() {
         // Apply styles to the settings button and level circles
         ElementDecorator.decorateSettingsButton(settingsButton);
-        Color circleColor = Color.RED; // Color for level circles
         ElementDecorator.decorateLevelCircle(levelOneButton, circleColor);
         ElementDecorator.decorateLevelCircle(levelTwoButton, circleColor);
         ElementDecorator.decorateLevelCircle(levelThreeButton, circleColor);

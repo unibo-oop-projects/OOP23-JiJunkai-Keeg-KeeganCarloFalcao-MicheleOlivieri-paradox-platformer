@@ -6,29 +6,43 @@ import com.project.paradoxplatformer.utils.EventManager;
 
 public class ViewNavigator {
 
-    // Switches to a specific view based on PageIdentifier and an optional parameter
-    // by triggering the View Manager
+    private static ViewNavigator instance;
+
+    private ViewNavigator() {
+    }
+
+    public static ViewNavigator getInstance() {
+        if (instance == null) {
+            synchronized (ViewNavigator.class) {
+                if (instance == null) {
+                    instance = new ViewNavigator();
+                }
+            }
+        }
+        return instance;
+    }
+
     public void openView(PageIdentifier id, String param) throws InvalidResourceException {
-        EventManager.getInstance().publish("SWITCH_VIEW", id, param); // Publish an event to switch views
+        EventManager.getInstance().publish("SWITCH_VIEW", id, param);
     }
 
-    // Convenience method to open the settings view
     public void openSettingsView() throws InvalidResourceException {
-        openView(PageIdentifier.SETTINGS, ""); // Open settings view
+        openView(PageIdentifier.SETTINGS, "");
     }
 
-    // Convenience method to open level one with a specific resource file
     public void goToLevelOne() throws InvalidResourceException {
-        openView(PageIdentifier.GAME, "level1.json"); // Open level one view with corresponding JSON file
+        openView(PageIdentifier.GAME, "level1.json");
     }
 
-    // Convenience method to open level two with a specific resource file
     public void goToLevelTwo() throws InvalidResourceException {
-        openView(PageIdentifier.GAME, "level2.json"); // Open level two view with corresponding JSON file
+        openView(PageIdentifier.GAME, "level2.json");
     }
 
-    // Convenience method to open level three with a specific resource file
     public void goToLevelThree() throws InvalidResourceException {
-        openView(PageIdentifier.GAME, "level3.json"); // Open level three view with corresponding JSON file
+        openView(PageIdentifier.GAME, "level3.json");
+    }
+
+    public void goToLevelFour() throws InvalidResourceException {
+        openView(PageIdentifier.GAME, "level4.json");
     }
 }

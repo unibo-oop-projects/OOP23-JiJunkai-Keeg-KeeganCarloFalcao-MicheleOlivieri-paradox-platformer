@@ -32,7 +32,7 @@ public class CollisionManager {
         Set<CollidableGameObject> collidingObjects = new HashSet<>();
 
         collidableGameObjects.stream()
-                .filter(object -> object != player)
+                .filter(object -> object != player || collidableGameObjects.contains(object))
                 .forEach(object -> {
                     if (CollisionDetector.isColliding(player, object)) {
                         collidingObjects.add(object);

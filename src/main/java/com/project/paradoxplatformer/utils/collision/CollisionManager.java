@@ -6,27 +6,31 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.utils.EventManager;
+import com.project.paradoxplatformer.utils.EventType;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.EffectHandler;
 
 public class CollisionManager {
 
-    private final EffectHandler effectHandler;
+    private EffectHandler effectHandler;
 
-    public CollisionManager(EffectHandler effectHandler) {
-        this.effectHandler = effectHandler;
+    public CollisionManager(EffectHandler initialEffectHandler) {
+        this.effectHandler = initialEffectHandler;
+        EventManager.getInstance().subscribe(EventType.EFFECT_HANDLER_UPDATED, this::updateEffectHandler);
     }
 
-    // Handle collision detection and actions via method references
+    private void updateEffectHandler(EffectHandler newEffectHandler, Object extra) {
+        this.effectHandler = newEffectHandler;
+    }
+
     public void handleCollisions(Collection<? extends CollidableGameObject> collidableGameObjects,
             CollidableGameObject player) {
         Set<CollidableGameObject> collidingObjects = detectCollisions(collidableGameObjects, player);
 
-        // Observing collisions using method references
         observeCollisions(collidingObjects, player, effectHandler::applyEffects, effectHandler::reset);
     }
 
-    // Collision detection logic
     private Set<CollidableGameObject> detectCollisions(Collection<? extends CollidableGameObject> collidableGameObjects,
             CollidableGameObject player) {
         Set<CollidableGameObject> collidingObjects = new HashSet<>();
@@ -48,10 +52,6 @@ public class CollisionManager {
             BiConsumer<CollidableGameObject, CollisionType> onCollideEnd) {
 
         collidingObjects.forEach(object -> onCollideStart.accept(player, object));
-
-        // For each colliding object, apply the end collision action
-        collidingObjects.forEach(object -> {
-            onCollideEnd.accept(object, object.getCollisionType());
-        });
+        collidingObjects.forEach(object -> onCollideEnd.accept(object, object.getCollisionType()));
     }
 }

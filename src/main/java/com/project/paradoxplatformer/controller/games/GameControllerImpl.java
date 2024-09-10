@@ -69,7 +69,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
-        this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().defaultEffectHandler());
+        this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().levelFourEffectHandler());
     }
 
     @Override
@@ -170,14 +170,14 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
 
-            if (player.getPosition().x() > 600) {
-                try {
-                    this.gameManager.stop();
-                    this.viewNavigator.goToLevelTwo();
-                } catch (InvalidResourceException e) {
-                    e.printStackTrace();
-                }
-            }
+            // if (player.getPosition().x() > 600) {
+            // try {
+            // this.gameManager.stop();
+            // this.viewNavigator.goToLevelTwo();
+            // } catch (InvalidResourceException e) {
+            // e.printStackTrace();
+            // }
+            // }
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
             this.resync();

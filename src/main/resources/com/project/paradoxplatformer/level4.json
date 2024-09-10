@@ -1,140 +1,157 @@
 {
 	"type": "platformer",
-	"height": 450,
-	"width": 720,
+	"height": 360,
+	"width": 640,
 	"gameDTOs": [
 		{
 			"type": "player",
-			"x": 25,
-			"y": 110,
+			"x": 20,
+			"y": 100,
 			"width": 18,
 			"height": 38,
 			"subtype": "",
 			"image": "player.png",
-			"nframe": 4
+			"nframe": 10
 		},
 		{
 			"type": "obstacle",
 			"x": 0,
-			"y": 60,
-			"width": 280,
-			"height": 120,
+			"y": 0,
+			"width": 290,
+			"height": 100,
 			"subtype": "Platform",
 			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
+				"blu": 42,
+				"red": 180,
+				"green": 77,
 				"alpha": 1
 			}
-		},
-		{
-			"type": "obstacle",
-			"x": 320,
-			"y": 60,
-			"width": 250,
-			"height": 120,
-			"subtype": "Platform",
-			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
-				"alpha": 1
-			}
-		},
-		{
-			"type": "obstacle",
-			"x": 0,
-			"y": 370,
-			"width": 720,
-			"height": 60,
-			"subtype": "Platform",
-			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
-				"alpha": 1
-			}
-		},
-		{
-			"type": "obstacle",
-			"x": 350,
-			"y": 120,
-			"width": 40,
-			"height": 120,
-			"subtype": "Wall",
-			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
-				"alpha": 1
-			},
-			"traj": [
-				{
-					"x": 180,
-					"y": 120,
-					"duration": 3,
-					"vector": "DISPLACEMENT"
-				},
-				{
-					"x": 180,
-					"y": 70,
-					"duration": 1,
-					"vector": "HEIGHT"
-				}
-			]
 		},
 		{
 			"type": "obstacle",
 			"x": 290,
-			"y": 50,
-			"width": 90,
-			"height": 120,
-			"subtype": "Wall",
-			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
-				"alpha": 1
-			},
-			"traj": [
-				{
-					"x": 290,
-					"y": -110,
-					"duration": 4,
-					"vector": "DISPLACEMENT"
-				}
-			]
-		},
-		{
-			"type": "trigger",
-			"x": 450,
-			"y": 120,
+			"y": 0,
 			"width": 40,
-			"height": 120,
-			"subtype": "Button",
+			"height": 100,
+			"subtype": "Platform",
 			"color": {
-				"blu": 190,
-				"red": 190,
-				"green": 190,
+				"blu": 42,
+				"red": 18,
+				"green": 77,
 				"alpha": 1
-			},
-			"traj": [
-				{
-					"x": 450,
-					"y": 220,
-					"duration": 1.5,
-					"vector": "HEIGHT"
-				}
-			]
+			}
 		},
 		{
 			"type": "obstacle",
-			"x": 240,
-			"y": 120,
-			"width": 70,
-			"height": 70,
+			"x": 330,
+			"y": 0,
+			"width": 310,
+			"height": 100,
+			"subtype": "Platform",
+			"color": {
+				"blu": 42,
+				"red": 180,
+				"green": 77,
+				"alpha": 1
+			}
+		},
+		{
+			"type": "obstacle",
+			"x": 0,
+			"y": 310,
+			"width": 640,
+			"height": 50,
+			"subtype": "Platform",
+			"color": {
+				"blu": 42,
+				"red": 180,
+				"green": 77,
+				"alpha": 1
+			}
+		},
+		{
+			"type": "obstacle",
+			"x": 100,
+			"y": 110,
+			"width": 15,
+			"height": 15,
 			"subtype": "DeathCoin",
 			"image": "coin.png"
+		},
+		{
+			"type": "obstacle",
+			"x": 150,
+			"y": 110,
+			"width": 15,
+			"height": 15,
+			"subtype": "Coin",
+			"image": "coin.png"
+		},
+
+		{
+			"type": "obstacle",
+			"x": 200,
+			"y": 110,
+			"width": 15,
+			"height": 15,
+			"subtype": "Coin",
+			"image": "coin.png"
+		},
+		{
+			"type": "obstacle",
+			"x": 250,
+			"y": 110,
+			"width": 15,
+			"height": 15,
+			"subtype": "Coin",
+			"image": "coin.png"
+		},
+		{
+			"type": "obstacle",
+			"x": 300,
+			"y": 110,
+			"width": 15,
+			"height": 15,
+			"subtype": "Coin",
+			"image": "coin.png"
+		},
+
+		{
+			"type": "obstacle",
+			"x": 350,
+			"y": 110,
+			"width": 15,
+			"height": 15,
+			"subtype": "Coin",
+			"image": "coin.png"
+		},
+		{
+			"type": "obstacle",
+			"x": 400,
+			"y": 110,
+			"width": 15,
+			"height": 15,
+			"subtype": "DeathCoin",
+			"image": "coin.png"
+		},
+		{
+			"type": "obstacle",
+			"x": 450,
+			"y": 110,
+			"width": 15,
+			"height": 15,
+			"subtype": "Coin",
+			"image": "coin.png"
+		},
+		
+		{
+			"type": "trigger",
+			"x": 525,
+			"y": 100,
+			"width": 20,
+			"height": 20,
+			"subtype": "Button",
+			"image": "button.png"
 		}
 	]
 }

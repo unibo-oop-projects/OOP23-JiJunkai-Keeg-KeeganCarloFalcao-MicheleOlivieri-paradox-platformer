@@ -1,4 +1,4 @@
 package com.project.paradoxplatformer.model.entity;
 
-public interface CollectableGameObject extends MutableObject{
+public interface CollectableGameObject extends MutableObject {
 }

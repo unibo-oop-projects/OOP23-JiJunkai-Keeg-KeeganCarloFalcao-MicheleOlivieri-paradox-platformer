@@ -11,7 +11,6 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
 
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
-import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 import static com.project.paradoxplatformer.utils.OptionalUtils.peek;
 

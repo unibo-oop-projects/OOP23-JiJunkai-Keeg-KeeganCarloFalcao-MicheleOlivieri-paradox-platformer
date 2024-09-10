@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.controller;
 import java.util.concurrent.CountDownLatch;
 
 import com.project.paradoxplatformer.utils.EventManager;
+import com.project.paradoxplatformer.utils.EventType;
 import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.view.ViewManager;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
@@ -18,8 +19,8 @@ public final class SimpleController<N, P, K> implements Controller {
         viewManager = adapter.mainAppManager().get();
         this.title = title;
 
-        EventManager.getInstance().subscribe("SWITCH_VIEW", this::handleViewSwitch);
-        EventManager.getInstance().subscribe("INITIALIZE", this::handleViewSwitch);
+        EventManager.getInstance().subscribe(EventType.SWITCH_VIEW, this::handleViewSwitch);
+        EventManager.getInstance().subscribe(EventType.INITIALIZE, this::handleViewSwitch);
 
     }
 
@@ -55,7 +56,7 @@ public final class SimpleController<N, P, K> implements Controller {
     }
 
     private void initRoutine() {
-        EventManager.getInstance().publish("INITIALIZE", PageIdentifier.MENU, "");
-        EventManager.getInstance().unsuscribe("INITIALIZE");
+        EventManager.getInstance().publish(EventType.INITIALIZE, PageIdentifier.MENU, "");
+        EventManager.getInstance().unsubscribe(EventType.INITIALIZE);
     }
 }

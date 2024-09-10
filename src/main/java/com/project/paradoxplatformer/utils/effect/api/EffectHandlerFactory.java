@@ -11,4 +11,6 @@ public interface EffectHandlerFactory {
     EffectHandler levelTwoEffectHandler();
 
     EffectHandler levelThreeEffectHandler();
+    
+    EffectHandler levelFourEffectHandler();
 }

@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.view;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.utils.EventManager;
+import com.project.paradoxplatformer.utils.EventType;
 
 public class ViewNavigator {
 
@@ -23,7 +24,7 @@ public class ViewNavigator {
     }
 
     public void openView(PageIdentifier id, String param) throws InvalidResourceException {
-        EventManager.getInstance().publish("SWITCH_VIEW", id, param);
+        EventManager.getInstance().publish(EventType.SWITCH_VIEW, id, param);
     }
 
     public void openSettingsView() throws InvalidResourceException {

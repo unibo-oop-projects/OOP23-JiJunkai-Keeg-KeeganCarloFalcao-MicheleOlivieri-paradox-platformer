@@ -47,4 +47,18 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         throw new UnsupportedOperationException("Unimplemented method 'levelThreeEffectHandler'");
     }
 
-}
+    @Override
+    public EffectHandler levelFourEffectHandler() {
+        EffectHandler handler = new EffectHandler();
+
+
+        handler.addCollisionEffectsForType(CollisionType.TRIGGER, ChangeLevelEffect::new);
+        handler.addCollisionEffectsForType(C
+                        ollisionEffectsForTy
+                        ollisionEf
+                            
+                                
+                            
+                                
+                            
+                        

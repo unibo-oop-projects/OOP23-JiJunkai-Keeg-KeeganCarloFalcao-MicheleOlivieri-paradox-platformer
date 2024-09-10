@@ -11,6 +11,7 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
 
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 import static com.project.paradoxplatformer.utils.OptionalUtils.peek;
 
@@ -68,7 +69,6 @@ public class EffectFactoryImpl implements EffectsFactory {
             @Override
             protected CompletableFuture<Void> applyToTarget(Optional<? extends CollidableGameObject> target) {
                 return target.map(gameObject -> {
-                    System.out.println("Target → " + target.get());
                     if (gameObject instanceof PlayerModel pl) {
                         this.player = Optional.of(pl);
                     }
@@ -83,8 +83,13 @@ public class EffectFactoryImpl implements EffectsFactory {
                             .filter(Wall.class::isInstance)
                             .filter(g -> this.player.isPresent())
                             .map(Wall.class::cast)
-                            .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " collected")))
-                            .ifPresent(w -> this.player.get().stop());
+                            // .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " stopping")))
+                            // .map(peek(c -> System.out.println("Player pos → " + player.get().getPosition())))
+                            .ifPresent(w -> {
+
+                                    this.player.get().counterForce();
+                                }
+                            );
                 });
             }
 

@@ -11,6 +11,7 @@ import com.project.paradoxplatformer.utils.geometries.*;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
+import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
 import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.modifiers.api.Physics;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
@@ -26,6 +27,8 @@ public final class PlayerModel extends AbstractControllableObject {
     private Vector2D displacement;
     private final InterpolatorFactory interpFactory;
     private final Inventory inventory;
+    private boolean isRight;
+    private boolean isLeft;
 
     // VECTORS ARE NOW VECTOR2d, Point is Coord2d
     // OBVisously any can modfiy their name to avoid further misunderstooding
@@ -83,6 +86,14 @@ public final class PlayerModel extends AbstractControllableObject {
     public void updateState(long dt) {
         // MY TESTING; FEEL FREE TO MODIFY
         this.fall();
+        // if(horizontalSpeed.magnitude() > 0) {
+        //     System.out.println("PREV displacement " + this.displacement);
+        // }
+
+        if(horizontalSpeed.magnitude() == this.getBaseDelta()) {
+            this.horizontalSpeed = Polar2DVector.nullVector();
+        }
+        
         this.displacement = physics.step(this.displacement,
                 this.displacement.add(this.horizontalSpeed),
                 interpFactory.linear(),
@@ -91,9 +102,13 @@ public final class PlayerModel extends AbstractControllableObject {
         var k = physics.moveTo(this.displacement,
                 this.displacement.add(verticalSpeed), 1, interpFactory.easeIn(),
                 dt);
+
         this.displacement = k.getKey();
 
-        // this.position = this.position.sum(this.speed.mul(0.001*dt));
+        // if(horizontalSpeed.magnitude() > 0) {
+        //     System.out.println("After displacement " + this.displacement);
+        // }
+        
         this.setPosition(this.displacement.convert());// addon
     }
 
@@ -118,6 +133,19 @@ public final class PlayerModel extends AbstractControllableObject {
     @Override
     public void setDimension(Dimension dimension) {
         this.dimension = new Dimension(this.dimension.width(), this.dimension.height());
+    }
+
+    public void counterForce() {
+        System.out.println(this.direction());
+        System.out.println(this.getSpeed());
+        if(this.direction() == Direction.RIGHT) {
+            this.moveLeft();
+            this.isRight = true;
+        }
+        if(this.direction() == Direction.LEFT) {
+            this.moveRight();
+            this.isLeft = true;
+        }
     }
 
 }

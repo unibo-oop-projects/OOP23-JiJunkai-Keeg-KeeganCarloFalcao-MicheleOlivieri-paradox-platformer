@@ -56,5 +56,6 @@ public final class SimpleController<N, P, K> implements Controller {
 
     private void initRoutine() {
         EventManager.getInstance().publish("INITIALIZE", PageIdentifier.MENU, "");
+        EventManager.getInstance().unsuscribe("INITIALIZE");
     }
 }

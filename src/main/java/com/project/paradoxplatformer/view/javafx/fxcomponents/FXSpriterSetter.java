@@ -28,9 +28,7 @@ public class FXSpriterSetter implements Spriter<Image>{
         this.loadSpriteSheet();
     }
 
-    private void loadSpriteSheet() throws InvalidResourceException {
-        this.img = ImageLoader.FXImage(sheetPath);
-    }
+    
 
     @Override
     public List<Image> getIdleImage() {
@@ -42,6 +40,18 @@ public class FXSpriterSetter implements Spriter<Image>{
         return this.collection(5 * tileSize.width(), tileSize.width() * 8);
     }
 
+    public List<Image> jumpingImages() {
+        return List.of(this.img);
+    }
+
+    public List<Image> fallingImages() {
+        return List.of(this.img);
+    }
+
+    private void loadSpriteSheet() throws InvalidResourceException {
+        this.img = ImageLoader.FXImage(sheetPath);
+    }
+
     private List<Image> collection(double init, double end) {
         return Optional.of(this.img)
             .filter(j -> tileSize.width() == bounds.width())
@@ -50,14 +60,6 @@ public class FXSpriterSetter implements Spriter<Image>{
                 .map(this::createImage)
                 .collect(Collectors.toList())
             );
-    }
-
-    public List<Image> jumpingImages() {
-        return List.of(this.img);
-    }
-
-    public List<Image> fallingImages() {
-        return List.of(this.img);
     }
 
     private Image createImage(Double x) {

@@ -33,6 +33,10 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
         this(Dimension.dot(), Coord2D.origin(), text);
     }
 
+    public FXButtonAdapter(final String text, Runnable action) {
+        this(Dimension.dot(), Coord2D.origin(), text, action);
+    }
+
     @Override
     public void setDimension(double width, double height) {
         System.out.println(width);

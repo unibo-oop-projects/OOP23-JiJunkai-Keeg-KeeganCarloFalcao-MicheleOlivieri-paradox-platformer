@@ -38,4 +38,8 @@ public class EventManager {
                 () -> System.out.println("Could not find event "+eventName+", event not published")
             );
     }
+
+    public void unsuscribe(final String eventName) {
+        this.eventMap.remove(eventName);
+    }
 }

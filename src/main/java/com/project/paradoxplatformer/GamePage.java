@@ -67,6 +67,7 @@ public class GamePage<V, K> extends AbstractThreadedPage implements Initializabl
    
     @Override
     protected void runOnFXThread(final String param) throws Exception {
+        this.pausePane.setVisible(true);
         //HERE's WHERE MAGIC HAPPENS, looks very free needs to be coupled atleast
         final LevelDTO level = this.getLevel(param);
         final GameModelData gameModel = new PlatfromModelData(level);

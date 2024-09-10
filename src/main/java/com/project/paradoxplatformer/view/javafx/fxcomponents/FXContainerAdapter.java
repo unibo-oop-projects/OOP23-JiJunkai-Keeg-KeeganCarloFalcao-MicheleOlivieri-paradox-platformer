@@ -24,7 +24,6 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
 
     private final Pane uiContainer;
     private final KeyAssetter<KeyCode> keyAssetter;
-    private boolean isActive;
 
     public FXContainerAdapter(Pane container) {
         this.uiContainer = container;
@@ -54,7 +53,6 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
     @Override
     public void activateKeyInput(Runnable activateInput) {
         activateInput.run();
-        this.isActive = true;
         this.manageKeyEvent(KeyEvent.KEY_PRESSED, this.keyAssetter::add);
         this.manageKeyEvent(KeyEvent.KEY_RELEASED, this.keyAssetter::remove);
     }
@@ -84,12 +82,10 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
     }
 
     private void manageKeyEvent(EventType<KeyEvent> eventType, Consumer<KeyCode> action) {
-        if(this.isActive) {
-            this.uiContainer.addEventFilter(
-                eventType, 
-                e -> this.decoupleAction(e.getCode(), action)
-            );
-        }
+        this.uiContainer.addEventFilter(
+            eventType, 
+            e -> this.decoupleAction(e.getCode(), action)
+        );
     }
     
 }

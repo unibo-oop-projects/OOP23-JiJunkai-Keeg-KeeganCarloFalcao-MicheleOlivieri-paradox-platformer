@@ -95,6 +95,7 @@ public final class PlayerModel extends AbstractControllableObject {
 
         // this.position = this.position.sum(this.speed.mul(0.001*dt));
         this.setPosition(this.displacement.convert());// addon
+
     }
 
     public void collectItem(CollectableGameObject item) {

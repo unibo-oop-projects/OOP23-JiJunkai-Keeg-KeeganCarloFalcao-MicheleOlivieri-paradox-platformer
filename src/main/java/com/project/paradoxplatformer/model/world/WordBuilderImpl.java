@@ -6,7 +6,6 @@ import com.project.paradoxplatformer.model.trigger.api.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
 import com.project.paradoxplatformer.utils.SecureWrapper;
-import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import java.util.List;
 import java.util.ArrayList;
@@ -18,7 +17,6 @@ public final class WordBuilderImpl implements WorldBuilder {
     private SecureWrapper<PlayerModel> player;
     private Dimension bounds;
     private boolean isBuild;
-    private CollisionManager collisionManager;
 
     public WordBuilderImpl() {
         this.obstacles = new ArrayList<>();
@@ -57,17 +55,10 @@ public final class WordBuilderImpl implements WorldBuilder {
     }
 
     @Override
-    public WorldBuilder addCollisionManager(CollisionManager collisionManager) {
-        this.collisionManager = collisionManager;
-        return this;
-    }
-
-
-    @Override
     public World build() {
         buildCheck();
         this.isBuild = true;
-        return new WorldImpl(obstacles, triggers, player.get(), bounds, collisionManager);
+        return new WorldImpl(obstacles, triggers, player.get(), bounds);
     }
 
     private void buildCheck() {

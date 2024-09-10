@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.model.world.api;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Trigger;
-import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 public interface WorldBuilder {
@@ -15,8 +14,6 @@ public interface WorldBuilder {
     WorldBuilder addObstacle(final Obstacle... obstacle);
 
     WorldBuilder addbounds(final Dimension dimension);
-
-    WorldBuilder addCollisionManager(final CollisionManager collisionManager);
 
     World build();
 }

@@ -28,15 +28,14 @@ public class EventManager {
     // Method to publish events with two parameters
     public void publish(String eventName, PageIdentifier pageIdentifier, String param) {
         // if (eventMap.containsKey(eventName)) {
-        //     eventMap.get(eventName).accept(pageIdentifier, param);
+        // eventMap.get(eventName).accept(pageIdentifier, param);
         // }
         Optional.of(eventName)
-            .filter(eventMap::containsKey)
-            .map(eventMap::get)
-            .ifPresentOrElse(
-                f -> f.accept(pageIdentifier, param),
-                () -> System.out.println("Could not find event "+eventName+", event not published")
-            );
+                .filter(eventMap::containsKey)
+                .map(eventMap::get)
+                .ifPresentOrElse(
+                        f -> f.accept(pageIdentifier, param),
+                        () -> System.out.println("Could not find event " + eventName + ", event not published"));
     }
 
     public void unsuscribe(final String eventName) {

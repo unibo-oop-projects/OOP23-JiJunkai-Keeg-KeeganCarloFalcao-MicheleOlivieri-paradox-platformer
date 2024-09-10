@@ -6,10 +6,10 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="mainPane" prefHeight="487.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.paradoxplatformer.MenuPage">
+<StackPane fx:id="mainPane" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.paradoxplatformer.MenuPage">
    <children>
       <!-- Top-left button to enable settings or switch view -->
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="400.0">
+      <AnchorPane minHeight="0.0" minWidth="0.0">
          <children>
             <Button fx:id="settingsButton" layoutX="318.0" layoutY="21.0" mnemonicParsing="false" text="Settings" />
             

@@ -24,6 +24,7 @@ public class ViewNavigator {
     }
 
     public void openView(PageIdentifier id, String param) throws InvalidResourceException {
+        System.out.println("Going to " + param);
         EventManager.getInstance().publish(EventType.SWITCH_VIEW, id, param);
     }
 

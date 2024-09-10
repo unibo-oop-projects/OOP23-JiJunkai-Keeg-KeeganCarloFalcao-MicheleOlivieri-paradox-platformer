@@ -11,11 +11,11 @@ import com.project.paradoxplatformer.utils.LevelSwitcher;
 
 public class ChangeLevelEffect extends AbstractOneTimeEffect {
 
-    private final Level gameLevel;
+    private final Level level;
     private final LevelSwitcher levelSwitcher;
 
-    public ChangeLevelEffect(Level gameLevel, LevelSwitcher levelSwitcher) {
-        this.gameLevel = gameLevel;
+    public ChangeLevelEffect(Level level, LevelSwitcher levelSwitcher) {
+        this.level = level;
         this.levelSwitcher = levelSwitcher;
     }
 
@@ -23,11 +23,11 @@ public class ChangeLevelEffect extends AbstractOneTimeEffect {
     protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
         return CompletableFuture.runAsync(() -> {
             try {
-                System.out.println("Switching to level: " + gameLevel);
-                levelSwitcher.switchLevel(gameLevel);
+                System.out.println("Switching to level: " + level);
+                levelSwitcher.switchLevel(level);
 
                 EventManager.getInstance().publish(EventType.EFFECT_HANDLER_UPDATED,
-                        new EffectHandlerFactoryImpl().defaultEffectHandler(), null);
+                        new EffectHandlerFactoryImpl().getEffectHandlerForLevel(level), null);
 
             } catch (InvalidResourceException e) {
                 e.printStackTrace();

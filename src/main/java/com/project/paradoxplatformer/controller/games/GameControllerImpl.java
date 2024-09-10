@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.controller.games;
 import com.google.common.collect.Sets;
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
-import com.project.paradoxplatformer.controller.gameloop.TaskLoopFactory;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
@@ -14,7 +13,10 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.EventManager;
+import com.project.paradoxplatformer.utils.EventType;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
+import com.project.paradoxplatformer.utils.Level;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -28,7 +30,6 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
-import java.beans.EventHandler;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -69,7 +70,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
-        this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().levelFourEffectHandler());
+        this.collisionManager = new CollisionManager(
+                new EffectHandlerFactoryImpl().getEffectHandlerForLevel(Level.LEVEL_ONE));
+
+        EventManager.getInstance().subscribe(EventType.SWITCH_VIEW, (p1, p2) -> this.gameManager.stop());
     }
 
     @Override
@@ -170,14 +174,14 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
 
-            // if (player.getPosition().x() > 600) {
-            // try {
-            // this.gameManager.stop();
-            // this.viewNavigator.goToLevelTwo();
-            // } catch (InvalidResourceException e) {
-            // e.printStackTrace();
-            // }
-            // }
+            if (player.getPosition().x() > 600) {
+                try {
+                    this.gameManager.stop();
+                    this.viewNavigator.goToLevelTwo();
+                } catch (InvalidResourceException e) {
+                    e.printStackTrace();
+                }
+            }
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
             this.resync();

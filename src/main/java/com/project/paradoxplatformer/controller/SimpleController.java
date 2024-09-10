@@ -48,6 +48,7 @@ public final class SimpleController<N, P, K> implements Controller {
 
     private void switchView(final PageIdentifier id, final String param) {
         try {
+            System.out.println("Switch to" + param);
             viewManager.switchPage(id).create(param);
         } catch (Exception ex) {
             viewManager.displayError(ExceptionUtils.advacendDisplay(ex));

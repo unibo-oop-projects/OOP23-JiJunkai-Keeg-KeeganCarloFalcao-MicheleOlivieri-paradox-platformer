@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.common.base.Supplier;
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 
@@ -58,6 +59,12 @@ public class ChainOfEffects {
             future = future.thenCompose(v -> effect.apply(target, self));
         }
         return future;
+    }
+
+    public static ChainOfEffects create(List<Supplier<Effect>> effectSuppliers) {
+        return ChainOfEffects.builder()
+                .addEffects(effectSuppliers.stream().map(Supplier::get).toList())
+                .build();
     }
 
     /**

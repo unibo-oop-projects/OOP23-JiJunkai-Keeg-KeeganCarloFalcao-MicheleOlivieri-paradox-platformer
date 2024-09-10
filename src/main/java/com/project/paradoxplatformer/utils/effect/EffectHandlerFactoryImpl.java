@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.utils.effect;
 
+import java.util.List;
+
 import com.project.paradoxplatformer.utils.collision.ChainOfEffects;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.api.EffectHandlerFactory;
@@ -12,11 +14,10 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
     public EffectHandler defaultEffectHandler() {
         EffectHandler handler = new EffectHandler();
 
-        ChainOfEffects chain = ChainOfEffects.builder()
-                .addEffect(new NoOpEffect())
-                .addEffect(new SoundEffect(SoundType.OBSTACLE_HIT))
-                .addEffect(new TransportEffect(new Coord2D(100, 100), false))
-                .build();
+        ChainOfEffects chain = ChainOfEffects.create(List.of(
+                () -> new NoOpEffect(),
+                () -> new SoundEffect(SoundType.OBSTACLE_HIT),
+                () -> new TransportEffect(new Coord2D(100, 100), false)));
 
         handler.addCollisionEffectsForType(CollisionType.TRIGGER, chain);
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);

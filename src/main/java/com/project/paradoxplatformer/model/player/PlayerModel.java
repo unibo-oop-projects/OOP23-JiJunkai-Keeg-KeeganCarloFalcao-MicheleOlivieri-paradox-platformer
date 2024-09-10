@@ -110,6 +110,7 @@ public final class PlayerModel extends AbstractControllableObject {
         // }
         
         this.setPosition(this.displacement.convert());// addon
+
     }
 
     public void collectItem(CollectableGameObject item) {

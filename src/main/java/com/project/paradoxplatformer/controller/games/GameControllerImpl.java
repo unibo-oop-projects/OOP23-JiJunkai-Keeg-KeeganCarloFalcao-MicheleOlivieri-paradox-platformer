@@ -16,7 +16,7 @@ import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
-import com.project.paradoxplatformer.utils.effect.EffectHandler;
+import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.ViewNavigator;
@@ -54,6 +54,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final CollisionManager collisionManager;
 
     private final Random rand = new Random();
+    private final ViewNavigator viewNavigator = new ViewNavigator();
     private ObservableLoopManager gameManager;
 
     /**
@@ -68,7 +69,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
-        this.collisionManager = new CollisionManager(EffectHandler.createDefaultEffectHandler());
+        this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().defaultEffectHandler());
     }
 
     @Override
@@ -172,7 +173,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             if(player.getPosition().x() > 600) {
                 try {
                     this.gameManager.stop();
-                    new ViewNavigator().goToLevelTwo();
+                    this.viewNavigator.goToLevelTwo();
                 } catch (InvalidResourceException e) {
                     e.printStackTrace();
                 }

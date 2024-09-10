@@ -42,7 +42,6 @@ public class CollisionManager {
         return collidingObjects;
     }
 
-    // Observing collisions and applying actions via method references
     private void observeCollisions(Set<CollidableGameObject> collidingObjects,
             CollidableGameObject player,
             BiConsumer<CollidableGameObject, CollidableGameObject> onCollideStart,

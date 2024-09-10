@@ -11,9 +11,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
-import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
-import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -121,8 +119,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
             // System.out.println("[Player Position]: " + mutEntity.getSpeed());
 
             if (graph instanceof FXSpriteAdapter spriAdapter) {
-                spriAdapter.animate(mutEntity.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
-
+                spriAdapter.animate(mutEntity.getSpeed().magnitude() > mutEntity.getBaseDelta() ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
             }
         }
     }

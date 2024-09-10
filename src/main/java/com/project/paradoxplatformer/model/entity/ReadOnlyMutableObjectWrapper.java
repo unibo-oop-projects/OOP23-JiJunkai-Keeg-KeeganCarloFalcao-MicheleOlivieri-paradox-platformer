@@ -57,4 +57,9 @@ public class ReadOnlyMutableObjectWrapper implements MutableObject{
     public Vector2D getSpeed() {
         return this.wrapped.getSpeed();
     }
+
+    @Override
+    public double getBaseDelta() {
+        return this.wrapped.getBaseDelta();
+    }
 }

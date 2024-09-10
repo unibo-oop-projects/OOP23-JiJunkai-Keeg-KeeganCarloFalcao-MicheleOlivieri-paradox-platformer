@@ -1,10 +1,16 @@
 package com.project.paradoxplatformer.model.entity.dynamics;
 
+import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
+
 public interface HorizontalObject{
     
-    public void moveLeft();
+    void moveLeft();
 
-    public void moveRight();
+    void moveRight();
 
-    public void stop();
+    void stop();
+
+    double getBaseDelta();
+
+    Direction direction();
 }

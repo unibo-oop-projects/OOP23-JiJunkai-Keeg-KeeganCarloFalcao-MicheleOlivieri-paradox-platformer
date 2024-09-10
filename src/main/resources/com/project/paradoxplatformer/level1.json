@@ -29,6 +29,20 @@
 		},
 		{
 			"type": "obstacle",
+			"x": 0,
+			"y": 100,
+			"width": 20,
+			"height": 100,
+			"subtype": "Wall",
+			"color": {
+				"blu": 42,
+				"red": 180,
+				"green": 77,
+				"alpha": 1
+			}
+		},
+		{
+			"type": "obstacle",
 			"x": 330,
 			"y": 0,
 			"width": 310,

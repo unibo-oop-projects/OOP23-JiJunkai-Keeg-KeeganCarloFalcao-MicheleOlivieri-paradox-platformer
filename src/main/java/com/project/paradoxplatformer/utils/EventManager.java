@@ -12,10 +12,17 @@ public class EventManager {
     private static EventManager instance;
     private final Map<String, BiConsumer<PageIdentifier, String>> eventMap = new HashMap<>();
 
+    private EventManager() {
+    }
+
     // Singleton pattern to ensure only one instance
-    public static synchronized EventManager getInstance() {
+    public static EventManager getInstance() {
         if (instance == null) {
-            instance = new EventManager();
+            synchronized (EventManager.class) {
+                if (instance == null) {
+                    instance = new EventManager();
+                }
+            }
         }
         return instance;
     }
@@ -27,9 +34,6 @@ public class EventManager {
 
     // Method to publish events with two parameters
     public void publish(String eventName, PageIdentifier pageIdentifier, String param) {
-        // if (eventMap.containsKey(eventName)) {
-        // eventMap.get(eventName).accept(pageIdentifier, param);
-        // }
         Optional.of(eventName)
                 .filter(eventMap::containsKey)
                 .map(eventMap::get)

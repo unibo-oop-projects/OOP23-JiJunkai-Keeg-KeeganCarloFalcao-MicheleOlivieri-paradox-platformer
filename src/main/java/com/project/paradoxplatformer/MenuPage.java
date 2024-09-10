@@ -14,7 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class NewLevelController extends AbstractThreadedPage implements Initializable {
+public class MenuPage extends AbstractThreadedPage implements Initializable {
 
     @FXML
     private Button settingsButton; // Button to navigate to settings
@@ -26,7 +26,7 @@ public class NewLevelController extends AbstractThreadedPage implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        bindEvents();  // Bind UI events to their respective handlers
+        bindEvents(); // Bind UI events to their respective handlers
         applyStyles(); // Apply styling to UI elements
     }
 

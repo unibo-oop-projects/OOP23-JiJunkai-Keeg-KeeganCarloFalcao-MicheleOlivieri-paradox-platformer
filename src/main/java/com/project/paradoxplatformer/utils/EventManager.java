@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import com.project.paradoxplatformer.utils.effect.ViewEventType;
+import com.project.paradoxplatformer.utils.effect.api.Level;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 public class EventManager {
 
     private static EventManager instance;
-    private final Map<String, BiConsumerWithAndThen<PageIdentifier, String>> eventMap = new HashMap<>();
+    private final Map<ViewEventType, BiConsumerWithAndThen<PageIdentifier, Level>> eventMap = new HashMap<>();
 
     private EventManager() {
     }
@@ -27,21 +29,21 @@ public class EventManager {
     }
 
     // Method to subscribe to events with two parameters
-    public void subscribe(String eventName, BiConsumerWithAndThen<PageIdentifier, String> action) {
-        eventMap.put(eventName, action);
+    public void subscribe(ViewEventType viewEventType, BiConsumerWithAndThen<PageIdentifier, Level> action) {
+        eventMap.put(viewEventType, action);
     }
 
     // Method to publish events with two parameters
-    public void publish(String eventName, PageIdentifier pageIdentifier, String param) {
-        Optional.of(eventName)
+    public void publish(ViewEventType viewEventType, PageIdentifier pageIdentifier, Level param) {
+        Optional.of(viewEventType)
                 .filter(eventMap::containsKey)
                 .map(eventMap::get)
                 .ifPresentOrElse(
                         f -> f.accept(pageIdentifier, param),
-                        () -> System.out.println("Could not find event " + eventName + ", event not published"));
+                        () -> System.out.println("Could not find event " + viewEventType + ", event not published"));
     }
 
-    public void unsuscribe(final String eventName) {
-        this.eventMap.remove(eventName);
+    public void unsuscribe(final ViewEventType viewEventType) {
+        this.eventMap.remove(viewEventType);
     }
 }

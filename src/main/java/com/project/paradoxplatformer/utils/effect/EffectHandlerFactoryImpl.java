@@ -49,7 +49,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
     private EffectHandler levelOneEffectHandler() {
         EffectHandler handler = new EffectHandler();
 
-        // handler.addCollisionEffectsForType(CollisionType.TRIGGER);
+        handler.addCollisionEffectsForType(CollisionType.TRIGGER, () -> new ChangeLevelEffect(Level.LEVEL_TWO));
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
@@ -62,14 +62,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
     private EffectHandler levelTwoEffectHandler() {
         EffectHandler handler = new EffectHandler();
 
-        // handler.addCollisionEffectsForType(CollisionType.TRIGGER,
-        // () -> new ChangeLevelEffect(Level.LEVEL_THREE, level -> {
-        // try {
-        // ViewNavigator.getInstance().openView(PageIdentifier.GAME, level);
-        // } catch (InvalidResourceException e) {
-        // e.printStackTrace();
-        // }
-        // }));
+        handler.addCollisionEffectsForType(CollisionType.TRIGGER, () -> new ChangeLevelEffect(Level.LEVEL_THREE));
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
@@ -82,6 +75,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
     private EffectHandler levelThreeEffectHandler() {
         EffectHandler handler = new EffectHandler();
 
+        handler.addCollisionEffectsForType(CollisionType.TRIGGER, () -> new ChangeLevelEffect(Level.LEVEL_FOUR));
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
@@ -94,6 +88,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
     private EffectHandler levelFourEffectHandler() {
         EffectHandler handler = new EffectHandler();
 
+        handler.addCollisionEffectsForType(CollisionType.TRIGGER, () -> new ChangeLevelEffect(Level.LEVEL_ONE));
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);

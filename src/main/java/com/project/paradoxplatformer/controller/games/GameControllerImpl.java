@@ -14,15 +14,19 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
+import com.project.paradoxplatformer.utils.effect.ViewEventType;
+import com.project.paradoxplatformer.utils.effect.api.Level;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.ViewNavigator;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
+import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 import java.util.Objects;
 import java.util.Random;
@@ -70,6 +74,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
         this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().defaultEffectHandler());
+
+        EventManager.getInstance().subscribe(ViewEventType.UPDATE_HANDLER, this::updateHandler);
+        EventManager.getInstance().subscribe(ViewEventType.STOP_VIEW, this::handleViewSwitch);
     }
 
     @Override
@@ -84,6 +91,17 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.sync(true);
 
         System.out.println("Game View is loaded.");
+    }
+
+    private void handleViewSwitch(final PageIdentifier id, final Level param) {
+        System.out.println("STOPPING VIEW BEFORE RECREATE IT.");
+        this.gameManager.stop();
+    }
+
+    private void updateHandler(final PageIdentifier id, final Level param) {
+        System.out.println("SWITCH COLLISION MANAGER'S HANDLER.");
+        this.collisionManager.setEffectHandler(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(param));
+
     }
 
     private void sync(final boolean firstTime) {
@@ -170,14 +188,14 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
 
-            if (player.getPosition().x() > 600) {
-                try {
-                    this.gameManager.stop();
-                    this.viewNavigator.goToLevelTwo();
-                } catch (InvalidResourceException e) {
-                    e.printStackTrace();
-                }
-            }
+            // if (player.getPosition().x() > 600) {
+            // try {
+            // this.gameManager.stop();
+            // this.viewNavigator.goToLevelTwo();
+            // } catch (InvalidResourceException e) {
+            // e.printStackTrace();
+            // }
+            // }
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
             this.resync();

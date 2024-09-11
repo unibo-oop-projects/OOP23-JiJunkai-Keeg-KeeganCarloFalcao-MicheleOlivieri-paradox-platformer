@@ -11,7 +11,7 @@ import com.project.paradoxplatformer.utils.effect.EffectHandler;
 
 public class CollisionManager {
 
-    private final EffectHandler effectHandler;
+    private EffectHandler effectHandler;
 
     public CollisionManager(EffectHandler effectHandler) {
         this.effectHandler = effectHandler;
@@ -53,5 +53,9 @@ public class CollisionManager {
         collidingObjects.forEach(object -> {
             onCollideEnd.accept(object, object.getCollisionType());
         });
+    }
+
+    public void setEffectHandler(EffectHandler effectHandler) {
+        this.effectHandler = effectHandler;
     }
 }

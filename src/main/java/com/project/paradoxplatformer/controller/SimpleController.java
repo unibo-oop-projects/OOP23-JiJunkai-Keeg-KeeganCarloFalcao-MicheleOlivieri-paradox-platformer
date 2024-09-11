@@ -4,6 +4,8 @@ import java.util.concurrent.CountDownLatch;
 
 import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.ExceptionUtils;
+import com.project.paradoxplatformer.utils.effect.ViewEventType;
+import com.project.paradoxplatformer.utils.effect.api.Level;
 import com.project.paradoxplatformer.view.ViewManager;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewAdapterFactory;
@@ -18,8 +20,8 @@ public final class SimpleController<N, P, K> implements Controller {
         viewManager = adapter.mainAppManager().get();
         this.title = title;
 
-        EventManager.getInstance().subscribe("SWITCH_VIEW", this::handleViewSwitch);
-        EventManager.getInstance().subscribe("INITIALIZE", this::handleViewSwitch);
+        EventManager.getInstance().subscribe(ViewEventType.SWITCH_VIEW, this::handleViewSwitch);
+        EventManager.getInstance().subscribe(ViewEventType.INITIALIZE, this::handleViewSwitch);
 
     }
 
@@ -41,13 +43,15 @@ public final class SimpleController<N, P, K> implements Controller {
         }
     }
 
-    private void handleViewSwitch(final PageIdentifier id, final String param) {
+    private void handleViewSwitch(final PageIdentifier id, final Level param) {
+        System.out.println("NOW RECREATE THE VIEW.");
         this.switchView(id, param);
     }
 
-    private void switchView(final PageIdentifier id, final String param) {
+    private void switchView(final PageIdentifier id, final Level param) {
         try {
-            viewManager.switchPage(id).create(param);
+            viewManager.switchPage(id).create(param.getResourceFile());
+            EventManager.getInstance().publish(ViewEventType.UPDATE_HANDLER, id, param);
         } catch (Exception ex) {
             viewManager.displayError(ExceptionUtils.advacendDisplay(ex));
             viewManager.safeError();
@@ -55,7 +59,7 @@ public final class SimpleController<N, P, K> implements Controller {
     }
 
     private void initRoutine() {
-        EventManager.getInstance().publish("INITIALIZE", PageIdentifier.MENU, "");
-        EventManager.getInstance().unsuscribe("INITIALIZE");
+        EventManager.getInstance().publish(ViewEventType.INITIALIZE, PageIdentifier.MENU, Level.EMPTY_LEVEL);
+        EventManager.getInstance().unsuscribe(ViewEventType.INITIALIZE);
     }
 }

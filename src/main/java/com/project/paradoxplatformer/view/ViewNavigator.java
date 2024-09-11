@@ -1,6 +1,8 @@
 package com.project.paradoxplatformer.view;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
+import com.project.paradoxplatformer.utils.effect.ViewEventType;
+import com.project.paradoxplatformer.utils.effect.api.Level;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.utils.EventManager;
 
@@ -22,27 +24,27 @@ public class ViewNavigator {
         return instance;
     }
 
-    public void openView(PageIdentifier id, String param) throws InvalidResourceException {
-        EventManager.getInstance().publish("SWITCH_VIEW", id, param);
+    public void openView(PageIdentifier id, Level param) throws InvalidResourceException {
+        EventManager.getInstance().publish(ViewEventType.SWITCH_VIEW, id, param);
     }
 
     public void openSettingsView() throws InvalidResourceException {
-        openView(PageIdentifier.SETTINGS, "");
+        openView(PageIdentifier.SETTINGS, Level.EMPTY_LEVEL);
     }
 
     public void goToLevelOne() throws InvalidResourceException {
-        openView(PageIdentifier.GAME, "level1.json");
+        openView(PageIdentifier.GAME, Level.LEVEL_ONE);
     }
 
     public void goToLevelTwo() throws InvalidResourceException {
-        openView(PageIdentifier.GAME, "level2.json");
+        openView(PageIdentifier.GAME, Level.LEVEL_TWO);
     }
 
     public void goToLevelThree() throws InvalidResourceException {
-        openView(PageIdentifier.GAME, "level3.json");
+        openView(PageIdentifier.GAME, Level.LEVEL_THREE);
     }
 
     public void goToLevelFour() throws InvalidResourceException {
-        openView(PageIdentifier.GAME, "level4.json");
+        openView(PageIdentifier.GAME, Level.LEVEL_FOUR);
     }
 }

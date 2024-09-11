@@ -1,26 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Circle?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.VBox?>
 
-<StackPane fx:id="mainPane" prefHeight="487.0" prefWidth="705.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.paradoxplatformer.MenuPage">
-   <children>
-      <!-- Top-left button to enable settings or switch view -->
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="600.0" prefWidth="400.0">
+<BorderPane fx:id="pagePane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" styleClass="hbox" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.paradoxplatformer.MenuPage">
+   <center>
+      <HBox alignment="CENTER" prefHeight="231.0" prefWidth="441.0" spacing="60.0" style="-fx-background-repeat: no-repeat;" stylesheets="@menu.css" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="settingsButton" layoutX="318.0" layoutY="21.0" mnemonicParsing="false" text="Settings" />
-            
-            <!-- Rounded shapes for navigation -->
-            <Circle fx:id="levelOneButton" layoutX="90.0" layoutY="119.0" radius="18.0" />
-            <Circle fx:id="levelTwoButton" layoutX="353.0" layoutY="119.0" radius="18.0" />
-            <Circle fx:id="levelThreeButton" layoutX="609.0" layoutY="118.0" radius="18.0" />
-            <Text fill="WHITE" layoutX="87.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1" />
-            <Text fill="WHITE" layoutX="349.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" />
-            <Text fill="WHITE" layoutX="605.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3" />
+            <Button fx:id="levelOneButton" mnemonicParsing="false" styleClass="menu-button" text="1" />
+            <Button fx:id="levelTwoButton" mnemonicParsing="false" styleClass="menu-button" text="2" />
+            <Button fx:id="levelThreeButton" mnemonicParsing="false" styleClass="menu-button" text="3" />
+            <Button fx:id="levelFourButton" mnemonicParsing="false" styleClass="menu-button" text="4" />
          </children>
-      </AnchorPane>
-   </children>
-</StackPane>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="settingsButton" mnemonicParsing="false" prefHeight="56.0" prefWidth="144.0" styleClass="foot-button" text="Settings">
+               <HBox.margin>
+                  <Insets bottom="30.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+   <top>
+      <VBox alignment="CENTER" spacing="40.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="70.0" />
+         </BorderPane.margin>
+         <children>
+            <StackPane>
+               <children>
+                  <ImageView fx:id="insegna" fitHeight="147.0" fitWidth="284.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@insegna.png" />
+                     </image>
+                     <styleClass>
+                        <String fx:value="header" />
+                        <String fx:value="outer-image" />
+                     </styleClass>
+                  </ImageView>
+                  <ImageView fx:id="circlesEffects" fitHeight="125.0" fitWidth="291.0" pickOnBounds="true" preserveRatio="true" styleClass="inner-image">
+                     <image>
+                        <Image url="@eyes.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </StackPane>
+            <Label styleClass="header" text="PARADOX PLATFORMER" />
+            <Label styleClass="base-label" text="Choose A Cursed level" />
+         </children>
+      </VBox>
+   </top>
+   <effect>
+      <ColorAdjust saturation="-0.1" />
+   </effect>
+</BorderPane>

@@ -1,0 +1,79 @@
+.menu-button {
+    -fx-background-image: url('circleDEA.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: contain, auto;
+    -fx-min-width: 100px;
+    -fx-min-height: 100px;
+    -fx-background-position: center, center;
+    -fx-text-fill: #b84c2c;
+    -fx-text-alignment: center;
+    -fx-font-size: 30px;
+}
+
+.menu-button:hover {
+    -fx-min-width: 101px;
+    -fx-min-height: 101px;
+    -fx-font-size: 33px;
+    -fx-background-image: url('circle.png');
+}
+
+.menu-button:focused {
+    -fx-min-width: 101px;
+    -fx-min-height: 101px;
+    -fx-font-size: 33px;
+    -fx-background-image: url('circle.png');
+}
+
+.button:hover{
+    -fx-opacity: 0.9;
+    -fx-cursor: hand;
+}
+
+.hbox {
+    -fx-background-size: cover;
+    -fx-background-repeat: no-repeat;
+    -fx-background-image: url('sparks.png')
+}
+
+.text {
+    -fx-text-fill: #b84c2c;
+    -fx-text-alignment: center;
+    -fx-font-family: "Cortair Sans Stamp";
+}
+
+.header {
+    -fx-text-fill: #b84c2c;
+    -fx-font-size: 40px;
+}
+
+.button {
+    -fx-font-size: 20px;
+    -fx-background-color: transparent;
+}
+
+.foot-button {
+    -fx-text-fill: #b84c2c;
+}
+
+
+.foot-button:hover {
+    -fx-font-size: 23px;
+}
+
+.foot-button:focused {
+    -fx-font-size: 23px;
+    -fx-effect: dropshadow(gaussian, #ff303e, 1, 0.3, 1.0, 0.0);
+}
+
+.base-label {
+    -fx-text-fill: #b84c2c;
+    -fx-font-size: 20px;
+}
+
+.outer-image {
+    -fx-effect: dropshadow(gaussian, #ff303e, 7, 0.3, 1.0, 0.0);
+}
+
+.inner-image {
+    -fx-effect: dropshadow(one-pass-box, #616161, 7, 0.3, 1.0, 0.0);
+}

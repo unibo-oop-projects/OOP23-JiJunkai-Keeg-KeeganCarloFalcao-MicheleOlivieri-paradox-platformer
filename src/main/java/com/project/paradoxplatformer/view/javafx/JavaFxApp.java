@@ -28,7 +28,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class JavaFxApp extends Application implements ViewManager {
@@ -167,7 +166,7 @@ public class JavaFxApp extends Application implements ViewManager {
     }
 
     private void setInitialScene() {
-        final double resoultion = 480;
+        final double resoultion = 720;
         LinearGradient paint = new LinearGradient(
                 0.9762, 0.0, 1.0, 1.0, true, CycleMethod.NO_CYCLE,
                 new Stop(0.0, new Color(1.0, 0.3924, 0.02, 1.0)),

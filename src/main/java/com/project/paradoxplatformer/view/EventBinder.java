@@ -11,7 +11,7 @@ public class EventBinder {
      * @param settingsButton  The Button to bind the handler to.
      * @param onSettingsClick The action to perform on button click.
      */
-    public static void bindSettingsButton(Button settingsButton, Runnable onSettingsClick) {
+    public static void bindButtons(Button settingsButton, Runnable onSettingsClick) {
         settingsButton.setOnAction(event -> onSettingsClick.run());
     }
 

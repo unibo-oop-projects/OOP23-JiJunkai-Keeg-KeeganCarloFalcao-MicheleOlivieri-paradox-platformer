@@ -15,13 +15,16 @@ public final class SimpleController<N, P, K> implements Controller {
     private final CountDownLatch latch = new CountDownLatch(1);
     private final ViewManager viewManager;
     private final String title;
+    private final EventManager<ViewEventType, PageIdentifier> eventManager;
 
     public SimpleController(final ViewAdapterFactory<N, P, K> adapter, final String title) {
         viewManager = adapter.mainAppManager().get();
         this.title = title;
 
-        EventManager.getInstance().subscribe(ViewEventType.SWITCH_VIEW, this::handleViewSwitch);
-        EventManager.getInstance().subscribe(ViewEventType.INITIALIZE, this::handleViewSwitch);
+        this.eventManager = EventManager.getInstance();
+
+        eventManager.subscribe(ViewEventType.SWITCH_VIEW, this::handleViewSwitch);
+        eventManager.subscribe(ViewEventType.INITIALIZE, this::handleViewSwitch);
 
     }
 
@@ -51,7 +54,7 @@ public final class SimpleController<N, P, K> implements Controller {
     private void switchView(final PageIdentifier id, final Level param) {
         try {
             viewManager.switchPage(id).create(param.getResourceFile());
-            EventManager.getInstance().publish(ViewEventType.UPDATE_HANDLER, id, param);
+            this.eventManager.publish(ViewEventType.UPDATE_HANDLER, id, param);
         } catch (Exception ex) {
             viewManager.displayError(ExceptionUtils.advacendDisplay(ex));
             viewManager.safeError();
@@ -59,7 +62,7 @@ public final class SimpleController<N, P, K> implements Controller {
     }
 
     private void initRoutine() {
-        EventManager.getInstance().publish(ViewEventType.INITIALIZE, PageIdentifier.MENU, Level.EMPTY_LEVEL);
-        EventManager.getInstance().unsuscribe(ViewEventType.INITIALIZE);
+        this.eventManager.publish(ViewEventType.INITIALIZE, PageIdentifier.MENU, Level.EMPTY_LEVEL);
+        this.eventManager.unsubscribe(ViewEventType.INITIALIZE);
     }
 }

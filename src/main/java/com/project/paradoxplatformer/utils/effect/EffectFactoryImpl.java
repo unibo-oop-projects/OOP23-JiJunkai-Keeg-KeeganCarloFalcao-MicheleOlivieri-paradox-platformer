@@ -8,10 +8,11 @@ import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.obstacles.Wall;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-
+import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 import static com.project.paradoxplatformer.utils.OptionalUtils.peek;
 
@@ -19,7 +20,7 @@ public class EffectFactoryImpl implements EffectsFactory {
 
     @Override
     public Effect collectingEffect() {
-        return new AbstractRecreatableEffect() {
+        return new AbstractOneTimeEffect() {
 
             private Optional<PlayerModel> player = Optional.empty();
 
@@ -47,8 +48,9 @@ public class EffectFactoryImpl implements EffectsFactory {
             }
 
             @Override
-            public RecreateableEffect recreate() {
-                return this;
+            protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
+                return super.applyToSelf(self).thenAccept(obj -> EventManager.getInstance()
+                        .publish(ViewEventType.REMOVE_OBJECT, PageIdentifier.GAME, self));
             }
 
         };

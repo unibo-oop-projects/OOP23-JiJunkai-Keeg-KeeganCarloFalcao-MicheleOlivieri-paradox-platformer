@@ -3,47 +3,46 @@ package com.project.paradoxplatformer.utils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
-import com.project.paradoxplatformer.utils.effect.ViewEventType;
-import com.project.paradoxplatformer.utils.effect.api.Level;
-import com.project.paradoxplatformer.view.javafx.PageIdentifier;
+public class EventManager<T, U> {
 
-public class EventManager {
-
-    private static EventManager instance;
-    private final Map<ViewEventType, BiConsumerWithAndThen<PageIdentifier, Level>> eventMap = new HashMap<>();
+    private static EventManager<?, ?> instance;
+    private final Map<T, BiConsumer<U, ?>> eventMap = new HashMap<>();
 
     private EventManager() {
     }
 
     // Singleton pattern to ensure only one instance
-    public static EventManager getInstance() {
+    @SuppressWarnings("unchecked")
+    public static <T, U> EventManager<T, U> getInstance() {
         if (instance == null) {
             synchronized (EventManager.class) {
                 if (instance == null) {
-                    instance = new EventManager();
+                    instance = new EventManager<>();
                 }
             }
         }
-        return instance;
+        return (EventManager<T, U>) instance;
     }
 
     // Method to subscribe to events with two parameters
-    public void subscribe(ViewEventType viewEventType, BiConsumerWithAndThen<PageIdentifier, Level> action) {
-        eventMap.put(viewEventType, action);
+    public <V> void subscribe(T eventType, BiConsumer<U, V> action) {
+        eventMap.put(eventType, action);
     }
 
     // Method to publish events with two parameters
-    public void publish(ViewEventType viewEventType, PageIdentifier pageIdentifier, Level param) {
-        Optional.of(viewEventType)
+    @SuppressWarnings("unchecked")
+    public <V> void publish(T eventType, U param1, V param2) {
+        Optional.of(eventType)
                 .filter(eventMap::containsKey)
                 .map(eventMap::get)
                 .ifPresentOrElse(
-                        f -> f.accept(pageIdentifier, param),
-                        () -> System.out.println("Could not find event " + viewEventType + ", event not published"));
+                        f -> ((BiConsumer<U, V>) f).accept(param1, param2),
+                        () -> System.out.println("Could not find event " + eventType + ", event not published"));
     }
 
-    public void unsuscribe(final ViewEventType viewEventType) {
-        this.eventMap.remove(viewEventType);
+    public void unsubscribe(final T eventType) {
+        this.eventMap.remove(eventType);
     }
 }

@@ -54,7 +54,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final CollisionManager collisionManager;
 
     private final Random rand = new Random();
-    private final ViewNavigator viewNavigator = new ViewNavigator();
+    private final ViewNavigator viewNavigator = ViewNavigator.getInstance();
     private ObservableLoopManager gameManager;
 
     /**
@@ -145,7 +145,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             this.update(dt);
         }).animationLoop();
         this.gameManager.start();
-                
+
     }
 
     private void setupGameMode(ControllableObject player, String type) {
@@ -170,7 +170,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
 
-            if(player.getPosition().x() > 600) {
+            if (player.getPosition().x() > 600) {
                 try {
                     this.gameManager.stop();
                     this.viewNavigator.goToLevelTwo();

@@ -42,7 +42,8 @@ public class MenuPage extends AbstractThreadedPage implements Initializable {
     @FXML
     private Button levelOneButton, levelTwoButton, levelThreeButton; // Circles representing different game levels
 
-    private final ViewNavigator viewNavigator = new ViewNavigator(); // Handles navigation between views
+    private final ViewNavigator viewNavigator = ViewNavigator.getInstance(); // Handles navigation between views
+    Color circleColor = Color.RED; // Color for level circles
 
     private Transition animation;
 

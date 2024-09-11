@@ -83,13 +83,14 @@ public class EffectFactoryImpl implements EffectsFactory {
                             .filter(Wall.class::isInstance)
                             .filter(g -> this.player.isPresent())
                             .map(Wall.class::cast)
-                            // .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " stopping")))
-                            // .map(peek(c -> System.out.println("Player pos → " + player.get().getPosition())))
+                            // .map(peek(c -> System.out.println(c.getClass().getSimpleName() + "
+                            // stopping")))
+                            // .map(peek(c -> System.out.println("Player pos → " +
+                            // player.get().getPosition())))
                             .ifPresent(w -> {
 
-                                    this.player.get().counterForce();
-                                }
-                            );
+                                this.player.get().counterForce();
+                            });
                 });
             }
 

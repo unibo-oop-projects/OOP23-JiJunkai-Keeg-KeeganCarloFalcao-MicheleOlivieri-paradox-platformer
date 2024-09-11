@@ -1,7 +1,6 @@
 package com.project.paradoxplatformer.model.obstacles.abstracts;
 
 import java.util.Optional;
-import java.util.Queue;
 
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.damageableobstacles.DamageableObstacle;

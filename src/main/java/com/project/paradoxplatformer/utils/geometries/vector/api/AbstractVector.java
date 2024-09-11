@@ -41,7 +41,7 @@ public sealed abstract class AbstractVector implements Vector2D permits Simple2D
 
     @Override
     public String toString() {
-        return "AbstractVector [pol=" + cartesian + "]";
+        return "{" + cartesian + ", Mag: " + magnitude + "}";
     }
 
     

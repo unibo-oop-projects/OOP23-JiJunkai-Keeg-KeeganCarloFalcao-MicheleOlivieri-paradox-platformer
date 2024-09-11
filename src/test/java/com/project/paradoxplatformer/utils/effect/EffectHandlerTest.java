@@ -7,7 +7,6 @@ import java.util.concurrent.CompletableFuture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Optional;
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.api.Button;
@@ -25,7 +24,7 @@ public class EffectHandlerTest {
 
     @BeforeEach
     public void setUp() {
-        effectHandler = EffectHandler.createDefaultEffectHandler();
+        effectHandler = new EffectHandlerFactoryImpl().defaultEffectHandler();
         collisionManager = new CollisionManager(effectHandler);
 
         // Mock CollidableGameObjects

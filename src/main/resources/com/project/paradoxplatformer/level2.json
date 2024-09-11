@@ -1,83 +1,90 @@
 {
 	"type": "platformer",
-	"height": 450,
-	"width": 720,
+	"height": 360,
+	"width": 640,
 	"gameDTOs": [
 		{
 			"type": "player",
-			"x": 25,
-			"y": 110,
+			"x": 20,
+			"y": 100,
 			"width": 18,
 			"height": 38,
 			"subtype": "",
 			"image": "player.png",
-			"nframe": 4
-		},
-		{
-			"type": "obstacle",
-			"x": 0,
-			"y": 60,
-			"width": 280,
-			"height": 120,
-			"subtype": "Platform",
-			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
-				"alpha": 1
+			"spriteMeta": {
+				"special": true,
+				"idleFrames": 5,
+				"runningFrames": 8,
+				"jumpingFrames": 0,
+				"fallingFrames": 1,
+				"minFrames": 10
 			}
 		},
 		{
 			"type": "obstacle",
-			"x": 320,
-			"y": 60,
+			"x": 0,
+			"y": 0,
 			"width": 250,
-			"height": 120,
+			"height": 100,
 			"subtype": "Platform",
 			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
+				"blu": 42,
+				"red": 180,
+				"green": 77,
+				"alpha": 1
+			}
+		},
+		{
+			"type": "obstacle",
+			"x": 330,
+			"y": 0,
+			"width": 310,
+			"height": 100,
+			"subtype": "Platform",
+			"color": {
+				"blu": 42,
+				"red": 180,
+				"green": 77,
 				"alpha": 1
 			}
 		},
 		{
 			"type": "obstacle",
 			"x": 0,
-			"y": 370,
-			"width": 720,
-			"height": 60,
+			"y": 310,
+			"width": 640,
+			"height": 50,
 			"subtype": "Platform",
 			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
+				"blu": 42,
+				"red": 180,
+				"green": 77,
 				"alpha": 1
 			}
 		},
 		{
 			"type": "obstacle",
-			"x": 350,
-			"y": 120,
-			"width": 40,
-			"height": 120,
+			"x": 300,
+			"y": 100,
+			"width": 30,
+			"height": 100,
 			"subtype": "Wall",
 			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
+				"blu": 42,
+				"red": 180,
+				"green": 77,
 				"alpha": 1
 			},
 			"traj": [
 				{
-					"x": 180,
-					"y": 120,
-					"duration": 3,
+					"x": 150,
+					"y": 100,
+					"duration": 2,
 					"vector": "DISPLACEMENT"
 				},
 				{
-					"x": 180,
-					"y": 70,
+					"x": 150,
+					"y": 50,
 					"duration": 1,
 					"vector": "HEIGHT"
 				}
@@ -85,54 +92,41 @@
 		},
 		{
 			"type": "obstacle",
-			"x": 290,
-			"y": 50,
-			"width": 90,
-			"height": 120,
+			"x": 250,
+			"y": 0,
+			"width": 80,
+			"height": 100,
 			"subtype": "Wall",
 			"color": {
-				"blu": 30,
-				"red": 190,
-				"green": 90,
+				"blu": 42,
+				"red": 180,
+				"green": 77,
 				"alpha": 1
 			},
 			"traj": [
 				{
-					"x": 290,
-					"y": -110,
-					"duration": 4,
+					"x": 250,
+					"y": -100,
+					"duration": 3,
 					"vector": "DISPLACEMENT"
 				}
 			]
 		},
 		{
 			"type": "trigger",
-			"x": 450,
-			"y": 120,
-			"width": 40,
-			"height": 120,
+			"x": 390,
+			"y": 100,
+			"width": 20,
+			"height": 20,
 			"subtype": "Button",
-			"color": {
-				"blu": 190,
-				"red": 190,
-				"green": 190,
-				"alpha": 1
-			},
-			"traj": [
-				{
-					"x": 450,
-					"y": 220,
-					"duration": 1.5,
-					"vector": "HEIGHT"
-				}
-			]
+			"image": "button.png"
 		},
 		{
 			"type": "obstacle",
-			"x": 240,
-			"y": 120,
-			"width": 70,
-			"height": 70,
+			"x": 200,
+			"y": 110,
+			"width": 20,
+			"height": 20,
 			"subtype": "DeathCoin",
 			"image": "coin.png"
 		}

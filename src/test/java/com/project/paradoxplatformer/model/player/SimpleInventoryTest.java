@@ -20,8 +20,8 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 public class SimpleInventoryTest {
-    private static final double COIN_POSITION_X_2 = 20;
-    private static final double COIN_POSTION_X_1 = 50;
+    private static final double COIN_POSITION_X_2 = 50;
+    private static final double COIN_POSITION_X_1 = 20;
 
     @Test
     void simpleCollectingItem() {
@@ -50,7 +50,7 @@ public class SimpleInventoryTest {
     void collectingWithCollision() {
 
         final PlayerModel player = new PlayerModel();
-        final CollectableGameObject coin = new Coin(new Coord2D(COIN_POSTION_X_1, 0), new Dimension(20, 20));
+        final CollectableGameObject coin = new Coin(new Coord2D(COIN_POSITION_X_1, 0), new Dimension(20, 20));
         final CollectableGameObject coin2 = new Coin(new Coord2D(COIN_POSITION_X_2, 0), new Dimension(20, 20));
 
         final EffectHandler effectHandler = new EffectHandler();

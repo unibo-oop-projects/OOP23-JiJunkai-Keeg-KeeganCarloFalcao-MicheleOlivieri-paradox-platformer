@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.view.game;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,9 +12,7 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
-import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
-import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -38,7 +37,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
 
     private final LevelDTO packedData;
     private final SecureWrapper<GraphicContainer<C, ?>> container;
-    private Set<GraphicAdapter<C>> setComponents;
+    private List<GraphicAdapter<C>> setComponents;
     private final ViewMappingFactory<C> viewMappingFactory;
     private OffsetCorrector offsetCorrector;
     private boolean isFlipped;
@@ -51,7 +50,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         this.viewMappingFactory = factory;
         this.container = SecureWrapper.of(g);// TO FIX
         this.offsetCorrector = null;
-        this.setComponents = new HashSet<>();
+        this.setComponents = new ArrayList<>();
         this.isFlipped = false;
     }
 
@@ -70,7 +69,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
                                 Collectors.mapping(this.viewMappingFactory.imageToView()::map, Collectors.toList())),
                         Collectors.filtering(g -> Objects.nonNull(g.getColor()),
                                 Collectors.mapping(this.viewMappingFactory.blockToView()::map, Collectors.toList())),
-                        (l1, l2) -> Stream.of(l1, l2).flatMap(List::stream).collect(Collectors.toSet())));
+                        (l1, l2) -> Stream.of(l1, l2).flatMap(List::stream).collect(Collectors.toList())));
 
         this.setComponents.stream()
                 .filter(this.container.get()::render)
@@ -86,9 +85,9 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     }
 
     @Override
-    public Set<GraphicAdapter<C>> getUnmodifiableControls() {
-        return Optional.ofNullable(Collections.unmodifiableSet(this.setComponents))
-                .orElse(Collections.emptySet());
+    public List<GraphicAdapter<C>> getUnmodifiableControls() {
+        return Optional.ofNullable(Collections.unmodifiableList(this.setComponents))
+                .orElse(Collections.emptyList());
     }
 
     @Override
@@ -108,6 +107,10 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         graph.setPosition(c.x(), c.y());
         graph.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
 
+        if (graph instanceof FXSpriteAdapter spriAdapter && !spriAdapter.isSpecial()) {
+            spriAdapter.animate(SpriteStatus.IDLE);
+        }
+
         if (mutEntity.getCollisionType().equals(CollisionType.PLAYER)) {
             // JUST FOR TESTING, MUST DO BETTER
             if (mutEntity.getSpeed().xComponent() < 0 && !this.isFlipped) {
@@ -121,8 +124,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
             // System.out.println("[Player Position]: " + mutEntity.getSpeed());
 
             if (graph instanceof FXSpriteAdapter spriAdapter) {
-                spriAdapter.animate(mutEntity.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
-
+                spriAdapter.animate(mutEntity.getSpeed().magnitude() > mutEntity.getBaseDelta() ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
             }
         }
     }

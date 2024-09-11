@@ -11,4 +11,6 @@ public interface MutableObject extends CollidableGameObject {
     public int getID();
 
     public Vector2D getSpeed();
+
+    public double getBaseDelta();
 }

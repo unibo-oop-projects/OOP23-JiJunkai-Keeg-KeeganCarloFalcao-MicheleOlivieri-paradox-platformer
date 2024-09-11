@@ -2,6 +2,8 @@ package com.project.paradoxplatformer.controller.games;
 
 import com.google.common.collect.Sets;
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
+import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
+import com.project.paradoxplatformer.controller.gameloop.TaskLoopFactory;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
@@ -12,10 +14,12 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
-import com.project.paradoxplatformer.utils.effect.EffectHandler;
+import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.view.ViewNavigator;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
@@ -24,6 +28,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
+import java.beans.EventHandler;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -49,6 +54,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final CollisionManager collisionManager;
 
     private final Random rand = new Random();
+    private final ViewNavigator viewNavigator = ViewNavigator.getInstance();
+    private ObservableLoopManager gameManager;
 
     /**
      * A generic constuctor of a gamecontroller.
@@ -62,7 +69,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
-        this.collisionManager = new CollisionManager(EffectHandler.createDefaultEffectHandler());
+        this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().defaultEffectHandler());
     }
 
     @Override
@@ -130,15 +137,15 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     @Override
     public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, String type) {
         this.setupGameMode(gameModel.getWorld().player(), type);
-        new GameLoopFactoryImpl(dt -> {
+        this.gameManager = new GameLoopFactoryImpl(dt -> {
             ic.checkPool(
                     inputer.getKeyAssetter(),
                     gameModel.getWorld().player(),
                     ControllableObject::stop);
             this.update(dt);
-        })
-                .animationLoop()
-                .start();
+        }).animationLoop();
+        this.gameManager.start();
+
     }
 
     private void setupGameMode(ControllableObject player, String type) {
@@ -156,12 +163,21 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
      */
     public void update(final long dt) {
         if (Objects.nonNull(gamePairs)) {
-            gamePairs.forEach((m, g) -> m.updateState(dt));
 
+            gamePairs.forEach((m, g) -> m.updateState(dt));
             CollidableGameObject player = this.gameModel.getWorld().player();
 
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
+
+            if (player.getPosition().x() > 600) {
+                try {
+                    this.gameManager.stop();
+                    this.viewNavigator.goToLevelTwo();
+                } catch (InvalidResourceException e) {
+                    e.printStackTrace();
+                }
+            }
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
             this.resync();

@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
+import com.project.paradoxplatformer.controller.deserialization.dtos.SpriteDTO;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -12,8 +13,9 @@ import javafx.scene.image.Image;
 public final class FXSpriteAdapter extends FXImageAdapter implements Spriteable<SpriteStatus>{
 
     private SpriteAnimator<Image> spriteAnimator;
+    private boolean isSpecial;
 
-    protected FXSpriteAdapter(Dimension dimension, Coord2D position, String imageURL, final int minFrames) throws InvalidResourceException {
+    protected FXSpriteAdapter(Dimension dimension, Coord2D position, String imageURL, final SpriteDTO spriteMeta) throws InvalidResourceException {
         super(dimension, position, imageURL);
         this.spriteAnimator = new SpriteAnimator<Image>(
                     new FXSpriterSetter(
@@ -22,15 +24,22 @@ public final class FXSpriteAdapter extends FXImageAdapter implements Spriteable<
                                     imgComponent.getImage().getWidth(),
                                     imgComponent.getImage().getHeight()
                                 ),
-                            dimension
+                            dimension,
+                            spriteMeta
                         ),
-                    minFrames
+                    spriteMeta.getMinFrames()
                 );
+        this.isSpecial = spriteMeta.isSpecial();
     }
 
     @Override
     public void animate(SpriteStatus status) {
         this.spriteAnimator.selectFrame(status, imgComponent::setImage);
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return this.isSpecial;
     }
     
 }

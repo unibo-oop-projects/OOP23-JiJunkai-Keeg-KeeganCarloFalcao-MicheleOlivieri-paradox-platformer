@@ -46,6 +46,10 @@ public abstract class AbstractTrasformableObject extends AbstractPositionableObj
         return Polar2DVector.nullVector();
     }
     
+    @Override
+    public double getBaseDelta() {
+        return 0;
+    }
 
     
 }

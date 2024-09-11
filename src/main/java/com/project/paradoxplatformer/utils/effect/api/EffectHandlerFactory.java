@@ -6,9 +6,5 @@ public interface EffectHandlerFactory {
 
     EffectHandler defaultEffectHandler();
 
-    EffectHandler levelOneEffectHandler();
-
-    EffectHandler levelTwoEffectHandler();
-
-    EffectHandler levelThreeEffectHandler();
+    EffectHandler getEffectHandlerForLevel(Level level);
 }

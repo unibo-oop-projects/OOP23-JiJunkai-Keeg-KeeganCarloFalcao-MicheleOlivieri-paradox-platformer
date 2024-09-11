@@ -15,7 +15,7 @@ public class SwingMapperFactoryImpl implements ViewMappingFactory<JComponent>{
         return g -> new SwingImageAdapter(
             new Dimension(g.getWidth(), g.getHeight()),
             new Coord2D(g.getX(), g.getY()),
-            g.getImage(), g.getFrames()
+            g.getImage(), g.getSpriteMeta().getMinFrames()
         );
     }
 

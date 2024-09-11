@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
+import java.util.Objects;
+
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
@@ -30,11 +32,11 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
 
     private GraphicAdapter<Node> reckonImageFromSprite(GameDTO g) {
         try {
-            return g.getFrames() > 0 ? new FXSpriteAdapter(
+            return Objects.nonNull(g.getSpriteMeta()) ? new FXSpriteAdapter(
                     new Dimension(g.getWidth(), g.getHeight()),
                     new Coord2D(g.getX(), g.getY()),
                     g.getImage(), 
-                    g.getFrames()
+                    g.getSpriteMeta()
                 ) :
                 new FXImageAdapter(
                     new Dimension(g.getWidth(), g.getHeight()),

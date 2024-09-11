@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
@@ -70,10 +69,11 @@ public final class PlatfromModelData implements GameModelData {
 
 	private Collection<GameDTO> findGameDTOData(final String attribute) {
 		return Optional.of(
-				Set.of(packedData.getGameDTOs())
-						.stream()
-						.filter(g -> g.getType().equals(attribute))
-						.toList())
+					List.of(packedData.getGameDTOs())
+							.stream()
+							.filter(g -> g.getType().equals(attribute))
+							.toList()
+				)
 				.filter(not(List::isEmpty))
 				.orElseThrow(
 						() -> new IllegalArgumentException(

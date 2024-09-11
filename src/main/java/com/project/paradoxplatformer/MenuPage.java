@@ -4,23 +4,17 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.view.ElementDecorator;
 import com.project.paradoxplatformer.view.EventBinder;
 import com.project.paradoxplatformer.view.ViewNavigator;
 
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.animation.Transition;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.effect.Bloom;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 public class MenuPage extends AbstractThreadedPage implements Initializable {
@@ -29,9 +23,6 @@ public class MenuPage extends AbstractThreadedPage implements Initializable {
 
     @FXML
     private Button settingsButton; // Button to navigate to settings
-
-    @FXML
-    private ImageView insegna;
 
     @FXML
     private ImageView circlesEffects;

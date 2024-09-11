@@ -36,9 +36,6 @@ public class GamePage<V, K> extends AbstractThreadedPage implements Initializabl
     @FXML
     private StackPane pagePane;
 
-    @FXML
-    private VBox pausePane;
-
     public GamePage() {
         // CREATION COULD BE DONE HERE BUT SINCE FXML NEEDS AN NON-ARGUMENT CONTROCUTOR
         // EVERYTHING IS CREATED IN A SECURE STRICT create(Params) method, (such to
@@ -51,9 +48,6 @@ public class GamePage<V, K> extends AbstractThreadedPage implements Initializabl
     @FXML
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pausePane.setVisible(false);
-        pausePane.prefHeightProperty().bind(gamePane.heightProperty());
-        pausePane.prefWidthProperty().bind(gamePane.widthProperty().multiply(.3));
 
         pagePane.widthProperty().addListener((ob, old, n) -> System.out.println("Width: " + n));
         pagePane.heightProperty().addListener((ob, old, n) -> System.out.println("Height: " + n));

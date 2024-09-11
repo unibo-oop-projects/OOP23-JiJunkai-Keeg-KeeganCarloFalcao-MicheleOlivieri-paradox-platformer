@@ -21,6 +21,7 @@ public class CollisionManager {
     }
 
     private void updateEffectHandler(EffectHandler newEffectHandler, Object extra) {
+        System.out.println("CollisionManger updating its effecthandler.");
         this.effectHandler = newEffectHandler;
     }
 

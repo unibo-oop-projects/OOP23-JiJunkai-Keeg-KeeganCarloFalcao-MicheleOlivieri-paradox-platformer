@@ -5,6 +5,7 @@ import java.util.concurrent.CountDownLatch;
 import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.EventType;
 import com.project.paradoxplatformer.utils.ExceptionUtils;
+import com.project.paradoxplatformer.utils.Level;
 import com.project.paradoxplatformer.view.ViewManager;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewAdapterFactory;
@@ -42,14 +43,15 @@ public final class SimpleController<N, P, K> implements Controller {
         }
     }
 
-    private void handleViewSwitch(final PageIdentifier id, final String param) {
-        this.switchView(id, param);
+    private void handleViewSwitch(final PageIdentifier id, final Level level) {
+        System.out.println("SIMPLE CONTROLLER FIRST!");
+        this.switchView(id, level);
     }
 
-    private void switchView(final PageIdentifier id, final String param) {
+    private void switchView(final PageIdentifier id, final Level level) {
         try {
-            System.out.println("Switch to" + param);
-            viewManager.switchPage(id).create(param);
+            System.out.println("Switch to" + level);
+            viewManager.switchPage(id).create(level.getResourceFile());
         } catch (Exception ex) {
             viewManager.displayError(ExceptionUtils.advacendDisplay(ex));
             viewManager.safeError();
@@ -57,7 +59,7 @@ public final class SimpleController<N, P, K> implements Controller {
     }
 
     private void initRoutine() {
-        EventManager.getInstance().publish(EventType.INITIALIZE, PageIdentifier.MENU, "");
-        EventManager.getInstance().unsubscribe(EventType.INITIALIZE);
+        EventManager.getInstance().publish(EventType.INITIALIZE, PageIdentifier.MENU, Level.EMPTY_LEVEL);
+        // EventManager.getInstance().unsubscribe(EventType.INITIALIZE);
     }
 }

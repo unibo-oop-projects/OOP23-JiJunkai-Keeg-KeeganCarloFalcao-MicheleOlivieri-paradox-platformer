@@ -1,14 +1,12 @@
 package com.project.paradoxplatformer.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 public class EventManager {
 
     private static EventManager instance;
-    private final Map<EventType, Object> eventMap = new HashMap<>();
+    private final Map<EventType, List<BiConsumer<?, ?>>> eventMap = new HashMap<>();
 
     private EventManager() {
     }
@@ -24,24 +22,34 @@ public class EventManager {
         return instance;
     }
 
-    // Method to subscribe to events with specific parameter types
+    // Subscribe to an event with specific parameter types
     public <T, U> void subscribe(EventType eventName, BiConsumer<T, U> action) {
-        eventMap.put(eventName, action);
+        System.out.println("A new subscriptions!! from :" + action);
+        eventMap.computeIfAbsent(eventName, k -> new ArrayList<>()).add(action);
     }
 
-    // Method to publish events with specific parameter types
+    // Publish an event with specific parameter types, using a copied list to ensure
+    // safe iteration
     @SuppressWarnings("unchecked")
     public <T, U> void publish(EventType eventName, T param1, U param2) {
-        Optional.of(eventName)
-                .filter(eventMap::containsKey)
-                .map(eventMap::get)
-                .map(action -> (BiConsumer<T, U>) action)
-                .ifPresentOrElse(
-                        action -> action.accept(param1, param2),
-                        () -> System.out.println("Could not find event " + eventName + ", event not published"));
+        System.out.println("Published!!!");
+        List<BiConsumer<?, ?>> actions = eventMap.get(eventName);
+        if (actions != null) {
+            List<BiConsumer<?, ?>> actionsCopy = new ArrayList<>(actions); // Copy to avoid concurrent modification
+            Collections.reverse(actionsCopy);
+            System.out.println("There are " + actionsCopy.size() + " to complete.");
+            for (BiConsumer<?, ?> action : actionsCopy) {
+                ((BiConsumer<T, U>) action).accept(param1, param2);
+            }
+        } else {
+            System.out.println("No event found for " + eventName);
+        }
     }
 
-    public void unsubscribe(final EventType eventName) {
-        this.eventMap.remove(eventName);
+    public <T, U> void unsubscribe(EventType eventName, BiConsumer<T, U> action) {
+        List<BiConsumer<?, ?>> actions = eventMap.get(eventName);
+        if (actions != null) {
+            actions.remove(action);
+        }
     }
 }

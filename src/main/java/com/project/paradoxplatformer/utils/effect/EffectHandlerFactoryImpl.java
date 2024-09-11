@@ -55,7 +55,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.TRIGGER,
                 () -> new ChangeLevelEffect(Level.LEVEL_TWO, level -> {
                     try {
-                        ViewNavigator.getInstance().openView(PageIdentifier.GAME, level.getResourceFile());
+                        ViewNavigator.getInstance().openView(PageIdentifier.GAME, level);
                     } catch (InvalidResourceException e) {
                         e.printStackTrace();
                     }
@@ -75,7 +75,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.TRIGGER,
                 () -> new ChangeLevelEffect(Level.LEVEL_THREE, level -> {
                     try {
-                        ViewNavigator.getInstance().openView(PageIdentifier.GAME, level.getResourceFile());
+                        ViewNavigator.getInstance().openView(PageIdentifier.GAME, level);
                     } catch (InvalidResourceException e) {
                         e.printStackTrace();
                     }
@@ -95,7 +95,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.TRIGGER,
                 () -> new ChangeLevelEffect(Level.LEVEL_FOUR, level -> {
                     try {
-                        ViewNavigator.getInstance().openView(PageIdentifier.GAME, level.getResourceFile());
+                        ViewNavigator.getInstance().openView(PageIdentifier.GAME, level);
                     } catch (InvalidResourceException e) {
                         e.printStackTrace();
                     }
@@ -115,7 +115,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.TRIGGER,
                 () -> new ChangeLevelEffect(Level.LEVEL_ONE, level -> {
                     try {
-                        ViewNavigator.getInstance().openView(PageIdentifier.GAME, level.getResourceFile());
+                        ViewNavigator.getInstance().openView(PageIdentifier.GAME, level);
                     } catch (InvalidResourceException e) {
                         e.printStackTrace();
                     }

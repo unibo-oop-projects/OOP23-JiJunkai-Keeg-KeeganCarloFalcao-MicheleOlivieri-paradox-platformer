@@ -9,4 +9,6 @@ public final class Platform extends AbstractObstacle{
     public Platform(Coord2D position, Dimension dimension) {
         super(position, dimension);
     }
+
+    
 }

@@ -3,7 +3,12 @@ package com.project.paradoxplatformer.controller.gameloop;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.text.ViewFactory;
+
+import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
+import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
 import javafx.animation.AnimationTimer;
 
@@ -110,8 +115,14 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
             final long delta = lastFrame != 0 ? now - lastFrame : 0;
             this.lastFrame = now;
             final long dt = TimeUnit.NANOSECONDS.toMillis(delta);
-            loop.loop(dt);
-            GameLoopFactoryImpl.this.delay(dt);
+            try {
+                loop.loop(dt);    
+                GameLoopFactoryImpl.this.delay(dt);
+            } catch (Exception e) {
+                this.stop();
+                System.err.println(ExceptionUtils.advacendDisplay(e));
+                ViewLegacy.javaFxFactory().mainAppManager().get().safeError();
+            }
         }
 
         @Override

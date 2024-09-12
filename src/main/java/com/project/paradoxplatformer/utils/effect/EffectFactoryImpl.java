@@ -1,28 +1,107 @@
-// package com.project.paradoxplatformer.utils.effect;
+package com.project.paradoxplatformer.utils.effect;
 
-// import java.util.concurrent.CompletableFuture;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
-// import com.project.paradoxplatformer.model.entity.CollectableGameObject;
-// import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
-// import com.project.paradoxplatformer.model.player.PlayerModel;
-// import com.project.paradoxplatformer.utils.effect.api.Effect;
+import com.project.paradoxplatformer.model.entity.CollectableGameObject;
+import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
+import com.project.paradoxplatformer.model.obstacles.Wall;
+import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.utils.EventManager;
+import com.project.paradoxplatformer.utils.effect.api.Effect;
+import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
-// public class EffectFactoryImpl implements EffectsFactory {
+import static com.project.paradoxplatformer.utils.OptionalUtils.peek;
 
-// @Override
-// public Effect collectingEffect(final PlayerModel player) {
-// return t -> CompletableFuture.runAsync(() -> {
-// t.filter(CollectableGameObject.class::isInstance)
-// .map(CollectableGameObject.class::cast)
-// .ifPresent(player::collectItem);
-// });
-// }
+public class EffectFactoryImpl implements EffectsFactory {
 
-// @Override
-// public Effect transitionEffect(final TrajectoryInfo traj) {
-// // TODO Auto-generated method stub
-// throw new UnsupportedOperationException("Unimplemented method
-// 'movingEffect'");
-// }
+    @Override
+    public Effect collectingEffect() {
+        return new AbstractOneTimeEffect() {
 
-// }
+            private Optional<PlayerModel> player = Optional.empty();
+
+            @Override
+            protected CompletableFuture<Void> applyToTarget(Optional<? extends CollidableGameObject> target) {
+                return target.map(gameObject -> {
+                    System.out.println("Target → " + target.get());
+                    if (gameObject instanceof PlayerModel pl) {
+                        this.player = Optional.of(pl);
+                    }
+                    return applyToGameObject(gameObject);
+                }).orElseGet(Effect::empty);
+            }
+
+            @Override
+            protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
+                return CompletableFuture.runAsync(() -> {
+                    Optional.of(gameObject)
+                            .filter(CollectableGameObject.class::isInstance)
+                            .filter(g -> this.player.isPresent())
+                            .map(CollectableGameObject.class::cast)
+                            .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " collected")))
+                            .ifPresent(this.player.get()::collectItem);
+                });
+            }
+
+            @Override
+            protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
+                return super.applyToSelf(self).thenAccept(obj -> EventManager.getInstance()
+                        .publish(ViewEventType.REMOVE_OBJECT, PageIdentifier.GAME, self));
+            }
+
+        };
+    }
+
+    @Override
+    public Effect transitionEffect(final TrajectoryInfo traj) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method'movingEffect'");
+    }
+
+    @Override
+    public Effect stoppingEffect() {
+        return new AbstractRecreatableEffect() {
+
+            private Optional<PlayerModel> player = Optional.empty();
+
+            @Override
+            protected CompletableFuture<Void> applyToTarget(Optional<? extends CollidableGameObject> target) {
+                return target.map(gameObject -> {
+                    if (gameObject instanceof PlayerModel pl) {
+                        this.player = Optional.of(pl);
+                    }
+                    return applyToGameObject(gameObject);
+                }).orElseGet(Effect::empty);
+            }
+
+            @Override
+            protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
+                return CompletableFuture.runAsync(() -> {
+                    Optional.of(gameObject)
+                            .filter(Wall.class::isInstance)
+                            .filter(g -> this.player.isPresent())
+                            .map(Wall.class::cast)
+                            // .map(peek(c -> System.out.println(c.getClass().getSimpleName() + "
+                            // stopping")))
+                            // .map(peek(c -> System.out.println("Player pos → " +
+                            // player.get().getPosition())))
+                            .ifPresent(w -> {
+
+                                this.player.get().counterForce();
+                            });
+                });
+            }
+
+            @Override
+            public RecreateableEffect recreate() {
+                return this;
+            }
+
+        };
+    }
+
+}

@@ -1,10 +1,11 @@
 package com.project.paradoxplatformer.utils.sound;
 
 public enum SoundType {
-    OBSTACLE_HIT("obstacle_hit"),
-    TRIGGER_HIT("trigger_hit"),
-    JUMP("jump"),
-    GAME_OVER("game_over");
+    OBSTACLE_HIT("obstacle_hit.wav"),
+    TRIGGER_HIT("trigger_hit.wav"),
+    JUMP("jump.wav"),
+    GAME_OVER("game_over.wav"),
+    GAME_WIN("game_win.wav");
 
     private final String soundName;
 

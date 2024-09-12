@@ -47,6 +47,11 @@ public class ViewLegacy {
             public Supplier<ViewManager> mainAppManager() {
                 return JavaFxApp::getInstance;
             }
+
+            @Override
+            public Pane loadingPage() {
+                return new StackPane(new Label("LOADING..."));
+            }
             
         };
     }
@@ -72,6 +77,11 @@ public class ViewLegacy {
             @Override
             public Supplier<ViewManager> mainAppManager() {
                 return SwingApp::new;
+            }
+
+            @Override
+            public JPanel loadingPage() {
+                return this.blankPage();
             }
             
         };

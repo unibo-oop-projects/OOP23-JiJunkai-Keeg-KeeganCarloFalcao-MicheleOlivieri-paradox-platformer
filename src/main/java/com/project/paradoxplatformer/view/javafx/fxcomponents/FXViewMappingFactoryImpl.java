@@ -30,7 +30,6 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
 
     private GraphicAdapter<Node> reckonImageFromSprite(GameDTO g) {
         try {
-            System.out.println(g.getFrames());
             return g.getFrames() > 0 ? new FXSpriteAdapter(
                     new Dimension(g.getWidth(), g.getHeight()),
                     new Coord2D(g.getX(), g.getY()),

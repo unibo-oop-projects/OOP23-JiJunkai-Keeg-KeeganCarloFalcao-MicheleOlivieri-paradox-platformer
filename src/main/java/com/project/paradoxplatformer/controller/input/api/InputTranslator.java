@@ -12,10 +12,11 @@ import java.util.Optional;
 @FunctionalInterface
 public interface InputTranslator<K> {
     /**
-     * translates.
+     * translates an external keyboard related keys to a common protocol know as {@link InputType}, which allows controller or model's
+     * classes to communicate to view without changing their implementation to use view-related Key classes 
      * @param keyType type of view key
-     * @return {@code Optional<InputType>} in case translate was not possible. Most probably {@code InputType} 
-     * has not updated its costants
+     * @return {@code Optional<InputType>} in case translate was not possible. In case it happens it mostly due to {@code InputType} 
+     * enum has not updated its costants yet.
      */
     Optional<InputType> translate(K keyType);
 }

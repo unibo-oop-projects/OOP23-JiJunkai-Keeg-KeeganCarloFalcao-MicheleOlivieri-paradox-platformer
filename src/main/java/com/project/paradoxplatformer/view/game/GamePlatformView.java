@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
-import com.project.paradoxplatformer.model.entity.MutableObject;
-import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.utils.SecureWrapper;
+import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.orientations.GraphicOffsetCorrector;
 import com.project.paradoxplatformer.utils.geometries.orientations.OffsetCorrector;
@@ -22,6 +22,7 @@ import com.project.paradoxplatformer.utils.geometries.orientations.factory.Offse
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
+import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.FXSpriteAdapter;
 
@@ -41,14 +42,12 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     private boolean isFlipped;
 
     public GamePlatformView(
-        final LevelDTO packedData,
-        final GraphicContainer<C, ?> g,
-        final ViewMappingFactory<C> factory
-    ) 
-    {
+            final LevelDTO packedData,
+            final GraphicContainer<C, ?> g,
+            final ViewMappingFactory<C> factory) {
         this.packedData = packedData;
         this.viewMappingFactory = factory;
-        this.container = SecureWrapper.of(g);//TO FIX
+        this.container = SecureWrapper.of(g);// TO FIX
         this.offsetCorrector = null;
         this.setComponents = new HashSet<>();
         this.isFlipped = false;
@@ -56,43 +55,38 @@ public final class GamePlatformView<C, K> implements GameView<C> {
 
     @Override
     public void init() {
-        //NEED TO FIX, MAKE A BINDING OR SOME
-        //CANT CHANGE CONTAINER DIMENSION HERE
-        //CHECK::DONE
+        // NEED TO FIX, MAKE A BINDING OR SOME
+        // CANT CHANGE CONTAINER DIMENSION HERE
+        // CHECK::DONE
         final var gContainer = container.get();
         final Pair<DoubleProperty, DoubleProperty> dimScalingPropeties = this.initializePropreties(gContainer);
-        gContainer.setDimension(this.packedData.getWidth(),this.packedData.getHeight());
-        
+        gContainer.setDimension(this.packedData.getWidth(), this.packedData.getHeight());
+
         this.setComponents = Arrays.stream(this.packedData.getGameDTOs())
-            .collect(Collectors.teeing(
-                Collectors.filtering(g -> Objects.nonNull(g.getImage()),
-                    Collectors.mapping(this.viewMappingFactory.imageToView()::map, Collectors.toList()) 
-                ),
-                Collectors.filtering(g -> Objects.nonNull(g.getColor()),
-                    Collectors.mapping(this.viewMappingFactory.blockToView()::map, Collectors.toList()) 
-                ),
-                (l1, l2) -> Stream.of(l1, l2).flatMap(List::stream).collect(Collectors.toSet())
-            ));
+                .collect(Collectors.teeing(
+                        Collectors.filtering(g -> Objects.nonNull(g.getImage()),
+                                Collectors.mapping(this.viewMappingFactory.imageToView()::map, Collectors.toList())),
+                        Collectors.filtering(g -> Objects.nonNull(g.getColor()),
+                                Collectors.mapping(this.viewMappingFactory.blockToView()::map, Collectors.toList())),
+                        (l1, l2) -> Stream.of(l1, l2).flatMap(List::stream).collect(Collectors.toSet())));
 
         this.setComponents.stream()
-            .filter(this.container.get()::render)
-            .forEach(o -> o.bindPropreties(
-                dimScalingPropeties.getKey().divide(this.packedData.getWidth()),
-                dimScalingPropeties.getValue().divide(this.packedData.getHeight()))
-            );
+                .filter(this.container.get()::render)
+                .forEach(o -> o.bindPropreties(
+                        dimScalingPropeties.getKey().divide(this.packedData.getWidth()),
+                        dimScalingPropeties.getValue().divide(this.packedData.getHeight())));
 
         final OffsetFactory factory = new OffsetFactoryImpl(this.dimension());
         this.offsetCorrector = new GraphicOffsetCorrector(
-            factory.bottomLeft(), //BETTER SEPARATE LAYOUT AND BOX IN FACTORY, MAKE A LIST
-            factory.boxOffset(),// SO CAN USE REDUCE IN IMPLEMENTATIOn
-            new Simple2DVector(1, -1)
-        );
+                factory.bottomLeft(), // BETTER SEPARATE LAYOUT AND BOX IN FACTORY, MAKE A LIST
+                factory.boxOffset(), // SO CAN USE REDUCE IN IMPLEMENTATIOn
+                new Simple2DVector(1, -1));
     }
 
     @Override
     public Set<GraphicAdapter<C>> getUnmodifiableControls() {
         return Optional.ofNullable(Collections.unmodifiableSet(this.setComponents))
-            .orElse(Collections.emptySet());
+                .orElse(Collections.emptySet());
     }
 
     @Override
@@ -101,25 +95,31 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     }
 
     @Override
-    public void updateEnitityState(MutableObject mutEntity, GraphicAdapter<C> graphicCompo) {
+    public void updateControlState(ReadOnlyMutableObjectWrapper mutEntity, ReadOnlyGraphicDecorator<C> graphicCompo) {
+
+        var graph = this.setComponents.stream()
+            .filter(g -> graphicCompo.equals(g))
+            .findFirst()
+            .orElseThrow(() -> new IllegalStateException("Could not find graphic in current set of components"));
 
         final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());
-        graphicCompo.setPosition(c.x(), c.y());
-        graphicCompo.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
-        
-        if(mutEntity instanceof PlayerModel pl) {
-            //JUST FOR TESTING, MUST DO BETTER
-            if(pl.getSpeed().xComponent() < 0 && !this.isFlipped) {
-                graphicCompo.flip();
+        graph.setPosition(c.x(), c.y());
+        graph.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
+
+        if (mutEntity.getCollisionType().equals(CollisionType.PLAYER)) {
+            // JUST FOR TESTING, MUST DO BETTER
+            if (mutEntity.getSpeed().xComponent() < 0 && !this.isFlipped) {
+                graph.flip();
                 this.isFlipped = true;
-            } else if(pl.getSpeed().xComponent() > 0 && this.isFlipped) {
-                graphicCompo.flip();
+            } else if (mutEntity.getSpeed().xComponent() > 0 && this.isFlipped) {
+                graph.flip();
                 this.isFlipped = false;
             }
-            
-            if(graphicCompo instanceof FXSpriteAdapter spriAdapter) { 
-                spriAdapter.animate(pl.getSpeed().magnitude() > 0 ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
-                
+
+            // System.out.println("[Player Position]: " + mutEntity.getSpeed());
+
+            if (graph instanceof FXSpriteAdapter spriAdapter) {
+                spriAdapter.animate(mutEntity.getSpeed().magnitude() > mutEntity.getBaseDelta() ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
             }
         }
     }
@@ -132,5 +132,5 @@ public final class GamePlatformView<C, K> implements GameView<C> {
         heightBinding.bind(gContainer.heightProperty());
         return Pair.of(widthBinding, heightBinding);
     }
-    
+
 }

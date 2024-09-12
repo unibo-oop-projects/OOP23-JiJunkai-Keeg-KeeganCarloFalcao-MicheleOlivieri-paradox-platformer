@@ -25,7 +25,7 @@ public class EffectHandlerTest {
 
     @BeforeEach
     public void setUp() {
-        effectHandler = EffectHandler.createDefaultEffectHandler();
+        effectHandler = new EffectHandlerFactoryImpl().defaultEffectHandler();
         collisionManager = new CollisionManager(effectHandler);
 
         // Mock CollidableGameObjects

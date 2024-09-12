@@ -11,4 +11,6 @@ public interface GameObject {
 
     public void setPosition(Coord2D position);
 
+    public void setDimension(final Dimension dimension);
+
 }

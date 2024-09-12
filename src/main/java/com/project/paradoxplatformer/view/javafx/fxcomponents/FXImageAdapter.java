@@ -23,13 +23,12 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
     private final DoubleProperty widthProperty;
     private final DoubleProperty heighProperty;
 
-    // MUST ADD WETHER AN IMAGE IS SPRITEABLE
     protected FXImageAdapter(Dimension dimension, Coord2D position, String imageURL) throws InvalidResourceException {
         super(new ImageView(), dimension, position);
 
         if (this.uiComponent instanceof ImageView imgCopy) {
             this.imgComponent = imgCopy;
-            this.imgComponent.setPreserveRatio(true);
+            // this.imgComponent.setPreserveRatio(true);
             this.imgComponent.setSmooth(true);
             widthProperty = new SimpleDoubleProperty(dimension.width());
             heighProperty = new SimpleDoubleProperty(dimension.height());

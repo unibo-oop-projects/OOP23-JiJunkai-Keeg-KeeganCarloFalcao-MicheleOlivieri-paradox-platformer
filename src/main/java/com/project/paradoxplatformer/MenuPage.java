@@ -16,82 +16,133 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+/**
+ * Controller for the menu page of the game.
+ */
 public class MenuPage extends AbstractThreadedPage {
 
-    protected static final double TRESHOLD_RATIO = 2.2d;
+    // Ratio for adjusting color contrast during animation
+    private static final double TRESHOLD_RATIO = 2.2d;
 
     @FXML
     private Button settingsButton; // Button to navigate to settings
 
     @FXML
-    private ImageView circlesEffects;
+    private ImageView circlesEffects; // Image view for circle effects
 
     @FXML
-    private BorderPane pagePane;
+    private BorderPane pagePane; // Main layout pane
 
     @FXML
-    private Button levelOneButton, levelTwoButton, levelThreeButton, levelFourButton; // Circles representing different
-                                                                                      // game levels
+    private Button levelOneButton, levelTwoButton, levelThreeButton, levelFourButton; // Buttons for different game
+                                                                                      // levels
 
-    private final ViewNavigator viewNavigator = ViewNavigator.getInstance(); // Handles navigation between views
-    Color circleColor = Color.RED; // Color for level circles
+    private final ViewNavigator viewNavigator = ViewNavigator.getInstance(); // Handles view navigation
+    private Color circleColor = Color.RED; // Color for level circles
 
-    private Transition animation;
-
-    private double regWidtht, regHeight;
+    private Transition animation; // Transition for animating circle effects
+    private double regWidtht, regHeight; // Original width and height of the circles image
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        bindEvents(); // Bind UI events to their respective handlers
-        applyEffects();
+        bindEvents(); // Bind UI elements to their event handlers
+        applyEffects(); // Set up visual effects
     }
 
+    /**
+     * Sets up visual effects for the menu page.
+     */
     private void applyEffects() {
         ColorAdjust colorAdj = new ColorAdjust();
-        pagePane.setEffect(colorAdj);
-        this.regWidtht = this.circlesEffects.getFitWidth();
-        this.regHeight = this.circlesEffects.getFitHeight();
+        pagePane.setEffect(colorAdj); // Apply color adjustment effect to the page pane
 
+        // Store the original dimensions of the circles image
+        regWidtht = circlesEffects.getFitWidth();
+        regHeight = circlesEffects.getFitHeight();
+
+        // Define the animation for the circles image
         animation = new Transition() {
             {
-                setCycleDuration(Duration.millis(2000));
+                setCycleDuration(Duration.millis(2000)); // Set duration of the animation
             }
 
+            @Override
             protected void interpolate(double frac) {
-                colorAdj.setContrast(frac / TRESHOLD_RATIO);
-                circlesEffects.setFitHeight(frac * regHeight);
-                circlesEffects.setFitWidth(frac * regWidtht);
+                colorAdj.setContrast(frac / TRESHOLD_RATIO); // Adjust contrast based on animation progress
+                circlesEffects.setFitHeight(frac * regHeight); // Scale the height of the circles image
+                circlesEffects.setFitWidth(frac * regWidtht); // Scale the width of the circles image
             }
-
         };
     }
 
+    /**
+     * Binds event handlers to UI elements using the EventBinder class.
+     */
     private void bindEvents() {
-        // Bind actions to UI elements using EventBinder
-        EventBinder.bindButtons(settingsButton, () -> navigate(viewNavigator::openSettingsView));
-        EventBinder.bindButtons(levelOneButton, () -> navigate(viewNavigator::goToLevelOne));
-        EventBinder.bindButtons(levelTwoButton, () -> navigate(viewNavigator::goToLevelTwo));
-        EventBinder.bindButtons(levelThreeButton, () -> navigate(viewNavigator::goToLevelThree));
-        EventBinder.bindButtons(levelFourButton, () -> navigate(viewNavigator::goToLevelFour));
+        EventBinder.bindButtons(settingsButton, this::navigateToSettings);
+        EventBinder.bindButtons(levelOneButton, this::navigateToLevelOne);
+        EventBinder.bindButtons(levelTwoButton, this::navigateToLevelTwo);
+        EventBinder.bindButtons(levelThreeButton, this::navigateToLevelThree);
+        EventBinder.bindButtons(levelFourButton, this::navigateToLevelFour);
     }
 
+    /**
+     * Navigates to the settings view.
+     */
+    private void navigateToSettings() {
+        navigate(viewNavigator::openSettingsView);
+    }
+
+    /**
+     * Navigates to Level One.
+     */
+    private void navigateToLevelOne() {
+        navigate(viewNavigator::goToLevelOne);
+    }
+
+    /**
+     * Navigates to Level Two.
+     */
+    private void navigateToLevelTwo() {
+        navigate(viewNavigator::goToLevelTwo);
+    }
+
+    /**
+     * Navigates to Level Three.
+     */
+    private void navigateToLevelThree() {
+        navigate(viewNavigator::goToLevelThree);
+    }
+
+    /**
+     * Navigates to Level Four.
+     */
+    private void navigateToLevelFour() {
+        navigate(viewNavigator::goToLevelFour);
+    }
+
+    /**
+     * Performs navigation and handles potential exceptions.
+     * 
+     * @param action The navigation action to perform.
+     */
     private void navigate(NavigationAction action) {
         try {
-            this.animation.stop();
+            animation.stop(); // Stop the animation before navigating
             action.navigate(); // Perform the navigation action
         } catch (InvalidResourceException e) {
-            e.printStackTrace(); // Print error if navigation fails
+            e.printStackTrace(); // Print stack trace if an exception occurs
         }
     }
 
     @Override
     protected void runOnFXThread(String param) {
-        this.animation.play();
+        animation.play(); // Start the animation
         System.out.println("[Main Menu Panel]"); // Debug output or placeholder for actual logic
     }
 
     @Override
     public String toString() {
-        return "New Level Controller";
+        return "Menu Page Controller"; // Return a descriptive name for the controller
     }
 }

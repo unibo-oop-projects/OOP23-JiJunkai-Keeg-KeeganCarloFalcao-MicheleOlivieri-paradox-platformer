@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.utils.effect;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.api.EffectHandlerFactory;
 import com.project.paradoxplatformer.utils.effect.api.Level;
+import com.project.paradoxplatformer.utils.effect.impl.FloorEffect;
 
 public abstract class AbstractEffectHandlerFactory implements EffectHandlerFactory {
 
@@ -11,14 +12,15 @@ public abstract class AbstractEffectHandlerFactory implements EffectHandlerFacto
         handler.addCollisionEffectsForType(CollisionType.PLATFORM, FloorEffect::new);
     }
 
-    // Ogni sottoclasse dovrà implementare i metodi di gestione specifici per ogni livello
+    // Ogni sottoclasse dovrà implementare i metodi di gestione specifici per ogni
+    // livello
     protected abstract EffectHandler createLevelSpecificHandler(Level level);
 
     @Override
     public EffectHandler getEffectHandlerForLevel(Level level) {
         EffectHandler handler = createLevelSpecificHandler(level);
-        addCommonEffects(handler);  // Aggiunge gli effetti comuni (es. FloorEffect)
+        addCommonEffects(handler); // Aggiunge gli effetti comuni (es. FloorEffect)
         return handler;
     }
-    
+
 }

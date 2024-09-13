@@ -7,32 +7,40 @@ import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+/**
+ * Provides utility methods for applying styles to UI elements.
+ * Utilizes builder patterns for styling Button and Circle elements.
+ */
 public class ElementDecorator {
 
     /**
-     * Applies styles to a Button using the ButtonStyleBuilder.
-     * 
+     * Applies a predefined set of styles to a Button.
+     * Uses the ButtonStyleBuilder to set the background color, text color, and font
+     * weight.
+     *
      * @param button The Button to be styled.
      */
     public static void decorateSettingsButton(Button button) {
         new ButtonStyleBuilder(button)
-                .withBackgroundColor("#1e90ff")
-                .withTextColor("white")
-                .withFontWeight("bold")
-                .apply();
+                .withBackgroundColor("#1e90ff") // Sets background color to a shade of blue
+                .withTextColor("white") // Sets text color to white
+                .withFontWeight("bold") // Sets font weight to bold
+                .apply(); // Applies the styles to the Button
     }
 
     /**
-     * Applies styles to a Circle using the CircleStyleBuilder.
-     * 
+     * Applies a predefined set of styles to a Circle.
+     * Uses the CircleStyleBuilder to set the fill color, stroke color, and stroke
+     * width.
+     *
      * @param circle    The Circle to be styled.
      * @param fillColor The color to fill the Circle.
      */
     public static void decorateLevelCircle(Circle circle, Color fillColor) {
         new CircleStyleBuilder(circle)
-                .withFillColor(fillColor)
-                .withStrokeColor(Color.BLACK)
-                .withStrokeWidth(2.0)
-                .apply();
+                .withFillColor(fillColor) // Sets the fill color of the Circle
+                .withStrokeColor(Color.BLACK) // Sets the stroke color to black
+                .withStrokeWidth(2.0) // Sets the stroke width to 2.0
+                .apply(); // Applies the styles to the Circle
     }
 }

@@ -11,7 +11,6 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
-import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
@@ -45,7 +44,7 @@ public class EffectFactoryImpl implements EffectsFactory {
                             .map(CollectableGameObject.class::cast)
                             .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " collected")))
                             .ifPresent(this.player.get()::collectItem);
-                    
+
                 });
             }
 
@@ -95,14 +94,15 @@ public class EffectFactoryImpl implements EffectsFactory {
                             .filter(g -> this.player.isPresent())
                             .map(Wall.class::cast)
                             .ifPresent(w -> {
-                                if(player.get().direction() == Direction.LEFT) {
-                                    this.player.get().setDisplacement(w.getPosition().x() + w.getDimension().width() + TOLERANCE);
-                                }
-                                else if(player.get().direction() == Direction.RIGHT) {
-                                    this.player.get().setDisplacement(w.getPosition().x() - this.player.get().getDimension().width() - TOLERANCE);
+                                if (player.get().direction() == Direction.LEFT) {
+                                    this.player.get().setDisplacement(
+                                            w.getPosition().x() + w.getDimension().width() + TOLERANCE);
+                                } else if (player.get().direction() == Direction.RIGHT) {
+                                    this.player.get().setDisplacement(
+                                            w.getPosition().x() - this.player.get().getDimension().width() - TOLERANCE);
                                 }
                                 System.out.println(this.player.get().toString());
-                                
+
                             });
                 });
             }

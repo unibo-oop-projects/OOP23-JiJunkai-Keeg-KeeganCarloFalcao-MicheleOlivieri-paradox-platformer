@@ -61,6 +61,14 @@ public class ChainOfEffects {
         return future;
     }
 
+    /**
+     * Creates a ChainOfEffects instance from a list of effect suppliers.
+     * Each supplier is used to create an effect, and all effects are added to the
+     * chain.
+     *
+     * @param effectSuppliers the list of suppliers that provide effects
+     * @return a ChainOfEffects instance containing the created effects
+     */
     public static ChainOfEffects create(List<Supplier<Effect>> effectSuppliers) {
         return ChainOfEffects.builder()
                 .addEffects(effectSuppliers.stream().map(Supplier::get).toList())

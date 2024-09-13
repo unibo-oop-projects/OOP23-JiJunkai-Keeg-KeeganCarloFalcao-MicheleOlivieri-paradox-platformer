@@ -11,31 +11,31 @@ public class SettingsPage extends AbstractThreadedPage {
 
     @FXML
     private Slider brightnessSlider;
-    
+
     @FXML
     private Button toggleSoundButton;
-    
+
     @FXML
     private Button saveButton;
-    
+
     private boolean soundEnabled = true; // Example state
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         bindEvents();
     }
-    
+
     private void bindEvents() {
         toggleSoundButton.setOnAction(e -> toggleSound());
         saveButton.setOnAction(e -> saveSettings());
     }
-    
+
     private void toggleSound() {
         soundEnabled = !soundEnabled;
         // Logic to enable/disable sound
         System.out.println("Sound enabled: " + soundEnabled);
     }
-    
+
     private void saveSettings() {
         double brightness = brightnessSlider.getValue();
         // Logic to save brightness settings

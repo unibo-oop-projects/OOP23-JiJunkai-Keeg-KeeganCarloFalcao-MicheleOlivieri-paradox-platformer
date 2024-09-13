@@ -23,9 +23,8 @@ public final class FXMLPageHelper<P> {
     public FXMLPageHelper() throws InvalidResourceException {
         this.fxmlPagesPairing = new EnumMap<>(Map.of(
                 PageIdentifier.MENU, ResourcesFinder.getURL(FXMLViews.MENU.getFileName()),
-                PageIdentifier.GAME, ResourcesFinder.getURL(FXMLViews.GAME.getFileName())
-            )
-        );
+                PageIdentifier.GAME, ResourcesFinder.getURL(FXMLViews.GAME.getFileName()),
+                PageIdentifier.SETTINGS, ResourcesFinder.getURL(FXMLViews.SETTINGS.getFileName())));
     }
 
     public Function<PageIdentifier, Optional<Pair<Parent, P>>> mapper() {
@@ -42,7 +41,9 @@ public final class FXMLPageHelper<P> {
             return Pair.of(parent, controller);
 
         } catch (IOException e) {
-            throw new IllegalStateException("Loading controller from FXML error encountered ", e); //Wraping exception with short message and rethrowing
+            throw new IllegalStateException("Loading controller from FXML error encountered ", e); // Wraping exception
+                                                                                                   // with short message
+                                                                                                   // and rethrowing
         }
     }
 

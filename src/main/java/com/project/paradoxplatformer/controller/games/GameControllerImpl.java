@@ -1,7 +1,6 @@
 package com.project.paradoxplatformer.controller.games;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -9,10 +8,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
@@ -20,20 +16,19 @@ import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.model.effect.EffectHandlerFactoryImpl;
+import com.project.paradoxplatformer.model.effect.ViewEventType;
+import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
-import com.project.paradoxplatformer.model.obstacles.Coin;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.EventManager;
-import com.project.paradoxplatformer.utils.collision.CollisionDetector;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
-import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
-import com.project.paradoxplatformer.utils.effect.ViewEventType;
+import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.ViewNavigator;
@@ -44,9 +39,7 @@ import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.utils.effect.api.Level;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -66,10 +59,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
 
-    private List<MutableObject> objects = new ArrayList<>();
-
     private final Random rand = new Random();
-    private final ViewNavigator viewNavigator = ViewNavigator.getInstance();
     private final EventManager<ViewEventType, PageIdentifier> eventManager;
     private ObservableLoopManager gameManager;
     private final String modelID;

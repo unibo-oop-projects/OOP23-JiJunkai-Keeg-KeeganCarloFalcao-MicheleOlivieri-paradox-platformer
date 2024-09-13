@@ -10,7 +10,6 @@ import java.util.function.Consumer;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.model.GameModelData;
-import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactory;
 import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactoryImpl;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
@@ -68,15 +67,12 @@ public final class PlatfromModelData implements GameModelData {
 				.build();
 	}
 
-	
-
 	private Collection<GameDTO> findGameDTOData(final String attribute) {
 		return Optional.of(
-					List.of(packedData.getGameDTOs())
-							.stream()
-							.filter(g -> g.getType().equals(attribute))
-							.toList()
-				)
+				List.of(packedData.getGameDTOs())
+						.stream()
+						.filter(g -> g.getType().equals(attribute))
+						.toList())
 				.filter(not(List::isEmpty))
 				.orElseThrow(
 						() -> new IllegalArgumentException(

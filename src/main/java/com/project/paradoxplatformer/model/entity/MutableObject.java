@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.model.entity;
 
+import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public interface MutableObject extends CollidableGameObject {

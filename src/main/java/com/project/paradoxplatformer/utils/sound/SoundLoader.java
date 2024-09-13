@@ -6,9 +6,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Utility class for loading and playing sound files asynchronously.
+ */
 public class SoundLoader {
 
-    // Load and play sound from the provided URL
+    /**
+     * Loads and plays a sound from the provided URL.
+     * 
+     * @param soundUrl The URL of the sound file to be played.
+     * @return A CompletableFuture that completes when the sound has finished
+     *         playing.
+     */
     public CompletableFuture<Void> playSound(URL soundUrl) {
         return CompletableFuture.runAsync(() -> {
             try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl)) {
@@ -19,7 +28,7 @@ public class SoundLoader {
                 // Wait for the clip to finish playing
                 clip.drain();
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                throw new RuntimeException("Error on sounds ", e);
+                throw new RuntimeException("Error playing sound", e);
             }
         });
     }

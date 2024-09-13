@@ -83,6 +83,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
+        handler.addCollisionEffectsForType(CollisionType.PLATFORM, FloorEffect::new );
 
         return handler;
     }
@@ -94,6 +95,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
+        handler.addCollisionEffectsForType(CollisionType.PLATFORM, FloorEffect::new);
 
         return handler;
     }

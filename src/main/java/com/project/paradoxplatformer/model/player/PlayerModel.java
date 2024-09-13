@@ -116,6 +116,9 @@ public final class PlayerModel extends AbstractControllableObject {
         handleHorizontalMovement(dt);
         handleVerticalMovement(dt);
         this.setPosition(this.displacement.convert());
+        if (jumpBehavior instanceof PlatformJump platformJump) {
+            platformJump.setFalling(true);
+        }
     }
 
     // Gestione del movimento orizzontale

@@ -32,7 +32,7 @@ public class ViewNavigator {
         openView(PageIdentifier.SETTINGS, Level.EMPTY_LEVEL);
     }
 
-    public void goToMenu() throws InvalidResourceException {
+    public void goToMenu() throws InvalidResourceException{
         openView(PageIdentifier.MENU, Level.EMPTY_LEVEL);
     }
 

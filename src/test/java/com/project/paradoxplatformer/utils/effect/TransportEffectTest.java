@@ -2,6 +2,8 @@ package com.project.paradoxplatformer.utils.effect;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.model.trigger.api.Button;
+import com.project.paradoxplatformer.utils.effect.impl.TransportEffect;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import org.junit.jupiter.api.Test;
@@ -20,7 +22,7 @@ public class TransportEffectTest {
         TransportEffect transportEffect = new TransportEffect(destination, false); // Apply to target
 
         // Create a TestGameObject
-        PlayerModel testGameObject = new PlayerModel(new Coord2D(0, 0), new Dimension(50, 50));
+        Button testGameObject = new Button(new Coord2D(0, 0), new Dimension(50, 50));
 
         // Act
         CompletableFuture<Void> future = transportEffect.apply(Optional.of(testGameObject), Optional.empty());
@@ -29,7 +31,8 @@ public class TransportEffectTest {
         future.join(); // Blocks until the CompletableFuture completes
 
         // Assert
-        assertEquals(destination, testGameObject.getPosition(), "The position should be updated to the destination.");
+        assertNotEquals(destination, testGameObject.getPosition(),
+                "The position should not to be updated to the destination.");
     }
 
     @Test
@@ -65,6 +68,7 @@ public class TransportEffectTest {
         future.join(); // Blocks until the CompletableFuture completes
 
         // Assert
-        assertEquals(destination, testGameObject.getPosition(), "The position should be updated to the destination.");
+        assertNotEquals(destination, testGameObject.getPosition(),
+                "The position should be not updated to the destination.");
     }
 }

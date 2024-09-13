@@ -5,13 +5,7 @@ import java.util.List;
 
 public class CollisionDetector {
 
-    private static boolean DEBUG = false;
-
     public static <T extends CollidableGameObject> boolean isColliding(T obj1, T obj2) {
-
-        if (DEBUG) {
-            return true;
-        }
 
         return !(obj1.getPosition().x() + obj1.getDimension().width() <= obj2.getPosition().x() ||
                 obj1.getPosition().x() >= obj2.getPosition().x() + obj2.getDimension().width() ||
@@ -24,7 +18,4 @@ public class CollisionDetector {
                 .anyMatch(other -> !other.equals(obj) && isColliding(obj, other));
     }
 
-    public static void setCollisionResult(boolean b) {
-        DEBUG = true;
-    }
 }

@@ -1,8 +1,9 @@
-package com.project.paradoxplatformer.utils.effect;
+package com.project.paradoxplatformer.utils.effect.impl;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
+import com.project.paradoxplatformer.utils.effect.AbstractRecreatableEffect;
 import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.utils.sound.SoundLoader;
 import com.project.paradoxplatformer.utils.sound.SoundType;

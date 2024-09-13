@@ -1,10 +1,12 @@
-package com.project.paradoxplatformer.utils.effect;
+package com.project.paradoxplatformer.utils.effect.impl;
 
 import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
+import com.project.paradoxplatformer.utils.effect.AbstractOneTimeEffect;
+import com.project.paradoxplatformer.utils.effect.ViewEventType;
 import com.project.paradoxplatformer.utils.effect.api.Level;
 import com.project.paradoxplatformer.view.ViewNavigator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;

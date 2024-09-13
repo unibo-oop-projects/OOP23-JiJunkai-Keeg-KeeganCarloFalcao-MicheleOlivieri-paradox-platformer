@@ -1,8 +1,9 @@
-package com.project.paradoxplatformer.utils.effect;
+package com.project.paradoxplatformer.utils.effect.impl;
 
 import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.utils.effect.AbstractOneTimeEffect;
 
 /**
  * Represents an effect that performs no operation. Useful as a placeholder or

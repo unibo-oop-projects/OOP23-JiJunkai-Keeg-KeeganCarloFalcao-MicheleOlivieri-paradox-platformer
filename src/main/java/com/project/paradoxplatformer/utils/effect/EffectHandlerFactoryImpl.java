@@ -5,6 +5,12 @@ import java.util.List;
 import com.project.paradoxplatformer.utils.collision.ChainOfEffects;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.effect.api.Level;
+import com.project.paradoxplatformer.utils.effect.impl.ChangeLevelEffect;
+import com.project.paradoxplatformer.utils.effect.impl.DeathEffect;
+import com.project.paradoxplatformer.utils.effect.impl.NoOpEffect;
+import com.project.paradoxplatformer.utils.effect.impl.SoundEffect;
+import com.project.paradoxplatformer.utils.effect.impl.SpringEffect;
+import com.project.paradoxplatformer.utils.effect.impl.TransportEffect;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.sound.SoundType;
 
@@ -22,7 +28,8 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.TRIGGER, chain);
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
-        // handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
+        // handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new
+        // SoundEffect(SoundType.JUMP));
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
 

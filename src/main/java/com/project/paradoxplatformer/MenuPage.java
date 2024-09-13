@@ -13,7 +13,6 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 /**
@@ -38,7 +37,6 @@ public class MenuPage extends AbstractThreadedPage {
                                                                                       // levels
 
     private final ViewNavigator viewNavigator = ViewNavigator.getInstance(); // Handles view navigation
-    private Color circleColor = Color.RED; // Color for level circles
 
     private Transition animation; // Transition for animating circle effects
     private double regWidtht, regHeight; // Original width and height of the circles image

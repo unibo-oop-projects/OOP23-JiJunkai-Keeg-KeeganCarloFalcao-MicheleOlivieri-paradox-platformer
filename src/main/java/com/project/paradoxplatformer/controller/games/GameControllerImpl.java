@@ -169,18 +169,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         });
     }
 
-    public <T> void removeObject(Predicate<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> match) {
-        var entry = gamePairs.entrySet().stream()
-                .filter(match)
-                .findAny();
-
-        entry.ifPresent(pair -> {
-            this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
-            this.gameView.removeGraphic(pair.getValue());
-            this.gamePairs.remove(pair.getKey());
-        });
-    }
-
     private void updateHandler(final PageIdentifier id, final Level param) {
         System.out.println("SWITCH COLLISION MANAGER'S HANDLER.");
         this.collisionManager.setEffectHandler(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(param));
@@ -272,7 +260,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             // rootGroup = Thread.currentThread().getThreadGroup();
             // }
 
-            int activeCount = rootGroup.activeCount();
+            // int activeCount = rootGroup.activeCount();
             // System.out.println("Number of active threads in root thread group: " +
             // activeCount);
 
@@ -293,7 +281,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 
-            // removeGameObjectsOfType(Coin.class);
+            removeGameObjectsOfType(Coin.class);
 
         }
     }

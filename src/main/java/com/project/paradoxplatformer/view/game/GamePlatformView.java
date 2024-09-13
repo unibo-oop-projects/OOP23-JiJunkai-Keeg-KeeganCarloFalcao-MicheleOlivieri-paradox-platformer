@@ -96,45 +96,46 @@ public final class GamePlatformView<C, K> implements GameView<C> {
 
     @Override
     public void updateControlState(ReadOnlyMutableObjectWrapper mutEntity, ReadOnlyGraphicDecorator<C> graphicCompo) {
-        var graph = retriveGraphic(graphicCompo);
+        retriveGraphic(graphicCompo).ifPresent( graph -> {
 
-        final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());
-        graph.setPosition(c.x(), c.y());
-        graph.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
-
-        if (graph instanceof FXSpriteAdapter spriAdapter && !spriAdapter.isSpecial()) {
-            spriAdapter.animate(SpriteStatus.IDLE);
-        }
-
-        if (mutEntity.getCollisionType().equals(CollisionType.PLAYER)) {
-            // JUST FOR TESTING, MUST DO BETTER
-            if (mutEntity.getSpeed().xComponent() < 0 && !this.isFlipped) {
-                graph.flip();
-                this.isFlipped = true;
-            } else if (mutEntity.getSpeed().xComponent() > 0 && this.isFlipped) {
-                graph.flip();
-                this.isFlipped = false;
+            final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());
+            graph.setPosition(c.x(), c.y());
+            graph.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
+    
+            if (graph instanceof FXSpriteAdapter spriAdapter && !spriAdapter.isSpecial()) {
+                spriAdapter.animate(SpriteStatus.IDLE);
             }
-
-            // System.out.println("[Player Position]: " + mutEntity.getSpeed());
-
-            if (graph instanceof FXSpriteAdapter spriAdapter) {
-                spriAdapter.animate(mutEntity.getSpeed().magnitude() > mutEntity.getBaseDelta() ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
+    
+            if (mutEntity.getCollisionType().equals(CollisionType.PLAYER)) {
+                // JUST FOR TESTING, MUST DO BETTER
+                if (mutEntity.getSpeed().xComponent() < 0 && !this.isFlipped) {
+                    graph.flip();
+                    this.isFlipped = true;
+                } else if (mutEntity.getSpeed().xComponent() > 0 && this.isFlipped) {
+                    graph.flip();
+                    this.isFlipped = false;
+                }
+    
+                // System.out.println("[Player Position]: " + mutEntity.getSpeed());
+    
+                if (graph instanceof FXSpriteAdapter spriAdapter) {
+                    spriAdapter.animate(mutEntity.getSpeed().magnitude() > mutEntity.getBaseDelta() ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
+                }
             }
-        }
+        });
+        
     }
 
-    private GraphicAdapter<C> retriveGraphic(final ReadOnlyGraphicDecorator<C> graphicCompo) {
+    private Optional<GraphicAdapter<C>> retriveGraphic(final ReadOnlyGraphicDecorator<C> graphicCompo) {
         return this.setComponents.stream()
-            .filter(g -> graphicCompo.equals(g))
-            .findFirst()
-            .orElseThrow(() -> new IllegalStateException("Could not find graphic in current set of components"));
+            .filter(g -> graphicCompo.getID() == g.getID())
+            .findFirst();
     }
 
     @Override
     public void removeGraphic(final ReadOnlyGraphicDecorator<C> node) {
-        this.setComponents.remove(retriveGraphic(node));
-        this.container.get().delete(node);
+        retriveGraphic(node).ifPresent(this.setComponents::remove);
+        System.out.println("DELETED? " + this.container.get().delete(node));
     }
 
     private Pair<DoubleProperty, DoubleProperty> initializePropreties(final GraphicContainer<C, ?> gContainer) {

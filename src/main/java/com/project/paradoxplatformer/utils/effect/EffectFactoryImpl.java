@@ -21,7 +21,7 @@ public class EffectFactoryImpl implements EffectsFactory {
 
     @Override
     public Effect collectingEffect() {
-        return new AbstractOneTimeEffect() {
+        return new AbstractRecreatableEffect() {
 
             private Optional<PlayerModel> player = Optional.empty();
 
@@ -45,6 +45,7 @@ public class EffectFactoryImpl implements EffectsFactory {
                             .map(CollectableGameObject.class::cast)
                             .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " collected")))
                             .ifPresent(this.player.get()::collectItem);
+                    
                 });
             }
 
@@ -52,6 +53,11 @@ public class EffectFactoryImpl implements EffectsFactory {
             protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
                 return super.applyToSelf(self).thenAccept(obj -> EventManager.getInstance()
                         .publish(ViewEventType.REMOVE_OBJECT, PageIdentifier.GAME, self));
+            }
+
+            @Override
+            public RecreateableEffect recreate() {
+                return this;
             }
 
         };

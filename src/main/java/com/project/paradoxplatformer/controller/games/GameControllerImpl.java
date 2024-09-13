@@ -8,6 +8,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -117,6 +118,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                 System.out.println(
                         "This: " + obj + " -> " + this.gameModel.getWorld().removeGameObjcts((MutableObject) obj));
 
+                this.removeObject(e -> e.getKey().equals(obj));
+
                 System.out.println("After: ");
                 this.gameModel.getWorld().gameObjects().forEach(System.out::println);
             } else {
@@ -128,6 +131,18 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public <T> void removeGameObjectsOfType(Class<T> clazz) {
         Optional<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> entry = gamePairs.entrySet().stream()
                 .filter(e -> clazz.isInstance(e.getKey()))
+                .findAny();
+
+        entry.ifPresent(pair -> {
+            this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
+            this.gameView.removeGraphic(pair.getValue());
+            this.gamePairs.remove(pair.getKey());
+        });
+    }
+
+    public <T> void removeObject(Predicate<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> match) {
+        Optional<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> entry = gamePairs.entrySet().stream()
+                .filter(match)
                 .findAny();
 
         entry.ifPresent(pair -> {
@@ -221,15 +236,15 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public void update(final long dt) {
         if (Objects.nonNull(gamePairs)) {
 
-            System.out.println("-----------------------------------------------");
+            // System.out.println("-----------------------------------------------");
 
-            ThreadGroup rootGroup = Thread.currentThread().getThreadGroup().getParent();
-            if (rootGroup == null) {
-                rootGroup = Thread.currentThread().getThreadGroup();
-            }
+            // ThreadGroup rootGroup = Thread.currentThread().getThreadGroup().getParent();
+            // if (rootGroup == null) {
+            //     rootGroup = Thread.currentThread().getThreadGroup();
+            // }
 
-            int activeCount = rootGroup.activeCount();
-            System.out.println("Number of active threads in root thread group: " + activeCount);
+            // int activeCount = rootGroup.activeCount();
+            // System.out.println("Number of active threads in root thread group: " + activeCount);
 
             gamePairs.forEach((m, g) -> m.updateState(dt));
             CollidableGameObject player = this.gameModel.getWorld().player();
@@ -248,7 +263,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 
-            removeGameObjectsOfType(Coin.class);
+            // removeGameObjectsOfType(Coin.class);
 
             this.resync();
 

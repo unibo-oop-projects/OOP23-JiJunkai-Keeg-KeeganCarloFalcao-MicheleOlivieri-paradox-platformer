@@ -170,8 +170,8 @@
 			"type": "obstacle",
 			"x": 200,
 			"y": 40,
-			"width": 48,
-			"height": 48,
+			"width": 24,
+			"height": 24,
 			"subtype": "Spring",
 			"image": "spring.png"
 		}

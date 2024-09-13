@@ -11,14 +11,7 @@
 			"height": 38,
 			"subtype": "",
 			"image": "player.png",
-			"spriteMeta": {
-				"special": true,
-				"idleFrames": 5,
-				"runningFrames": 8,
-				"jumpingFrames": 0,
-				"fallingFrames": 1,
-				"minFrames": 10
-			}
+			"nframe": 10
 		},
 		{
 			"type": "obstacle",

@@ -18,9 +18,8 @@ public final class SimpleController<N, P, K> implements Controller {
     private final EventManager<ViewEventType, PageIdentifier> eventManager;
 
     public SimpleController(final ViewAdapterFactory<N, P, K> adapter, final String title) {
-        viewManager = adapter.mainAppManager().get();
+        this.viewManager = adapter.mainAppManager().get();
         this.title = title;
-
         this.eventManager = EventManager.getInstance();
 
         eventManager.subscribe(ViewEventType.SWITCH_VIEW, this::handleViewSwitch);

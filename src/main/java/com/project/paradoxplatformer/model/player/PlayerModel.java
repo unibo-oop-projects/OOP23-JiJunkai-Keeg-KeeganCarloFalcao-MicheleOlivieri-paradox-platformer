@@ -7,70 +7,70 @@ import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractCon
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
-import com.project.paradoxplatformer.utils.geometries.*;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
 import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
-import com.project.paradoxplatformer.utils.geometries.modifiers.api.Physics;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public final class PlayerModel extends AbstractControllableObject {
 
+    // Definizioni costanti
     private static final Dimension DEFAULT_SIZE = new Dimension(10, 20);
+
+    // Proprietà del giocatore
     private Coord2D position;
     private Dimension dimension;
-    private Physics physics;
     private Vector2D displacement;
-    private final InterpolatorFactory interpFactory;
-    private final Inventory inventory;
+
+    // Sistema fisico e interpolazioni
+    private PhysicsEngine physics;
+    private InterpolatorFactory interpFactory;
+
+    // Inventory
+    private Inventory inventory;
+
+    // Flag per il controllo della direzione
     private boolean isRight;
     private boolean isLeft;
 
-    // VECTORS ARE NOW VECTOR2d, Point is Coord2d
-    // OBVisously any can modfiy their name to avoid further misunderstooding
-
+    // Costruttore principale
     public PlayerModel(Coord2D pos, Dimension dimension) {
-        // THIS IS REQUIRED CAUSE PLAYER CAN BE CONTROLLED BY USER
-        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14));// addon
-        physics = new PhysicsEngine();// addon
-        this.interpFactory = new InterpolatorFactoryImpl();// addon
-        this.position = new Coord2D(pos.x(), pos.y());
-        this.displacement = new Simple2DVector(pos.x(), pos.y());// addon
-        this.horizontalSpeed = Polar2DVector.nullVector();// addon
-        this.dimension = dimension;
-        this.inventory = new SimpleInventory();
+        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14)); 
+        initialize(pos, dimension);
     }
 
+    // Costruttore di default
     public PlayerModel() {
         this(Coord2D.origin(), DEFAULT_SIZE);
         this.setJumpBehavior(new PlatformJump());
     }
 
-    @Override
-    public Coord2D getPosition() {
-        return new Coord2D(position.x(), position.y());
+    // Metodo di inizializzazione comune ai costruttori
+    private void initialize(Coord2D pos, Dimension dimension) {
+        this.setPosition(pos);
+        this.setDimension(dimension);
+        this.displacement = new Simple2DVector(pos.x(), pos.y());
+        this.horizontalSpeed = Polar2DVector.nullVector();
+        this.verticalSpeed = Polar2DVector.nullVector();
+        this.physics = new PhysicsEngine();
+        this.interpFactory = new InterpolatorFactoryImpl();
+        this.inventory = new SimpleInventory();
     }
 
-    // COULD SHOW INTERNAL
-    // PUBLIC FOR TESTING PURPOSE
+    // Getters and setters per posizione e dimensioni
+    @Override
+    public Coord2D getPosition() {
+        return this.position;
+    }
+
     @Override
     public void setPosition(Coord2D pos) {
         this.position = new Coord2D(pos.x(), pos.y());
-    }
-
-    // ADD ON
-    public Vector2D getSpeed() {
-        return this.horizontalSpeed;
-    }
-
-    // COULD SHOW INTERNAL
-    public void setSpeed(Vector2D speed) {
-        // this.speed = speed;
-        this.horizontalSpeed = speed;// addon
     }
 
     @Override
@@ -78,41 +78,57 @@ public final class PlayerModel extends AbstractControllableObject {
         return this.dimension;
     }
 
+    @Override
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
+    }
+
+    // Metodi relativi alla velocità
+    @Override
+    public Vector2D getSpeed() {
+        if (this.horizontalSpeed == null) {
+            this.horizontalSpeed = Polar2DVector.nullVector(); // Default to null vector if uninitialized
+        }
+        return this.horizontalSpeed;
+    }
+
+    public void setSpeed(Vector2D speed) {
+        this.horizontalSpeed = speed;
+    }
+
+    // Metodo per modificare la dimensione del player
     public void changeSize(double factorX, double factorY) {
         this.dimension = new Dimension(this.dimension.width() * factorX, this.dimension.height() * factorY);
     }
 
+    // Metodo principale per aggiornare lo stato
     @Override
     public void updateState(long dt) {
-        // MY TESTING; FEEL FREE TO MODIFY
         this.fall();
-        // if(horizontalSpeed.magnitude() > 0) {
-        //     System.out.println("PREV displacement " + this.displacement);
-        // }
+        handleHorizontalMovement(dt);
+        handleVerticalMovement(dt);
+        this.setPosition(this.displacement.convert());
+    }
 
-        if(horizontalSpeed.magnitude() == this.getBaseDelta()) {
+    // Gestione del movimento orizzontale
+    private void handleHorizontalMovement(long dt) {
+        if (horizontalSpeed.magnitude() == this.getBaseDelta()) {
             this.horizontalSpeed = Polar2DVector.nullVector();
         }
-        
         this.displacement = physics.step(this.displacement,
                 this.displacement.add(this.horizontalSpeed),
                 interpFactory.linear(),
-                dt);// addon
-
-        var k = physics.moveTo(this.displacement,
-                this.displacement.add(verticalSpeed), 1, interpFactory.easeIn(),
                 dt);
-
-        this.displacement = k.getKey();
-
-        // if(horizontalSpeed.magnitude() > 0) {
-        //     System.out.println("After displacement " + this.displacement);
-        // }
-        
-        this.setPosition(this.displacement.convert());// addon
-
     }
 
+    // Gestione del movimento verticale
+    private void handleVerticalMovement(long dt) {
+        var k = physics.moveTo(this.displacement,
+                this.displacement.add(verticalSpeed), 1, interpFactory.easeIn(), dt);
+        this.displacement = k.getKey();
+    }
+
+    // Metodo per la raccolta di oggetti
     public void collectItem(CollectableGameObject item) {
         this.inventory.addItem(item);
     }
@@ -126,27 +142,22 @@ public final class PlayerModel extends AbstractControllableObject {
         return CollisionType.PLAYER;
     }
 
-    @Override
-    public String toString() {
-        return "Player: " + this.position + ", Inventory: " + this.getInventoryData() + " ";
-    }
-
-    @Override
-    public void setDimension(Dimension dimension) {
-        this.dimension = new Dimension(this.dimension.width(), this.dimension.height());
-    }
-
+    // Gestione della forza opposta
     public void counterForce() {
-        System.out.println(this.direction());
-        System.out.println(this.getSpeed());
-        if(this.direction() == Direction.RIGHT) {
+        if (this.direction() == Direction.RIGHT) {
             this.moveLeft();
             this.isRight = true;
         }
-        if(this.direction() == Direction.LEFT) {
-            this.moveRight();
+        if (this.direction() == Direction.LEFT) {
+            this.setSpeed(Polar2DVector.nullVector()); // blocca il player quando tenta di attraversare un muro
+            // this.moveRight(); // rallenta il player quando attraversa un muro
             this.isLeft = true;
         }
     }
 
+    @Override
+    public String toString() {
+        return "Player: " + this.position + ", Inventory: " + this.getInventoryData();
+    }
+    
 }

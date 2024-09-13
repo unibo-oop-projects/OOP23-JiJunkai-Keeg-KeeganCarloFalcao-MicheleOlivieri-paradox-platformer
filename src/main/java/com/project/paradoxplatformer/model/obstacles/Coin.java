@@ -16,4 +16,10 @@ public final class Coin extends AbstractObstacle implements CollectableGameObjec
     public CollisionType getCollisionType() {
         return CollisionType.COLLECTING;
     }
+
+    @Override
+    public String getName() {
+        return "Coin";
+    }
+    
 }

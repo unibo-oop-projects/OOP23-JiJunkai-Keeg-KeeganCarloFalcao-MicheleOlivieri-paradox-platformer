@@ -28,6 +28,7 @@ import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump
 import com.project.paradoxplatformer.model.obstacles.Coin;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.EventManager;
+import com.project.paradoxplatformer.utils.collision.CollisionDetector;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
 import com.project.paradoxplatformer.utils.effect.ViewEventType;
@@ -42,6 +43,9 @@ import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.effect.api.Level;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * An implementation of a basic Game Controller.
@@ -129,14 +133,39 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     }
 
     public <T> void removeGameObjectsOfType(Class<T> clazz) {
+
         Optional<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> entry = gamePairs.entrySet().stream()
                 .filter(e -> clazz.isInstance(e.getKey()))
                 .findAny();
 
         entry.ifPresent(pair -> {
-            this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
-            this.gameView.removeGraphic(pair.getValue());
-            this.gamePairs.remove(pair.getKey());
+            if (CollisionDetector.hasCollision(this.gameModel.getWorld().player(),
+                    Collections.unmodifiableList(List.of(pair.getKey())))) {
+                System.out.println(this.gameModel.getWorld().gameObjects());
+                System.out.println("Removing " + pair.getKey());
+                this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
+                this.gameView.removeGraphic(pair.getValue());
+                this.gamePairs.remove(pair.getKey());
+            }
+            ;
+        });
+    }
+
+    public <T> void removeObject(Predicate<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> match) {
+        var entry = gamePairs.entrySet().stream()
+                .filter(match)
+                .findAny();
+
+        entry.ifPresent(pair -> {
+            if (CollisionDetector.hasCollision(this.gameModel.getWorld().player(),
+                    Collections.unmodifiableList(List.of(pair.getKey())))) {
+                System.out.println(this.gameModel.getWorld().gameObjects());
+                System.out.println("Removing " + pair.getKey());
+                this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
+                this.gameView.removeGraphic(pair.getValue());
+                this.gamePairs.remove(pair.getKey());
+            }
+            ;
         });
     }
 
@@ -240,11 +269,12 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
             // ThreadGroup rootGroup = Thread.currentThread().getThreadGroup().getParent();
             // if (rootGroup == null) {
-            //     rootGroup = Thread.currentThread().getThreadGroup();
+            // rootGroup = Thread.currentThread().getThreadGroup();
             // }
 
-            // int activeCount = rootGroup.activeCount();
-            // System.out.println("Number of active threads in root thread group: " + activeCount);
+            int activeCount = rootGroup.activeCount();
+            // System.out.println("Number of active threads in root thread group: " +
+            // activeCount);
 
             gamePairs.forEach((m, g) -> m.updateState(dt));
             CollidableGameObject player = this.gameModel.getWorld().player();
@@ -264,8 +294,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 
             // removeGameObjectsOfType(Coin.class);
-
-            
 
         }
     }

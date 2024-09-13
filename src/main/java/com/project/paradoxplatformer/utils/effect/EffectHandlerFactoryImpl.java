@@ -50,9 +50,11 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         EffectHandler handler = new EffectHandler();
 
         handler.addCollisionEffectsForType(CollisionType.TRIGGER, () -> new ChangeLevelEffect(Level.LEVEL_TWO));
-        handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
-        handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
-        handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
+        // handler.addCollisionEffectsForType(CollisionType.DEATH_OBS,
+        // DeathEffect::new);
+        // handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
+        // handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new
+        // SoundEffect(SoundType.JUMP));
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
 

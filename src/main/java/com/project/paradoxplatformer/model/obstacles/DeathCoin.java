@@ -19,7 +19,7 @@ public final class DeathCoin extends AbstractDeathObstacle {
     @Override
     public void inflictDamage(ControllableObject player) {
         super.inflictDamage(player);
-        // Puoi aggiungere ulteriori logiche specifiche per DeathCoin, se necessario
+        // possiamo aggiungere ulteriori logiche specifiche per DeathCoin, se necessario
     }
 
     

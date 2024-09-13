@@ -20,8 +20,8 @@ public class Saw extends AbstractDeathObstacle {
     }
 
     @Override
-    public void effect(Optional<ControllableObject> ob) {
-        super.effect(ob);
+    public void onCollision(Optional<ControllableObject> ob) {
+        super.onCollision(ob);
         // Eventuali comportamenti aggiuntivi specifici per Saws
         System.out.println("Saw effect applied.");
     }

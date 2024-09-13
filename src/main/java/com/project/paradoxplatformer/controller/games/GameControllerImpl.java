@@ -64,6 +64,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final Function<GraphicAdapter<C>, Dimension> dimension;
 
     private final CollisionManager collisionManager;
+    private final ObjectRemover<C> objectRemover;
 
     private List<MutableObject> objects = new ArrayList<>();
 
@@ -89,6 +90,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.modelID = id;
 
         this.eventManager = EventManager.getInstance();
+        this.objectRemover = new ObjectRemover<>(model, view);
 
         eventManager.subscribe(ViewEventType.UPDATE_HANDLER, this::updateHandler);
         eventManager.subscribe(ViewEventType.STOP_VIEW, this::handleStopView);
@@ -114,23 +116,12 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gameManager.stop();
     }
 
-    private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> self) {
-        self.filter(MutableObject.class::isInstance)
-                .map(MutableObject.class::cast)
-                .ifPresentOrElse(objects::add,
-                        () -> System.out.println("Cannot remove object. It is not a MutableGameObject."));
+    private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> object) {
+        objectRemover.handleRemoveObject(id, object);
     }
 
     public <T> void removeGameObjects() {
-        gamePairs.entrySet().removeIf(entry -> {
-            MutableObject key = entry.getKey();
-            if (objects.contains(key)) {
-                this.gameModel.actionOnWorld(w -> w.removeGameObjects(key));
-                this.gameView.removeGraphic(entry.getValue());
-                return true;
-            }
-            return false;
-        });
+        objectRemover.removeGameObjects(gamePairs);
     }
 
     private void updateHandler(final PageIdentifier id, final Level param) {

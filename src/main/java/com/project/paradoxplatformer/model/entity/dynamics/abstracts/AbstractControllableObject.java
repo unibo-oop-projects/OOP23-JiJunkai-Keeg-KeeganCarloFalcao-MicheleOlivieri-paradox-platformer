@@ -2,9 +2,10 @@ package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.controller.games.GameEventListener;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
-import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
 
 //REMINDER
 //should extend horizonal and vertical merged abstract class
@@ -12,7 +13,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
 
 
     protected Vector2D verticalSpeed;
-    private JumpBehavior jumpBehavior;
+    protected JumpBehavior jumpBehavior;
     private GameEventListener gameEventListener;
 
     protected AbstractControllableObject(final Vector2D initDisplacement, final HorizonalStats stats) {
@@ -51,6 +52,18 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
             gameEventListener.onPlayerDeath(); // Notifica l'evento al controller
         } else {
             System.out.println("No GameEventListener attached.");
+        }
+    }
+
+    @Override
+    public void stopFall() {
+        // Resetta la velocità verticale a zero per fermare la caduta
+        this.verticalSpeed = new Simple2DVector(0., 0.);
+        
+        // Imposta lo stato di non caduta nel comportamento di salto
+        if (jumpBehavior instanceof PlatformJump platformJump) {
+            platformJump.setFalling(false);  // Ferma la caduta
+            platformJump.resetGravity();     // Resetta la gravità
         }
     }
 

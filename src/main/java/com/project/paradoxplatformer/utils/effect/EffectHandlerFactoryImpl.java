@@ -4,12 +4,11 @@ import java.util.List;
 
 import com.project.paradoxplatformer.utils.collision.ChainOfEffects;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
-import com.project.paradoxplatformer.utils.effect.api.EffectHandlerFactory;
 import com.project.paradoxplatformer.utils.effect.api.Level;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.sound.SoundType;
 
-public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
+public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
 
     @Override
     public EffectHandler defaultEffectHandler() {
@@ -28,22 +27,6 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
 
         return handler;
-    }
-
-    @Override
-    public EffectHandler getEffectHandlerForLevel(Level level) {
-        switch (level) {
-            case LEVEL_ONE:
-                return levelOneEffectHandler();
-            case LEVEL_TWO:
-                return levelTwoEffectHandler();
-            case LEVEL_THREE:
-                return levelThreeEffectHandler();
-            case LEVEL_FOUR:
-                return levelFourEffectHandler();
-            default:
-                return defaultEffectHandler();
-        }
     }
 
     private EffectHandler levelOneEffectHandler() {
@@ -83,6 +66,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
+        handler.addCollisionEffectsForType(CollisionType.PLATFORM, FloorEffect::new );
 
         return handler;
     }
@@ -94,8 +78,20 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
+        handler.addCollisionEffectsForType(CollisionType.PLATFORM, FloorEffect::new);
 
         return handler;
+    }
+
+    @Override
+    protected EffectHandler createLevelSpecificHandler(Level level) {
+        return switch (level) {
+            case LEVEL_ONE -> levelOneEffectHandler();
+            case LEVEL_TWO -> levelTwoEffectHandler();
+            case LEVEL_THREE -> levelThreeEffectHandler();
+            case LEVEL_FOUR -> levelFourEffectHandler();
+            default -> defaultEffectHandler();
+        };
     }
 
 }

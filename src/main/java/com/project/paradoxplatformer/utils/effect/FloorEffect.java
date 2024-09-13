@@ -18,7 +18,6 @@ public class FloorEffect extends AbstractRecreatableEffect{
         return CompletableFuture.runAsync(() -> {
             if (gameObject instanceof ControllableObject controllableObject) {
                     controllableObject.stopFall();
-                    System.out.println("collision con platform");
             }
         });
     }

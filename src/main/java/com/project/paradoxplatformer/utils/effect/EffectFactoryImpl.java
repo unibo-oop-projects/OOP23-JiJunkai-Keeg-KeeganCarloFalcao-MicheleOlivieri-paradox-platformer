@@ -12,6 +12,7 @@ import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 import static com.project.paradoxplatformer.utils.OptionalUtils.peek;
@@ -87,13 +88,15 @@ public class EffectFactoryImpl implements EffectsFactory {
                             .filter(Wall.class::isInstance)
                             .filter(g -> this.player.isPresent())
                             .map(Wall.class::cast)
-                            // .map(peek(c -> System.out.println(c.getClass().getSimpleName() + "
-                            // stopping")))
-                            // .map(peek(c -> System.out.println("Player pos → " +
-                            // player.get().getPosition())))
                             .ifPresent(w -> {
-                                this.player.get().setDisplacement(w.getPosition().x() + w.getDimension().width() + TOLERANCE);
-                                // this.player.get().counterForce();
+                                if(player.get().direction() == Direction.LEFT) {
+                                    this.player.get().setDisplacement(w.getPosition().x() + w.getDimension().width() + TOLERANCE);
+                                }
+                                else if(player.get().direction() == Direction.RIGHT) {
+                                    this.player.get().setDisplacement(w.getPosition().x() - this.player.get().getDimension().width() - TOLERANCE);
+                                }
+                                System.out.println(this.player.get().toString());
+                                
                             });
                 });
             }

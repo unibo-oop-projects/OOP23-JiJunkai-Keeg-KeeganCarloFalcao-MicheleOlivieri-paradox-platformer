@@ -191,17 +191,14 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 
-            gamePairs.entrySet().stream()
-                .filter(e -> Coin.class.isInstance(e.getKey()))
-                .findAny()
-                .ifPresent(pair -> {
-                    this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
-                    this.gameView.removeGraphic(pair.getValue());
-                    this.gamePairs.remove(pair.getKey());
-                });
-                
-            
-
+            // gamePairs.entrySet().stream()
+            //     .filter(e -> Coin.class.isInstance(e.getKey()))
+            //     .findAny()
+            //     .ifPresent(pair -> {
+            //         this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
+            //         this.gameView.removeGraphic(pair.getValue());
+            //         this.gamePairs.remove(pair.getKey());
+            //     });
         }
     }
 

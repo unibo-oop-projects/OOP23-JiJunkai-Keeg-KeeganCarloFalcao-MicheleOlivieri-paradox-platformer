@@ -11,7 +11,14 @@
 			"height": 38,
 			"subtype": "",
 			"image": "player.png",
-			"nframe": 10
+			"spriteMeta": {
+				"special": true,
+				"idleFrames": 5,
+				"runningFrames": 8,
+				"jumpingFrames": 0,
+				"fallingFrames": 1,
+				"minFrames": 10
+			}
 		},
 		{
 			"type": "obstacle",
@@ -73,75 +80,115 @@
 			"type": "obstacle",
 			"x": 100,
 			"y": 110,
-			"width": 15,
-			"height": 15,
+			"width": 16,
+			"height": 16,
 			"subtype": "DeathCoin",
-			"image": "coin.png"
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 		{
 			"type": "obstacle",
 			"x": 150,
 			"y": 110,
-			"width": 15,
-			"height": 15,
+			"width": 16,
+			"height": 16,
 			"subtype": "Coin",
-			"image": "coin.png"
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 
 		{
 			"type": "obstacle",
 			"x": 200,
 			"y": 110,
-			"width": 15,
-			"height": 15,
+			"width": 16,
+			"height": 16,
 			"subtype": "Coin",
-			"image": "coin.png"
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 		{
 			"type": "obstacle",
 			"x": 250,
 			"y": 110,
-			"width": 15,
-			"height": 15,
+			"width": 16,
+			"height": 16,
 			"subtype": "Coin",
-			"image": "coin.png"
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 		{
 			"type": "obstacle",
 			"x": 300,
 			"y": 110,
-			"width": 15,
-			"height": 15,
+			"width": 16,
+			"height": 16,
 			"subtype": "Coin",
-			"image": "coin.png"
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 
 		{
 			"type": "obstacle",
 			"x": 350,
 			"y": 110,
-			"width": 15,
-			"height": 15,
+			"width": 16,
+			"height": 16,
 			"subtype": "Coin",
-			"image": "coin.png"
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 		{
 			"type": "obstacle",
 			"x": 400,
 			"y": 110,
-			"width": 15,
-			"height": 15,
+			"width": 16,
+			"height": 16,
 			"subtype": "DeathCoin",
-			"image": "coin.png"
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 		{
 			"type": "obstacle",
 			"x": 450,
 			"y": 110,
-			"width": 15,
-			"height": 15,
+			"width": 16,
+			"height": 16,
 			"subtype": "Coin",
-			"image": "coin.png"
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 		
 		{

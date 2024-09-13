@@ -141,7 +141,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     }
 
     public <T> void removeObject(Predicate<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> match) {
-        Optional<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> entry = gamePairs.entrySet().stream()
+        var entry = gamePairs.entrySet().stream()
                 .filter(match)
                 .findAny();
 
@@ -265,7 +265,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
             // removeGameObjectsOfType(Coin.class);
 
-            this.resync();
+            
 
         }
     }

@@ -76,9 +76,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
         this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().defaultEffectHandler());
-<<<<<<< HEAD
         this.modelID = id;
-=======
 
         this.eventManager = EventManager.getInstance();
 
@@ -86,7 +84,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         eventManager.subscribe(ViewEventType.STOP_VIEW, this::handleViewSwitch);
 
         eventManager.subscribe(ViewEventType.REMOVE_OBJECT, this::handleRemoveObject);
->>>>>>> abe30c815958be06d41f63bf38bd839d320068aa
     }
 
     @Override
@@ -155,8 +152,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Failed to pair object and graphic\nCause: "
                                 + "\nGraphic: " + dimension.apply(g)
-                                + "\nGraphic: " + position.apply(g))
-                );
+                                + "\nGraphic: " + position.apply(g)));
 
         // Imposta il listener se l'oggetto è il palyer
         if (pair.getKey() instanceof AbstractControllableObject) {
@@ -222,13 +218,13 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 
             gamePairs.entrySet().stream()
-                .filter(e -> Coin.class.isInstance(e.getKey()))
-                .findAny()
-                .ifPresent(pair -> {
-                    this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
-                    this.gameView.removeGraphic(pair.getValue());
-                    this.gamePairs.remove(pair.getKey());
-                });
+                    .filter(e -> Coin.class.isInstance(e.getKey()))
+                    .findAny()
+                    .ifPresent(pair -> {
+                        this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
+                        this.gameView.removeGraphic(pair.getValue());
+                        this.gamePairs.remove(pair.getKey());
+                    });
             this.resync();
 
         }
@@ -246,7 +242,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private void resync() {
         this.sync(false);
     }
-    
+
     @Override
     public void onPlayerDeath() {
         // Ricarica il livello
@@ -269,7 +265,11 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public void exitGame() {
         this.gameManager.stop();
         System.out.println("EXITED");
-        ViewNavigator.getInstance().goToMenu();
+        try {
+            ViewNavigator.getInstance().goToMenu();
+        } catch (InvalidResourceException e) {
+            e.printStackTrace();
+        }
     }
 
 }

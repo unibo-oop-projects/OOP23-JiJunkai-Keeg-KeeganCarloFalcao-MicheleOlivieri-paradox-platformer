@@ -21,16 +21,11 @@ public final class SimpleController<N, P, K> implements Controller {
         viewManager = adapter.mainAppManager().get();
         this.title = title;
 
-<<<<<<< HEAD
-        EventManager.getInstance().subscribe("SWITCH_VIEW", this::handleViewSwitch);
-        EventManager.getInstance().subscribe("INITIALIZE", this::handleViewSwitch);
-=======
         this.eventManager = EventManager.getInstance();
 
         eventManager.subscribe(ViewEventType.SWITCH_VIEW, this::handleViewSwitch);
         eventManager.subscribe(ViewEventType.INITIALIZE, this::handleViewSwitch);
 
->>>>>>> abe30c815958be06d41f63bf38bd839d320068aa
     }
 
     @Override

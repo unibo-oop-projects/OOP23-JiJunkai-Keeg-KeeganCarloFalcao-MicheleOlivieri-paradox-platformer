@@ -11,7 +11,6 @@
 			"height": 38,
 			"subtype": "",
 			"image": "player.png",
-<<<<<<< HEAD
 			"spriteMeta": {
 				"special": true,
 				"idleFrames": 5,
@@ -20,9 +19,6 @@
 				"fallingFrames": 1,
 				"minFrames": 10
 			}
-=======
-			"nframe": 10
->>>>>>> abe30c815958be06d41f63bf38bd839d320068aa
 		},
 		{
 			"type": "obstacle",
@@ -89,8 +85,6 @@
 			"subtype": "DeathCoin",
 			"image": "coin.png"
 		},
-<<<<<<< HEAD
-=======
 		{
 			"type": "obstacle",
 			"x": 150,
@@ -166,6 +160,5 @@
 			"subtype": "Button",
 			"image": "button.png"
 		}
->>>>>>> abe30c815958be06d41f63bf38bd839d320068aa
 	]
 }

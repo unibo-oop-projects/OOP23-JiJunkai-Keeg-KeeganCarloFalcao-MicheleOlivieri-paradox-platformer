@@ -26,11 +26,12 @@ public class MenuPage extends AbstractThreadedPage {
     @FXML
     private ImageView circlesEffects;
 
-    @FXML 
+    @FXML
     private BorderPane pagePane;
 
     @FXML
-    private Button levelOneButton, levelTwoButton, levelThreeButton; // Circles representing different game levels
+    private Button levelOneButton, levelTwoButton, levelThreeButton, levelFourButton; // Circles representing different
+                                                                                      // game levels
 
     private final ViewNavigator viewNavigator = ViewNavigator.getInstance(); // Handles navigation between views
     Color circleColor = Color.RED; // Color for level circles
@@ -55,13 +56,13 @@ public class MenuPage extends AbstractThreadedPage {
             {
                 setCycleDuration(Duration.millis(2000));
             }
-        
+
             protected void interpolate(double frac) {
                 colorAdj.setContrast(frac / TRESHOLD_RATIO);
                 circlesEffects.setFitHeight(frac * regHeight);
                 circlesEffects.setFitWidth(frac * regWidtht);
             }
-        
+
         };
     }
 
@@ -71,6 +72,7 @@ public class MenuPage extends AbstractThreadedPage {
         EventBinder.bindButtons(levelOneButton, () -> navigate(viewNavigator::goToLevelOne));
         EventBinder.bindButtons(levelTwoButton, () -> navigate(viewNavigator::goToLevelTwo));
         EventBinder.bindButtons(levelThreeButton, () -> navigate(viewNavigator::goToLevelThree));
+        EventBinder.bindButtons(levelFourButton, () -> navigate(viewNavigator::goToLevelFour));
     }
 
     private void navigate(NavigationAction action) {

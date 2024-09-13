@@ -24,21 +24,16 @@ public class ViewNavigator {
         return instance;
     }
 
-<<<<<<< HEAD
-    public void openView(PageIdentifier id, String param) {
-        EventManager.getInstance().publish("SWITCH_VIEW", id, param);
-=======
     public void openView(PageIdentifier id, Level param) throws InvalidResourceException {
         EventManager.getInstance().publish(ViewEventType.SWITCH_VIEW, id, param);
->>>>>>> abe30c815958be06d41f63bf38bd839d320068aa
     }
 
     public void openSettingsView() throws InvalidResourceException {
         openView(PageIdentifier.SETTINGS, Level.EMPTY_LEVEL);
     }
 
-    public void goToMenu() {
-        openView(PageIdentifier.MENU, "");
+    public void goToMenu() throws InvalidResourceException {
+        openView(PageIdentifier.MENU, Level.EMPTY_LEVEL);
     }
 
     public void goToLevelOne() throws InvalidResourceException {

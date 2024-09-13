@@ -4,8 +4,10 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.effect.api.Effect;
 import com.project.paradoxplatformer.utils.effect.api.OneTimeEffect;
+import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 /**
  * Abstract implementation of a one-time effect that is applied and then

@@ -18,8 +18,11 @@ import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
+import com.project.paradoxplatformer.utils.effect.ViewEventType;
+import com.project.paradoxplatformer.utils.effect.api.Level;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.ViewNavigator;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
@@ -34,6 +37,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -53,9 +57,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final Function<GraphicAdapter<C>, Dimension> dimension;
 
     private final CollisionManager collisionManager;
+    private final EventManager<ViewEventType, PageIdentifier> eventManager;
 
     private final Random rand = new Random();
-    private final ViewNavigator viewNavigator = ViewNavigator.getInstance();
     private ObservableLoopManager gameManager;
     private final String modelID;
 
@@ -72,7 +76,17 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
         this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().defaultEffectHandler());
+<<<<<<< HEAD
         this.modelID = id;
+=======
+
+        this.eventManager = EventManager.getInstance();
+
+        eventManager.subscribe(ViewEventType.UPDATE_HANDLER, this::updateHandler);
+        eventManager.subscribe(ViewEventType.STOP_VIEW, this::handleViewSwitch);
+
+        eventManager.subscribe(ViewEventType.REMOVE_OBJECT, this::handleRemoveObject);
+>>>>>>> abe30c815958be06d41f63bf38bd839d320068aa
     }
 
     @Override
@@ -87,6 +101,37 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.sync(true);
 
         System.out.println("Game View is loaded.");
+    }
+
+    private void handleViewSwitch(final PageIdentifier id, final Level param) {
+        System.out.println("STOPPING VIEW BEFORE RECREATE IT.");
+        this.gameManager.stop();
+    }
+
+    private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> self) {
+        // Check if the 'self' Optional contains a value
+        if (self.isPresent()) {
+            CollidableGameObject obj = self.get();
+
+            if (obj instanceof MutableObject) {
+                System.out.println("Before: ");
+                this.gameModel.getWorld().gameObjects().forEach(System.out::println);
+
+                System.out.println(
+                        "This: " + obj + " -> " + this.gameModel.getWorld().removeGameObjcts((MutableObject) obj));
+
+                System.out.println("After: ");
+                this.gameModel.getWorld().gameObjects().forEach(System.out::println);
+            } else {
+                System.out.println("Cannot remove object. It is not a MutableGameObject.");
+            }
+        }
+    }
+
+    private void updateHandler(final PageIdentifier id, final Level param) {
+        System.out.println("SWITCH COLLISION MANAGER'S HANDLER.");
+        this.collisionManager.setEffectHandler(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(param));
+
     }
 
     private void sync(final boolean firstTime) {
@@ -173,15 +218,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
-
-            if (player.getPosition().x() > 600) {
-                try {
-                    this.gameManager.stop();
-                    this.viewNavigator.goToLevelTwo();
-                } catch (InvalidResourceException e) {
-                    e.printStackTrace();
-                }
-            }
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 

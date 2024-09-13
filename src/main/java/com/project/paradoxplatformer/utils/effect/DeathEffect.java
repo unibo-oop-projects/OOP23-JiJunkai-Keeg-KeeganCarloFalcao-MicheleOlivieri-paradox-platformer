@@ -6,6 +6,8 @@ import java.util.concurrent.CompletableFuture;
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
+import com.project.paradoxplatformer.utils.EventManager;
+import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 public class DeathEffect extends AbstractOneTimeEffect {
 

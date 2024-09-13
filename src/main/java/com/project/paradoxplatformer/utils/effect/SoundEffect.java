@@ -7,6 +7,7 @@ import com.project.paradoxplatformer.utils.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.utils.sound.SoundLoader;
 import com.project.paradoxplatformer.utils.sound.SoundType;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -53,5 +54,10 @@ public class SoundEffect extends AbstractRecreatableEffect {
     public RecreateableEffect recreate() {
         System.out.println("Sound Effect gets recreated");
         return new SoundEffect(soundType);
+    }
+
+    @Override
+    protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
+        return CompletableFuture.completedFuture(null);
     }
 }

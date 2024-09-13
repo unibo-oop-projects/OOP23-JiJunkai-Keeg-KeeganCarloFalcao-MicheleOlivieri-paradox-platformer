@@ -26,12 +26,10 @@ public class EventManager<T, U> {
         return (EventManager<T, U>) instance;
     }
 
-    // Method to subscribe to events with two parameters
     public <V> void subscribe(T eventType, BiConsumer<U, V> action) {
         eventMap.put(eventType, action);
     }
 
-    // Method to publish events with two parameters
     @SuppressWarnings("unchecked")
     public <V> void publish(T eventType, U param1, V param2) {
         Optional.of(eventType)

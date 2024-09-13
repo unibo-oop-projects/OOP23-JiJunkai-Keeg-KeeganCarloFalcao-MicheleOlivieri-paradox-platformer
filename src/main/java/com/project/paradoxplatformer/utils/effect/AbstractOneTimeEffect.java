@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import com.project.paradoxplatformer.utils.EventManager;
-import com.project.paradoxplatformer.utils.effect.api.Effect;
 import com.project.paradoxplatformer.utils.effect.api.OneTimeEffect;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
@@ -18,19 +17,16 @@ public abstract class AbstractOneTimeEffect extends AbstractEffect implements On
     @Override
     public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target,
             Optional<? extends CollidableGameObject> self) {
-        return super.apply(target, self).thenRun(() -> {
-            System.out.println("One-time effect has been applied and removed.");
-        });
+        return super.apply(target, self).thenRun(() -> this.cleanup(self));
     }
 
-    @Override
-    public boolean isOneTimeEffect() {
-        return true;
-    }
-
-    @Override
-    public Effect recreate() {
-        return null;
-    }
-
+    /**
+     * Cleanup method to remove the effect after it has been applied.
+     *
+     * @param self the optional self object
+     */
+    protected void cleanup(Optional<? extends CollidableGameObject> self) {
+        System.out.println("One time effect is in clean up mode.");
+        EventManager.getInstance().publish(ViewEventType.REMOVE_OBJECT, PageIdentifier.EMPTY, self);
+    };
 }

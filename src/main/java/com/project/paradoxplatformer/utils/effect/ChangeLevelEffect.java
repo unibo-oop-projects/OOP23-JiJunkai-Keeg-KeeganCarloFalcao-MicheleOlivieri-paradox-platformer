@@ -28,4 +28,9 @@ public class ChangeLevelEffect extends AbstractOneTimeEffect {
 
         return CompletableFuture.completedFuture(null);
     }
+
+    protected void cleanup() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cleanup'");
+    }
 }

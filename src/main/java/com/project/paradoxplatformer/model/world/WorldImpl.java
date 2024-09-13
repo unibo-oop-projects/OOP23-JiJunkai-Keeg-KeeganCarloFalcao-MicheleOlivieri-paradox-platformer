@@ -55,12 +55,12 @@ public final class WorldImpl implements World {
     }
 
     @Override
-    public boolean removeGameObjcts(final MutableObject mutableGameObj) {
+    public boolean removeGameObjects(final MutableObject mutableGameObj) {
         if (mutableGameObj instanceof Trigger) {
             return this.triggers.remove(mutableGameObj);
         } else if (mutableGameObj instanceof Obstacle) {
-            
-            var y =  this.obstacles.remove(mutableGameObj);
+
+            var y = this.obstacles.remove(mutableGameObj);
             return y;
         }
         return false;

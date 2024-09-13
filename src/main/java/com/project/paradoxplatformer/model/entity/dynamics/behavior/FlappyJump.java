@@ -7,7 +7,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 public class FlappyJump implements JumpBehavior {
     
-    private static final double POWER = 4;
+    private static final double POWER = 3;
     private static final double ANTI_GRAVITY = -POWER+1;
     private double grav = ANTI_GRAVITY;    
 

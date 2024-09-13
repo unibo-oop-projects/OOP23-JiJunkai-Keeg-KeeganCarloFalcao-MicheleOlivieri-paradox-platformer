@@ -1,8 +1,11 @@
 package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
+import com.project.paradoxplatformer.controller.games.GameController;
+import com.project.paradoxplatformer.model.MenuItem;
 import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -47,5 +50,14 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
             throw new IllegalStateException(e);
         }
         
+    }
+
+    @Override
+    public Function<MenuItem, GraphicAdapter<Node>> menuItemToView(final GameController<Node> gameController) {
+        return m -> {
+            var button = new FXButtonAdapter(m.name());
+            button.onAction(m.action(), gameController);
+            return button;
+        };
     }
 }

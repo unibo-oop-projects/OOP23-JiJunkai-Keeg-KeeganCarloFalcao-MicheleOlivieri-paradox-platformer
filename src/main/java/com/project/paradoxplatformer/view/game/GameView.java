@@ -6,7 +6,6 @@ import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 
 import java.util.List;
-import java.util.Set;
 
 public interface GameView<C> {
 
@@ -17,4 +16,6 @@ public interface GameView<C> {
     Dimension dimension();
 
     void updateControlState(ReadOnlyMutableObjectWrapper readOnlyMutable, ReadOnlyGraphicDecorator<C> readOnlyGraphic);
+
+    void removeGraphic(final ReadOnlyGraphicDecorator<C> node);
 }

@@ -1,7 +1,11 @@
 package com.project.paradoxplatformer.view.swing;
 
+import java.util.function.Function;
+
 import javax.swing.JComponent;
 
+import com.project.paradoxplatformer.controller.games.GameController;
+import com.project.paradoxplatformer.model.MenuItem;
 import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -26,6 +30,11 @@ public class SwingMapperFactoryImpl implements ViewMappingFactory<JComponent>{
             new Coord2D(g.getX(), g.getY()),
             g.getColor().toAwtColor()
         );
+    }
+
+    @Override
+    public Function<MenuItem, GraphicAdapter<JComponent>> menuItemToView(GameController<JComponent> gameController) {
+        return null;
     }
     
 }

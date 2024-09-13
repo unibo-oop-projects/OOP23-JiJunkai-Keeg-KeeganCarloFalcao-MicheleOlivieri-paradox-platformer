@@ -9,7 +9,6 @@ import com.project.paradoxplatformer.view.ViewNavigator;
 
 import javafx.animation.Transition;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
@@ -17,7 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
-public class MenuPage extends AbstractThreadedPage implements Initializable {
+public class MenuPage extends AbstractThreadedPage {
 
     protected static final double TRESHOLD_RATIO = 2.2d;
 
@@ -54,11 +53,10 @@ public class MenuPage extends AbstractThreadedPage implements Initializable {
 
         animation = new Transition() {
             {
-                setCycleDuration(Duration.millis(5000));
+                setCycleDuration(Duration.millis(2000));
             }
         
             protected void interpolate(double frac) {
-                System.out.println(frac);
                 colorAdj.setContrast(frac / TRESHOLD_RATIO);
                 circlesEffects.setFitHeight(frac * regHeight);
                 circlesEffects.setFitWidth(frac * regWidtht);

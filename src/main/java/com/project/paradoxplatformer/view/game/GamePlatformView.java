@@ -3,9 +3,7 @@ package com.project.paradoxplatformer.view.game;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -45,7 +43,8 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     public GamePlatformView(
             final LevelDTO packedData,
             final GraphicContainer<C, ?> g,
-            final ViewMappingFactory<C> factory) {
+            final ViewMappingFactory<C> factory
+            ) {
         this.packedData = packedData;
         this.viewMappingFactory = factory;
         this.container = SecureWrapper.of(g);// TO FIX
@@ -97,11 +96,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
 
     @Override
     public void updateControlState(ReadOnlyMutableObjectWrapper mutEntity, ReadOnlyGraphicDecorator<C> graphicCompo) {
-
-        var graph = this.setComponents.stream()
-            .filter(g -> graphicCompo.equals(g))
-            .findFirst()
-            .orElseThrow(() -> new IllegalStateException("Could not find graphic in current set of components"));
+        var graph = retriveGraphic(graphicCompo);
 
         final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());
         graph.setPosition(c.x(), c.y());
@@ -127,6 +122,19 @@ public final class GamePlatformView<C, K> implements GameView<C> {
                 spriAdapter.animate(mutEntity.getSpeed().magnitude() > mutEntity.getBaseDelta() ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
             }
         }
+    }
+
+    private GraphicAdapter<C> retriveGraphic(final ReadOnlyGraphicDecorator<C> graphicCompo) {
+        return this.setComponents.stream()
+            .filter(g -> graphicCompo.equals(g))
+            .findFirst()
+            .orElseThrow(() -> new IllegalStateException("Could not find graphic in current set of components"));
+    }
+
+    @Override
+    public void removeGraphic(final ReadOnlyGraphicDecorator<C> node) {
+        this.setComponents.remove(retriveGraphic(node));
+        this.container.get().delete(node);
     }
 
     private Pair<DoubleProperty, DoubleProperty> initializePropreties(final GraphicContainer<C, ?> gContainer) {

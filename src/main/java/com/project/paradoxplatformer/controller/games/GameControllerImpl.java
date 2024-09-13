@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.controller.games;
 import com.google.common.collect.Sets;
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
-import com.project.paradoxplatformer.controller.gameloop.TaskLoopFactory;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
@@ -13,7 +12,9 @@ import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
+import com.project.paradoxplatformer.model.obstacles.Coin;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
@@ -23,12 +24,12 @@ import com.project.paradoxplatformer.view.ViewNavigator;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
+import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
-import java.beans.EventHandler;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -56,6 +57,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final Random rand = new Random();
     private final ViewNavigator viewNavigator = ViewNavigator.getInstance();
     private ObservableLoopManager gameManager;
+    private final String modelID;
 
     /**
      * A generic constuctor of a gamecontroller.
@@ -63,13 +65,14 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
      * @param model model type
      * @param view  view type
      */
-    public GameControllerImpl(final GameModelData model, final GameView<C> view) {
+    public GameControllerImpl(final GameModelData model, final GameView<C> view, String id) {
         this.gameModel = model;
         this.gameView = view;
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
         this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().defaultEffectHandler());
+        this.modelID = id;
     }
 
     @Override
@@ -98,7 +101,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             final World world,
             final boolean firstTime) {
 
-        final Set<MutableObject> str = Sets.union(new LinkedHashSet<>(world.gameObjects()), Set.of(world.player()));
+        final Set<MutableObject> str = new LinkedHashSet<>(world.gameObjects());
 
         Pair<MutableObject, ReadOnlyGraphicDecorator<C>> pair = str.stream()
                 .filter(m -> this.joinPredicate(m, g, firstTime))
@@ -107,7 +110,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Failed to pair object and graphic\nCause: "
                                 + "\nGraphic: " + dimension.apply(g)
-                                + "\nGraphic: " + position.apply(g)));
+                                + "\nGraphic: " + position.apply(g))
+                );
 
         // Imposta il listener se l'oggetto è il palyer
         if (pair.getKey() instanceof AbstractControllableObject) {
@@ -180,7 +184,17 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             }
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
+
+            gamePairs.entrySet().stream()
+                .filter(e -> Coin.class.isInstance(e.getKey()))
+                .findAny()
+                .ifPresent(pair -> {
+                    this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
+                    this.gameView.removeGraphic(pair.getValue());
+                    this.gamePairs.remove(pair.getKey());
+                });
             this.resync();
+
         }
     }
 
@@ -196,23 +210,30 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private void resync() {
         this.sync(false);
     }
-
-    public void restartLevel() {
-        // Reinizzializza il modello del gioco
-        this.gameModel.init();
-
-        // Resetta la vista in modo che corrisponda al nuovo stato del modello
-        this.syncView();
-    }
-
+    
     @Override
     public void onPlayerDeath() {
         // Ricarica il livello
         try {
-            // this.restartLevel();
+            // this.restartGame();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void restartGame() {
+        this.gameManager.stop();
+        System.out.println("RESTART");
+
+        EventManager.getInstance().publish("SWITCH_VIEW", PageIdentifier.GAME, modelID);
+    }
+
+    @Override
+    public void exitGame() {
+        this.gameManager.stop();
+        System.out.println("EXITED");
+        ViewNavigator.getInstance().goToMenu();
     }
 
 }

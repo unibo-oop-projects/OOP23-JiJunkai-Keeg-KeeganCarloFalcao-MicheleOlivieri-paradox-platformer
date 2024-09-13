@@ -20,7 +20,6 @@ public final class SimpleController<N, P, K> implements Controller {
 
         EventManager.getInstance().subscribe("SWITCH_VIEW", this::handleViewSwitch);
         EventManager.getInstance().subscribe("INITIALIZE", this::handleViewSwitch);
-
     }
 
     @Override

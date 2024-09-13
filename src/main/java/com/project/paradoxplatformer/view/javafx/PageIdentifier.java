@@ -3,5 +3,5 @@ package com.project.paradoxplatformer.view.javafx;
 public enum PageIdentifier {
     MENU,
     GAME,
-    SETTINGS
+    SETTINGS, PAUSE
 }

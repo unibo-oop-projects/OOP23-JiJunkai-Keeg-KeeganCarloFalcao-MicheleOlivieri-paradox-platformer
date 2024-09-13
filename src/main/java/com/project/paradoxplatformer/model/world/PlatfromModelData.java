@@ -5,10 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.model.GameModelData;
+import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactory;
 import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactoryImpl;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
@@ -23,7 +25,7 @@ import static java.util.function.Predicate.not;
 public final class PlatfromModelData implements GameModelData {
 
 	private final LevelDTO packedData;
-	private final WorldBuilder worldBuilder;
+	private WorldBuilder worldBuilder;
 	private World world;
 	private final ModelMappingFactory modelFactory;
 
@@ -33,7 +35,6 @@ public final class PlatfromModelData implements GameModelData {
 		this.worldBuilder = new WordBuilderImpl();
 	}
 
-	// COULD BETTER PERFORM
 	@Override
 	public void init() {
 		Optional.of(
@@ -67,6 +68,8 @@ public final class PlatfromModelData implements GameModelData {
 				.build();
 	}
 
+	
+
 	private Collection<GameDTO> findGameDTOData(final String attribute) {
 		return Optional.of(
 					List.of(packedData.getGameDTOs())
@@ -86,6 +89,16 @@ public final class PlatfromModelData implements GameModelData {
 	@Override
 	public World getWorld() {
 		return new WorldImpl(this.world);
+	}
+
+	@Override
+	public void rebuild() {
+		this.worldBuilder = new WordBuilderImpl();
+	}
+
+	@Override
+	public void actionOnWorld(Consumer<World> action) {
+		action.accept(this.world);
 	}
 
 }

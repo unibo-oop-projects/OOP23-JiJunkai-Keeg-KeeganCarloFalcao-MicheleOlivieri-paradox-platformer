@@ -167,11 +167,7 @@ public class JavaFxApp extends Application implements ViewManager {
 
     private void setInitialScene() {
         final double resoultion = 720;
-        LinearGradient paint = new LinearGradient(
-                0.9762, 0.0, 1.0, 1.0, true, CycleMethod.NO_CYCLE,
-                new Stop(0.0, new Color(1.0, 0.3924, 0.02, 1.0)),
-                new Stop(1.0, new Color(0.6842, 0.4257, 0.038, 1.0)));
-        scene = new Scene(ViewLegacy.javaFxFactory().loadingPage(), resoultion * ASPECT_RATIO, resoultion, paint);
+        scene = new Scene(ViewLegacy.javaFxFactory().loadingPage(), resoultion * ASPECT_RATIO, resoultion);
         stage.sizeToScene();
         stage.setScene(scene);
 

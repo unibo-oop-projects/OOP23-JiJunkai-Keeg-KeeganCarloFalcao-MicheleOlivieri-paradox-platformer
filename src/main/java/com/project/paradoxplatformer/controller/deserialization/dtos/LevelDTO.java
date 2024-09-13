@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.controller.deserialization.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * A level JSON file must be structured as follows: data for view segment and an array of game objects.
   * This is Data Transfer Object regarding a specific level implementation, most used in platform games.
@@ -10,6 +12,9 @@ public final class LevelDTO {
     private String type;
     private final double width;
     private final double height;
+    @JsonProperty
+    private final String backgroundFile;
+
     private final GameDTO[] gameDTOs;
 
     /**
@@ -19,6 +24,7 @@ public final class LevelDTO {
         this.gameDTOs = new GameDTO[0];
         this.width = 0;
         this.height = 0;
+        this.backgroundFile = "";
     }
 
     /**
@@ -52,6 +58,10 @@ public final class LevelDTO {
      */
     public GameDTO[] getGameDTOs() {
         return this.gameDTOs;
+    }
+
+    public String getBackgroundFile() {
+        return backgroundFile;
     }
 
 }

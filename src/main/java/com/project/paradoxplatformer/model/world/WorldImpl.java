@@ -59,14 +59,16 @@ public final class WorldImpl implements World {
         if (mutableGameObj instanceof Trigger) {
             return this.triggers.remove(mutableGameObj);
         } else if (mutableGameObj instanceof Obstacle) {
-            return this.obstacles.remove(mutableGameObj);
+            
+            var y =  this.obstacles.remove(mutableGameObj);
+            return y;
         }
         return false;
     }
 
     @Override
     public Collection<MutableObject> gameObjects() {
-        return Sets.union(this.obstacles, this.triggers);
+        return Sets.union(Sets.union(this.obstacles, this.triggers), Set.of(this.player()));
     }
 
 }

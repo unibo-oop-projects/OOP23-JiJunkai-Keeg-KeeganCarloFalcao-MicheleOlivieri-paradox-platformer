@@ -5,15 +5,17 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 
-import java.util.Set;
+import java.util.List;
 
 public interface GameView<C> {
 
     void init();
 
-    Set<GraphicAdapter<C>> getUnmodifiableControls();
+    List<GraphicAdapter<C>> getUnmodifiableControls();
 
     Dimension dimension();
 
     void updateControlState(ReadOnlyMutableObjectWrapper readOnlyMutable, ReadOnlyGraphicDecorator<C> readOnlyGraphic);
+
+    void removeGraphic(final ReadOnlyGraphicDecorator<C> node);
 }

@@ -73,6 +73,14 @@ public final class PlayerModel extends AbstractControllableObject {
         this.position = new Coord2D(pos.x(), pos.y());
     }
 
+    public void setDisplacement(Coord2D pos) {
+        this.displacement = new Simple2DVector(pos.x(), pos.y());
+    }
+
+    public void setDisplacement(final double x) {
+        this.displacement = new Simple2DVector(x, this.displacement.yComponent());
+    }
+
     @Override
     public Dimension getDimension() {
         return this.dimension;
@@ -146,18 +154,19 @@ public final class PlayerModel extends AbstractControllableObject {
     public void counterForce() {
         if (this.direction() == Direction.RIGHT) {
             this.moveLeft();
-            this.isRight = true;
         }
         if (this.direction() == Direction.LEFT) {
             this.setSpeed(Polar2DVector.nullVector()); // blocca il player quando tenta di attraversare un muro
             // this.moveRight(); // rallenta il player quando attraversa un muro
             this.isLeft = true;
         }
+        
+        updateState(15);
     }
 
     @Override
     public String toString() {
         return "Player: " + this.position + ", Inventory: " + this.getInventoryData();
     }
-    
+
 }

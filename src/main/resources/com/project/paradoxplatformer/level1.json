@@ -2,42 +2,66 @@
 	"type": "platformer",
 	"height": 360,
 	"width": 640,
+	"backgroundFile": "level1Back.png",
+
 	"gameDTOs": [
 		{
 			"type": "player",
 			"x": 35,
-			"y": 100,
+			"y": 40,
 			"width": 18,
 			"height": 38,
 			"subtype": "",
 			"image": "player.png",
-			"nframe": 10
+			"spriteMeta": {
+				"special": true,
+				"idleFrames": 5,
+				"runningFrames": 8,
+				"jumpingFrames": 0,
+				"fallingFrames": 1,
+				"minFrames": 10
+			}
+		},
+
+		{
+			"type": "obstacle",
+			"x": 430,
+			"y": 76,
+			"width": 48,
+			"height": 48,
+			"subtype": "Saw",
+			"image": "saw.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 		{
 			"type": "obstacle",
 			"x": 0,
 			"y": 0,
 			"width": 250,
-			"height": 100,
+			"height": 40,
 			"subtype": "Platform",
 			"color": {
-				"blu": 42,
-				"red": 180,
-				"green": 77,
+				"blu": 56,
+				"red": 2,
+				"green": 29,
 				"alpha": 1
 			}
 		},
 		{
 			"type": "obstacle",
-			"x": 0,
-			"y": 100,
-			"width": 30,
-			"height": 210,
+			"x": -1,
+			"y": 0,
+			"width": 1,
+			"height": 360,
 			"subtype": "Wall",
 			"color": {
-				"blu": 42,
-				"red": 180,
-				"green": 77,
+				"blu": 56,
+				"red": 2,
+				"green": 29,
 				"alpha": 1
 			}
 		},
@@ -49,53 +73,39 @@
 			"height": 100,
 			"subtype": "Platform",
 			"color": {
-				"blu": 42,
-				"red": 180,
-				"green": 77,
+				"blu": 56,
+				"red": 2,
+				"green": 29,
 				"alpha": 1
 			}
 		},
 		{
 			"type": "obstacle",
 			"x": 0,
-			"y": 310,
+			"y": 350,
 			"width": 640,
-			"height": 50,
+			"height": 10,
 			"subtype": "Platform",
 			"color": {
-				"blu": 42,
-				"red": 180,
-				"green": 77,
+				"blu": 56,
+				"red": 2,
+				"green": 29,
 				"alpha": 1
 			}
 		},
 		{
 			"type": "obstacle",
-			"x": 610,
-			"y": 100,
-			"width": 30,
-			"height": 210,
+			"x": 641,
+			"y": 0,
+			"width": 1,
+			"height": 360,
 			"subtype": "Wall",
 			"color": {
-				"blu": 42,
-				"red": 180,
-				"green": 77,
+				"blu": 56,
+				"red": 2,
+				"green": 29,
 				"alpha": 1
-			},
-			"traj": [
-				{
-					"x": 150,
-					"y": 100,
-					"duration": 2,
-					"vector": "DISPLACEMENT"
-				},
-				{
-					"x": 150,
-					"y": 50,
-					"duration": 1,
-					"vector": "HEIGHT"
-				}
-			]
+			}
 		},
 		{
 			"type": "obstacle",
@@ -105,9 +115,9 @@
 			"height": 100,
 			"subtype": "Wall",
 			"color": {
-				"blu": 42,
-				"red": 180,
-				"green": 77,
+				"blu": 56,
+				"red": 2,
+				"green": 29,
 				"alpha": 1
 			},
 			"traj": [
@@ -130,30 +140,41 @@
 		},
 		{
 			"type": "obstacle",
-			"x": 200,
-			"y": 110,
-			"width": 20,
-			"height": 20,
-			"subtype": "DeathCoin",
-			"image": "coin.png"
-		},
-		{
-			"type": "obstacle",
-			"x": 250,
-			"y": 110,
-			"width": 20,
-			"height": 20,
-			"subtype": "Coin",
-			"image": "coin.png"
-		},
-		{
-			"type": "obstacle",
 			"x": 150,
-			"y": 100,
-			"width": 20,
-			"height": 20,
+			"y": 70,
+			"width": 16,
+			"height": 16,
+			"subtype": "DeathCoin",
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
+		},
+		{
+			"type": "obstacle",
+			"x": 70,
+			"y": 40,
+			"width": 16,
+			"height": 16,
+			"subtype": "Coin",
+			"image": "gems.png",
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
+		},
+		{
+			"type": "obstacle",
+			"x": 200,
+			"y": 40,
+			"width": 24,
+			"height": 24,
 			"subtype": "Spring",
 			"image": "spring.png"
 		}
+
 	]
 }

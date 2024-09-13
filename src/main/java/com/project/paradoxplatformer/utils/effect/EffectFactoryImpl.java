@@ -66,6 +66,8 @@ public class EffectFactoryImpl implements EffectsFactory {
     public Effect stoppingEffect() {
         return new AbstractRecreatableEffect() {
 
+            private static final double TOLERANCE = 1.d;
+
             private Optional<PlayerModel> player = Optional.empty();
 
             @Override
@@ -90,8 +92,8 @@ public class EffectFactoryImpl implements EffectsFactory {
                             // .map(peek(c -> System.out.println("Player pos → " +
                             // player.get().getPosition())))
                             .ifPresent(w -> {
-
-                                this.player.get().counterForce();
+                                this.player.get().setDisplacement(w.getPosition().x() + w.getDimension().width() + TOLERANCE);
+                                // this.player.get().counterForce();
                             });
                 });
             }

@@ -20,7 +20,7 @@ public final class GameDTO {
     private ColorDTO color;
     private final TrajMacro[] traj;
     @JsonProperty 
-    private int nframe;
+    private SpriteDTO spriteMeta;
 
     /**
      * Non-argument constructors which initialises the trajectory moves, making it final.
@@ -122,7 +122,8 @@ public final class GameDTO {
      * animation. Note that its frame management is different than the delta time and gameloop cause it is view dedicated section.
      * @return the minimum amount of frames for swithichng to next image
      */
-    public int getFrames() {
-        return this.nframe;
+
+    public SpriteDTO getSpriteMeta() {
+        return spriteMeta;
     }
 }

@@ -2,6 +2,7 @@ package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
 import java.util.Optional;
 
+import com.project.paradoxplatformer.model.inputmodel.commands.Command;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.graphics.Actionable;
@@ -24,17 +25,8 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
         }
     }
 
-    public FXButtonAdapter(Dimension dimension, Coord2D relativePos, String text, Runnable action) {
-        this(dimension, relativePos, text);
-        this.onAction(action);
-    }
-
     public FXButtonAdapter(final String text) {
         this(Dimension.dot(), Coord2D.origin(), text);
-    }
-
-    public FXButtonAdapter(final String text, Runnable action) {
-        this(Dimension.dot(), Coord2D.origin(), text, action);
     }
 
     @Override
@@ -51,8 +43,11 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
     }
 
     @Override
-    public void onAction(Runnable action) {
-        this.buttonCompo.setOnAction(e -> action.run());
+    public <G> void onAction(final Command<G> action, final G actor) {
+        this.buttonCompo.setOnAction(e -> {
+                action.execute(actor);
+            }
+        );
     }
     
 }

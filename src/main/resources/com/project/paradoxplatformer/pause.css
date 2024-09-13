@@ -1,10 +1,14 @@
 .button {
     -fx-background-color: transparent;
-    -fx-text-fill: rgba(255, 255, 255, 0.4);
-    -fx-font-size: 14px;
+    -fx-text-fill: black;
+    -fx-font-size: 20px;
     -fx-background-radius: 11px;
     -fx-border-width: 2px;
-    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, #ff303e, 5, 0.3, 0, 0);
+    -fx-padding: 0;
+    -fx-pref-width: -1;
+    -fx-pref-height: -1;
+    /*-fx-border-color: transparent;*/
 }
 
 .button:focused {
@@ -14,11 +18,11 @@
 
 .button:hover{
     -fx-cursor:hand;
-    -fx-text-fill: rgb(255, 255, 255);
-    -fx-effect: dropshadow(three-pass-box, rgb(255, 255, 255), 30, 0, 0, 0);
+    -fx-text-fill: #ff303e;
+    -fx-effect: dropshadow(three-pass-box, black, 3, 0.3, 0, 0);
     -fx-transition: -fx-border-color 0.5s, -fx-border-width, 0.5s;
 }
 
-.stack-pane {
-	-fx-background-color: transparent;
+.text {
+    -fx-font-family: "Cortair Sans Stamp";
 }

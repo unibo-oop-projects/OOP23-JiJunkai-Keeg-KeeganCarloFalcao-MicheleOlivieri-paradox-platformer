@@ -32,6 +32,10 @@ public class ViewNavigator {
         openView(PageIdentifier.SETTINGS, Level.EMPTY_LEVEL);
     }
 
+    public void goToMenu() throws InvalidResourceException{
+        openView(PageIdentifier.MENU, Level.EMPTY_LEVEL);
+    }
+
     public void goToLevelOne() throws InvalidResourceException {
         openView(PageIdentifier.GAME, Level.LEVEL_ONE);
     }

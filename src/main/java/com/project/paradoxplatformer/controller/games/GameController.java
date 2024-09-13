@@ -46,4 +46,8 @@ public interface GameController<C> {
      */
     <K> void startGame(InputController<ControllableObject> inputController, KeyInputer<K> inputer, String type);
 
+    void restartGame();
+
+    void exitGame();
+
 }

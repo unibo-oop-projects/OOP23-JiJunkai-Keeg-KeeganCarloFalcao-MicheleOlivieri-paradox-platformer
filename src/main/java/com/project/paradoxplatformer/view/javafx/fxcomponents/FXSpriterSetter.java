@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.view.javafx.fxcomponents;
 import java.util.List;
 import java.util.Optional;
 
+import com.project.paradoxplatformer.controller.deserialization.dtos.SpriteDTO;
 import com.project.paradoxplatformer.utils.ImageLoader;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -19,25 +20,27 @@ public class FXSpriterSetter implements Spriter<Image>{
     private Dimension bounds;
     private Image img;
     private Dimension tileSize;
+    private SpriteDTO spriteFrames;
     
 
-    public FXSpriterSetter(final String sheetPath, Dimension bounds, Dimension tileSize) throws InvalidResourceException {
+    public FXSpriterSetter(final String sheetPath, Dimension bounds, Dimension tileSize, final SpriteDTO spriteMeta) throws InvalidResourceException {
         this.sheetPath = sheetPath;
         this.bounds = bounds;
         this.tileSize = tileSize;
         this.loadSpriteSheet();
+        this.spriteFrames = spriteMeta;
     }
 
     
 
     @Override
     public List<Image> getIdleImage() {
-        return this.collection(0, tileSize.width() * 5);
+        return this.collection(0, tileSize.width() * spriteFrames.getIdleFrames());
     }
 
     @Override
     public List<Image> runningImages() {
-        return this.collection(5 * tileSize.width(), tileSize.width() * 8);
+        return this.collection(spriteFrames.getIdleFrames() * tileSize.width(), tileSize.width() * spriteFrames.getRunningFrames());
     }
 
     public List<Image> jumpingImages() {

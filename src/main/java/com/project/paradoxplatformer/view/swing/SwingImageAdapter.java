@@ -18,6 +18,7 @@ public class SwingImageAdapter extends AbstractSwingAdapter implements Spriteabl
 
     private SpriteAnimator<BufferedImage> spriteAnimator;
     private JButton imgComponent;
+    private boolean isSpecial;
 
     protected SwingImageAdapter(Dimension dimension, Coord2D coord, String imagePath, final int minFrames) {
         super(new JButton(), dimension, coord);
@@ -36,6 +37,7 @@ public class SwingImageAdapter extends AbstractSwingAdapter implements Spriteabl
                     ),
                     minFrames
                 ); 
+                this.isSpecial = false;
             } catch (IOException | InvalidResourceException e) {
                 throw new IllegalStateException(e.getMessage(), e);
             }
@@ -53,6 +55,11 @@ public class SwingImageAdapter extends AbstractSwingAdapter implements Spriteabl
     @Override
     public void animate(SpriteStatus status) {
         this.spriteAnimator.selectFrame(status, i -> imgComponent.setIcon(new ImageIcon(i)));
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return this.isSpecial;
     }
 
 }

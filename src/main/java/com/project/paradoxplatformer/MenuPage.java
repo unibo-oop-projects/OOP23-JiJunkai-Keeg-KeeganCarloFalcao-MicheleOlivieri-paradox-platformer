@@ -4,26 +4,19 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.view.ElementDecorator;
 import com.project.paradoxplatformer.view.EventBinder;
 import com.project.paradoxplatformer.view.ViewNavigator;
 
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.animation.Transition;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.effect.Bloom;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
-public class MenuPage extends AbstractThreadedPage implements Initializable {
+public class MenuPage extends AbstractThreadedPage {
 
     protected static final double TRESHOLD_RATIO = 2.2d;
 
@@ -31,16 +24,14 @@ public class MenuPage extends AbstractThreadedPage implements Initializable {
     private Button settingsButton; // Button to navigate to settings
 
     @FXML
-    private ImageView insegna;
-
-    @FXML
     private ImageView circlesEffects;
 
-    @FXML 
+    @FXML
     private BorderPane pagePane;
 
     @FXML
-    private Button levelOneButton, levelTwoButton, levelThreeButton; // Circles representing different game levels
+    private Button levelOneButton, levelTwoButton, levelThreeButton, levelFourButton; // Circles representing different
+                                                                                      // game levels
 
     private final ViewNavigator viewNavigator = ViewNavigator.getInstance(); // Handles navigation between views
     Color circleColor = Color.RED; // Color for level circles
@@ -63,16 +54,15 @@ public class MenuPage extends AbstractThreadedPage implements Initializable {
 
         animation = new Transition() {
             {
-                setCycleDuration(Duration.millis(5000));
+                setCycleDuration(Duration.millis(2000));
             }
-        
+
             protected void interpolate(double frac) {
-                System.out.println(frac);
                 colorAdj.setContrast(frac / TRESHOLD_RATIO);
                 circlesEffects.setFitHeight(frac * regHeight);
                 circlesEffects.setFitWidth(frac * regWidtht);
             }
-        
+
         };
     }
 
@@ -82,6 +72,7 @@ public class MenuPage extends AbstractThreadedPage implements Initializable {
         EventBinder.bindButtons(levelOneButton, () -> navigate(viewNavigator::goToLevelOne));
         EventBinder.bindButtons(levelTwoButton, () -> navigate(viewNavigator::goToLevelTwo));
         EventBinder.bindButtons(levelThreeButton, () -> navigate(viewNavigator::goToLevelThree));
+        EventBinder.bindButtons(levelFourButton, () -> navigate(viewNavigator::goToLevelFour));
     }
 
     private void navigate(NavigationAction action) {

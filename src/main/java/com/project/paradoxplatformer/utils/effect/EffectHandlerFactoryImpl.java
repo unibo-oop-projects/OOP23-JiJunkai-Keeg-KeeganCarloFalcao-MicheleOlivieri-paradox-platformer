@@ -42,7 +42,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
             case LEVEL_FOUR:
                 return levelFourEffectHandler();
             default:
-                throw new IllegalArgumentException("No handler for level: " + level);
+                return defaultEffectHandler();
         }
     }
 

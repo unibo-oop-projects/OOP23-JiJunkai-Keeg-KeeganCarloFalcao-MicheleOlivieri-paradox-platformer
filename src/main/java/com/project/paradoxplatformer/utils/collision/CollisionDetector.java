@@ -1,7 +1,8 @@
 package com.project.paradoxplatformer.utils.collision;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
 import java.util.List;
+
+import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 
 /**
  * A utility class for detecting collisions between game objects.

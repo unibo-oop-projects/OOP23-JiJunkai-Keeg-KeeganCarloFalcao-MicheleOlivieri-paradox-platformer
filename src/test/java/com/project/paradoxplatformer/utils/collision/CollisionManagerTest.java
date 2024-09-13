@@ -1,11 +1,11 @@
 package com.project.paradoxplatformer.utils.collision;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.model.effect.EffectHandler;
+import com.project.paradoxplatformer.model.effect.EffectHandlerFactoryImpl;
+import com.project.paradoxplatformer.model.effect.api.EffectHandlerFactory;
 import com.project.paradoxplatformer.model.trigger.api.Button;
+import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
-import com.project.paradoxplatformer.utils.effect.EffectHandler;
-import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
-import com.project.paradoxplatformer.utils.effect.api.EffectHandlerFactory;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

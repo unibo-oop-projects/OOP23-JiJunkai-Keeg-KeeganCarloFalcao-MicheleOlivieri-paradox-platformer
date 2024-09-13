@@ -1,9 +1,10 @@
 package com.project.paradoxplatformer.utils.collision;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.model.effect.ChainOfEffects;
+import com.project.paradoxplatformer.model.effect.api.Effect;
+import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
+import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
-import com.project.paradoxplatformer.utils.effect.api.Effect;
-import com.project.paradoxplatformer.utils.effect.impl.NoOpEffect;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 

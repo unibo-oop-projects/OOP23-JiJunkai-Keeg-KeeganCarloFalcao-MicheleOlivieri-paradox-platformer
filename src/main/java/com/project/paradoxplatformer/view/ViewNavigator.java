@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.view;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.utils.effect.ViewEventType;
-import com.project.paradoxplatformer.utils.effect.api.Level;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
+import com.project.paradoxplatformer.model.effect.ViewEventType;
+import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.utils.EventManager;
 
 /**

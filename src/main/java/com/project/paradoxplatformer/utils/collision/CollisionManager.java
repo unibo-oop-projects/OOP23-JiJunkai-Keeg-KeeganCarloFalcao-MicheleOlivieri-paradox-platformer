@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
 
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.model.effect.EffectHandler;
+import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
-import com.project.paradoxplatformer.utils.effect.EffectHandler;
 
 /**
  * Manages collisions between game objects and applies effects based on those

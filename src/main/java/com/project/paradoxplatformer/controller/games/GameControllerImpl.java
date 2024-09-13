@@ -55,6 +55,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
+import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.effect.api.Level;
 
 /**

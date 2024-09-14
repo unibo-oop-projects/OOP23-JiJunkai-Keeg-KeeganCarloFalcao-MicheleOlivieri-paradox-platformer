@@ -5,7 +5,7 @@ import java.util.Set;
 
 import com.project.paradoxplatformer.model.effect.EffectHandler;
 import com.project.paradoxplatformer.model.effect.ViewEventType;
-import com.project.paradoxplatformer.model.trigger.api.Trigger;
+import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.utils.BiConsumerWithAndThen;
 import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;

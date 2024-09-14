@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.trigger.api;
+package com.project.paradoxplatformer.model.trigger;
 
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;

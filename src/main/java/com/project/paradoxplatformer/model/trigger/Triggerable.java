@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.trigger.api;
+package com.project.paradoxplatformer.model.trigger;
 
 /**
  * A functional interface that represents an action that can be triggered by a

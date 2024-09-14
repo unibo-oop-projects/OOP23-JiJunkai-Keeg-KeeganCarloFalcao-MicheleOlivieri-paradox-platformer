@@ -179,6 +179,15 @@
 		
 		{
 			"type": "trigger",
+			"x": 475,
+			"y": 100,
+			"width": 20,
+			"height": 20,
+			"subtype": "Floor",
+			"image": "coin.png"
+		},
+		{
+			"type": "trigger",
 			"x": 525,
 			"y": 100,
 			"width": 20,

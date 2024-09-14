@@ -1,6 +1,5 @@
-package com.project.paradoxplatformer.model.trigger.api;
+package com.project.paradoxplatformer.model.trigger;
 
-import com.project.paradoxplatformer.model.trigger.AbstractTrigger;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;

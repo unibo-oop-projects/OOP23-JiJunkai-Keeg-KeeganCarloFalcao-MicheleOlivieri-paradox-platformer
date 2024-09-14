@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.model.world.api;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.model.trigger.api.Trigger;
+import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import java.util.Collection;
 

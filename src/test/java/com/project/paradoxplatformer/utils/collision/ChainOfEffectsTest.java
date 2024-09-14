@@ -4,9 +4,7 @@ import com.project.paradoxplatformer.model.effect.ChainOfEffects;
 import com.project.paradoxplatformer.model.effect.ChainOfEffectsBuilder;
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
-import com.project.paradoxplatformer.model.trigger.api.Button;
-import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.utils.collision.api.CollisionType;
+import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
@@ -28,7 +26,7 @@ class ChainOfEffectsTest {
     @BeforeEach
     void setUp() {
         noOpEffect = new NoOpEffect();
-        targetObject = new Button();
+        targetObject = new Button(new Coord2D(0, 0), new Dimension(0, 0));
     }
 
     @Test

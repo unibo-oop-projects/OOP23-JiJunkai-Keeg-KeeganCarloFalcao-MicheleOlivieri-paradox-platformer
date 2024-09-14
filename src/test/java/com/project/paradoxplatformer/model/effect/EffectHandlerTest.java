@@ -2,8 +2,10 @@ package com.project.paradoxplatformer.model.effect;
 
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
-import com.project.paradoxplatformer.model.trigger.api.Button;
+import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,8 +34,8 @@ class EffectHandlerTest {
         effectHandler.addCollisionEffectsForType(type, effectSupplier);
 
         // Create test objects
-        Button source = new Button();
-        Button target = new Button();
+        Button source = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        Button target = new Button(new Coord2D(0, 0), new Dimension(0, 0));
 
         // Apply effects
         CompletableFuture<Void> result = effectHandler.applyEffects(source, target);
@@ -46,14 +48,14 @@ class EffectHandlerTest {
     void testAddAndApplyCollisionEffectsForObject() {
         // Setup
         CollisionType type = CollisionType.BUTTON;
-        Button object = new Button();
+        Button object = new Button(new Coord2D(0, 0), new Dimension(0, 0));
         Supplier<Effect> effectSupplier = NoOpEffect::new;
 
         // Add effects
         effectHandler.addCollisionEffectsForObject(type, object, effectSupplier);
 
         // Create test objects
-        Button source = new Button();
+        Button source = new Button(new Coord2D(0, 0), new Dimension(0, 0));
 
         // Apply effects
         CompletableFuture<Void> result = effectHandler.applyEffects(source, object);
@@ -66,7 +68,7 @@ class EffectHandlerTest {
     void testGetAllEffects() {
         // Setup
         CollisionType type = CollisionType.BUTTON;
-        Button object = new Button();
+        Button object = new Button(new Coord2D(0, 0), new Dimension(0, 0));
         effectHandler.addCollisionEffectsForObject(type, object, NoOpEffect::new);
 
         // Get all effects
@@ -81,7 +83,7 @@ class EffectHandlerTest {
     void testResetEffects() {
         // Setup
         CollisionType type = CollisionType.BUTTON;
-        Button object = new Button();
+        Button object = new Button(new Coord2D(0, 0), new Dimension(0, 0));
         effectHandler.addCollisionEffectsForObject(type, object, NoOpEffect::new);
 
         // Reset effects

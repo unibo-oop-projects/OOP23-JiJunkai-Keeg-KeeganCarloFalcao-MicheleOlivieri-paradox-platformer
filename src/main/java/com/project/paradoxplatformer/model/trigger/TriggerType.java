@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.trigger.api;
+package com.project.paradoxplatformer.model.trigger;
 
 /**
  * Enum representing different types of triggers in the game.

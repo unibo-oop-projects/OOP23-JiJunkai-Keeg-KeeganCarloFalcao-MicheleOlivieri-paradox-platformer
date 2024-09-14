@@ -25,6 +25,7 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
+import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
@@ -56,7 +57,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final Function<GraphicAdapter<C>, Coord2D> position;
     private final Function<GraphicAdapter<C>, Dimension> dimension;
 
-    private final CollisionManager collisionManager;
+    private CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
 
     private final Random rand = new Random();
@@ -85,6 +86,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         eventManager.subscribe(ViewEventType.UPDATE_HANDLER, this::updateHandler);
         eventManager.subscribe(ViewEventType.STOP_VIEW, this::handleStopView);
         eventManager.subscribe(ViewEventType.REMOVE_OBJECT, this::handleRemoveObject);
+        eventManager.subscribe(ViewEventType.TRIGGER_EFFECT, this::handleTriggerEffect);
     }
 
     @Override
@@ -106,6 +108,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gameManager.stop();
     }
 
+    private void handleTriggerEffect(final PageIdentifier id, final Obstacle param) {
+        System.out.println(param + " FROM GAME CONTROLLER.");
+    }
+
     private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> object) {
         objectRemover.handleRemoveObject(id, object);
     }
@@ -116,7 +122,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
     private void updateHandler(final PageIdentifier id, final Level param) {
         System.out.println("SWITCH COLLISION MANAGER'S HANDLER.");
-        this.collisionManager.setEffectHandler(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(param));
+        this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(param));
 
     }
 

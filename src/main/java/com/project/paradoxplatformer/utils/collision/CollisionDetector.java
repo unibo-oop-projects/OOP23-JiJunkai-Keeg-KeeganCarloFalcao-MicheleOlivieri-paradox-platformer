@@ -1,6 +1,9 @@
 package com.project.paradoxplatformer.utils.collision;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 
@@ -9,11 +12,34 @@ import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
  * provides static methods to check for collisions between game objects and
  * within lists of collidable objects.
  */
+/**
+ * Detects collisions between the player and other collidable objects.
+ */
 public final class CollisionDetector {
 
-    // Private constructor to prevent instantiation
-    private CollisionDetector() {
-        throw new UnsupportedOperationException("Utility class should not be instantiated");
+    /**
+     * Detects collisions between the player and other collidable objects.
+     *
+     * @param collidableGameObjects a collection of collidable game objects to check
+     *                              for collisions
+     * @param player                the player game object to check for collisions
+     *                              with
+     * @return a set of colliding game objects
+     */
+    public static Set<CollidableGameObject> detect(
+            final Collection<? extends CollidableGameObject> collidableGameObjects,
+            final CollidableGameObject player) {
+        final Set<CollidableGameObject> collidingObjects = new HashSet<>();
+
+        collidableGameObjects.stream()
+                .filter(object -> !object.equals(player))
+                .forEach(object -> {
+                    if (CollisionDetector.isColliding(player, object)) {
+                        collidingObjects.add(object);
+                    }
+                });
+
+        return collidingObjects;
     }
 
     /**

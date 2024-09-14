@@ -25,7 +25,7 @@ public abstract class AbstractRecreatableEffect extends AbstractEffect implement
             Optional<? extends CollidableGameObject> self) {
         // Apply the effect and log that it can be recreated
         return super.apply(target, self).thenRun(() -> {
-            System.out.println("Re-creatable effect has been applied and could be recreated.");
+            // System.out.println("Re-creatable effect has been applied and could be recreated.");
         });
     }
 

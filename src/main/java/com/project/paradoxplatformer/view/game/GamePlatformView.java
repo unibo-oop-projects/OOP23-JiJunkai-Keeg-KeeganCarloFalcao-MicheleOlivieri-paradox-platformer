@@ -43,8 +43,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     public GamePlatformView(
             final LevelDTO packedData,
             final GraphicContainer<C, ?> g,
-            final ViewMappingFactory<C> factory
-            ) {
+            final ViewMappingFactory<C> factory) {
         this.packedData = packedData;
         this.viewMappingFactory = factory;
         this.container = SecureWrapper.of(g);// TO FIX
@@ -96,16 +95,16 @@ public final class GamePlatformView<C, K> implements GameView<C> {
 
     @Override
     public void updateControlState(ReadOnlyMutableObjectWrapper mutEntity, ReadOnlyGraphicDecorator<C> graphicCompo) {
-        retriveGraphic(graphicCompo).ifPresent( graph -> {
+        retriveGraphic(graphicCompo).ifPresent(graph -> {
 
             final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());
             graph.setPosition(c.x(), c.y());
             graph.setDimension(mutEntity.getDimension().width(), mutEntity.getDimension().height());
-    
+
             if (graph instanceof FXSpriteAdapter spriAdapter && !spriAdapter.isSpecial()) {
                 spriAdapter.animate(SpriteStatus.IDLE);
             }
-    
+
             if (mutEntity.getCollisionType().equals(CollisionType.PLAYER)) {
                 // JUST FOR TESTING, MUST DO BETTER
                 if (mutEntity.getSpeed().xComponent() < 0 && !this.isFlipped) {
@@ -115,21 +114,23 @@ public final class GamePlatformView<C, K> implements GameView<C> {
                     graph.flip();
                     this.isFlipped = false;
                 }
-    
+
                 // System.out.println("[Player Position]: " + mutEntity.getSpeed());
-    
+
                 if (graph instanceof FXSpriteAdapter spriAdapter) {
-                    spriAdapter.animate(mutEntity.getSpeed().magnitude() > mutEntity.getBaseDelta() ? SpriteStatus.RUNNING : SpriteStatus.IDLE);
+                    spriAdapter
+                            .animate(mutEntity.getSpeed().magnitude() > mutEntity.getBaseDelta() ? SpriteStatus.RUNNING
+                                    : SpriteStatus.IDLE);
                 }
             }
         });
-        
+
     }
 
     private Optional<GraphicAdapter<C>> retriveGraphic(final ReadOnlyGraphicDecorator<C> graphicCompo) {
         return this.setComponents.stream()
-            .filter(g -> graphicCompo.getID() == g.getID())
-            .findFirst();
+                .filter(g -> graphicCompo.getID() == g.getID())
+                .findFirst();
     }
 
     @Override

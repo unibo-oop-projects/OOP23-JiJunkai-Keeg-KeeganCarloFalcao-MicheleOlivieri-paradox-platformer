@@ -31,5 +31,11 @@ public enum ViewEventType {
     /**
      * Indicates that an object should be removed from the view.
      */
-    REMOVE_OBJECT
+    REMOVE_OBJECT,
+
+    /**
+     * Indicates that an trigger has been activated and needs to be processed by
+     * effect handler.
+     */
+    TRIGGER_EFFECT
 }

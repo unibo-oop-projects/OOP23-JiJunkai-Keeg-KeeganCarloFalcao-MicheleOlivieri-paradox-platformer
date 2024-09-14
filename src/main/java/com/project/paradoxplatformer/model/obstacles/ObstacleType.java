@@ -1,33 +1,11 @@
-package com.project.paradoxplatformer.utils.collision.api;
+package com.project.paradoxplatformer.model.obstacles;
 
-/**
- * Enum representing different types of collisions that can occur in the game.
- */
-public enum CollisionType {
+public enum ObstacleType {
     /**
      * Represents a platform collision type.
      * Typically used for platforms that players can stand on.
      */
     PLATFORM,
-
-    /**
-     * Represents a visible trigger collision type.
-     * Used for objects that trigger events or actions when the player interacts
-     * with them.
-     */
-    BUTTON,
-
-    /**
-     * Represents a invisible trigger collision type.
-     * Used for objects that trigger events or actions when the player interacts
-     * with them.
-     */
-    FLOOR,
-
-    /**
-     * Represents the player collision type.
-     */
-    PLAYER,
 
     /**
      * Represents a death obstacle collision type.

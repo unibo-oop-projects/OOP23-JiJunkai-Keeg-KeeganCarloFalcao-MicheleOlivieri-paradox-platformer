@@ -32,7 +32,7 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
     public EffectHandler defaultEffectHandler() {
         EffectHandler handler = new EffectHandler();
 
-        // Create a chain of effects for TRIGGER collision type
+        // Create a chain of effects for BUTTON collision type
         ChainOfEffects chain = ChainOfEffects.create(List.of(
                 () -> new NoOpEffect(), // No operation effect
                 () -> new SoundEffect(SoundType.OBSTACLE_HIT), // Sound effect for obstacle hit
@@ -40,7 +40,7 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         ));
 
         // Add effects to the handler for various collision types
-        handler.addCollisionEffectsForType(CollisionType.TRIGGER, chain);
+        handler.addCollisionEffectsForType(CollisionType.BUTTON, chain);
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
@@ -60,7 +60,7 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         EffectHandler handler = new EffectHandler();
 
         // Add effects specific to level one
-        handler.addCollisionEffectsForType(CollisionType.TRIGGER, () -> new ChangeLevelEffect(Level.LEVEL_TWO));
+        handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new ChangeLevelEffect(Level.LEVEL_TWO));
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
         // handler.addCollisionEffectsForType(CollisionType.DEATH_OBS,
@@ -81,7 +81,7 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         EffectHandler handler = new EffectHandler();
 
         // Add effects specific to level two
-        handler.addCollisionEffectsForType(CollisionType.TRIGGER, () -> new ChangeLevelEffect(Level.LEVEL_THREE));
+        handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new ChangeLevelEffect(Level.LEVEL_THREE));
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
@@ -100,7 +100,7 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         EffectHandler handler = new EffectHandler();
 
         // Add effects specific to level three
-        handler.addCollisionEffectsForType(CollisionType.TRIGGER, () -> new ChangeLevelEffect(Level.LEVEL_FOUR));
+        handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new ChangeLevelEffect(Level.LEVEL_FOUR));
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
@@ -120,7 +120,8 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         EffectHandler handler = new EffectHandler();
 
         // Add effects specific to level four
-        handler.addCollisionEffectsForType(CollisionType.TRIGGER, () -> new ChangeLevelEffect(Level.LEVEL_ONE));
+        // handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new
+        // ChangeLevelEffect(Level.LEVEL_ONE));
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);

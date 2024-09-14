@@ -1,7 +1,9 @@
 package com.project.paradoxplatformer.model.obstacles.abstracts;
 
+import com.project.paradoxplatformer.model.effect.ViewEventType;
 import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
+import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -18,9 +20,11 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
         this.setDimension(new Dimension(this.widthVector.magnitude(), this.heightVector.yComponent()));
     }
 
+    public abstract CollisionType getCollisionType();
+
     @Override
-    public CollisionType getCollisionType() {
-        return CollisionType.OBSTACLE;
+    public void execute() {
+        EventManager.getInstance().publish(ViewEventType.TRIGGER_EFFECT, getCollisionType(), this);
     }
 
 }

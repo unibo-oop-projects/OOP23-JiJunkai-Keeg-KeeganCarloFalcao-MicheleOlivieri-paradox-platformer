@@ -1,21 +1,29 @@
 package com.project.paradoxplatformer.model.trigger.api;
 
 import com.project.paradoxplatformer.model.trigger.AbstractTrigger;
+import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
- * Represents a Button trigger in the game.
- * Extends from AbstractTrigger and can be used for various interactive
- * purposes.
+ * Represents a visible Button trigger in the game, typically used for
+ * interactive purposes such as triggering obstacles.
+ * 
+ * <p>
+ * This class extends {@link AbstractTrigger} and defines a button's position
+ * and size. When activated, the button can trigger actions such as affecting
+ * obstacles. The button is treated as a collidable object with the collision
+ * type
+ * {@link CollisionType#BUTTON}.
+ * </p>
  */
 public class Button extends AbstractTrigger {
 
     /**
-     * Constructor to create a Button with a specified position and dimension.
-     *
+     * Constructs a Button with the given position and size.
+     * 
      * @param position  the position of the Button in 2D space
-     * @param dimension the size of the Button
+     * @param dimension the size (width and height) of the Button
      */
     public Button(Coord2D position, Dimension dimension) {
         super(position, dimension);
@@ -24,11 +32,12 @@ public class Button extends AbstractTrigger {
     }
 
     /**
-     * Default constructor for debugging purposes.
-     * Initializes the Button with a default position and dimension.
+     * Returns the collision type associated with this button.
+     * 
+     * @return the collision type, which is {@link CollisionType#BUTTON}
      */
-    public Button() {
-        super(new Coord2D(100, 200), new Dimension(50, 50));
+    @Override
+    public CollisionType getCollisionType() {
+        return CollisionType.BUTTON;
     }
-
 }

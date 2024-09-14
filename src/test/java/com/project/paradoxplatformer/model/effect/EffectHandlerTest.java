@@ -1,7 +1,5 @@
 package com.project.paradoxplatformer.model.effect;
 
-import com.project.paradoxplatformer.model.effect.ChainOfEffects;
-import com.project.paradoxplatformer.model.effect.EffectHandler;
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
 import com.project.paradoxplatformer.model.trigger.api.Button;
@@ -27,7 +25,7 @@ class EffectHandlerTest {
     @Test
     void testAddAndApplyCollisionEffectsForType() {
         // Setup
-        CollisionType type = CollisionType.TRIGGER;
+        CollisionType type = CollisionType.BUTTON;
         Supplier<Effect> effectSupplier = NoOpEffect::new;
 
         // Add effects
@@ -47,7 +45,7 @@ class EffectHandlerTest {
     @Test
     void testAddAndApplyCollisionEffectsForObject() {
         // Setup
-        CollisionType type = CollisionType.TRIGGER;
+        CollisionType type = CollisionType.BUTTON;
         Button object = new Button();
         Supplier<Effect> effectSupplier = NoOpEffect::new;
 
@@ -67,7 +65,7 @@ class EffectHandlerTest {
     @Test
     void testGetAllEffects() {
         // Setup
-        CollisionType type = CollisionType.TRIGGER;
+        CollisionType type = CollisionType.BUTTON;
         Button object = new Button();
         effectHandler.addCollisionEffectsForObject(type, object, NoOpEffect::new);
 
@@ -82,7 +80,7 @@ class EffectHandlerTest {
     @Test
     void testResetEffects() {
         // Setup
-        CollisionType type = CollisionType.TRIGGER;
+        CollisionType type = CollisionType.BUTTON;
         Button object = new Button();
         effectHandler.addCollisionEffectsForObject(type, object, NoOpEffect::new);
 

@@ -7,20 +7,17 @@ package com.project.paradoxplatformer.model.trigger.api;
  */
 public enum TriggerType {
     /**
-     * Represents a floor trigger, which might be used to detect when the player is
-     * on the ground.
-     */
-    FLOOR,
-
-    /**
-     * Represents a button trigger, which might be used for interactive elements
-     * that can be pressed or activated.
+     * Represents a visible trigger collision type.
+     * Used for objects that trigger events or actions when the player interacts
+     * with them.
      */
     BUTTON,
 
     /**
-     * Represents a warp trigger, which might be used to transport or teleport the
-     * player to a different location.
+     * Represents a invisible trigger collision type.
+     * Used for objects that trigger events or actions when the player interacts
+     * with them.
      */
-    WARP,
+    FLOOR,
+
 }

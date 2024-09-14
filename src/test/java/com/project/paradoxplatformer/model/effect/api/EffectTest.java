@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.model.effect.api;
 
-import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
 import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;

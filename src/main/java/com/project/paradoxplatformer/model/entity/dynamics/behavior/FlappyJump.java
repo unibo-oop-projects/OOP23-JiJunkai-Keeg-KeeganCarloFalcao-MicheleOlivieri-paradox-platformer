@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class FlappyJump implements JumpBehavior {
+public class FlappyJump extends AbstractJumpBehavior {
     
     private static final double POWER = 3;
     private static final double ANTI_GRAVITY = -POWER+1;
@@ -21,6 +21,11 @@ public class FlappyJump implements JumpBehavior {
     @Override
     public Vector2D fall() {
         return new Simple2DVector(0., grav-=0.25);
+    }
+
+    @Override
+    public void resetGravity() {
+        this.grav = 3;
     }
 
 }

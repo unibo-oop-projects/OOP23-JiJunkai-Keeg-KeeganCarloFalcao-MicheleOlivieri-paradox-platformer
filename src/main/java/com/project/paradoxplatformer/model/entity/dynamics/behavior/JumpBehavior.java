@@ -14,4 +14,11 @@ public interface JumpBehavior {
     Optional<Vector2D> jump();
 
     Vector2D fall();
+
+    void setFalling(boolean falling);
+
+    boolean isFalling();
+
+    void resetGravity();
+    
 }

@@ -10,8 +10,8 @@ import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.Page;
-import com.project.paradoxplatformer.view.ViewManager;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
+import com.project.paradoxplatformer.view.manager.ViewManager;
 
 import javafx.application.Application;
 import javafx.application.Platform;

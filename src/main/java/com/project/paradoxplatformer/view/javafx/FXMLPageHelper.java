@@ -11,7 +11,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
-import com.project.paradoxplatformer.view.FXMLViews;
+import com.project.paradoxplatformer.view.manager.api.FXMLViews;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

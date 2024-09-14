@@ -51,7 +51,7 @@ public class EffectFactoryImpl implements EffectsFactory {
             @Override
             protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
                 return super.applyToSelf(self).thenAccept(obj -> EventManager.getInstance()
-                        .publish(ViewEventType.REMOVE_OBJECT, PageIdentifier.GAME, self));
+                        .publish(GameEventType.REMOVE_OBJECT, PageIdentifier.GAME, self));
             }
 
             @Override

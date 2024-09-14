@@ -5,7 +5,8 @@ import java.util.ResourceBundle;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.EventBinder;
-import com.project.paradoxplatformer.view.ViewNavigator;
+import com.project.paradoxplatformer.view.manager.ViewNavigator;
+import com.project.paradoxplatformer.view.manager.api.NavigationAction;
 
 import javafx.animation.Transition;
 import javafx.fxml.FXML;

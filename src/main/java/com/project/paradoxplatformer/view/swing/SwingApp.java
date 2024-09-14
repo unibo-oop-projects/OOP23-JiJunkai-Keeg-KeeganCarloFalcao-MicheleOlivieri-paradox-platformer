@@ -13,15 +13,16 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.Page;
-import com.project.paradoxplatformer.view.ViewManager;
 import com.project.paradoxplatformer.view.javafx.FXMLPageHelper;
 import com.project.paradoxplatformer.view.javafx.JavaFxApp;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
+import com.project.paradoxplatformer.view.manager.ViewManager;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
-public final class SwingApp extends JFrame implements ViewManager{
+
+public final class SwingApp extends JFrame implements ViewManager {
 
     private final JPanel jpane;
     private CountDownLatch latch;
@@ -36,7 +37,7 @@ public final class SwingApp extends JFrame implements ViewManager{
         this.getContentPane().setBackground(Color.WHITE);
         try {
             helper = new FXMLPageHelper<>();
-        } catch(InvalidResourceException ex) {
+        } catch (InvalidResourceException ex) {
             throw new IllegalStateException(ex.getMessage(), ex);
         }
     }
@@ -97,16 +98,14 @@ public final class SwingApp extends JFrame implements ViewManager{
     private Page<String> emebedFXPage(final JFXPanel fxPanel, final PageIdentifier pageID) {
         final var entry = helper.mapper().apply(pageID);
         final Scene fxScene = entry
-            .map(Pair::getKey)
-            .map(JavaFxApp::createScene)
-            .orElse(
-                JavaFxApp.createScene(
-                        ViewLegacy.javaFxFactory().blankPage()
-                    )
-            );
+                .map(Pair::getKey)
+                .map(JavaFxApp::createScene)
+                .orElse(
+                        JavaFxApp.createScene(
+                                ViewLegacy.javaFxFactory().blankPage()));
         entry.map(Pair::getValue).orElse(Page.defaultPage());
         fxPanel.setScene(fxScene);
         return entry.map(Pair::getValue).orElse(Page.defaultPage());
     }
-    
+
 }

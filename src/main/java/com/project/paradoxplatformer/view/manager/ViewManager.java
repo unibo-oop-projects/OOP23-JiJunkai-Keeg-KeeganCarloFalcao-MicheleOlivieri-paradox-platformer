@@ -1,7 +1,8 @@
-package com.project.paradoxplatformer.view;
+package com.project.paradoxplatformer.view.manager;
 
 import java.util.concurrent.CountDownLatch;
 
+import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 /**

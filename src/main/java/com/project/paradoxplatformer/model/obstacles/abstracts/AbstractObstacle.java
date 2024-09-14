@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.model.obstacles.abstracts;
 
-import com.project.paradoxplatformer.model.effect.ViewEventType;
+import com.project.paradoxplatformer.model.effect.GameEventType;
 import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.utils.EventManager;
@@ -24,7 +24,7 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
 
     @Override
     public void execute() {
-        EventManager.getInstance().publish(ViewEventType.TRIGGER_EFFECT, getCollisionType(), this);
+        EventManager.getInstance().publish(GameEventType.TRIGGER_EFFECT, getCollisionType(), this);
     }
 
 }

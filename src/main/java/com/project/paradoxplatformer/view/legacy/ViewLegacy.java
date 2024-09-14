@@ -7,12 +7,12 @@ import java.util.function.Supplier;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import com.project.paradoxplatformer.view.ViewManager;
 import com.project.paradoxplatformer.view.game.ViewMappingFactory;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.javafx.JavaFxApp;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.FXContainerAdapter;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.FXViewMappingFactoryImpl;
+import com.project.paradoxplatformer.view.manager.ViewManager;
 import com.project.paradoxplatformer.view.swing.SwingApp;
 import com.project.paradoxplatformer.view.swing.SwingContainerAdapter;
 import com.project.paradoxplatformer.view.swing.SwingMapperFactoryImpl;
@@ -52,12 +52,12 @@ public class ViewLegacy {
             public Pane loadingPage() {
                 return new StackPane(new Label("LOADING..."));
             }
-            
+
         };
     }
 
     public static ViewAdapterFactory<JComponent, JPanel, KeyEvent> swingFactory() {
-        return new ViewAdapterFactory<JComponent,JPanel,KeyEvent>() {
+        return new ViewAdapterFactory<JComponent, JPanel, KeyEvent>() {
 
             @Override
             public JPanel blankPage() {
@@ -83,7 +83,7 @@ public class ViewLegacy {
             public JPanel loadingPage() {
                 return this.blankPage();
             }
-            
+
         };
     }
 
@@ -91,5 +91,5 @@ public class ViewLegacy {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'console'");
     }
-    
+
 }

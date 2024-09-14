@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.fxmlstyle;
+package com.project.paradoxplatformer.view.fxmlstyle.builder;
 
 import javafx.scene.control.Button;
 

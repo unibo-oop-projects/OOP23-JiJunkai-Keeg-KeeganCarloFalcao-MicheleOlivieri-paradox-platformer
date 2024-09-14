@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view;
+package com.project.paradoxplatformer.view.manager.api;
 
 /**
  * Enum representing different FXML views in the application.

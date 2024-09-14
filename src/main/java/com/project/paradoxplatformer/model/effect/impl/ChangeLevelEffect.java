@@ -3,13 +3,13 @@ package com.project.paradoxplatformer.model.effect.impl;
 import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.model.effect.AbstractOneTimeEffect;
-import com.project.paradoxplatformer.model.effect.ViewEventType;
+import com.project.paradoxplatformer.model.effect.GameEventType;
 import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.view.ViewNavigator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
+import com.project.paradoxplatformer.view.manager.ViewNavigator;
 
 /**
  * An effect that changes the game level when applied.
@@ -40,7 +40,7 @@ public class ChangeLevelEffect extends AbstractOneTimeEffect {
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         try {
             // Notify the event manager to stop the current view
-            EventManager.getInstance().publish(ViewEventType.STOP_VIEW, PageIdentifier.GAME, level);
+            EventManager.getInstance().publish(GameEventType.STOP_VIEW, PageIdentifier.GAME, level);
 
             // Open the new view associated with the specified level
             ViewNavigator.getInstance().openView(PageIdentifier.GAME, level);

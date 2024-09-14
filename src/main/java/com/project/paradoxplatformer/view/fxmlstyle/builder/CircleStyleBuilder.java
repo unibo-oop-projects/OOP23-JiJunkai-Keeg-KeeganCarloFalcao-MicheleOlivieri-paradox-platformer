@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.fxmlstyle;
+package com.project.paradoxplatformer.view.fxmlstyle.builder;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;

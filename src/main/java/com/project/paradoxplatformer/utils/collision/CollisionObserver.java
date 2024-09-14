@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.project.paradoxplatformer.model.effect.EffectHandler;
-import com.project.paradoxplatformer.model.effect.ViewEventType;
+import com.project.paradoxplatformer.model.effect.GameEventType;
 import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.utils.BiConsumerWithAndThen;
 import com.project.paradoxplatformer.utils.EventManager;
@@ -106,7 +106,7 @@ public class CollisionObserver {
     private void removeTriggerIfPresent(CollidableGameObject object, CollisionType collisionType) {
         if (object instanceof Trigger) {
             System.out.println(object + " is removed from Collision Observer.");
-            EventManager.getInstance().publish(ViewEventType.REMOVE_OBJECT, PageIdentifier.EMPTY, Optional.of(object));
+            EventManager.getInstance().publish(GameEventType.REMOVE_OBJECT, PageIdentifier.EMPTY, Optional.of(object));
         }
     }
 }

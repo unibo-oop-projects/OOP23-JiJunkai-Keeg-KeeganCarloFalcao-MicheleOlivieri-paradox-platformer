@@ -1,7 +1,7 @@
-package com.project.paradoxplatformer.view;
+package com.project.paradoxplatformer.view.fxmlstyle.decorator;
 
-import com.project.paradoxplatformer.view.fxmlstyle.ButtonStyleBuilder;
-import com.project.paradoxplatformer.view.fxmlstyle.CircleStyleBuilder;
+import com.project.paradoxplatformer.view.fxmlstyle.builder.ButtonStyleBuilder;
+import com.project.paradoxplatformer.view.fxmlstyle.builder.CircleStyleBuilder;
 
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;

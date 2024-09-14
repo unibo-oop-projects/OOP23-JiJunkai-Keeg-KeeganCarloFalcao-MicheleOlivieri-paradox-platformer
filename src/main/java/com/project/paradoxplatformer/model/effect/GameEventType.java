@@ -1,11 +1,11 @@
 package com.project.paradoxplatformer.model.effect;
 
 /**
- * Enum representing the different types of view events that can be published
+ * Enum representing the different types of game events that can be published
  * by the EventManager. Each type triggers specific events or actions for
  * subscribers to handle.
  */
-public enum ViewEventType {
+public enum GameEventType {
 
     /**
      * Indicates that the view is being initialized.

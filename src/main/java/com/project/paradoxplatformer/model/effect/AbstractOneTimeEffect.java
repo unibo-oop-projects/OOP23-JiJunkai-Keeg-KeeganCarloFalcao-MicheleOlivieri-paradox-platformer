@@ -37,6 +37,6 @@ public abstract class AbstractOneTimeEffect extends AbstractEffect implements On
     protected void cleanup(Optional<? extends CollidableGameObject> self) {
         System.out.println("One time effect is in clean up mode.");
         // Publish an event to remove the object after the effect is applied
-        EventManager.getInstance().publish(ViewEventType.REMOVE_OBJECT, PageIdentifier.EMPTY, self);
+        EventManager.getInstance().publish(GameEventType.REMOVE_OBJECT, PageIdentifier.EMPTY, self);
     }
 }

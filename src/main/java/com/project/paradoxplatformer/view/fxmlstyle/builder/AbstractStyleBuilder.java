@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.fxmlstyle;
+package com.project.paradoxplatformer.view.fxmlstyle.builder;
 
 /**
  * An abstract base class for applying various styles to JavaFX nodes.

@@ -23,7 +23,7 @@ public class CollisionManager {
      * @param effectHandler the effect handler to use for applying and resetting
      *                      effects
      */
-    public CollisionManager(EffectHandler effectHandler) {
+    public CollisionManager(final EffectHandler effectHandler) {
         this.effectHandler = effectHandler;
     }
 
@@ -37,10 +37,10 @@ public class CollisionManager {
      * @param player                the player game object to check for collisions
      *                              with
      */
-    public void handleCollisions(Collection<? extends CollidableGameObject> collidableGameObjects,
-            CollidableGameObject player) {
+    public void handleCollisions(final Collection<? extends CollidableGameObject> collidableGameObjects,
+            final CollidableGameObject player) {
         // Detect collisions between the player and other collidable objects
-        Set<CollidableGameObject> collidingObjects = detectCollisions(collidableGameObjects, player);
+        final Set<CollidableGameObject> collidingObjects = detectCollisions(collidableGameObjects, player);
 
         // Observe and handle collisions by applying effects and resetting
         observeCollisions(collidingObjects, player, effectHandler::applyEffects, effectHandler::reset);
@@ -55,13 +55,14 @@ public class CollisionManager {
      *                              with
      * @return a set of colliding game objects
      */
-    private Set<CollidableGameObject> detectCollisions(Collection<? extends CollidableGameObject> collidableGameObjects,
-            CollidableGameObject player) {
-        Set<CollidableGameObject> collidingObjects = new HashSet<>();
+    private Set<CollidableGameObject> detectCollisions(
+            final Collection<? extends CollidableGameObject> collidableGameObjects,
+            final CollidableGameObject player) {
+        final Set<CollidableGameObject> collidingObjects = new HashSet<>();
 
         // Check if each object in the collection is colliding with the player
         collidableGameObjects.stream()
-                .filter(object -> object != player || collidableGameObjects.contains(object))
+                .filter(object -> !object.equals(player))
                 .forEach(object -> {
                     if (CollisionDetector.isColliding(player, object)) {
                         collidingObjects.add(object);
@@ -80,10 +81,11 @@ public class CollisionManager {
      * @param onCollideStart   action to perform when a collision starts
      * @param onCollideEnd     action to perform when a collision ends
      */
-    private void observeCollisions(Set<CollidableGameObject> collidingObjects,
-            CollidableGameObject player,
-            BiConsumer<CollidableGameObject, CollidableGameObject> onCollideStart,
-            BiConsumer<CollidableGameObject, CollisionType> onCollideEnd) {
+    private void observeCollisions(
+            final Set<CollidableGameObject> collidingObjects,
+            final CollidableGameObject player,
+            final BiConsumer<CollidableGameObject, CollidableGameObject> onCollideStart,
+            final BiConsumer<CollidableGameObject, CollisionType> onCollideEnd) {
 
         // Apply start collision action for each colliding object
         collidingObjects.forEach(object -> onCollideStart.accept(player, object));
@@ -99,7 +101,7 @@ public class CollisionManager {
      *
      * @param effectHandler the new effect handler to use
      */
-    public void setEffectHandler(EffectHandler effectHandler) {
+    public void setEffectHandler(final EffectHandler effectHandler) {
         this.effectHandler = effectHandler;
     }
 }

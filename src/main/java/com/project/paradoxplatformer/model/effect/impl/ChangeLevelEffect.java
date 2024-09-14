@@ -24,7 +24,7 @@ public class ChangeLevelEffect extends AbstractOneTimeEffect {
      *
      * @param level the level to which the game should be changed
      */
-    public ChangeLevelEffect(Level level) {
+    public ChangeLevelEffect(final Level level) {
         this.level = level;
     }
 
@@ -37,7 +37,7 @@ public class ChangeLevelEffect extends AbstractOneTimeEffect {
      * @return a CompletableFuture that completes when the effect has been applied
      */
     @Override
-    protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
+    protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         try {
             // Notify the event manager to stop the current view
             EventManager.getInstance().publish(ViewEventType.STOP_VIEW, PageIdentifier.GAME, level);

@@ -1,8 +1,10 @@
 package com.project.paradoxplatformer.utils.collision;
 
 import com.project.paradoxplatformer.model.effect.ChainOfEffects;
+import com.project.paradoxplatformer.model.effect.ChainOfEffectsBuilder;
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
+import com.project.paradoxplatformer.model.trigger.api.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -21,21 +23,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ChainOfEffectsTest {
 
     private NoOpEffect noOpEffect;
-    private TestCollidableGameObject targetObject;
+    private Button targetObject;
 
     @BeforeEach
     void setUp() {
         noOpEffect = new NoOpEffect();
-        targetObject = new TestCollidableGameObject("Target");
+        targetObject = new Button();
     }
 
     @Test
     void testApplyEffectsSequentially() {
-        ChainOfEffects chain = ChainOfEffects.builder()
+        ChainOfEffects chain = ChainOfEffectsBuilder.builder()
                 .addEffect(noOpEffect)
                 .build();
 
-        CompletableFuture<Void> result = chain.applyEffectsSequentially(Optional.of(targetObject));
+        CompletableFuture<Void> result = chain.applyToTarget(Optional.of(targetObject));
         result.join(); // Wait for async operation to complete
 
         // Verify that NoOpEffect was applied (it does nothing, but we can ensure it
@@ -45,7 +47,7 @@ class ChainOfEffectsTest {
 
     @Test
     void testBuilder() {
-        ChainOfEffects chain = ChainOfEffects.builder()
+        ChainOfEffects chain = ChainOfEffectsBuilder.builder()
                 .addEffect(noOpEffect)
                 .build();
 
@@ -61,7 +63,7 @@ class ChainOfEffectsTest {
 
     @Test
     void testGetEffects() {
-        ChainOfEffects chain = ChainOfEffects.builder()
+        ChainOfEffects chain = ChainOfEffectsBuilder.builder()
                 .addEffect(noOpEffect)
                 .build();
 
@@ -71,46 +73,4 @@ class ChainOfEffectsTest {
         assertEquals(noOpEffect, effects.get(0), "The NoOpEffect was not correctly added to the chain.");
     }
 
-    // Inner class to simulate a CollidableGameObject for testing purposes
-    static class TestCollidableGameObject implements CollidableGameObject {
-        private final String name;
-
-        public TestCollidableGameObject(String name) {
-            this.name = name;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        @Override
-        public Coord2D getPosition() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
-        }
-
-        @Override
-        public Dimension getDimension() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'getDimension'");
-        }
-
-        @Override
-        public void setPosition(Coord2D position) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'setPosition'");
-        }
-
-        @Override
-        public void setDimension(Dimension dimension) {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'setDimension'");
-        }
-
-        @Override
-        public CollisionType getCollisionType() {
-            // TODO Auto-generated method stub
-            throw new UnsupportedOperationException("Unimplemented method 'getCollisionType'");
-        }
-    }
 }

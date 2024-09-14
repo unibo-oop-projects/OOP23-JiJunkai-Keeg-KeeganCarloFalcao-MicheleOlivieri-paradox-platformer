@@ -23,7 +23,7 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
 
     @Override
     public void updateState(long dt) {
-        // TODO
-    }
+
+    };
 
 }

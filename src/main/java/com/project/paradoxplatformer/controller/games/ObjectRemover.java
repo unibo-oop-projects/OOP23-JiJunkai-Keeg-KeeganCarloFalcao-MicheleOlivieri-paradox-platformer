@@ -32,7 +32,7 @@ public class ObjectRemover<C> {
      * @param gameModel The model containing game data and world state.
      * @param gameView  The view responsible for rendering graphics.
      */
-    public ObjectRemover(GameModelData gameModel, GameView<C> gameView) {
+    public ObjectRemover(final GameModelData gameModel, final GameView<C> gameView) {
         this.gameModel = gameModel;
         this.gameView = gameView;
         this.objects = new ArrayList<>();
@@ -44,7 +44,7 @@ public class ObjectRemover<C> {
      * @param id   The identifier of the page or view where the object is located.
      * @param self An optional object that may be a MutableObject to be removed.
      */
-    public void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> self) {
+    public void handleRemoveObject(final PageIdentifier id, final Optional<? extends CollidableGameObject> self) {
         self.filter(MutableObject.class::isInstance)
                 .map(MutableObject.class::cast)
                 .ifPresentOrElse(objects::add,
@@ -59,7 +59,7 @@ public class ObjectRemover<C> {
      * @param gamePairs A map of game objects to their associated graphics
      *                  decorators.
      */
-    public void removeGameObjects(Map<MutableObject, ReadOnlyGraphicDecorator<C>> gamePairs) {
+    public void removeGameObjects(final Map<MutableObject, ReadOnlyGraphicDecorator<C>> gamePairs) {
         gamePairs.entrySet().removeIf(entry -> {
             MutableObject key = entry.getKey();
             if (objects.contains(key)) {

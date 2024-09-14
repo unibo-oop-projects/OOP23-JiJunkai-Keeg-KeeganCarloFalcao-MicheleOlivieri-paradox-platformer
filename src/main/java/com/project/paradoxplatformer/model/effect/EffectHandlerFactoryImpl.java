@@ -136,7 +136,7 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
      * @return an EffectHandler instance specific to the level
      */
     @Override
-    protected EffectHandler createLevelSpecificHandler(Level level) {
+    protected EffectHandler createLevelSpecificHandler(final Level level) {
         return switch (level) {
             case LEVEL_ONE -> levelOneEffectHandler();
             case LEVEL_TWO -> levelTwoEffectHandler();

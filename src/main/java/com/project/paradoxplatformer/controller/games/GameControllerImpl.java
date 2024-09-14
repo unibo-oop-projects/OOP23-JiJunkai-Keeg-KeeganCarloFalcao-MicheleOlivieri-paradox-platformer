@@ -106,28 +106,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gameManager.stop();
     }
 
-    private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> self) {
-        // Check if the 'self' Optional contains a value
-        if (self.isPresent()) {
-            CollidableGameObject obj = self.get();
-
-            if (obj instanceof MutableObject) {
-                System.out.println("Before: ");
-                this.gameModel.getWorld().gameObjects().forEach(System.out::println);
-
-                System.out.println(
-                        "This: " + obj + " -> " + this.gameModel.getWorld().removeGameObjcts((MutableObject) obj));
-
-                this.removeObject(e -> e.getKey().equals(obj));
-
-                System.out.println("After: ");
-                this.gameModel.getWorld().gameObjects().forEach(System.out::println);
-            } else {
-                System.out.println("Cannot remove object. It is not a MutableGameObject.");
-            }
-        }
-    }
-
     public <T> void removeGameObjectsOfType(Class<T> clazz) {
         Optional<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> entry = gamePairs.entrySet().stream()
                 .filter(e -> clazz.isInstance(e.getKey()))
@@ -136,7 +114,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         entry.ifPresent(pair -> {
             this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
             this.gameView.removeGraphic(pair.getValue());
-            this.gamePairs.remove(pair.getKey());
+            System.out.println("DELETION ON PAIRS^ " + this.gamePairs.remove(pair.getKey())); 
         });
     }
 
@@ -148,7 +126,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         entry.ifPresent(pair -> {
             this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
             this.gameView.removeGraphic(pair.getValue());
-            this.gamePairs.remove(pair.getKey());
+            System.out.println("DELETION ON PAIRS^ " + this.gamePairs.remove(pair.getKey())); 
         });
     }
 
@@ -228,6 +206,28 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         }
     }
 
+    private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> self) {
+        // Check if the 'self' Optional contains a value
+        if (self.isPresent()) {
+            CollidableGameObject obj = self.get();
+
+            if (obj instanceof MutableObject) {
+                // System.out.println("Before: ");
+                // this.gameModel.getWorld().gameObjects().forEach(System.out::println);
+
+                System.out.println(
+                        "This: " + obj + " -> " + this.gameModel.getWorld().removeGameObjcts((MutableObject) obj));
+
+                this.removeObject(e -> e.getKey().equals(obj));
+
+                // System.out.println("After: ");
+                // this.gameModel.getWorld().gameObjects().forEach(System.out::println);
+            } else {
+                System.out.println("Cannot remove object. It is not a MutableGameObject.");
+            }
+        }
+    }
+
     /**
      * 
      * 
@@ -260,12 +260,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                     e.printStackTrace();
                 }
             }
-
-            this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
-
-            // removeGameObjectsOfType(Coin.class);
-
             
+            this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
+            
+            // removeGameObjectsOfType(Coin.class);
 
         }
     }

@@ -72,7 +72,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
             }
 
             @Override
-            public void addObserver(Observer observer) {
+            public void addObserver(final Observer observer) {
                 // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'addObserver'");
             }
@@ -102,7 +102,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
         private long lastFrame = 0;
         private final Set<Observer> observers;
 
-        public LoopManagerTimer() {
+        LoopManagerTimer() {
             this.isRunning = false;
             this.observers = new HashSet<>();
         }

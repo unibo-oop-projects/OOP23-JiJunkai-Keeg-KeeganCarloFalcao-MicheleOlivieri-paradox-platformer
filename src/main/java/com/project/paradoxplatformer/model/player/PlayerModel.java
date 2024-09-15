@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
-import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizontalStats;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -40,7 +40,7 @@ public final class PlayerModel extends AbstractControllableObject {
 
     // Costruttore principale
     public PlayerModel(Coord2D pos, Dimension dimension) {
-        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14)); 
+        super(new Simple2DVector(pos.x(), pos.y()), new HorizontalStats(140.d, 14));
         initialize(pos, dimension);
     }
 
@@ -161,7 +161,7 @@ public final class PlayerModel extends AbstractControllableObject {
             // this.moveRight(); // rallenta il player quando attraversa un muro
             this.isLeft = true;
         }
-        
+
         updateState(15);
     }
 

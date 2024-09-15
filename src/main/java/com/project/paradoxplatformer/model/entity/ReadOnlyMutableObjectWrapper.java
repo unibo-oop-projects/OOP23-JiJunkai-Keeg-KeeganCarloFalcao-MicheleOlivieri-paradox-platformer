@@ -76,7 +76,7 @@ public class ReadOnlyMutableObjectWrapper implements MutableObject {
      * @throws UnsupportedOperationException if called
      */
     @Override
-    public void setPosition(Coord2D position) {
+    public void setPosition(final Coord2D position) {
         throw new UnsupportedOperationException("Unable to execute 'setPosition'");
     }
 
@@ -88,7 +88,7 @@ public class ReadOnlyMutableObjectWrapper implements MutableObject {
      * @throws UnsupportedOperationException if called
      */
     @Override
-    public void setDimension(Dimension dimension) {
+    public void setDimension(final Dimension dimension) {
         throw new UnsupportedOperationException("Unable to execute 'setDimension'");
     }
 
@@ -100,7 +100,7 @@ public class ReadOnlyMutableObjectWrapper implements MutableObject {
      * @throws UnsupportedOperationException if called
      */
     @Override
-    public void updateState(long dt) {
+    public void updateState(final long dt) {
         throw new UnsupportedOperationException("Unable to execute 'updateState'");
     }
 
@@ -112,7 +112,7 @@ public class ReadOnlyMutableObjectWrapper implements MutableObject {
      * @throws UnsupportedOperationException if called
      */
     @Override
-    public void setKey(int key) {
+    public void setKey(final int key) {
         throw new UnsupportedOperationException("Unable to execute 'setKey'");
     }
 

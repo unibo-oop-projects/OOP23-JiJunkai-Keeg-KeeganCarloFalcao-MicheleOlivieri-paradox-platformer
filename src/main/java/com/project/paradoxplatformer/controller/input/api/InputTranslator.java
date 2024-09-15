@@ -21,7 +21,7 @@ public interface InputTranslator<K> {
      * translates an external keyboard related keys to a common protocol know as
      * {@link InputType}, which allows controller or model's
      * classes to communicate to view without changing their implementation to use
-     * view-related Key classes
+     * view-related Key classes.
      * 
      * @param keyType type of view key
      * @return {@code Optional<InputType>} in case translate was not possible. In

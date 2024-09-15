@@ -2,9 +2,7 @@ package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.controller.games.GameEventListener;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
-import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
@@ -12,17 +10,16 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 //should extend horizonal and vertical merged abstract class
 public abstract class AbstractControllableObject extends AbstractHorizontalObject implements ControllableObject {
 
-
     protected Vector2D verticalSpeed;
     protected JumpBehavior jumpBehavior;
     private GameEventListener gameEventListener;
 
-    protected AbstractControllableObject(final Vector2D initDisplacement, final HorizonalStats stats) {
+    protected AbstractControllableObject(final Vector2D initDisplacement, final HorizontalStats stats) {
         super(stats.limit(), stats.delta());
         this.verticalSpeed = new Simple2DVector(0., 0.);
     }
 
-    //should implement by abstract class
+    // should implement by abstract class
     @Override
     public void jump() {
 
@@ -35,7 +32,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
     public void fall() {
         this.verticalSpeed = this.jumpBehavior.fall();
     }
-    
+
     @Override
     public void setJumpBehavior(JumpBehavior jb) {
         this.jumpBehavior = jb;
@@ -43,7 +40,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
 
     public void setGameEventListener(GameEventListener listener) {
         this.gameEventListener = listener;
-        
+
     }
 
     @Override
@@ -60,11 +57,11 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
     public void stopFall() {
         // Resetta la velocità verticale a zero per fermare la caduta
         this.verticalSpeed = new Simple2DVector(0., 0.);
-        
+
         // Imposta lo stato di non caduta nel comportamento di salto
-        jumpBehavior.setFalling(false);  // Ferma la caduta
-        jumpBehavior.resetGravity();     // Resetta la gravità
-        
+        jumpBehavior.setFalling(false); // Ferma la caduta
+        jumpBehavior.resetGravity(); // Resetta la gravità
+
     }
 
 }

@@ -8,9 +8,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
@@ -18,19 +16,19 @@ import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
-import com.project.paradoxplatformer.model.entity.CollidableGameObject;
+import com.project.paradoxplatformer.model.effect.EffectHandlerFactoryImpl;
+import com.project.paradoxplatformer.model.effect.ViewEventType;
+import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
-import com.project.paradoxplatformer.model.obstacles.Coin;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
-import com.project.paradoxplatformer.utils.effect.EffectHandlerFactoryImpl;
-import com.project.paradoxplatformer.utils.effect.ViewEventType;
+import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.ViewNavigator;
@@ -41,7 +39,9 @@ import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.utils.effect.api.Level;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An implementation of a basic Game Controller.
@@ -57,9 +57,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final Function<GraphicAdapter<C>, Dimension> dimension;
 
     private final CollisionManager collisionManager;
+    private final ObjectRemover<C> objectRemover;
 
     private final Random rand = new Random();
-    private final ViewNavigator viewNavigator = ViewNavigator.getInstance();
     private final EventManager<ViewEventType, PageIdentifier> eventManager;
     private ObservableLoopManager gameManager;
     private final String modelID;
@@ -80,10 +80,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.modelID = id;
 
         this.eventManager = EventManager.getInstance();
+        this.objectRemover = new ObjectRemover<>(model, view);
 
         eventManager.subscribe(ViewEventType.UPDATE_HANDLER, this::updateHandler);
         eventManager.subscribe(ViewEventType.STOP_VIEW, this::handleStopView);
-
         eventManager.subscribe(ViewEventType.REMOVE_OBJECT, this::handleRemoveObject);
     }
 
@@ -106,28 +106,12 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gameManager.stop();
     }
 
-    public <T> void removeGameObjectsOfType(Class<T> clazz) {
-        Optional<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> entry = gamePairs.entrySet().stream()
-                .filter(e -> clazz.isInstance(e.getKey()))
-                .findAny();
-
-        entry.ifPresent(pair -> {
-            this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
-            this.gameView.removeGraphic(pair.getValue());
-            System.out.println("DELETION ON PAIRS^ " + this.gamePairs.remove(pair.getKey())); 
-        });
+    private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> object) {
+        objectRemover.handleRemoveObject(id, object);
     }
 
-    public <T> void removeObject(Predicate<Map.Entry<MutableObject, ReadOnlyGraphicDecorator<C>>> match) {
-        var entry = gamePairs.entrySet().stream()
-                .filter(match)
-                .findAny();
-
-        entry.ifPresent(pair -> {
-            this.gameModel.actionOnWorld(w -> w.removeGameObjcts(pair.getKey()));
-            this.gameView.removeGraphic(pair.getValue());
-            System.out.println("DELETION ON PAIRS^ " + this.gamePairs.remove(pair.getKey())); 
-        });
+    public <T> void removeGameObjects() {
+        objectRemover.removeGameObjects(gamePairs);
     }
 
     private void updateHandler(final PageIdentifier id, final Level param) {
@@ -206,28 +190,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         }
     }
 
-    private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> self) {
-        // Check if the 'self' Optional contains a value
-        if (self.isPresent()) {
-            CollidableGameObject obj = self.get();
-
-            if (obj instanceof MutableObject) {
-                // System.out.println("Before: ");
-                // this.gameModel.getWorld().gameObjects().forEach(System.out::println);
-
-                System.out.println(
-                        "This: " + obj + " -> " + this.gameModel.getWorld().removeGameObjcts((MutableObject) obj));
-
-                this.removeObject(e -> e.getKey().equals(obj));
-
-                // System.out.println("After: ");
-                // this.gameModel.getWorld().gameObjects().forEach(System.out::println);
-            } else {
-                System.out.println("Cannot remove object. It is not a MutableGameObject.");
-            }
-        }
-    }
-
     /**
      * 
      * 
@@ -236,15 +198,15 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public void update(final long dt) {
         if (Objects.nonNull(gamePairs)) {
 
-            // System.out.println("-----------------------------------------------");
+            System.out.println("-----------------------------------------------");
 
-            // ThreadGroup rootGroup = Thread.currentThread().getThreadGroup().getParent();
-            // if (rootGroup == null) {
-            //     rootGroup = Thread.currentThread().getThreadGroup();
-            // }
+            ThreadGroup rootGroup = Thread.currentThread().getThreadGroup().getParent();
+            if (rootGroup == null) {
+                rootGroup = Thread.currentThread().getThreadGroup();
+            }
 
-            // int activeCount = rootGroup.activeCount();
-            // System.out.println("Number of active threads in root thread group: " + activeCount);
+            int activeCount = rootGroup.activeCount();
+            System.out.println("Number of active threads in root thread group: " + activeCount);
 
             gamePairs.forEach((m, g) -> m.updateState(dt));
             CollidableGameObject player = this.gameModel.getWorld().player();
@@ -252,18 +214,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
 
-            if (player.getPosition().x() > 600) {
-                try {
-                    this.gameManager.stop();
-                    this.viewNavigator.goToLevelTwo();
-                } catch (InvalidResourceException e) {
-                    e.printStackTrace();
-                }
-            }
-            
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
-            
-            // removeGameObjectsOfType(Coin.class);
+
+            removeGameObjects();
 
         }
     }
@@ -299,7 +252,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         try {
             ViewLegacy.javaFxFactory().mainAppManager().get().switchPage(PageIdentifier.GAME).create(modelID);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -311,7 +263,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         try {
             ViewNavigator.getInstance().goToMenu();
         } catch (InvalidResourceException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

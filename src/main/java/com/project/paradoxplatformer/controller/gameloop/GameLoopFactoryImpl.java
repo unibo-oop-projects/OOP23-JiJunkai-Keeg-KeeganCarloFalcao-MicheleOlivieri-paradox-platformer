@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.text.ViewFactory;
-
 import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
@@ -24,6 +22,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
 
     /**
      * Constructor.
+     * 
      * @param loop the game loop
      */
     public GameLoopFactoryImpl(final GameLoop loop) {
@@ -50,15 +49,14 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
             public void start() {
                 this.isRunning = true;
                 new Thread(() -> {
-                    while(true) {
-                            var now = System.currentTimeMillis();
-                            var residuo = System.currentTimeMillis() - now;
-                            loop.loop(PERIOD + residuo);
-                            residuo = System.currentTimeMillis() - now;
-                            GameLoopFactoryImpl.this.delay(residuo);
-                        }
+                    while (true) {
+                        var now = System.currentTimeMillis();
+                        var residuo = System.currentTimeMillis() - now;
+                        loop.loop(PERIOD + residuo);
+                        residuo = System.currentTimeMillis() - now;
+                        GameLoopFactoryImpl.this.delay(residuo);
                     }
-                ).start();
+                }).start();
             }
 
             @Override
@@ -84,7 +82,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
                 // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'notifyObservers'");
             }
-            
+
         };
     }
 
@@ -116,7 +114,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
             this.lastFrame = now;
             final long dt = TimeUnit.NANOSECONDS.toMillis(delta);
             try {
-                loop.loop(dt);    
+                loop.loop(dt);
                 GameLoopFactoryImpl.this.delay(dt);
             } catch (Exception e) {
                 this.stop();

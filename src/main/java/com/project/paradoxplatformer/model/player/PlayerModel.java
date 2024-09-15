@@ -116,6 +116,9 @@ public final class PlayerModel extends AbstractControllableObject {
         handleHorizontalMovement(dt);
         handleVerticalMovement(dt);
         this.setPosition(this.displacement.convert());
+        if (jumpBehavior instanceof PlatformJump platformJump) {
+            platformJump.setFalling(true);
+        }
     }
 
     // Gestione del movimento orizzontale
@@ -148,20 +151,6 @@ public final class PlayerModel extends AbstractControllableObject {
     @Override
     public CollisionType getCollisionType() {
         return CollisionType.PLAYER;
-    }
-
-    // Gestione della forza opposta
-    public void counterForce() {
-        if (this.direction() == Direction.RIGHT) {
-            this.moveLeft();
-        }
-        if (this.direction() == Direction.LEFT) {
-            this.setSpeed(Polar2DVector.nullVector()); // blocca il player quando tenta di attraversare un muro
-            // this.moveRight(); // rallenta il player quando attraversa un muro
-            this.isLeft = true;
-        }
-        
-        updateState(15);
     }
 
     @Override

@@ -24,7 +24,6 @@ import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -78,21 +77,20 @@ public class GamePage<V, K> extends AbstractThreadedPage {
         final LevelDTO level = this.getLevel(param);
 
         var mappingFactory = ViewLegacy.javaFxFactory()
-                        .getComponentsFactory()
-                        .get();
+                .getComponentsFactory()
+                .get();
 
         gamePane.setBackground(new Background(new BackgroundImage(
-            ImageLoader.FXImage(level.getBackgroundFile()),
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.CENTER,
-            new BackgroundSize(100, 100, true, true, false, true)
-        )));
+                ImageLoader.FXImage(level.getBackgroundFile()),
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.CENTER,
+                new BackgroundSize(100, 100, true, true, false, true))));
         final GameModelData gameModel = new PlatfromModelData(level);
         final GraphicContainer<Node, KeyCode> gameGraphContainer = ViewLegacy.javaFxFactory().containerMapper()
                 .apply(this.gamePane);
         final GameView<Node> gameView = new GamePlatformView<>(level, gameGraphContainer, mappingFactory);
-                
+
         final GameController<Node> gameController = new GameControllerImpl<>(gameModel, gameView, param);
         final InputController<ControllableObject> inputController = new InputController<>(
                 new InputMovesFactoryImpl().advancedModel());
@@ -103,13 +101,13 @@ public class GamePage<V, K> extends AbstractThreadedPage {
         // System.out.println(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
         gameController.startGame(inputController, gameGraphContainer, level.getType());
 
-        final GraphicContainer<Node, KeyCode> gameSettingsContainer = ViewLegacy.javaFxFactory().containerMapper().apply(this.pauseBox);
+        final GraphicContainer<Node, KeyCode> gameSettingsContainer = ViewLegacy.javaFxFactory().containerMapper()
+                .apply(this.pauseBox);
         GameSettings<Node> gameSettings = new SimpleGameSettings<>(
-            new SimpleGameSettingsModel(SimpleGameSettingsModel.basicSettings()), 
-            gameController, 
-            gameSettingsContainer,
-            mappingFactory
-        );
+                new SimpleGameSettingsModel(SimpleGameSettingsModel.basicSettings()),
+                gameController,
+                gameSettingsContainer,
+                mappingFactory);
         gameSettings.init();
 
     }

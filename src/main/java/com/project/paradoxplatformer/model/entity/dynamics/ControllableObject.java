@@ -9,4 +9,6 @@ public interface ControllableObject extends HorizontalObject, VerticalObject{
 
     public void onCollision();
 
+    public void stopFall();
+
 }

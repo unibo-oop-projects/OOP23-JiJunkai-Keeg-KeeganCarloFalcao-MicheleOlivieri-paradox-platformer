@@ -46,7 +46,7 @@ public class ButtonStyleBuilder extends AbstractStyleBuilder<Button> {
      * @param weight The font weight to apply (e.g., "bold").
      * @return This ButtonStyleBuilder instance for chaining.
      */
-    public ButtonStyleBuilder withFontWeight(String weight) {
+    public ButtonStyleBuilder withFontWeight(final String weight) {
         getNode().setStyle(getNode().getStyle() + " -fx-font-weight: " + weight + ";");
         return this;
     }

@@ -4,7 +4,7 @@ package com.project.paradoxplatformer.view.manager.api;
  * Enum representing different FXML views in the application.
  * Each enum constant corresponds to an FXML file used for UI views.
  */
-public enum FXMLViews {
+public enum FXMLView {
     /**
      * Represents the FXML file for the main menu view.
      */
@@ -28,7 +28,7 @@ public enum FXMLViews {
      * @param fileName The name of the FXML file associated with the view. This
      *                 parameter should be final.
      */
-    FXMLViews(final String fileName) {
+    FXMLView(final String fileName) {
         this.fileName = fileName;
     }
 

@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.model.obstacles.abstracts;
 
-import com.project.paradoxplatformer.model.effect.GameEventType;
+import com.project.paradoxplatformer.controller.event.EventManager;
+import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
-import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;

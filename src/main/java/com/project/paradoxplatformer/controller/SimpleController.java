@@ -2,9 +2,9 @@ package com.project.paradoxplatformer.controller;
 
 import java.util.concurrent.CountDownLatch;
 
-import com.project.paradoxplatformer.model.effect.GameEventType;
+import com.project.paradoxplatformer.controller.event.EventManager;
+import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.model.effect.api.Level;
-import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewAdapterFactory;

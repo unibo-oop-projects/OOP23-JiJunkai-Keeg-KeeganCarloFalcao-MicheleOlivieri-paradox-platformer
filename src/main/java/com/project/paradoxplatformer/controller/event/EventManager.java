@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils;
+package com.project.paradoxplatformer.controller.event;
 
 import java.util.HashMap;
 import java.util.Map;

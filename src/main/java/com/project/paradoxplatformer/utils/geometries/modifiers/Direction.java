@@ -22,7 +22,7 @@ public enum Direction {
      *
      * @param active the initial activation status of this direction
      */
-    private Direction(final boolean active) {
+    Direction(final boolean active) {
         this.activatedStatus = active;
     }
 

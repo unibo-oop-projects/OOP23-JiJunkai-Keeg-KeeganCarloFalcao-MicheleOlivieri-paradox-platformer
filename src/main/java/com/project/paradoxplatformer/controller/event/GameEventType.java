@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.effect;
+package com.project.paradoxplatformer.controller.event;
 
 /**
  * Enum representing the different types of game events that can be published

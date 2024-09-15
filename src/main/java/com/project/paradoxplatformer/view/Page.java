@@ -28,7 +28,7 @@ public interface Page<T> {
         return new Page<String>() {
 
             @Override
-            public void create(String param) throws Exception {
+            public void create(final String param) throws Exception {
                 // Display a message indicating that the page was not found
                 System.out.println("Page not Found: showing a Blank Screen");
             }

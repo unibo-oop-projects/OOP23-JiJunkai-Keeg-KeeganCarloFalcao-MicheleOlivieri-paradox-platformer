@@ -3,6 +3,8 @@ package com.project.paradoxplatformer.utils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.project.paradoxplatformer.controller.event.EventManager;
+
 import java.util.function.BiConsumer;
 
 import static org.junit.jupiter.api.Assertions.assertSame;

@@ -3,11 +3,11 @@ package com.project.paradoxplatformer.utils.collision;
 import java.util.Optional;
 import java.util.Set;
 
+import com.project.paradoxplatformer.controller.event.EventManager;
+import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.model.effect.EffectHandler;
-import com.project.paradoxplatformer.model.effect.GameEventType;
 import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.utils.BiConsumerWithAndThen;
-import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;

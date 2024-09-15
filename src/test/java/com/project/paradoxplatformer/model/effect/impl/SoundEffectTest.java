@@ -1,11 +1,12 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
-import com.project.paradoxplatformer.model.effect.impl.SoundEffect;
 import com.project.paradoxplatformer.utils.sound.SoundType;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class SoundEffectTest {
 
@@ -19,7 +20,7 @@ class SoundEffectTest {
     }
 
     @Test
-    void testRecreate_CreatesNewSoundEffect() {
+    void testRecreate() {
         SoundEffect recreatedEffect = (SoundEffect) soundEffect.recreate();
 
         assertNotNull(recreatedEffect, "Recreated effect should not be null.");

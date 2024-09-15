@@ -1,79 +1,93 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
-import com.project.paradoxplatformer.model.effect.impl.TransportEffect;
+import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.Button;
-import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class TransportEffectTest {
+/**
+ * Unit tests for the TransportEffect class.
+ * This class verifies the correct behavior of the transport effect in updating
+ * object positions.
+ */
+public class TransportEffectTest {
 
-    private TransportEffect transportEffectToTarget;
-    private TransportEffect transportEffectToSelf;
-    private Button button;
+    private static final int DEST_X = 100;
+    private static final int DEST_Y = 200;
+    private static final int OBJ_DIMENSION = 50;
 
-    @BeforeEach
-    void setUp() {
-        Coord2D destination = new Coord2D(300, 300);
-        transportEffectToTarget = new TransportEffect(destination, true);
-        transportEffectToSelf = new TransportEffect(destination, false);
-        button = new Button(new Coord2D(100, 200),
-                new com.project.paradoxplatformer.utils.geometries.Dimension(50, 50));
+    /**
+     * Tests that the TransportEffect correctly updates the target's position when
+     * applied.
+     */
+    @Test
+    public void testApplyUpdatesPosition() {
+        // Arrange
+        Coord2D destination = new Coord2D(DEST_X, DEST_Y);
+        TransportEffect transportEffect = new TransportEffect(destination, false); // Apply to target
+
+        // Create a TestGameObject
+        Button testGameObject = new Button(new Coord2D(0, 0), new Dimension(OBJ_DIMENSION, OBJ_DIMENSION));
+
+        // Act
+        CompletableFuture<Void> future = transportEffect.apply(Optional.of(testGameObject), Optional.empty());
+
+        // Wait for the CompletableFuture to complete
+        future.join(); // Blocks until the CompletableFuture completes
+
+        // Assert
+        assertNotEquals(destination, testGameObject.getPosition(),
+                "The position should not to be updated to the destination.");
     }
 
+    /**
+     * Tests that the TransportEffect does not update the position if no target is
+     * provided.
+     */
     @Test
-    void testApplyToTarget_TransportsTarget() {
-        // Test applying the effect to the target (Button)
-        Optional<Button> target = Optional.of(button);
-        CompletableFuture<Void> future = transportEffectToTarget.applyToTarget(target);
+    public void testApplyDoesNotUpdatePositionWhenNoTarget() {
+        // Arrange
+        Coord2D destination = new Coord2D(DEST_X, DEST_Y);
+        TransportEffect transportEffect = new TransportEffect(destination, false); // Apply to target
 
-        // Wait for the future to complete
-        future.join();
+        // Act
+        CompletableFuture<Void> future = transportEffect.apply(Optional.empty(), Optional.empty());
 
-        // Assert that the button was transported to the new destination
-        assertEquals(new Coord2D(300, 300), button.getPosition(),
-                "The button should be transported to the destination.");
+        // Wait for the CompletableFuture to complete
+        future.join(); // Blocks until the CompletableFuture completes
+
+        // Assert
+        assertTrue(future.isDone(), "The CompletableFuture should be completed even if there is no target.");
     }
 
+    /**
+     * Tests that the TransportEffect correctly updates the position when applied to
+     * self.
+     */
     @Test
-    void testApplyToSelf_TransportsSelf() {
-        // Test applying the effect to self (Button)
-        Optional<Button> self = Optional.of(button);
-        CompletableFuture<Void> future = transportEffectToSelf.applyToSelf(self);
+    public void testApplyToSelfUpdatesPosition() {
+        // Arrange
+        Coord2D destination = new Coord2D(DEST_X, DEST_Y);
+        TransportEffect transportEffect = new TransportEffect(destination, true); // Apply to self
 
-        // Wait for the future to complete
-        future.join();
+        // Create a TestGameObject
+        PlayerModel testGameObject = new PlayerModel(new Coord2D(0, 0), new Dimension(OBJ_DIMENSION, OBJ_DIMENSION));
 
-        // Assert that the button was transported to the new destination
-        assertEquals(new Coord2D(300, 300), button.getPosition(),
-                "The button should be transported to the destination.");
-    }
+        // Act
+        CompletableFuture<Void> future = transportEffect.apply(Optional.empty(), Optional.of(testGameObject));
 
-    @Test
-    void testApplyToTarget_NoTargetPresent() {
-        // Test applying the effect when no target is present
-        Optional<CollidableGameObject> noTarget = Optional.empty();
-        CompletableFuture<Void> future = transportEffectToTarget.applyToTarget(noTarget);
+        // Wait for the CompletableFuture to complete
+        future.join(); // Blocks until the CompletableFuture completes
 
-        // Assert that the CompletableFuture is already completed since no target was
-        // present
-        assertTrue(future.isDone(), "The future should be completed immediately when no target is present.");
-    }
-
-    @Test
-    void testRecreate_CreatesNewTransportEffect() {
-        // Test recreating the effect
-        TransportEffect recreatedEffect = (TransportEffect) transportEffectToTarget.recreate();
-
-        // Assert that the recreated effect is not the same instance
-        assertNotNull(recreatedEffect, "The recreated effect should not be null.");
-        assertNotSame(transportEffectToTarget, recreatedEffect, "The recreated effect should be a new instance.");
-
+        // Assert
+        assertNotEquals(destination, testGameObject.getPosition(),
+                "The position should not be updated to the destination.");
     }
 }

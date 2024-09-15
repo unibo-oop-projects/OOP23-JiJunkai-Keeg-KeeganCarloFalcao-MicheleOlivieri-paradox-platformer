@@ -24,7 +24,7 @@ public class Button extends AbstractTrigger {
      * @param position  the position of the Button in 2D space
      * @param dimension the size (width and height) of the Button
      */
-    public Button(Coord2D position, Dimension dimension) {
+    public Button(final Coord2D position, final Dimension dimension) {
         super(position, dimension);
         this.position = position;
         this.dimension = dimension;

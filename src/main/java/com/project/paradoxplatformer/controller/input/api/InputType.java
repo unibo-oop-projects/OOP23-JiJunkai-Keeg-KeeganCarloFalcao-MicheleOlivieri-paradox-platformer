@@ -4,70 +4,73 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * Made to create a common key bindings protocol for controller and model's classes
+ * Enum to create a common key bindings protocol for controller and model
+ * classes.
  */
 public enum InputType {
     /**
-     * Left key String representative
+     * Left key string representative.
      */
     LEFT,
     /**
-     * Right key String representative
+     * Right key string representative.
      */
-    RIGHT, 
+    RIGHT,
     /**
-     * Up key String representative
+     * Up key string representative.
      */
     UP,
     /**
-     * A key String representative
+     * A key string representative.
      */
     A,
     /**
-     * D key String representative
-     */ 
+     * D key string representative.
+     */
     D,
     /**
-     * W key String representative
-     */ 
+     * W key string representative.
+     */
     W,
     /**
-     * Esc key String representative
+     * Esc key string representative.
      */
     ESCAPE,
     /**
-     * Undefined key
+     * Undefined key.
      */
     UNDEFINED,
     /**
-     * P key String representative
-     */ 
+     * P key string representative.
+     */
     P,
     /**
-     * R key String representative
-     */ 
+     * R key string representative.
+     */
     R,
     /**
-     * T key String representative
-     */ 
+     * T key string representative.
+     */
     T,
     /**
-     * K key String representative
-     */ 
+     * K key string representative.
+     */
     K;
 
     /**
-     * Utility static method to parse a string to an input type. So it basically finds the raw string 
-     * matching in the enum values, withoud any modifications to the string itself.
-     * @param inputStr raw (unmodified) input key string coming from the toString() methods of key-view.  
-     * @return the matching string found in the values array.
+     * Utility static method to parse a string to an input type. It finds the raw
+     * string
+     * matching in the enum values, without any modifications to the string itself.
+     * 
+     * @param inputStr raw (unmodified) input key string coming from the toString()
+     *                 methods of key-view.
+     * @return the matching InputType found in the enum values.
      */
     public static Optional<InputType> getString(final String inputStr) {
         return Arrays.stream(InputType.values())
-            .map(InputType::name)
-            .filter(inputStr::equals)
-            .findFirst()
-            .map(InputType::valueOf);
-        
+                .map(InputType::name)
+                .filter(inputStr::equals)
+                .findFirst()
+                .map(InputType::valueOf);
     }
 }

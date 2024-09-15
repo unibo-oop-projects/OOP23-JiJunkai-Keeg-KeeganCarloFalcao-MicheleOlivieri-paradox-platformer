@@ -10,8 +10,8 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
  * An abstract class representing a trigger in the game.
- * This class extends AbstractTransformableObject and implements the Trigger
- * interface.
+ * This class extends {@link AbstractTrasformableObject} and implements the
+ * {@link Trigger} interface.
  * It provides a basic implementation for triggers that can activate associated
  * obstacles.
  */
@@ -19,7 +19,7 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
 
     // A list of obstacles associated with this trigger. When the trigger is
     // activated, all these obstacles will be affected.
-    protected final List<Obstacle> associatedObstacles = new ArrayList<>();
+    private final List<Obstacle> associatedObstacles = new ArrayList<>();
 
     /**
      * Constructs a new AbstractTrigger with the specified position and dimension.
@@ -68,5 +68,14 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
     @Override
     public void addObstacle(final Obstacle obstacle) {
         this.associatedObstacles.add(obstacle);
+    }
+
+    /**
+     * Retrieves the list of obstacles associated with this trigger.
+     *
+     * @return The list of associated obstacles.
+     */
+    public List<Obstacle> getAssociatedObstacles() {
+        return new ArrayList<>(this.associatedObstacles);
     }
 }

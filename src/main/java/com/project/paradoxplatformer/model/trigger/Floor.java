@@ -19,7 +19,7 @@ public class Floor extends AbstractTrigger {
      * @param position  the position of the floor trigger in 2D space
      * @param dimension the size of the floor trigger
      */
-    public Floor(Coord2D position, Dimension dimension) {
+    public Floor(final Coord2D position, final Dimension dimension) {
         super(position, dimension);
     }
 

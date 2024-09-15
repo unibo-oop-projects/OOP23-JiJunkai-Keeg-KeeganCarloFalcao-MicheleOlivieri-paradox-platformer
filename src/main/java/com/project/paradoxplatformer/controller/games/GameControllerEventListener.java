@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.controller;
+package com.project.paradoxplatformer.controller.games;
 
 import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
@@ -7,7 +7,7 @@ import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 
 import java.util.Optional;
 
-public interface GameListener {
+public interface GameControllerEventListener {
 
     void handleStopView(PageIdentifier id, Level param);
 

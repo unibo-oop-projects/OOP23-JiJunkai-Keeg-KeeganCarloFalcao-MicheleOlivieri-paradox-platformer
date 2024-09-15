@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.controller;
+package com.project.paradoxplatformer.controller.games;
 
 import java.util.Optional;
 
@@ -12,12 +12,12 @@ import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 /**
  * Manages subscriptions to game events.
  */
-public class GameEventSubscriber {
+public class GameControllerEventSubscriber {
 
-    private final GameListener gameEventListener;
+    private final GameControllerEventListener gameEventListener;
     private final EventManager<GameEventType, PageIdentifier> eventManager;
 
-    public GameEventSubscriber(GameListener gameEventListener) {
+    public GameControllerEventSubscriber(GameControllerEventListener gameEventListener) {
         this.gameEventListener = gameEventListener;
         this.eventManager = EventManager.getInstance();
         subscribeToEvents();

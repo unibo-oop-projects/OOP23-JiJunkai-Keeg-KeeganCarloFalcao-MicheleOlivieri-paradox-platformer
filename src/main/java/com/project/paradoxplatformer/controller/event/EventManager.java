@@ -66,10 +66,7 @@ public final class EventManager<T, U> {
                 .filter(eventMap::containsKey)
                 .map(eventMap::get)
                 .ifPresentOrElse(
-                        f -> {
-                            System.out.println(""); // Placeholder for additional debugging or logging
-                            ((BiConsumer<U, V>) f).accept(param1, param2);
-                        },
+                        f -> ((BiConsumer<U, V>) f).accept(param1, param2),
                         () -> System.out.println("Could not find event " + eventType + ", event not published"));
     }
 

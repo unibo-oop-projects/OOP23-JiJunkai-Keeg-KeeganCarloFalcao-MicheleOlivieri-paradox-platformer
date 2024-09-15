@@ -11,8 +11,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.project.paradoxplatformer.controller.GameEventSubscriber;
-import com.project.paradoxplatformer.controller.GameListener;
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
 import com.project.paradoxplatformer.controller.input.InputController;
@@ -45,7 +43,7 @@ import com.project.paradoxplatformer.utils.InvalidResourceException;
  * 
  * @param <C> type of view component
  */
-public final class GameControllerImpl<C> implements GameController<C>, GameEventListener, GameListener {
+public final class GameControllerImpl<C> implements GameController<C>, GameEventListener, GameControllerEventListener {
 
     private final GameModelData gameModel;
     private Map<MutableObject, ReadOnlyGraphicDecorator<C>> gamePairs;
@@ -57,7 +55,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final ObjectRemover<C> objectRemover;
 
     @SuppressWarnings("unused")
-    private final GameEventSubscriber eventSubscriber;
+    private final GameControllerEventSubscriber eventSubscriber;
 
     private final Random rand = new Random();
     private ObservableLoopManager gameManager;
@@ -78,7 +76,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(level));
         this.currentLevel = level;
 
-        this.eventSubscriber = new GameEventSubscriber(this);
+        this.eventSubscriber = new GameControllerEventSubscriber(this);
         this.objectRemover = new ObjectRemover<>(model, view);
 
         System.out.println("Current level: " + level);

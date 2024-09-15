@@ -15,23 +15,31 @@ import java.util.concurrent.CompletableFuture;
  * Represents an effect that plays a sound. The sound is played only once
  * unless explicitly reset.
  */
-public class SoundEffect extends AbstractRecreatableEffect {
-    private final SoundType soundType;
-    private final SoundLoader soundLoader;
-    private boolean hasPlayed = false;
+public final class SoundEffect extends AbstractRecreatableEffect {
+
+    private final SoundType soundType; // The type of sound to be played
+    private final SoundLoader soundLoader; // Loader to handle sound playback
+    private boolean hasPlayed = false; // Flag to track if the sound has already been played
 
     /**
      * Creates a new SoundEffect.
      *
-     * @param soundFilePath the path to the sound file to play
+     * @param soundType the type of sound to play
      */
-    public SoundEffect(SoundType soundType) {
+    public SoundEffect(final SoundType soundType) {
         this.soundType = soundType;
         this.soundLoader = new SoundLoader();
     }
 
+    /**
+     * Applies the sound effect to the specified game object.
+     * This method will play the sound if it hasn't been played yet.
+     *
+     * @param gameObject the game object to which the effect is applied
+     * @return a CompletableFuture that completes when the sound has been played
+     */
     @Override
-    protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
+    protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         if (hasPlayed) {
             return CompletableFuture.completedFuture(null);
         }
@@ -40,8 +48,8 @@ public class SoundEffect extends AbstractRecreatableEffect {
             return soundLoader.playSound(ResourcesFinder.getURL(soundType.getSoundName()));
         } catch (InvalidResourceException e) {
             e.printStackTrace();
+            return CompletableFuture.completedFuture(null);
         }
-        return CompletableFuture.completedFuture(null);
     }
 
     /**
@@ -51,14 +59,27 @@ public class SoundEffect extends AbstractRecreatableEffect {
         hasPlayed = false;
     }
 
+    /**
+     * Creates a new instance of this SoundEffect, effectively recreating it.
+     *
+     * @return a new SoundEffect instance
+     */
     @Override
     public RecreateableEffect recreate() {
         System.out.println("Sound Effect gets recreated");
         return new SoundEffect(soundType);
     }
 
+    /**
+     * Applies the sound effect to the current instance (self).
+     * This method does nothing for SoundEffect as it is not intended to affect
+     * self.
+     *
+     * @param self the current instance of CollidableGameObject (not used)
+     * @return a CompletableFuture that completes immediately
+     */
     @Override
-    protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
+    protected CompletableFuture<Void> applyToSelf(final Optional<? extends CollidableGameObject> self) {
         return CompletableFuture.completedFuture(null);
     }
 }

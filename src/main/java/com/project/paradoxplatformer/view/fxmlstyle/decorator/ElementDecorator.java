@@ -1,7 +1,7 @@
-package com.project.paradoxplatformer.view;
+package com.project.paradoxplatformer.view.fxmlstyle.decorator;
 
-import com.project.paradoxplatformer.view.fxmlstyle.ButtonStyleBuilder;
-import com.project.paradoxplatformer.view.fxmlstyle.CircleStyleBuilder;
+import com.project.paradoxplatformer.view.fxmlstyle.builder.ButtonStyleBuilder;
+import com.project.paradoxplatformer.view.fxmlstyle.builder.CircleStyleBuilder;
 
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
@@ -13,6 +13,11 @@ import javafx.scene.shape.Circle;
  */
 public class ElementDecorator {
 
+    // Private constructor to prevent instantiation
+    private ElementDecorator() {
+        throw new UnsupportedOperationException("Utility class should not be instantiated");
+    }
+
     /**
      * Applies a predefined set of styles to a Button.
      * Uses the ButtonStyleBuilder to set the background color, text color, and font
@@ -20,7 +25,7 @@ public class ElementDecorator {
      *
      * @param button The Button to be styled.
      */
-    public static void decorateSettingsButton(Button button) {
+    public static void decorateSettingsButton(final Button button) {
         new ButtonStyleBuilder(button)
                 .withBackgroundColor("#1e90ff") // Sets background color to a shade of blue
                 .withTextColor("white") // Sets text color to white
@@ -36,7 +41,7 @@ public class ElementDecorator {
      * @param circle    The Circle to be styled.
      * @param fillColor The color to fill the Circle.
      */
-    public static void decorateLevelCircle(Circle circle, Color fillColor) {
+    public static void decorateLevelCircle(final Circle circle, final Color fillColor) {
         new CircleStyleBuilder(circle)
                 .withFillColor(fillColor) // Sets the fill color of the Circle
                 .withStrokeColor(Color.BLACK) // Sets the stroke color to black

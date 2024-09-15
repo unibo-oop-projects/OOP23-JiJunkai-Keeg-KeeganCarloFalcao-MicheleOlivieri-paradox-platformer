@@ -29,7 +29,7 @@ public class EffectHandler {
          * @param type           the collision type
          * @param effectSupplier the supplier for the effect to be added
          */
-        public void addCollisionEffectsForType(CollisionType type, Supplier<Effect> effectSupplier) {
+        public void addCollisionEffectsForType(final CollisionType type, final Supplier<Effect> effectSupplier) {
                 typeEffectsManager.addEffects(type, effectSupplier);
         }
 
@@ -39,7 +39,7 @@ public class EffectHandler {
          * @param type     the collision type
          * @param newChain the chain of effects to be added
          */
-        public void addCollisionEffectsForType(CollisionType type, ChainOfEffects newChain) {
+        public void addCollisionEffectsForType(final CollisionType type, final ChainOfEffects newChain) {
                 typeEffectsManager.addEffects(type, newChain);
         }
 
@@ -50,8 +50,8 @@ public class EffectHandler {
          * @param object         the game object
          * @param effectSupplier the supplier for the effect to be added
          */
-        public void addCollisionEffectsForObject(CollisionType type, CollidableGameObject object,
-                        Supplier<Effect> effectSupplier) {
+        public void addCollisionEffectsForObject(final CollisionType type, final CollidableGameObject object,
+                        final Supplier<Effect> effectSupplier) {
                 objectEffectsManager.addEffects(type, object, effectSupplier);
         }
 
@@ -62,8 +62,8 @@ public class EffectHandler {
          * @param object   the game object
          * @param newChain the chain of effects to be added
          */
-        public void addCollisionEffectsForObject(CollisionType type, CollidableGameObject object,
-                        ChainOfEffects newChain) {
+        public void addCollisionEffectsForObject(final CollisionType type, final CollidableGameObject object,
+                        final ChainOfEffects newChain) {
                 objectEffectsManager.addEffects(type, object, newChain);
         }
 
@@ -75,13 +75,14 @@ public class EffectHandler {
          * @param target the target game object
          * @return a CompletableFuture that completes when all effects have been applied
          */
-        public CompletableFuture<Void> applyEffects(CollidableGameObject source, CollidableGameObject target) {
+        public CompletableFuture<Void> applyEffects(final CollidableGameObject source,
+                        final CollidableGameObject target) {
                 // Apply type-based effects
-                CompletableFuture<Void> typeEffectsFuture = applyEffects(
+                final CompletableFuture<Void> typeEffectsFuture = applyEffects(
                                 typeEffectsManager.getEffects(target.getCollisionType()), source, target);
 
                 // Apply object-specific effects
-                CompletableFuture<Void> objectEffectsFuture = applyEffects(
+                final CompletableFuture<Void> objectEffectsFuture = applyEffects(
                                 objectEffectsManager.getEffects(target.getCollisionType(), target), source, target);
 
                 // Return a future that completes when both type and object effects are applied
@@ -97,9 +98,10 @@ public class EffectHandler {
          * @return a CompletableFuture that completes when all effects in the chain have
          *         been applied
          */
-        private CompletableFuture<Void> applyEffects(ChainOfEffects effectsChain, CollidableGameObject source,
-                        CollidableGameObject target) {
-                return effectsChain.applyEffectsSequentially(Optional.of(source), Optional.of(target));
+        private CompletableFuture<Void> applyEffects(final ChainOfEffects effectsChain,
+                        final CollidableGameObject source,
+                        final CollidableGameObject target) {
+                return effectsChain.applyToBoth(Optional.of(source), Optional.of(target));
         }
 
         /**
@@ -109,8 +111,8 @@ public class EffectHandler {
          * @param object the game object
          * @return a ChainOfEffects instance containing all combined effects
          */
-        public ChainOfEffects getAllEffects(CollidableGameObject object) {
-                ChainOfEffects.Builder combinedChain = ChainOfEffects.builder();
+        public ChainOfEffects getAllEffects(final CollidableGameObject object) {
+                final ChainOfEffectsBuilder combinedChain = ChainOfEffectsBuilder.builder();
 
                 // Add type-based effects
                 combinedChain.addEffects(typeEffectsManager.getEffects(object.getCollisionType()).getEffects());
@@ -118,6 +120,7 @@ public class EffectHandler {
                 // Add object-specific effects
                 combinedChain.addEffects(
                                 objectEffectsManager.getEffects(object.getCollisionType(), object).getEffects());
+
                 return combinedChain.build();
         }
 
@@ -128,13 +131,13 @@ public class EffectHandler {
          * @param object the game object
          * @param type   the collision type
          */
-        public void reset(CollidableGameObject object, CollisionType type) {
+        public void reset(final CollidableGameObject object, final CollisionType type) {
                 objectEffectsManager.replaceEffects(type, object,
-                                ChainOfEffects.builder().addEffects(recreateIfPossible(
+                                ChainOfEffectsBuilder.builder().addEffects(recreateIfPossible(
                                                 objectEffectsManager.getEffects(type, object).getEffects())).build());
 
                 typeEffectsManager.replaceEffects(type,
-                                ChainOfEffects.builder().addEffects(recreateIfPossible(
+                                ChainOfEffectsBuilder.builder().addEffects(recreateIfPossible(
                                                 typeEffectsManager.getEffects(type).getEffects())).build());
         }
 
@@ -145,7 +148,7 @@ public class EffectHandler {
          * @param effects the list of effects to attempt to recreate
          * @return a list of recreated effects
          */
-        private List<Effect> recreateIfPossible(List<? extends Effect> effects) {
+        private List<Effect> recreateIfPossible(final List<? extends Effect> effects) {
                 return effects.stream()
                                 .map(this::tryRecreate)
                                 .flatMap(Optional::stream)
@@ -159,12 +162,11 @@ public class EffectHandler {
          * @return an Optional containing the recreated effect, or an empty Optional if
          *         recreation failed
          */
-        private Optional<Effect> tryRecreate(Effect effect) {
+        private Optional<Effect> tryRecreate(final Effect effect) {
                 try {
                         return Optional.ofNullable((Effect) effect.getClass().getMethod("recreate").invoke(effect));
                 } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                         return Optional.empty();
                 }
         }
-
 }

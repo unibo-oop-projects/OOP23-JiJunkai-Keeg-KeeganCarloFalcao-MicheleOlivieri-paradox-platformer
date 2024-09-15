@@ -2,21 +2,16 @@ package com.project.paradoxplatformer.utils.collision;
 
 import com.project.paradoxplatformer.model.effect.EffectHandler;
 import com.project.paradoxplatformer.model.effect.EffectHandlerFactoryImpl;
-import com.project.paradoxplatformer.model.effect.api.EffectHandlerFactory;
-import com.project.paradoxplatformer.model.trigger.api.Button;
+import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.utils.collision.api.CollisionType;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CollisionManagerTest {
 
@@ -32,8 +27,8 @@ class CollisionManagerTest {
     @Test
     void testHandleCollisions_WithCollisions() {
         // Setup test objects
-        CollidableGameObject player = new Button();
-        CollidableGameObject object1 = new Button();
+        CollidableGameObject player = new PlayerModel();
+        CollidableGameObject object1 = new Button(new Coord2D(0, 0), new Dimension(0, 0));
         object1.setPosition(new Coord2D(0, 0)); // Position overlaps with player
         player.setPosition(new Coord2D(0, 0)); // Position matches object1
 
@@ -48,8 +43,8 @@ class CollisionManagerTest {
     @Test
     void testHandleCollisions_WithoutCollisions() {
         // Setup test objects
-        CollidableGameObject player = new Button();
-        CollidableGameObject object1 = new Button();
+        CollidableGameObject player = new PlayerModel();
+        CollidableGameObject object1 = new Button(new Coord2D(0, 0), new Dimension(0, 0));
         object1.setPosition(new Coord2D(10, 10)); // Position does not overlap with player
         player.setPosition(new Coord2D(0, 0)); // Position different from object1
 

@@ -11,18 +11,18 @@ public enum CollisionType {
     PLATFORM,
 
     /**
-     * Represents an obstacle collision type.
-     * Used for objects that obstruct the player's path and may need to be avoided
-     * or interacted with.
-     */
-    OBSTACLE,
-
-    /**
-     * Represents a trigger collision type.
+     * Represents a visible trigger collision type.
      * Used for objects that trigger events or actions when the player interacts
      * with them.
      */
-    TRIGGER,
+    BUTTON,
+
+    /**
+     * Represents a invisible trigger collision type.
+     * Used for objects that trigger events or actions when the player interacts
+     * with them.
+     */
+    FLOOR,
 
     /**
      * Represents the player collision type.
@@ -52,5 +52,11 @@ public enum CollisionType {
      * Represents a walls collision type.
      * Used for walls or barriers that block the player's movement.
      */
-    WALLS
+    WALLS,
+
+    /**
+     * Represents a warp collision type.
+     * Used for objects that transport the player to somewhere else.
+     */
+    WARP
 }

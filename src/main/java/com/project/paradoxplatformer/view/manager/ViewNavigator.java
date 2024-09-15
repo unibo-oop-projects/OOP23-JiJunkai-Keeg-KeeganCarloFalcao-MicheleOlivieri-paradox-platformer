@@ -1,8 +1,8 @@
-package com.project.paradoxplatformer.view;
+package com.project.paradoxplatformer.view.manager;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
-import com.project.paradoxplatformer.model.effect.ViewEventType;
+import com.project.paradoxplatformer.model.effect.GameEventType;
 import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.utils.EventManager;
 
@@ -11,7 +11,7 @@ import com.project.paradoxplatformer.utils.EventManager;
  * application.
  * It uses the EventManager to publish events that trigger view changes.
  */
-public class ViewNavigator {
+public final class ViewNavigator {
 
     private static ViewNavigator instance; // Singleton instance of ViewNavigator
 
@@ -43,8 +43,8 @@ public class ViewNavigator {
      * @throws InvalidResourceException If the view resource is invalid or cannot be
      *                                  found.
      */
-    public void openView(PageIdentifier id, Level param) throws InvalidResourceException {
-        EventManager.getInstance().publish(ViewEventType.SWITCH_VIEW, id, param);
+    public void openView(final PageIdentifier id, final Level param) throws InvalidResourceException {
+        EventManager.getInstance().publish(GameEventType.SWITCH_VIEW, id, param);
     }
 
     /**

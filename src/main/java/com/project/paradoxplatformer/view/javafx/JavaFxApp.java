@@ -10,8 +10,8 @@ import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.Page;
-import com.project.paradoxplatformer.view.ViewManager;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
+import com.project.paradoxplatformer.view.manager.ViewManager;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -24,10 +24,6 @@ import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.CycleMethod;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 
 public class JavaFxApp extends Application implements ViewManager {
@@ -103,9 +99,8 @@ public class JavaFxApp extends Application implements ViewManager {
 
             var entry = helper.mapper().apply(id);
             scene.setRoot(
-                entry.map(Pair::getKey)
-                    .orElse(ViewLegacy.javaFxFactory().blankPage())
-                );
+                    entry.map(Pair::getKey)
+                            .orElse(ViewLegacy.javaFxFactory().blankPage()));
             stage.sizeToScene();
 
             System.out.println("[PANE]: " + entry.map(Pair::getValue).orElse(Page.defaultPage()));
@@ -171,7 +166,7 @@ public class JavaFxApp extends Application implements ViewManager {
         stage.sizeToScene();
         stage.setScene(scene);
 
-        System.out.println("Main View Size → " + new Dimension(scene.getWidth(),scene.getHeight()));
+        System.out.println("Main View Size → " + new Dimension(scene.getWidth(), scene.getHeight()));
 
     }
 

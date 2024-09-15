@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.utils.collision;
 
-import com.project.paradoxplatformer.model.trigger.api.Button;
+import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import org.junit.jupiter.api.BeforeEach;

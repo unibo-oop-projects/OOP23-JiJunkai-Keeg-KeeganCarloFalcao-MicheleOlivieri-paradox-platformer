@@ -2,8 +2,7 @@ package com.project.paradoxplatformer.model.effect;
 
 import com.project.paradoxplatformer.model.effect.impl.TransportEffect;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.model.trigger.api.Button;
-import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
+import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import org.junit.jupiter.api.Test;

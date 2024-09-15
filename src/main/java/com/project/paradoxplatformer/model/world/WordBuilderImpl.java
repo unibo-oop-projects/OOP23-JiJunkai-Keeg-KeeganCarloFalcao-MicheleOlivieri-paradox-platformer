@@ -2,7 +2,7 @@ package com.project.paradoxplatformer.model.world;
 
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.model.trigger.api.Trigger;
+import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
 import com.project.paradoxplatformer.utils.SecureWrapper;

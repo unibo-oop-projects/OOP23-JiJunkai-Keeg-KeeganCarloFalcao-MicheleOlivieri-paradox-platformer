@@ -14,7 +14,7 @@ import com.project.paradoxplatformer.model.entity.TrasformType;
 import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.model.trigger.api.Trigger;
+import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
@@ -44,7 +44,6 @@ public class ModelMappingFactoryImpl implements ModelMappingFactory {
         return (Obstacle) evaluateGenericType(sub, OBSTACLE_PREFIX_NAME, OBSTACLE_TAG);
     }
 
-
     private Queue<TrajectoryInfo> trajMacro(TrajMacro[] traj) {
         if (Objects.nonNull(traj)) {
             return Arrays.stream(traj)
@@ -65,17 +64,15 @@ public class ModelMappingFactoryImpl implements ModelMappingFactory {
         return (Trigger) evaluateGenericType(sub, TRIGGER_PREFIX_NAME, TRIGGER_TAG);
     }
 
-
     private Object evaluateGenericType(GameDTO sub, String prefix, final String typeTag) {
         try {
             return Class.forName(prefix + sub.getSubtype())
                     .getConstructor(
-                        Coord2D.class,
-                        Dimension.class
-                    ).newInstance(
-                        new Coord2D(sub.getX(), sub.getY()),
-                        new Dimension(sub.getWidth(), sub.getHeight())
-                    );
+                            Coord2D.class,
+                            Dimension.class)
+                    .newInstance(
+                            new Coord2D(sub.getX(), sub.getY()),
+                            new Dimension(sub.getWidth(), sub.getHeight()));
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
             throw new IllegalStateException("failed to create " + typeTag + " through reflection\nCheck: ", e);

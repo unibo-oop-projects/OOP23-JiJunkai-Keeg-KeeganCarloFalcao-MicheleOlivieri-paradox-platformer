@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.utils;
 
-public final class InvalidResourceException extends Exception{
+public final class InvalidResourceException extends Exception {
 
     private static final String DEFAULT_MESSAGE = "File does not exist: ";
 

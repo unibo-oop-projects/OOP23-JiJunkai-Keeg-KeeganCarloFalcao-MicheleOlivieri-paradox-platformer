@@ -8,15 +8,14 @@ import java.util.function.BiConsumer;
 /**
  * EventManager provides a mechanism for communication between different classes
  * without passing instances between them. It follows the Singleton pattern to
- * ensure
- * that only one instance manages all events across the application.
+ * ensure that only one instance manages all events across the application.
  *
  * @param <T> The type of event identifiers.
  * @param <U> The type of the first parameter for event handlers.
  */
-public class EventManager<T, U> {
+public final class EventManager<T, U> {
 
-    private static EventManager<?, ?> instance; // Singleton instance of the EventManager
+    private static volatile EventManager<?, ?> instance; // Singleton instance of the EventManager
     private final Map<T, BiConsumer<U, ?>> eventMap = new HashMap<>(); // Map to store event handlers
 
     // Private constructor to prevent direct instantiation
@@ -49,7 +48,7 @@ public class EventManager<T, U> {
      * @param action    The action to perform when the event is published.
      * @param <V>       The type of the second parameter for event handlers.
      */
-    public <V> void subscribe(T eventType, BiConsumer<U, V> action) {
+    public <V> void subscribe(final T eventType, final BiConsumer<U, V> action) {
         eventMap.put(eventType, action);
     }
 
@@ -62,7 +61,7 @@ public class EventManager<T, U> {
      * @param <V>       The type of the second parameter for event handlers.
      */
     @SuppressWarnings("unchecked")
-    public <V> void publish(T eventType, U param1, V param2) {
+    public <V> void publish(final T eventType, final U param1, final V param2) {
         Optional.of(eventType)
                 .filter(eventMap::containsKey)
                 .map(eventMap::get)

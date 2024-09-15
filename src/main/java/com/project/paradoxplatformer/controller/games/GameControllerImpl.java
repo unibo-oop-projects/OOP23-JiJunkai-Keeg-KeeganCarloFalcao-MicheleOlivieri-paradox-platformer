@@ -17,7 +17,7 @@ import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.effect.EffectHandlerFactoryImpl;
-import com.project.paradoxplatformer.model.effect.ViewEventType;
+import com.project.paradoxplatformer.model.effect.GameEventType;
 import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
@@ -25,19 +25,19 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
+import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.ViewNavigator;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
-
+import com.project.paradoxplatformer.view.manager.ViewNavigator;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 
 import java.util.List;
@@ -56,11 +56,11 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final Function<GraphicAdapter<C>, Coord2D> position;
     private final Function<GraphicAdapter<C>, Dimension> dimension;
 
-    private final CollisionManager collisionManager;
+    private CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
 
     private final Random rand = new Random();
-    private final EventManager<ViewEventType, PageIdentifier> eventManager;
+    private final EventManager<GameEventType, PageIdentifier> eventManager;
     private ObservableLoopManager gameManager;
     private final String modelID;
 
@@ -82,9 +82,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.eventManager = EventManager.getInstance();
         this.objectRemover = new ObjectRemover<>(model, view);
 
-        eventManager.subscribe(ViewEventType.UPDATE_HANDLER, this::updateHandler);
-        eventManager.subscribe(ViewEventType.STOP_VIEW, this::handleStopView);
-        eventManager.subscribe(ViewEventType.REMOVE_OBJECT, this::handleRemoveObject);
+        eventManager.subscribe(GameEventType.UPDATE_HANDLER, this::updateHandler);
+        eventManager.subscribe(GameEventType.STOP_VIEW, this::handleStopView);
+        eventManager.subscribe(GameEventType.REMOVE_OBJECT, this::handleRemoveObject);
+        eventManager.subscribe(GameEventType.TRIGGER_EFFECT, this::handleTriggerEffect);
     }
 
     @Override
@@ -106,6 +107,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.gameManager.stop();
     }
 
+    private void handleTriggerEffect(final PageIdentifier id, final Obstacle param) {
+        System.out.println(param + " FROM GAME CONTROLLER.");
+    }
+
     private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> object) {
         objectRemover.handleRemoveObject(id, object);
     }
@@ -116,7 +121,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
     private void updateHandler(final PageIdentifier id, final Level param) {
         System.out.println("SWITCH COLLISION MANAGER'S HANDLER.");
-        this.collisionManager.setEffectHandler(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(param));
+        this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(param));
 
     }
 

@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer;
+package com.project.paradoxplatformer.view.manager.api;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 

@@ -1,7 +1,9 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
-import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
-import com.project.paradoxplatformer.model.trigger.api.Button;
+import com.project.paradoxplatformer.model.trigger.Button;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +20,7 @@ class NoOpEffectTest {
     @BeforeEach
     void setUp() {
         noOpEffect = new NoOpEffect();
-        mockGameObject = new Button();
+        mockGameObject = new Button(new Coord2D(0, 0), new Dimension(0, 0));
     }
 
     @Test

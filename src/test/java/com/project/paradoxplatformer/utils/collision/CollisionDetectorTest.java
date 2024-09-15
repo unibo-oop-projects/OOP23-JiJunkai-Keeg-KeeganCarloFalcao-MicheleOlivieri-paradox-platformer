@@ -12,50 +12,76 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Unit test for CollisionDetector class.
+ * It tests collision detection between buttons in different scenarios.
+ */
 class CollisionDetectorTest {
+
+    private static final double BUTTON1_X = 100;
+    private static final double BUTTON1_Y = 200;
+    private static final double BUTTON2_X = 120;
+    private static final double BUTTON2_Y = 220;
+    private static final double BUTTON3_X = 300;
+    private static final double BUTTON3_Y = 400;
+    private static final int BUTTON_WIDTH = 50;
+    private static final int BUTTON_HEIGHT = 50;
 
     private Button button1;
     private Button button2;
     private Button button3;
 
+    /**
+     * Initializes buttons with different positions and dimensions before each test.
+     */
     @BeforeEach
     void setUp() {
-        // Initialize buttons with different positions and dimensions
-        button1 = new Button(new Coord2D(100, 200), new Dimension(50, 50));
-        button2 = new Button(new Coord2D(120, 220), new Dimension(50, 50)); // Overlapping with button1
-        button3 = new Button(new Coord2D(300, 400), new Dimension(50, 50)); // Not overlapping
+        button1 = new Button(new Coord2D(BUTTON1_X, BUTTON1_Y), new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+        button2 = new Button(new Coord2D(BUTTON2_X, BUTTON2_Y), new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT)); // Overlapping
+                                                                                                             // with
+                                                                                                             // button1
+        button3 = new Button(new Coord2D(BUTTON3_X, BUTTON3_Y), new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT)); // Not
+                                                                                                             // overlapping
     }
 
+    /**
+     * Tests that isColliding() returns true when two buttons overlap.
+     */
     @Test
-    void testIsColliding_WhenOverlapping() {
-        // Test collision between button1 and button2
+    void testIsCollidingWhenOverlapping() {
         assertTrue(CollisionDetector.isColliding(button1, button2), "Button1 and Button2 should be colliding.");
     }
 
+    /**
+     * Tests that isColliding() returns false when two buttons do not overlap.
+     */
     @Test
-    void testIsColliding_WhenNotOverlapping() {
-        // Test no collision between button1 and button3
+    void testIsCollidingWhenNotOverlapping() {
         assertFalse(CollisionDetector.isColliding(button1, button3), "Button1 and Button3 should not be colliding.");
     }
 
+    /**
+     * Tests that hasCollision() returns true when a collision is detected in a list
+     * of objects.
+     */
     @Test
-    void testHasCollision_WhenCollisionExists() {
-        // List of objects where button1 should collide with button2
+    void testHasCollisionWhenCollisionExists() {
         List<Button> buttons = new ArrayList<>();
-        buttons.add(button2);
+        buttons.add(button2); // Colliding button
         buttons.add(button3);
 
-        // Test if button1 has a collision in the list
         assertTrue(CollisionDetector.hasCollision(button1, buttons), "Button1 should collide with Button2.");
     }
 
+    /**
+     * Tests that hasCollision() returns false when no collisions are detected in a
+     * list of objects.
+     */
     @Test
-    void testHasCollision_WhenNoCollisionExists() {
-        // List of objects where button1 does not collide with any other button
+    void testHasCollisionWhenNoCollisionExists() {
         List<Button> buttons = new ArrayList<>();
         buttons.add(button3);
 
-        // Test if button1 has no collisions
         assertFalse(CollisionDetector.hasCollision(button1, buttons), "Button1 should not collide with Button3.");
     }
 }

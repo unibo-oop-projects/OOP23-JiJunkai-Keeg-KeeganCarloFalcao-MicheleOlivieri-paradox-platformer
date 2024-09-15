@@ -25,7 +25,7 @@ class CollisionManagerTest {
     }
 
     @Test
-    void testHandleCollisions_WithCollisions() {
+    void testHandleCollisionsWithCollisions() {
         // Setup test objects
         CollidableGameObject player = new PlayerModel();
         CollidableGameObject object1 = new Button(new Coord2D(0, 0), new Dimension(0, 0));
@@ -41,7 +41,7 @@ class CollisionManagerTest {
     }
 
     @Test
-    void testHandleCollisions_WithoutCollisions() {
+    void testHandleCollisionsWithoutCollisions() {
         // Setup test objects
         CollidableGameObject player = new PlayerModel();
         CollidableGameObject object1 = new Button(new Coord2D(0, 0), new Dimension(0, 0));

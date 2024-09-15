@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.controller.event.EventManager;
-import com.project.paradoxplatformer.model.effect.AbstractOneTimeEffect;
+import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffect;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;

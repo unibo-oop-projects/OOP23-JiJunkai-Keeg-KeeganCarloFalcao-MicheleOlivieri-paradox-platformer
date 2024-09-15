@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.effect;
+package com.project.paradoxplatformer.model.effect.abstracts;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;

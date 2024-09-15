@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;
+import com.project.paradoxplatformer.model.effect.abstracts.AbstractRecreatableEffect;
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;

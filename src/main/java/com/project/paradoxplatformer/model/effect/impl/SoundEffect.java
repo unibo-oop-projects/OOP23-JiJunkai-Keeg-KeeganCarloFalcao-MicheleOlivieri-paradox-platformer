@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
-import com.project.paradoxplatformer.model.effect.AbstractRecreatableEffect;
+import com.project.paradoxplatformer.model.effect.abstracts.AbstractRecreatableEffect;
 import com.project.paradoxplatformer.model.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;

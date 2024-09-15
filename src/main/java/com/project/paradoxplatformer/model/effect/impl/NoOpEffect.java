@@ -2,7 +2,7 @@ package com.project.paradoxplatformer.model.effect.impl;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.project.paradoxplatformer.model.effect.AbstractOneTimeEffect;
+import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffect;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 
 /**

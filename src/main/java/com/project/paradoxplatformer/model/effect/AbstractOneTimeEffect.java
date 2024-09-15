@@ -23,8 +23,8 @@ public abstract class AbstractOneTimeEffect extends AbstractEffect implements On
      *         effect
      */
     @Override
-    public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target,
-            Optional<? extends CollidableGameObject> self) {
+    public CompletableFuture<Void> apply(final Optional<? extends CollidableGameObject> target,
+            final Optional<? extends CollidableGameObject> self) {
         // Apply the effect, then trigger cleanup once done
         return super.apply(target, self).thenRun(() -> this.cleanup(self));
     }
@@ -34,7 +34,7 @@ public abstract class AbstractOneTimeEffect extends AbstractEffect implements On
      * 
      * @param self the optional self object
      */
-    protected void cleanup(Optional<? extends CollidableGameObject> self) {
+    protected void cleanup(final Optional<? extends CollidableGameObject> self) {
         System.out.println("One time effect is in clean up mode.");
         // Publish an event to remove the object after the effect is applied
         EventManager.getInstance().publish(GameEventType.REMOVE_OBJECT, PageIdentifier.EMPTY, self);

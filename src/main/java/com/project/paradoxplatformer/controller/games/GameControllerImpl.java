@@ -40,9 +40,6 @@ import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 
-import java.util.List;
-import java.util.ArrayList;
-
 /**
  * An implementation of a basic Game Controller.
  * 

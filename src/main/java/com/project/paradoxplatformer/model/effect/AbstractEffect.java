@@ -32,8 +32,8 @@ public abstract class AbstractEffect implements Effect {
      *         to both target and self.
      */
     @Override
-    public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target,
-            Optional<? extends CollidableGameObject> self) {
+    public CompletableFuture<Void> apply(final Optional<? extends CollidableGameObject> target,
+            final Optional<? extends CollidableGameObject> self) {
         // Apply effect to both the target and self concurrently
         CompletableFuture<Void> targetFuture = applyToTarget(target);
         CompletableFuture<Void> selfFuture = applyToSelf(self);
@@ -53,7 +53,7 @@ public abstract class AbstractEffect implements Effect {
      * @return a {@link CompletableFuture} representing the completion of
      *         applying the effect to the target.
      */
-    protected CompletableFuture<Void> applyToTarget(Optional<? extends CollidableGameObject> target) {
+    protected CompletableFuture<Void> applyToTarget(final Optional<? extends CollidableGameObject> target) {
         // Apply effect to target if present, otherwise return a completed future
         return target.map(this::applyToGameObject).orElse(CompletableFuture.completedFuture(null));
     }
@@ -70,7 +70,7 @@ public abstract class AbstractEffect implements Effect {
      * @return a {@link CompletableFuture} representing the completion of
      *         applying the effect to the self object.
      */
-    protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
+    protected CompletableFuture<Void> applyToSelf(final Optional<? extends CollidableGameObject> self) {
         // Apply effect to self if present, otherwise return a completed future
         return self.map(this::applyToGameObject).orElse(CompletableFuture.completedFuture(null));
     }

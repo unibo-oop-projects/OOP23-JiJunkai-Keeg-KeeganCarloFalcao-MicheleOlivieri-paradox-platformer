@@ -23,6 +23,9 @@ import javafx.util.Duration;
  */
 public class MenuPage extends AbstractThreadedPage {
 
+    // The duration of the animation.
+    private static final int ANIMATION_DURATION = 2000;
+
     // A ratio used for adjusting the contrast during the transition effect.
     private static final double TRESHOLD_RATIO = 2.2d;
 
@@ -57,7 +60,7 @@ public class MenuPage extends AbstractThreadedPage {
      * @param resources The resources used to localize the root object.
      */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(final URL location, final ResourceBundle resources) {
         bindEvents(); // Bind UI components to their event handlers
         applyEffects(); // Apply visual effects to the UI components
     }
@@ -81,12 +84,12 @@ public class MenuPage extends AbstractThreadedPage {
         // circles
         animation = new Transition() {
             {
-                // The duration of the animation is set to 2000 milliseconds (2 seconds)
-                setCycleDuration(Duration.millis(2000));
+                // The duration of the animation is set.
+                setCycleDuration(Duration.millis(ANIMATION_DURATION));
             }
 
             @Override
-            protected void interpolate(double frac) {
+            protected void interpolate(final double frac) {
                 // Interpolate the contrast effect proportionally to the animation progress
                 // (frac)
                 colorAdj.setContrast(frac / TRESHOLD_RATIO);
@@ -156,7 +159,7 @@ public class MenuPage extends AbstractThreadedPage {
      * 
      * @param action The navigation action to be executed.
      */
-    private void navigate(NavigationAction action) {
+    private void navigate(final NavigationAction action) {
         try {
             animation.stop(); // Stop the current animation before navigating
             action.navigate(); // Execute the navigation action (e.g., change views)
@@ -174,7 +177,7 @@ public class MenuPage extends AbstractThreadedPage {
      *              future.
      */
     @Override
-    protected void runOnFXThread(String param) {
+    protected void runOnFXThread(final String param) {
         animation.play(); // Start playing the animation
         System.out.println("[Main Menu Panel]"); // Log a message for debugging purposes
     }

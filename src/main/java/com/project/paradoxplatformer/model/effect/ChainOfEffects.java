@@ -16,6 +16,11 @@ import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 public class ChainOfEffects {
     private final List<Effect> effects;
 
+    /**
+     * Constructs a ChainOfEffects with the specified list of effects.
+     *
+     * @param effects the list of effects to be applied sequentially
+     */
     public ChainOfEffects(final List<Effect> effects) {
         this.effects = List.copyOf(effects); // Defensive copy for immutability
     }

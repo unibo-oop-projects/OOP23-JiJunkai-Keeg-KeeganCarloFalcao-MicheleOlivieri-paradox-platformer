@@ -7,6 +7,7 @@ import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 public abstract class AbstractObstacle extends AbstractTransformableObject implements Obstacle {
 
@@ -24,7 +25,7 @@ public abstract class AbstractObstacle extends AbstractTransformableObject imple
 
     @Override
     public void execute() {
-        EventManager.getInstance().publish(GameEventType.TRIGGER_EFFECT, getCollisionType(), this);
+        EventManager.getInstance().publish(GameEventType.TRIGGER_EFFECT, PageIdentifier.GAME, this);
     }
 
 }

@@ -85,11 +85,15 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         eventManager.subscribe(GameEventType.TRIGGER_EFFECT, this::handleTriggerEffect);
 
         System.out.println("Current level: " + level);
+
     }
 
     @Override
     public void loadModel() {
         gameModel.init();
+
+        initializeTriggers();
+
         System.out.println("Game Model is loaded.");
     }
 
@@ -107,7 +111,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     }
 
     private void handleTriggerEffect(final PageIdentifier id, final Obstacle param) {
-        System.out.println(param + " FROM GAME CONTROLLER.");
+        System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
     }
 
     private void handleRemoveObject(final PageIdentifier id, Optional<? extends CollidableGameObject> object) {
@@ -226,6 +230,11 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
     private void resync() {
         this.sync(false);
+    }
+
+    private void initializeTriggers() {
+        this.gameModel.getWorld().triggers().forEach(
+                trigger -> trigger.addObstacle(this.gameModel.getWorld().obstacles().stream().findAny().get()));
     }
 
     @Override

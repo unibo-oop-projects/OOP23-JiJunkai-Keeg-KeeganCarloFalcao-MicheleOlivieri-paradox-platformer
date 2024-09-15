@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.view;
 
+import com.project.paradoxplatformer.model.effect.api.Level;
+
 /**
  * Interface representing a page in the application.
  * This interface provides a method to create or initialize the page
@@ -24,11 +26,11 @@ public interface Page<T> {
      *
      * @return a default Page implementation
      */
-    static Page<String> defaultPage() {
-        return new Page<String>() {
+    static Page<Level> defaultPage() {
+        return new Page<Level>() {
 
             @Override
-            public void create(final String param) throws Exception {
+            public void create(final Level param) throws Exception {
                 // Display a message indicating that the page was not found
                 System.out.println("Page not Found: showing a Blank Screen");
             }

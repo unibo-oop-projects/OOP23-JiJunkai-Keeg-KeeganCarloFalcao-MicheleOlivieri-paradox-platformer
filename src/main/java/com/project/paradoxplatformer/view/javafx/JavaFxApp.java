@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
@@ -30,7 +31,7 @@ public class JavaFxApp extends Application implements ViewManager {
 
     private static Scene scene;
     private static Stage stage;
-    private static FXMLPageHelper<Page<String>> helper;
+    private static FXMLPageHelper<Page<Level>> helper;
     private boolean created;
     private static String staticTitle = "";
     private static CountDownLatch latch;
@@ -90,7 +91,7 @@ public class JavaFxApp extends Application implements ViewManager {
     }
 
     @Override
-    public Page<String> switchPage(PageIdentifier id) {
+    public Page<Level> switchPage(PageIdentifier id) {
         if (Platform.isFxApplicationThread()) {
 
             System.out.println("In SWITCH PANE FUNCTION");

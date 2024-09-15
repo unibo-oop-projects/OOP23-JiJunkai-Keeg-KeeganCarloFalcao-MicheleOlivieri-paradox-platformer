@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.javafx.FXMLPageHelper;
@@ -26,7 +27,7 @@ public final class SwingApp extends JFrame implements ViewManager {
 
     private final JPanel jpane;
     private CountDownLatch latch;
-    private final FXMLPageHelper<Page<String>> helper;
+    private final FXMLPageHelper<Page<Level>> helper;
 
     public SwingApp() {
         this.jpane = new JPanel(new BorderLayout());
@@ -43,7 +44,7 @@ public final class SwingApp extends JFrame implements ViewManager {
     }
 
     @Override
-    public Page<String> switchPage(final PageIdentifier pageID) {
+    public Page<Level> switchPage(final PageIdentifier pageID) {
         final JFXPanel fJfxPanel = new JFXPanel();
         this.setContentPane(fJfxPanel);
         fJfxPanel.requestFocus();
@@ -95,7 +96,7 @@ public final class SwingApp extends JFrame implements ViewManager {
         SwingUtilities.invokeLater(runner);
     }
 
-    private Page<String> emebedFXPage(final JFXPanel fxPanel, final PageIdentifier pageID) {
+    private Page<Level> emebedFXPage(final JFXPanel fxPanel, final PageIdentifier pageID) {
         final var entry = helper.mapper().apply(pageID);
         final Scene fxScene = entry
                 .map(Pair::getKey)

@@ -3,6 +3,8 @@ package com.project.paradoxplatformer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.project.paradoxplatformer.model.effect.api.Level;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -43,7 +45,7 @@ public class SettingsPage extends AbstractThreadedPage {
     }
 
     @Override
-    protected void runOnFXThread(String param) throws Exception {
+    protected void runOnFXThread(final Level param) throws Exception {
         System.out.println("[Main Settings Panel]"); // Debug output or placeholder for actual logic
     }
 

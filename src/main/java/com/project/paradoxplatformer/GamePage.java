@@ -11,6 +11,7 @@ import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.SimpleGameSettingsModel;
+import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.inputmodel.InputMovesFactoryImpl;
 import com.project.paradoxplatformer.model.world.PlatfromModelData;
@@ -71,7 +72,7 @@ public class GamePage<V, K> extends AbstractThreadedPage {
     // SHOULD PASS A PARAMETER DETANING THE MODEL STATE
 
     @Override
-    protected void runOnFXThread(final String param) throws Exception {
+    protected void runOnFXThread(final Level param) throws Exception {
         // this.pausePane.setVisible(true);
         // HERE's WHERE MAGIC HAPPENS, looks very free needs to be coupled atleast
         final LevelDTO level = this.getLevel(param);
@@ -117,10 +118,10 @@ public class GamePage<V, K> extends AbstractThreadedPage {
         gc.syncView();
     }
 
-    private LevelDTO getLevel(String param) throws IOException, InvalidResourceException {
+    private LevelDTO getLevel(Level level) throws IOException, InvalidResourceException {
         return new DeserializerFactoryImpl()
                 .levelDeserialzer()
-                .deserialize(param);
+                .deserialize(level.getResourceFile());
     }
 
     @Override

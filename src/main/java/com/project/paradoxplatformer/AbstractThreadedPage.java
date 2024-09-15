@@ -3,6 +3,7 @@ package com.project.paradoxplatformer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
@@ -20,7 +21,7 @@ import javafx.fxml.Initializable;
  * if it is already on the JavaFX thread.
  * </p>
  */
-public abstract class AbstractThreadedPage implements Page<String>, Initializable {
+public abstract class AbstractThreadedPage implements Page<Level>, Initializable {
 
     /**
      * Constructs an {@code AbstractThreadedPage} instance.
@@ -50,7 +51,7 @@ public abstract class AbstractThreadedPage implements Page<String>, Initializabl
      * thread. If the code
      * is not already on the JavaFX thread, it will be scheduled to run on it.
      * Subclasses should
-     * implement the {@link #runOnFXThread(String)} method to define the specific
+     * implement the {@link #runOnFXThread(Level)} method to define the specific
      * actions to be
      * performed on the JavaFX thread.
      * </p>
@@ -61,7 +62,7 @@ public abstract class AbstractThreadedPage implements Page<String>, Initializabl
      *                   thread
      */
     @Override
-    public void create(final String param) throws Exception {
+    public void create(final Level param) throws Exception {
         // Ensure that the code runs on the JavaFX application thread
         if (!Platform.isFxApplicationThread()) {
             ViewLegacy.javaFxFactory().mainAppManager().get().runOnAppThread(() -> safelyRunOnFXThread(param));
@@ -81,7 +82,7 @@ public abstract class AbstractThreadedPage implements Page<String>, Initializabl
      * @param param the parameter used for initialization; must be final to ensure
      *              thread safety
      */
-    private void safelyRunOnFXThread(final String param) {
+    private void safelyRunOnFXThread(final Level param) {
         try {
             this.runOnFXThread(param); // Run the given code on the JavaFX thread
         } catch (Exception e) {
@@ -101,6 +102,6 @@ public abstract class AbstractThreadedPage implements Page<String>, Initializabl
      * @throws Exception if any error occurs while running the code on the JavaFX
      *                   thread
      */
-    protected abstract void runOnFXThread(String param) throws Exception;
+    protected abstract void runOnFXThread(Level param) throws Exception;
 
 }

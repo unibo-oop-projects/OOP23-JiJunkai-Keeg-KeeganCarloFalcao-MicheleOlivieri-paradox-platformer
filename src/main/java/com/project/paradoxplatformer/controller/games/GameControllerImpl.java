@@ -59,7 +59,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final Random rand = new Random();
     private final EventManager<GameEventType, PageIdentifier> eventManager;
     private ObservableLoopManager gameManager;
-    private final String modelID;
+    private final Level currentLevel;
 
     /**
      * A generic constuctor of a gamecontroller.
@@ -67,14 +67,14 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
      * @param model model type
      * @param view  view type
      */
-    public GameControllerImpl(final GameModelData model, final GameView<C> view, String id) {
+    public GameControllerImpl(final GameModelData model, final GameView<C> view, final Level level) {
         this.gameModel = model;
         this.gameView = view;
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
-        this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().defaultEffectHandler());
-        this.modelID = id;
+        this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(level));
+        this.currentLevel = level;
 
         this.eventManager = EventManager.getInstance();
         this.objectRemover = new ObjectRemover<>(model, view);
@@ -83,6 +83,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         eventManager.subscribe(GameEventType.STOP_VIEW, this::handleStopView);
         eventManager.subscribe(GameEventType.REMOVE_OBJECT, this::handleRemoveObject);
         eventManager.subscribe(GameEventType.TRIGGER_EFFECT, this::handleTriggerEffect);
+
+        System.out.println("Current level: " + level);
     }
 
     @Override
@@ -242,7 +244,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         System.out.println("RESTART");
 
         try {
-            ViewLegacy.javaFxFactory().mainAppManager().get().switchPage(PageIdentifier.GAME).create(modelID);
+            ViewLegacy.javaFxFactory().mainAppManager().get().switchPage(PageIdentifier.GAME).create(currentLevel);
         } catch (Exception e) {
             e.printStackTrace();
         }

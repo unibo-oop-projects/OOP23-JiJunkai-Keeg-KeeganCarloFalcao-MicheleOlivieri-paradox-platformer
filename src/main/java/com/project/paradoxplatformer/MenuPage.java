@@ -3,6 +3,7 @@ package com.project.paradoxplatformer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.EventBinder;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
@@ -177,7 +178,7 @@ public class MenuPage extends AbstractThreadedPage {
      *              future.
      */
     @Override
-    protected void runOnFXThread(final String param) {
+    protected void runOnFXThread(final Level param) {
         animation.play(); // Start playing the animation
         System.out.println("[Main Menu Panel]"); // Log a message for debugging purposes
     }

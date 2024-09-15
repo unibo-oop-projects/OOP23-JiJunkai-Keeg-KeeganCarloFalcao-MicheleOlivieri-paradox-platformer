@@ -52,7 +52,7 @@ public final class SimpleController<N, P, K> implements Controller {
 
     private void switchView(final PageIdentifier id, final Level param) {
         try {
-            viewManager.switchPage(id).create(param.getResourceFile());
+            viewManager.switchPage(id).create(param);
             this.eventManager.publish(GameEventType.UPDATE_HANDLER, id, param);
         } catch (Exception ex) {
             viewManager.displayError(ExceptionUtils.advancedDisplay(ex));

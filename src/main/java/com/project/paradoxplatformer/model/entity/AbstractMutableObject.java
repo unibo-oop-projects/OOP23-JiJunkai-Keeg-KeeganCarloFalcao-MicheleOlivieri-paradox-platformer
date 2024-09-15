@@ -80,7 +80,7 @@ public abstract class AbstractMutableObject implements MutableObject {
      * @param key the new key to set
      */
     @Override
-    public void setKey(int key) {
+    public void setKey(final int key) {
         this.key = key;
     }
 

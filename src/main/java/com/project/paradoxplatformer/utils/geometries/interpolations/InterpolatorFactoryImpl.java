@@ -41,11 +41,11 @@ public final class InterpolatorFactoryImpl implements InterpolatorFactory {
     private Interpolator<Vector2D> templateEase(final UnaryOperator<Double> base, final double exponent,
             final Optional<Double> residuo) {
         return (s, e, t) -> new Simple2DVector(
-                s.xComponent() + (e.xComponent() - s.xComponent()) *
-                        (residuo.orElse(NULL_ALGEBRIC_VALUE) * residuo.map(sign -> -UNIT).orElse(UNIT)
+                s.xComponent() + (e.xComponent() - s.xComponent())
+                        * (residuo.orElse(NULL_ALGEBRIC_VALUE) * residuo.map(sign -> -UNIT).orElse(UNIT)
                                 + Math.min(Math.pow(base.apply(t), exponent), UNIT)),
-                s.yComponent() + (e.yComponent() - s.yComponent()) *
-                        (residuo.orElse(NULL_ALGEBRIC_VALUE) * residuo.map(sign -> -UNIT).orElse(UNIT)
+                s.yComponent() + (e.yComponent() - s.yComponent())
+                        * (residuo.orElse(NULL_ALGEBRIC_VALUE) * residuo.map(sign -> -UNIT).orElse(UNIT)
                                 + Math.min(Math.pow(base.apply(t), exponent), UNIT)));
     }
 

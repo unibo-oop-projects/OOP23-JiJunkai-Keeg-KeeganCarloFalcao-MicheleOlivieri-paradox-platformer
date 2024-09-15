@@ -92,7 +92,7 @@ public class FXSpriterSetter implements Spriter<Image> {
      * @throws InvalidResourceException If the sprite sheet cannot be loaded.
      */
     private void loadSpriteSheet() throws InvalidResourceException {
-        this.img = ImageLoader.FXImage(sheetPath);
+        this.img = ImageLoader.createFXImage(sheetPath);
     }
 
     /**

@@ -68,7 +68,7 @@ public sealed class Simple2DVector extends AbstractVector permits Polar2DVector 
      */
     @Override
     public double yComponent() {
-        return this.cartesian.getY();
+        return getCartesian().getY();
     }
 
     /**
@@ -81,7 +81,7 @@ public sealed class Simple2DVector extends AbstractVector permits Polar2DVector 
      */
     @Override
     public double xComponent() {
-        return this.cartesian.getX();
+        return getCartesian().getX();
     }
 
     /**

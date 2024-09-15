@@ -14,9 +14,9 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.api.Cartesian;
  */
 public sealed abstract class AbstractVector implements Vector2D permits Simple2DVector {
 
-    protected Cartesian cartesian;
-    private double magnitude;
-    private double angle;
+    private final Cartesian cartesian;
+    private final double magnitude;
+    private final double angle;
 
     /**
      * Constructs an {@link AbstractVector} with the specified x and y components.
@@ -28,7 +28,7 @@ public sealed abstract class AbstractVector implements Vector2D permits Simple2D
      * @param x the x component of the vector
      * @param y the y component of the vector
      */
-    protected AbstractVector(double x, double y) {
+    protected AbstractVector(final double x, final double y) {
         this.cartesian = new Cartesian(x, y);
         this.magnitude = cartesian.toPolar().getMagnitude();
         this.angle = cartesian.toPolar().getAngle();
@@ -96,7 +96,7 @@ public sealed abstract class AbstractVector implements Vector2D permits Simple2D
      * @param scalar the scalar value to multiply this vector by
      * @return a new {@link Vector2D} that is the result of the scaling
      */
-    public abstract Vector2D scalar(double scalar);
+    public abstract Vector2D scalar(final double scalar);
 
     /**
      * Returns the y component of this vector.
@@ -132,4 +132,9 @@ public sealed abstract class AbstractVector implements Vector2D permits Simple2D
     public String toString() {
         return "{" + cartesian + ", Mag: " + magnitude + "}";
     }
+
+    public Cartesian getCartesian() {
+        return cartesian;
+    }
+
 }

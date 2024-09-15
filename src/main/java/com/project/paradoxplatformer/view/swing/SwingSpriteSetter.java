@@ -12,15 +12,15 @@ import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.graphics.sprites.Spriter;
 
-public class SwingSpriteSetter implements Spriter<BufferedImage>{
-   
+public class SwingSpriteSetter implements Spriter<BufferedImage> {
+
     private String sheetPath;
     private Dimension bounds;
     private BufferedImage img;
     private Dimension tileSize;
-    
 
-    public SwingSpriteSetter(final String sheetPath, Dimension bounds, Dimension tileSize) throws InvalidResourceException, IOException {
+    public SwingSpriteSetter(final String sheetPath, Dimension bounds, Dimension tileSize)
+            throws InvalidResourceException, IOException {
         this.sheetPath = sheetPath;
         this.bounds = bounds;
         this.tileSize = tileSize;
@@ -28,7 +28,7 @@ public class SwingSpriteSetter implements Spriter<BufferedImage>{
     }
 
     private void loadSpriteSheet() throws InvalidResourceException, IOException {
-        this.img = ImageLoader.AWTImage(sheetPath);
+        this.img = ImageLoader.createAWTImage(sheetPath);
     }
 
     @Override
@@ -43,13 +43,13 @@ public class SwingSpriteSetter implements Spriter<BufferedImage>{
 
     private List<BufferedImage> collection(double init, double end) {
         return Optional.of(this.img)
-            .filter(j -> tileSize.width() == bounds.width())
-            .map(List::of)
-            .orElse(Stream.iterate(init, x -> x < end, x -> x + tileSize.width())
-                .map(Double::intValue)
-                .map(x -> this.getSubImage(this.img, x, 0, (int) this.tileSize.width(), (int) this.tileSize.height()))
-                .collect(Collectors.toList())
-            );
+                .filter(j -> tileSize.width() == bounds.width())
+                .map(List::of)
+                .orElse(Stream.iterate(init, x -> x < end, x -> x + tileSize.width())
+                        .map(Double::intValue)
+                        .map(x -> this.getSubImage(this.img, x, 0, (int) this.tileSize.width(),
+                                (int) this.tileSize.height()))
+                        .collect(Collectors.toList()));
     }
 
     public List<BufferedImage> jumpingImages() {
@@ -63,5 +63,5 @@ public class SwingSpriteSetter implements Spriter<BufferedImage>{
     private BufferedImage getSubImage(BufferedImage original, int x, int y, int width, int height) {
         return original.getSubimage(x, y, width, height);
     }
-    
+
 }

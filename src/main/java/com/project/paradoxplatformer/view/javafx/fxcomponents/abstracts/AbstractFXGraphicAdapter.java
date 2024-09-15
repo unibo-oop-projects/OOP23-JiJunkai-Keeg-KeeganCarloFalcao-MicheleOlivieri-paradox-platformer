@@ -20,8 +20,8 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
 
     private final Node uiComponent;
     private final Dimension dimension;
-    private DoubleProperty xProperty;
-    private DoubleProperty yProperty;
+    private final DoubleProperty xProperty;
+    private final DoubleProperty yProperty;
     private final Coord2D bindedPosition;
     private int key;
 
@@ -33,7 +33,7 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
      * @param dimension   The dimension of the graphical component.
      * @param relativePos The relative position of the graphical component.
      */
-    protected AbstractFXGraphicAdapter(Node component, Dimension dimension, Coord2D relativePos) {
+    protected AbstractFXGraphicAdapter(final Node component, final Dimension dimension, final Coord2D relativePos) {
         this.uiComponent = component;
         this.dimension = dimension;
         this.xProperty = new SimpleDoubleProperty(relativePos.x());
@@ -41,6 +41,11 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
         this.bindedPosition = relativePos;
     }
 
+    /**
+     * Returns the absolute position of the graphical component.
+     *
+     * @return the absolute position as a Coord2D instance
+     */
     @Override
     public Coord2D absolutePosition() {
         return new Coord2D(
@@ -48,6 +53,11 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
                 this.bindedPosition.y());
     }
 
+    /**
+     * Returns the relative position of the graphical component.
+     *
+     * @return the relative position as a Coord2D instance
+     */
     @Override
     public Coord2D relativePosition() {
         return new Coord2D(
@@ -71,7 +81,7 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
      * @param y The new y-coordinate.
      */
     @Override
-    public void setPosition(double x, double y) {
+    public void setPosition(final double x, final double y) {
         this.xProperty.set(x);
         this.yProperty.set(y);
     }
@@ -83,15 +93,25 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
      * @param y The amount to translate in the y direction.
      */
     @Override
-    public void translate(double x, double y) {
+    public void translate(final double x, final double y) {
         this.setPosition(this.absolutePosition().x() + x, this.absolutePosition().y() + y);
     }
 
+    /**
+     * Returns the wrapped Node component.
+     *
+     * @return the Node component managed by this adapter
+     */
     @Override
     public Node unwrap() {
         return SecureWrapper.of(this.uiComponent).get();
     }
 
+    /**
+     * Returns the dimension of the graphical component.
+     *
+     * @return the dimension as a Dimension instance
+     */
     @Override
     public Dimension dimension() {
         return this.dimension;
@@ -113,11 +133,16 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
      * @param hRatio The observable ratio for the height.
      */
     @Override
-    public void bindProperties(ObservableDoubleValue wratio, ObservableDoubleValue hRatio) {
+    public void bindProperties(final ObservableDoubleValue wratio, final ObservableDoubleValue hRatio) {
         this.uiComponent.translateYProperty().bind(yProperty.multiply(hRatio));
         this.uiComponent.translateXProperty().bind(xProperty.multiply(wratio));
     }
 
+    /**
+     * Calculates the hash code for the graphical adapter based on its properties.
+     *
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -128,11 +153,21 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
         return result;
     }
 
+    /**
+     * Sets the key of the graphical adapter.
+     *
+     * @param key the key to set
+     */
     @Override
-    public void setKey(int key) {
+    public void setKey(final int key) {
         this.key = key;
     }
 
+    /**
+     * Returns the ID associated with the graphical adapter.
+     *
+     * @return the ID
+     */
     @Override
     public int getID() {
         return this.key;
@@ -141,10 +176,32 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
     /**
      * Gets the node component.
      * 
-     * @return an {@link Node} component assocciated.
+     * @return an {@link Node} component associated.
      */
     public Node getUiComponent() {
         return uiComponent;
+    }
+
+    /**
+     * Checks if this graphical adapter is equal to another object. The comparison
+     * is based on the properties of the graphical adapter.
+     *
+     * @param obj the object to compare with
+     * @return true if this graphical adapter is equal to the specified object
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        AbstractFXGraphicAdapter other = (AbstractFXGraphicAdapter) obj;
+        return key == other.key &&
+                dimension.equals(other.dimension) &&
+                xProperty.get() == other.xProperty.get() &&
+                yProperty.get() == other.yProperty.get();
     }
 
 }

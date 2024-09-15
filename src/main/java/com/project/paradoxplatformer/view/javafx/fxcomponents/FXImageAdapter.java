@@ -48,7 +48,7 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
             this.imgComponent.setSmooth(true);
             widthProperty = new SimpleDoubleProperty(dimension.width());
             heightProperty = new SimpleDoubleProperty(dimension.height());
-            imgComponent.setImage(ImageLoader.FXImage(imageURL));
+            imgComponent.setImage(ImageLoader.createFXImage(imageURL));
             this.setDimension(dimension.width(), dimension.height());
         } else {
             throw new IllegalArgumentException("Requires ImageView");

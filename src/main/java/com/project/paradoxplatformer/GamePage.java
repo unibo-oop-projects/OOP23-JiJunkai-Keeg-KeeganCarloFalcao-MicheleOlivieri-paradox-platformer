@@ -81,7 +81,7 @@ public class GamePage<V, K> extends AbstractThreadedPage {
                 .get();
 
         gamePane.setBackground(new Background(new BackgroundImage(
-                ImageLoader.FXImage(level.getBackgroundFile()),
+                ImageLoader.createFXImage(level.getBackgroundFile()),
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.CENTER,

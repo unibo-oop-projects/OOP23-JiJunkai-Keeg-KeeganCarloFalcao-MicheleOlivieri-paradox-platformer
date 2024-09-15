@@ -182,10 +182,12 @@ public final class ReadOnlyGraphicDecorator<C> implements GraphicAdapter<C> {
      */
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null || getClass() != obj.getClass())
+        }
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
+        }
         ReadOnlyGraphicDecorator<?> that = (ReadOnlyGraphicDecorator<?>) obj;
         return Objects.equals(graphicReader, that.graphicReader);
     }

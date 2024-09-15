@@ -7,7 +7,7 @@ import javafx.scene.shape.Circle;
  * Provides utility methods for binding event handlers to UI elements.
  * Specifically handles event bindings for Buttons and Circles.
  */
-public class EventBinder {
+public final class EventBinder {
 
     // Private constructor to prevent instantiation
     private EventBinder() {

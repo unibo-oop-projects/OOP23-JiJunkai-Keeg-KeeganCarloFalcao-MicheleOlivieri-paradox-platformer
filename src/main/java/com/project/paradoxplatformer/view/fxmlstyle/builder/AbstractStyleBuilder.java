@@ -8,14 +8,14 @@ package com.project.paradoxplatformer.view.fxmlstyle.builder;
  * @param <T> The type of node to style.
  */
 public abstract class AbstractStyleBuilder<T> {
-    protected final T node; // The node to which styles will be applied
+    private final T node; // The node to which styles will be applied
 
     /**
      * Constructs a new AbstractStyleBuilder for the given node.
      * 
      * @param node The node to style.
      */
-    public AbstractStyleBuilder(T node) {
+    public AbstractStyleBuilder(final T node) {
         this.node = node;
     }
 
@@ -24,4 +24,13 @@ public abstract class AbstractStyleBuilder<T> {
      * This method must be implemented by subclasses to apply styles.
      */
     public abstract void apply();
+
+    /**
+     * Gets the node to which styles are applied.
+     * 
+     * @return The node to style.
+     */
+    protected T getNode() {
+        return node;
+    }
 }

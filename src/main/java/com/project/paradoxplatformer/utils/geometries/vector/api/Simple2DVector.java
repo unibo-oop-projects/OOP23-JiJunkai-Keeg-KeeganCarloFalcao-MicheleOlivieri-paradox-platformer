@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.utils.geometries.vector.api;
 
-public sealed class Simple2DVector extends AbstractVector permits Polar2DVector{
+public sealed class Simple2DVector extends AbstractVector permits Polar2DVector {
 
     public Simple2DVector(double x, double y) {
         super(x, y);
@@ -9,8 +9,8 @@ public sealed class Simple2DVector extends AbstractVector permits Polar2DVector{
     @Override
     public Vector2D add(Vector2D vector) {
         return new Simple2DVector(
-            vector.xComponent() + this.xComponent(),
-            vector.yComponent() + this.yComponent()); 
+                vector.xComponent() + this.xComponent(),
+                vector.yComponent() + this.yComponent());
     }
 
     @Override
@@ -31,9 +31,8 @@ public sealed class Simple2DVector extends AbstractVector permits Polar2DVector{
     @Override
     public Vector2D sub(Vector2D vector) {
         return new Simple2DVector(
-            -vector.xComponent() + this.xComponent(),
-            -vector.yComponent() + this.yComponent()); 
+                -vector.xComponent() + this.xComponent(),
+                -vector.yComponent() + this.yComponent());
     }
 
-     
 }

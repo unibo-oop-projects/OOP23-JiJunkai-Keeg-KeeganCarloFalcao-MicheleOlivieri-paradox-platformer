@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.utils.geometries.vector.api;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.coordinates.api.Cartesian;
 
-public sealed abstract class AbstractVector implements Vector2D permits Simple2DVector{
+public sealed abstract class AbstractVector implements Vector2D permits Simple2DVector {
 
     protected Cartesian cartesian;
     private double magnitude;
@@ -38,11 +38,9 @@ public sealed abstract class AbstractVector implements Vector2D permits Simple2D
 
     public abstract double xComponent();
 
-
     @Override
     public String toString() {
         return "{" + cartesian + ", Mag: " + magnitude + "}";
     }
 
-    
 }

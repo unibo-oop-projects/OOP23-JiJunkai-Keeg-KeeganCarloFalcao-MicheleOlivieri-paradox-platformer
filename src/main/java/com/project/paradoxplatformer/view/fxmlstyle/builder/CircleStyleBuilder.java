@@ -15,7 +15,7 @@ public class CircleStyleBuilder extends AbstractStyleBuilder<Circle> {
      * 
      * @param circle The circle to style.
      */
-    public CircleStyleBuilder(Circle circle) {
+    public CircleStyleBuilder(final Circle circle) {
         super(circle);
     }
 
@@ -26,8 +26,8 @@ public class CircleStyleBuilder extends AbstractStyleBuilder<Circle> {
      *              object.
      * @return This CircleStyleBuilder instance for chaining.
      */
-    public CircleStyleBuilder withFillColor(Color color) {
-        node.setFill(color);
+    public CircleStyleBuilder withFillColor(final Color color) {
+        getNode().setFill(color);
         return this;
     }
 
@@ -38,8 +38,8 @@ public class CircleStyleBuilder extends AbstractStyleBuilder<Circle> {
      *              object.
      * @return This CircleStyleBuilder instance for chaining.
      */
-    public CircleStyleBuilder withStrokeColor(Color color) {
-        node.setStroke(color);
+    public CircleStyleBuilder withStrokeColor(final Color color) {
+        getNode().setStroke(color);
         return this;
     }
 
@@ -49,8 +49,8 @@ public class CircleStyleBuilder extends AbstractStyleBuilder<Circle> {
      * @param width The width of the stroke, in pixels.
      * @return This CircleStyleBuilder instance for chaining.
      */
-    public CircleStyleBuilder withStrokeWidth(double width) {
-        node.setStrokeWidth(width);
+    public CircleStyleBuilder withStrokeWidth(final double width) {
+        getNode().setStrokeWidth(width);
         return this;
     }
 

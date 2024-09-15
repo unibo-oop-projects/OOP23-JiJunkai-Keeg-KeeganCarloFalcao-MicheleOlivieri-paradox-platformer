@@ -14,7 +14,7 @@ public class ButtonStyleBuilder extends AbstractStyleBuilder<Button> {
      * 
      * @param button The button to style.
      */
-    public ButtonStyleBuilder(Button button) {
+    public ButtonStyleBuilder(final Button button) {
         super(button);
     }
 
@@ -24,8 +24,8 @@ public class ButtonStyleBuilder extends AbstractStyleBuilder<Button> {
      * @param color The color to set as the background, in CSS format.
      * @return This ButtonStyleBuilder instance for chaining.
      */
-    public ButtonStyleBuilder withBackgroundColor(String color) {
-        node.setStyle("-fx-background-color: " + color + ";");
+    public ButtonStyleBuilder withBackgroundColor(final String color) {
+        getNode().setStyle("-fx-background-color: " + color + ";");
         return this;
     }
 
@@ -35,8 +35,8 @@ public class ButtonStyleBuilder extends AbstractStyleBuilder<Button> {
      * @param color The color to set as the text color, in CSS format.
      * @return This ButtonStyleBuilder instance for chaining.
      */
-    public ButtonStyleBuilder withTextColor(String color) {
-        node.setStyle(node.getStyle() + " -fx-text-fill: " + color + ";");
+    public ButtonStyleBuilder withTextColor(final String color) {
+        getNode().setStyle(getNode().getStyle() + " -fx-text-fill: " + color + ";");
         return this;
     }
 
@@ -47,7 +47,7 @@ public class ButtonStyleBuilder extends AbstractStyleBuilder<Button> {
      * @return This ButtonStyleBuilder instance for chaining.
      */
     public ButtonStyleBuilder withFontWeight(String weight) {
-        node.setStyle(node.getStyle() + " -fx-font-weight: " + weight + ";");
+        getNode().setStyle(getNode().getStyle() + " -fx-font-weight: " + weight + ";");
         return this;
     }
 

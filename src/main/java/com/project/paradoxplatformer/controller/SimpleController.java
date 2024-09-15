@@ -54,6 +54,7 @@ public final class SimpleController<N, P, K> implements Controller {
         try {
             viewManager.switchPage(id).create(param.getResourceFile());
             this.eventManager.publish(ViewEventType.UPDATE_HANDLER, id, param);
+            this.eventManager.publish(ViewEventType.WIN_CONDITION_MET, id, param);
         } catch (Exception ex) {
             viewManager.displayError(ExceptionUtils.advacendDisplay(ex));
             viewManager.safeError();

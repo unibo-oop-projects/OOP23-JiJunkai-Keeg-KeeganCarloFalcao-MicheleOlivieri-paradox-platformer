@@ -16,7 +16,7 @@ public abstract class AbstractRecreatableEffect extends AbstractEffect implement
     public CompletableFuture<Void> apply(Optional<? extends CollidableGameObject> target,
             Optional<? extends CollidableGameObject> self) {
         return super.apply(target, self).thenRun(() -> {
-            System.out.println("Re-creatable effect has been applied and could be recreated.");
+            // System.out.println("Re-creatable effect has been applied and could be recreated.");
         });
     }
 

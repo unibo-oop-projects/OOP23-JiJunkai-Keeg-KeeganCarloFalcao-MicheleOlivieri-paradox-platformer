@@ -23,8 +23,8 @@ public class DeathEffect extends AbstractOneTimeEffect {
     protected CompletableFuture<Void> applyToTarget(Optional<? extends CollidableGameObject> target) {
         return CompletableFuture.runAsync(() -> {
             target.ifPresent(t -> {
-                if (t instanceof ControllableObject) {
-                    ((ControllableObject) t).onCollision();
+                if (t instanceof ControllableObject controllableObject) {
+                    controllableObject.onCollision();
                     // System.out.println("DeathEffect applied: Player killed.");
                 }
             });

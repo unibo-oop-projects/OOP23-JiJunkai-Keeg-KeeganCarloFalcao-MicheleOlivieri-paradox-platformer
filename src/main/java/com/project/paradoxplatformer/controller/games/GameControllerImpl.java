@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
@@ -40,8 +41,9 @@ import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 
-import java.util.List;
-import java.util.ArrayList;
+import com.project.paradoxplatformer.utils.victory.VictoryConditionsFactoryImpl;
+import com.project.paradoxplatformer.utils.victory.VictoryManager;
+import com.project.paradoxplatformer.utils.victory.VictoryManagerImpl;
 
 /**
  * An implementation of a basic Game Controller.
@@ -58,6 +60,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
     private final CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
+    private VictoryManager victoryManager;
 
     private final Random rand = new Random();
     private final EventManager<ViewEventType, PageIdentifier> eventManager;
@@ -77,6 +80,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
         this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().defaultEffectHandler());
+        this.victoryManager = new VictoryManagerImpl(new VictoryConditionsFactoryImpl().defaultVictoryCondition());
         this.modelID = id;
 
         this.eventManager = EventManager.getInstance();
@@ -85,6 +89,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         eventManager.subscribe(ViewEventType.UPDATE_HANDLER, this::updateHandler);
         eventManager.subscribe(ViewEventType.STOP_VIEW, this::handleStopView);
         eventManager.subscribe(ViewEventType.REMOVE_OBJECT, this::handleRemoveObject);
+        eventManager.subscribe(ViewEventType.WIN_CONDITION_MET, this::handleVictory);
     }
 
     @Override
@@ -118,6 +123,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         System.out.println("SWITCH COLLISION MANAGER'S HANDLER.");
         this.collisionManager.setEffectHandler(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(param));
 
+    }
+
+    private void handleVictory(final PageIdentifier id, final Level param) {
+        this.victoryManager.setVictoryHandler(new VictoryConditionsFactoryImpl().createVictoryConditionsForLevel(param, this.gameModel.getWorld().player()));
     }
 
     private void sync(final boolean firstTime) {
@@ -171,6 +180,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     @Override
     public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, String type) {
         this.setupGameMode(gameModel.getWorld().player(), type);
+        // this.victoryManager = new VictoryManagerImpl();
         this.gameManager = new GameLoopFactoryImpl(dt -> {
             ic.checkPool(
                     inputer.getKeyAssetter(),

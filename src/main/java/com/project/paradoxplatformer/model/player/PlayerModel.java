@@ -170,4 +170,8 @@ public final class PlayerModel extends AbstractControllableObject {
         return "Player: " + this.position + ", Inventory: " + this.getInventoryData();
     }
 
+    public int getCollectedCoins() {
+        return this.inventory.getItemsCounts().getOrDefault("coin", 0L).intValue();
+    }
+
 }

@@ -5,5 +5,6 @@ public enum ViewEventType {
     STOP_VIEW,
     SWITCH_VIEW,
     UPDATE_HANDLER,
-    REMOVE_OBJECT
+    REMOVE_OBJECT,
+    WIN_CONDITION_MET
 }

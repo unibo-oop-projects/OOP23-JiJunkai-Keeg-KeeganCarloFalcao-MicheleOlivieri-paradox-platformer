@@ -6,20 +6,59 @@ import com.project.paradoxplatformer.view.renders.ViewComponent;
 
 import javafx.beans.value.ObservableDoubleValue;
 
-public interface GraphicContainer<T, K> extends KeyInputer<K>{
+/**
+ * Represents a container for graphical components that can be rendered and
+ * manipulated.
+ * 
+ * @param <T> the type of data associated with the graphical component
+ * @param <K> the type of input key for handling key events
+ */
+public interface GraphicContainer<T, K> extends KeyInputer<K> {
 
+    /**
+     * Gets the current dimensions of the container.
+     * 
+     * @return the dimensions of the container
+     */
     Dimension dimension();
 
-    void setDimension(final double width, final double height);
-    
-    boolean render(final ViewComponent<T> component);
+    /**
+     * Sets the dimensions of the container.
+     * 
+     * @param width  the width of the container
+     * @param height the height of the container
+     */
+    void setDimension(double width, double height);
 
-    boolean delete(final ViewComponent<T> component);
+    /**
+     * Renders the specified graphical component within the container.
+     * 
+     * @param component the graphical component to render
+     * @return {@code true} if the component was successfully rendered,
+     *         {@code false} otherwise
+     */
+    boolean render(ViewComponent<T> component);
 
+    /**
+     * Deletes the specified graphical component from the container.
+     * 
+     * @param component the graphical component to delete
+     * @return {@code true} if the component was successfully deleted, {@code false}
+     *         otherwise
+     */
+    boolean delete(ViewComponent<T> component);
+
+    /**
+     * Gets the observable property representing the width of the container.
+     * 
+     * @return an observable property for the width
+     */
     ObservableDoubleValue widthProperty();
 
+    /**
+     * Gets the observable property representing the height of the container.
+     * 
+     * @return an observable property for the height
+     */
     ObservableDoubleValue heightProperty();
-
-
-
 }

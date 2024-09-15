@@ -3,19 +3,19 @@ package com.project.paradoxplatformer.model.trigger;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
+import com.project.paradoxplatformer.model.entity.AbstractTransformableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
  * An abstract class representing a trigger in the game.
- * This class extends {@link AbstractTrasformableObject} and implements the
+ * This class extends {@link AbstractTransformableObject} and implements the
  * {@link Trigger} interface.
  * It provides a basic implementation for triggers that can activate associated
  * obstacles.
  */
-public abstract class AbstractTrigger extends AbstractTrasformableObject implements Trigger {
+public abstract class AbstractTrigger extends AbstractTransformableObject implements Trigger {
 
     // A list of obstacles associated with this trigger. When the trigger is
     // activated, all these obstacles will be affected.

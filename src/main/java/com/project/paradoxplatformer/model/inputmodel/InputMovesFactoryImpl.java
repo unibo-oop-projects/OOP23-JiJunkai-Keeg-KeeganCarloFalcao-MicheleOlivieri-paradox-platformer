@@ -118,7 +118,7 @@ public final class InputMovesFactoryImpl implements InputMovesFactory {
      * from the
      * standard model.
      */
-    private class StdModelDecorator implements InputModel<ControllableObject> {
+    private final class StdModelDecorator implements InputModel<ControllableObject> {
         private final InputModel<ControllableObject> toDecorate;
         private final Map<InputType, Command<ControllableObject>> modifMapModel;
 
@@ -149,7 +149,7 @@ public final class InputMovesFactoryImpl implements InputMovesFactory {
      * 
      * @param e the map entry whose command needs to be inverted
      */
-    private void invert(Map.Entry<InputType, Command<ControllableObject>> e) {
+    private void invert(final Map.Entry<InputType, Command<ControllableObject>> e) {
         e.setValue(this.oppositeMap.get(e.getValue()));
     }
 }

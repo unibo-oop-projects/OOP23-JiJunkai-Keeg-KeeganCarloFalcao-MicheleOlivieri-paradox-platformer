@@ -1,4 +1,4 @@
- package com.project.paradoxplatformer.view.javafx.fxcomponents;
+package com.project.paradoxplatformer.view.javafx.fxcomponents;
 
 import com.project.paradoxplatformer.controller.input.KeyAssetterImpl;
 import com.project.paradoxplatformer.controller.input.api.InputTranslator;
@@ -20,18 +20,30 @@ import javafx.scene.layout.Pane;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, InputTranslator<KeyCode>{
+/**
+ * An adapter for a JavaFX {@link Pane} that implements the
+ * {@link GraphicContainer} and {@link InputTranslator} interfaces.
+ * This class handles rendering of graphical components, managing dimensions,
+ * and translating key inputs.
+ */
+public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, InputTranslator<KeyCode> {
 
     private final Pane uiContainer;
     private final KeyAssetter<KeyCode> keyAssetter;
 
+    /**
+     * Constructs an FXContainerAdapter with the specified JavaFX {@link Pane}.
+     * 
+     * @param container the JavaFX pane to be used as the container for graphical
+     *                  components
+     */
     public FXContainerAdapter(Pane container) {
         this.uiContainer = container;
         this.keyAssetter = new KeyAssetterImpl<>(this);
     }
 
     @Override
-    public boolean render(final ViewComponent<Node> component){
+    public boolean render(final ViewComponent<Node> component) {
         return uiContainer.getChildren().add(component.unwrap());
     }
 
@@ -62,6 +74,12 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
         return InputType.getString(k.name());
     }
 
+    /**
+     * Applies the given action to the specified key code.
+     * 
+     * @param e      the key code
+     * @param action the action to apply
+     */
     private void decoupleAction(KeyCode e, Consumer<KeyCode> action) {
         action.accept(e);
     }
@@ -81,11 +99,16 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
         return this.uiContainer.getChildren().remove(component.unwrap());
     }
 
+    /**
+     * Registers an event filter for the specified key event type and applies the
+     * given action to the key code.
+     * 
+     * @param eventType the type of key event (e.g., key pressed or key released)
+     * @param action    the action to apply to the key code
+     */
     private void manageKeyEvent(EventType<KeyEvent> eventType, Consumer<KeyCode> action) {
         this.uiContainer.addEventFilter(
-            eventType, 
-            e -> this.decoupleAction(e.getCode(), action)
-        );
+                eventType,
+                e -> this.decoupleAction(e.getCode(), action));
     }
-    
 }

@@ -6,6 +6,9 @@ package com.project.paradoxplatformer.utils.geometries;
  * This record stores the width and height of an object and provides
  * basic methods to interact with these dimensions.
  * </p>
+ *
+ * @param width  the width of the dimension
+ * @param height the height of the dimension
  */
 public record Dimension(double width, double height) {
 

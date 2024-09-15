@@ -2,13 +2,13 @@ package com.project.paradoxplatformer.model.obstacles.abstracts;
 
 import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;
-import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
+import com.project.paradoxplatformer.model.entity.AbstractTransformableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
-public abstract class AbstractObstacle extends AbstractTrasformableObject implements Obstacle {
+public abstract class AbstractObstacle extends AbstractTransformableObject implements Obstacle {
 
     protected AbstractObstacle(final Coord2D position, final Dimension dimension) {
         super(position, dimension);

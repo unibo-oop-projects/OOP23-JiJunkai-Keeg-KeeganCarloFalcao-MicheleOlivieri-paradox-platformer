@@ -8,8 +8,7 @@ import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 
 import javafx.beans.value.ObservableDoubleValue;
 
-public abstract class AbstractSwingAdapter implements GraphicAdapter<JComponent>{
-
+public abstract class AbstractSwingAdapter implements GraphicAdapter<JComponent> {
 
     protected JComponent uiComponent;
     private Dimension dimension;
@@ -17,10 +16,11 @@ public abstract class AbstractSwingAdapter implements GraphicAdapter<JComponent>
     private int key;
 
     protected AbstractSwingAdapter(final JComponent component, Dimension dimension, Coord2D relativePos) {
-        this.uiComponent = component;   
+        this.uiComponent = component;
         this.dimension = dimension;
         this.coord = relativePos;
     }
+
     @Override
     public JComponent unwrap() {
         return uiComponent;
@@ -49,29 +49,30 @@ public abstract class AbstractSwingAdapter implements GraphicAdapter<JComponent>
     @Override
     public void setPosition(double x, double y) {
         // uiComponent.getGraphics().translate((int) x, (int)y);
-        this.uiComponent.setLocation((int) x, (int)y);
+        this.uiComponent.setLocation((int) x, (int) y);
     }
 
     @Override
     public void translate(double x, double y) {
-        this.uiComponent.setLocation((int) x, (int)y);
+        this.uiComponent.setLocation((int) x, (int) y);
     }
 
     @Override
-    public void bindPropreties(ObservableDoubleValue wRatio, ObservableDoubleValue hRatio) {
-        /*Unboundable */
+    public void bindProperties(ObservableDoubleValue wRatio, ObservableDoubleValue hRatio) {
+        /* Unboundable */
     }
 
     @Override
     public abstract void flip();
+
     @Override
     public void setKey(int key) {
         this.key = key;
     }
+
     @Override
     public int getID() {
         return this.key;
     }
-    
-    
+
 }

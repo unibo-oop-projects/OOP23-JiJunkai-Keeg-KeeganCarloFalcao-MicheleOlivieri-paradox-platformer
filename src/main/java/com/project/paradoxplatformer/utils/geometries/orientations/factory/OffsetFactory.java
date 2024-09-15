@@ -5,37 +5,41 @@ import com.project.paradoxplatformer.utils.geometries.orientations.BoxOffset;
 import com.project.paradoxplatformer.utils.geometries.orientations.Offset;
 
 /**
- * factory
+ * An offset factory interface.
  */
 public interface OffsetFactory {
     /**
-     * top left 
+     * top left.
+     * 
      * @return {@code Offset}
      */
     Offset topLeft();
 
     /**
-     * bottom right
+     * bottom right.
+     * 
      * @return {@code Offset}
      */
     Offset bottomRight();
 
     /**
-     * bottom left
+     * bottom left.
+     * 
      * @return {@code Offset}
      */
     Offset bottomLeft();
 
     /**
-     * top right
+     * top right.
+     * 
      * @return {@code Offset}
      */
     Offset topRight();
 
     /**
-     * inner layout offset
-     *  
+     * inner layout offset.
+     * 
      * @return {@code BoxOffset<Dimension>}
-    */
+     */
     BoxOffset<Dimension> boxOffset();
 }

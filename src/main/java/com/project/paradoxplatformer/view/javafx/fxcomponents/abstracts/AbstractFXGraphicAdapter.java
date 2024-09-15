@@ -10,53 +10,80 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.Node;
 
-public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
+/**
+ * Abstract base class for FX graphical adapters, providing common functionality
+ * for handling graphical components in a JavaFX application.
+ */
+public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
 
-    private static final double INVERTED_FACTOR = -1.d;
-    protected final Node uiComponent;
-    protected final Dimension dimension;
-    protected DoubleProperty xProperty;
-    protected DoubleProperty yProperty;
+    private static final double INVERTED_FACTOR = -1.0;
+
+    private final Node uiComponent;
+    private final Dimension dimension;
+    private DoubleProperty xProperty;
+    private DoubleProperty yProperty;
     private final Coord2D bindedPosition;
     private int key;
 
-    protected AbstractFXGraphicAdapter(final Node component, Dimension dimension, Coord2D relativePos) {
-        this.uiComponent = component;   
+    /**
+     * Constructs an AbstractFXGraphicAdapter with the specified component,
+     * dimension, and position.
+     *
+     * @param component   The Node component to be managed.
+     * @param dimension   The dimension of the graphical component.
+     * @param relativePos The relative position of the graphical component.
+     */
+    protected AbstractFXGraphicAdapter(Node component, Dimension dimension, Coord2D relativePos) {
+        this.uiComponent = component;
         this.dimension = dimension;
         this.xProperty = new SimpleDoubleProperty(relativePos.x());
         this.yProperty = new SimpleDoubleProperty(relativePos.y());
-        this.bindedPosition = relativePos; 
+        this.bindedPosition = relativePos;
     }
-
 
     @Override
     public Coord2D absolutePosition() {
         return new Coord2D(
-            this.bindedPosition.x(),
-            this.bindedPosition.y()
-        );
+                this.bindedPosition.x(),
+                this.bindedPosition.y());
     }
 
     @Override
     public Coord2D relativePosition() {
         return new Coord2D(
-            this.xProperty.doubleValue(),
-            this.yProperty.doubleValue() 
-        );
+                this.xProperty.doubleValue(),
+                this.yProperty.doubleValue());
     }
-    @Override
-    public abstract void setDimension(final double width, final double height);
 
-    //Must decide wether relative or absolute
+    /**
+     * Sets the dimension of the graphical component.
+     *
+     * @param width  The new width of the component.
+     * @param height The new height of the component.
+     */
     @Override
-    public void setPosition(final double x, final double y) {
+    public abstract void setDimension(double width, double height);
+
+    /**
+     * Sets the position of the graphical component.
+     *
+     * @param x The new x-coordinate.
+     * @param y The new y-coordinate.
+     */
+    @Override
+    public void setPosition(double x, double y) {
         this.xProperty.set(x);
         this.yProperty.set(y);
-        
     }
 
+    /**
+     * Translates the position of the graphical component by the specified amounts.
+     *
+     * @param x The amount to translate in the x direction.
+     * @param y The amount to translate in the y direction.
+     */
     @Override
-    public void translate(final double x, final double y) {
+    public void translate(double x, double y) {
         this.setPosition(this.absolutePosition().x() + x, this.absolutePosition().y() + y);
     }
 
@@ -66,21 +93,30 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
     }
 
     @Override
-    public  Dimension dimension() {
+    public Dimension dimension() {
         return this.dimension;
     }
 
+    /**
+     * Flips the graphical component by inverting its scale along the x-axis.
+     */
     @Override
     public void flip() {
-        this.uiComponent.setScaleX(INVERTED_FACTOR  * uiComponent.getScaleX());
+        this.uiComponent.setScaleX(INVERTED_FACTOR * uiComponent.getScaleX());
     }
 
-    @Override 
-    public void bindPropreties(ObservableDoubleValue wratio, ObservableDoubleValue hRatio) {
+    /**
+     * Binds the width and height properties of the graphical component to the
+     * specified ratios.
+     *
+     * @param wratio The observable ratio for the width.
+     * @param hRatio The observable ratio for the height.
+     */
+    @Override
+    public void bindProperties(ObservableDoubleValue wratio, ObservableDoubleValue hRatio) {
         this.uiComponent.translateYProperty().bind(yProperty.multiply(hRatio));
         this.uiComponent.translateXProperty().bind(xProperty.multiply(wratio));
     }
-
 
     @Override
     public int hashCode() {
@@ -92,18 +128,23 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
         return result;
     }
 
-
     @Override
     public void setKey(int key) {
         this.key = key;
     }
 
-
     @Override
     public int getID() {
         return this.key;
     }
-   
-    
-    
+
+    /**
+     * Gets the node component.
+     * 
+     * @return an {@link Node} component assocciated.
+     */
+    public Node getUiComponent() {
+        return uiComponent;
+    }
+
 }

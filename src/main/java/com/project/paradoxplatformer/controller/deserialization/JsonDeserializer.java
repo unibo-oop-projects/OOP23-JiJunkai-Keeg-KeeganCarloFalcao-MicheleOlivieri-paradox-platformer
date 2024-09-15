@@ -4,24 +4,38 @@ import java.io.IOException;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 
 /**
- * Such Interface abstracts the concept of deserialization and based on a string, usually a json file, it returns 
- * the desererialized object.
- * 
- * NOTE: Such interface must get the json from a file, the string serves for that, not to deserialize based on the string
- * content
+ * This interface abstracts the concept of deserialization. It defines a method
+ * to deserialize a JSON file specified by its path into an object of type
+ * {@code T}.
+ * <p>
+ * Note: The provided string is expected to be a file path to the JSON file, not
+ * the JSON content itself.
+ * </p>
+ *
+ * @param <T> the type of the object that the JSON file will be deserialized
+ *            into
  */
 @FunctionalInterface
 public interface JsonDeserializer<T> {
+
     /**
-     * A function to deserialize a json file.
-     * <p>Note that it prevently throws such exceptions. Such rigid exception handling have a reason:
-     * in fact every deserializer must retrive the file path in resource folder 
-     * (so it might not be there due to external dependecies)
-     * and then read its content (file might not be a json, or OS was unable to read its content e.g file corrupted)</p>
-     * @param json Must be the json file path
-     * @return
-     * @throws IOException in case there was an error occuring the reading of the file
-     * @throws InvalidResourceException when json foile path is not found
+     * Deserializes a JSON file specified by its file path.
+     * <p>
+     * This method throws exceptions to handle various issues that may occur during
+     * the deserialization process:
+     * <ul>
+     * <li>{@code IOException} if there is an error reading the file, such as
+     * the file being corrupted or unreadable.</li>
+     * <li>{@code InvalidResourceException} if the file path is invalid or the
+     * file is not found.</li>
+     * </ul>
+     * </p>
+     *
+     * @param json the path to the JSON file to be deserialized
+     * @return the deserialized object of type {@code T}
+     * @throws IOException              if an error occurs while reading the file
+     * @throws InvalidResourceException if the JSON file path is not found or is
+     *                                  invalid
      */
     T deserialize(String json) throws IOException, InvalidResourceException;
 }

@@ -1,22 +1,21 @@
 package com.project.paradoxplatformer.controller.input;
 
 import java.util.Set;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.input.api.InputTranslator;
 import com.project.paradoxplatformer.controller.input.api.InputType;
 import com.project.paradoxplatformer.controller.input.api.KeyAssetter;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Optional;
 
 /**
  * Implementation of the {@link KeyAssetter} interface for managing a set of key
  * assets.
  * <p>
  * This class uses an {@code InputTranslator} to convert key inputs to
- * {@code InputType}
- * and provides methods to add and remove key assets from the pool.
+ * {@code InputType} and provides methods to add and remove key assets from the
+ * pool.
  * </p>
  * 
  * @param <K> the type of key used in the key assetter
@@ -24,7 +23,7 @@ import java.util.Optional;
 public final class KeyAssetterImpl<K> implements KeyAssetter<K> {
 
     private final Set<Optional<InputType>> pool;
-    private InputTranslator<K> translator;
+    private final InputTranslator<K> translator;
 
     /**
      * Constructs a {@code KeyAssetterImpl} with the specified
@@ -32,7 +31,7 @@ public final class KeyAssetterImpl<K> implements KeyAssetter<K> {
      * 
      * @param translator the input translator used to convert keys to input types
      */
-    public KeyAssetterImpl(InputTranslator<K> translator) {
+    public KeyAssetterImpl(final InputTranslator<K> translator) {
         this.pool = new HashSet<>();
         this.translator = translator;
     }
@@ -43,8 +42,9 @@ public final class KeyAssetterImpl<K> implements KeyAssetter<K> {
      * 
      * @param copy the {@code KeyAssetter} to copy from
      */
-    public KeyAssetterImpl(KeyAssetter<K> copy) {
+    public KeyAssetterImpl(final KeyAssetter<K> copy) {
         this.pool = new HashSet<>(copy.getUnmodifiablePool());
+        this.translator = null; // Translator must be set separately
     }
 
     /**
@@ -64,7 +64,7 @@ public final class KeyAssetterImpl<K> implements KeyAssetter<K> {
      * @return {@code true} if the key was removed, {@code false} otherwise
      */
     @Override
-    public boolean remove(K e) {
+    public boolean remove(final K e) {
         return this.pool.remove(translator.translate(e));
     }
 
@@ -75,7 +75,7 @@ public final class KeyAssetterImpl<K> implements KeyAssetter<K> {
      * @return {@code true} if the key was added, {@code false} otherwise
      */
     @Override
-    public boolean add(K e) {
+    public boolean add(final K e) {
         return this.pool.add(translator.translate(e));
     }
 }

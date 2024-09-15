@@ -15,7 +15,12 @@ import com.project.paradoxplatformer.view.legacy.ViewLegacy;
  * started to launch the application.
  * </p>
  */
-public class App {
+public final class App {
+
+    // Private constructor to prevent instantiation
+    private App() {
+        throw new UnsupportedOperationException("Utility class should not be instantiated.");
+    }
 
     /**
      * The main method that serves as the entry point of the application.
@@ -28,7 +33,7 @@ public class App {
      *
      * @param args command-line arguments (not used)
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         new SimpleController<>(ViewLegacy.javaFxFactory(), "Paradox Platformer").start();
     }
 }

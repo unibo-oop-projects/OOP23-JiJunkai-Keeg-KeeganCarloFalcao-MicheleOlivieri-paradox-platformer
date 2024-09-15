@@ -75,7 +75,7 @@ public final class FXMLPageHelper<P> {
      *         controller of type {@code P}
      * @throws IllegalStateException if an error occurs during loading
      */
-    private Pair<Parent, P> loadInput(FXMLLoader loader) {
+    private Pair<Parent, P> loadInput(final FXMLLoader loader) {
         try {
             final Parent parent = loader.load();
             final P controller = loader.getController();

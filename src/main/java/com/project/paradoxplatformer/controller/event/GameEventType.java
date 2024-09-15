@@ -23,12 +23,6 @@ public enum GameEventType {
     SWITCH_VIEW,
 
     /**
-     * Indicates that the effect handler associated with the collision manager
-     * should be updated.
-     */
-    UPDATE_HANDLER,
-
-    /**
      * Indicates that an object should be removed from the view.
      */
     REMOVE_OBJECT,

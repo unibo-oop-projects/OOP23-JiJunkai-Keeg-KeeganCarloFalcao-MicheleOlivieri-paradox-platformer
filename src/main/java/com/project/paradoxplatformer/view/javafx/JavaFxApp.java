@@ -66,7 +66,7 @@ public class JavaFxApp extends Application implements ViewManager {
         try {
             helper = new FXMLPageHelper<>();
         } catch (InvalidResourceException | RuntimeException ex) {
-            this.displayError(ExceptionUtils.advacendDisplay(ex));
+            this.displayError(ExceptionUtils.advancedDisplay(ex));
             this.safeError();
         }
         stage.setTitle(staticTitle);
@@ -130,7 +130,7 @@ public class JavaFxApp extends Application implements ViewManager {
         } catch (IOException | InvalidResourceException | ClassCastException e) {
             al.setHeaderText("Custom Alert failed, showing Default Alert");
             al.setContentText(content + "\n\nWhy custom alert failed to load? ¬"
-                    + "\n" + ExceptionUtils.advacendDisplay(e));
+                    + "\n" + ExceptionUtils.advancedDisplay(e));
         } finally {
             al.showAndWait();
         }

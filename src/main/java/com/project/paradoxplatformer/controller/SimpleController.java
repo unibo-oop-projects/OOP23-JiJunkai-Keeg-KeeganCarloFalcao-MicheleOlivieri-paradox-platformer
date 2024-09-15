@@ -55,7 +55,7 @@ public final class SimpleController<N, P, K> implements Controller {
             viewManager.switchPage(id).create(param.getResourceFile());
             this.eventManager.publish(GameEventType.UPDATE_HANDLER, id, param);
         } catch (Exception ex) {
-            viewManager.displayError(ExceptionUtils.advacendDisplay(ex));
+            viewManager.displayError(ExceptionUtils.advancedDisplay(ex));
             viewManager.safeError();
         }
     }

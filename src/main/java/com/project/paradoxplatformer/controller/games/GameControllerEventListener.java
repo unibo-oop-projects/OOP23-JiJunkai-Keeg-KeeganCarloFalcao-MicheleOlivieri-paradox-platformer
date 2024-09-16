@@ -14,4 +14,7 @@ public interface GameControllerEventListener {
     void handleRemoveObject(PageIdentifier id, Optional<? extends CollidableGameObject> object);
 
     void handleTriggerEffect(PageIdentifier id, Obstacle param);
+
+    void handleVictory(PageIdentifier id, Level param);
+    
 }

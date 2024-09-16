@@ -2,6 +2,11 @@ package com.project.paradoxplatformer.utils.endGame;
 
 import java.util.Iterator;
 
+import com.project.paradoxplatformer.model.effect.api.Level;
+import com.project.paradoxplatformer.utils.InvalidResourceException;
+import com.project.paradoxplatformer.view.javafx.PageIdentifier;
+import com.project.paradoxplatformer.view.manager.ViewNavigator;
+
 /**
  * Implementation of the EndGameManager interface.
  * It manages and checks a collection of victory and death conditions.
@@ -10,15 +15,17 @@ public class EndGameManagerImpl implements EndGameManager {
 
     private Iterator<VictoryCondition> victory;
     private Iterator<DeathCondition> death;
+    private final Level level;
 
     /**
      * Constructs a EndGameManagerImpl with the specified list of conditions.
      *
      * @param conditions An iterator over the victory conditions to be managed.
      */
-    public EndGameManagerImpl(Iterator<VictoryCondition> victory, Iterator<DeathCondition> death) {
+    public EndGameManagerImpl(Iterator<VictoryCondition> victory, Iterator<DeathCondition> death, Level level) {
         this.victory = victory; 
         this.death = death;
+        this.level = level;
     }
 
     /**
@@ -46,6 +53,10 @@ public class EndGameManagerImpl implements EndGameManager {
     public void onVictory() {
         // Actions to be taken upon victory, such as showing a victory screen or changing the level.
         System.out.println("Victory achieved!");
+        try {
+            ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.level);
+        } catch (InvalidResourceException ex) {
+        }
     }
 
     /**

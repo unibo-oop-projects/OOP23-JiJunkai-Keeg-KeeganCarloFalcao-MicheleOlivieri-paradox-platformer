@@ -8,9 +8,8 @@ import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
 /**
- * VictoryConditionsFactoryImpl generates different victory conditions based on 
- * the game level and the player's state. It implements the generic ConditionsFactory 
- * interface to produce victory conditions for each level.
+ * VictoryConditionsFactoryImpl generates different victory conditions for each level.
+ * It allows the dynamic creation of conditions based on the level and player model.
  */
 public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCondition> {
 
@@ -22,7 +21,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
      *
      * @param level  the current game level.
      * @param player the player model used to track game state.
-     * @return an iterator over the victory conditions specific to the level.
+     * @return an iterator over victory conditions specific to the level.
      */
     @Override
     public Iterator<VictoryCondition> createConditionsForLevel(Level level, PlayerModel player) {
@@ -50,7 +49,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     }
 
     /**
-     * Defines the victory conditions specific to level one.
+     * Defines the victory conditions for level one.
      *
      * @return an iterator over the victory conditions for level one.
      */
@@ -63,7 +62,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     }
 
     /**
-     * Defines the victory conditions specific to level two.
+     * Defines the victory conditions for level two.
      *
      * @return an iterator over the victory conditions for level two.
      */
@@ -75,7 +74,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     }
 
     /**
-     * Defines the victory conditions specific to level three.
+     * Defines the victory conditions for level three.
      *
      * @return an iterator over the victory conditions for level three.
      */
@@ -88,7 +87,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     }
 
     /**
-     * Defines the victory conditions specific to level four.
+     * Defines the victory conditions for level four.
      *
      * @return an iterator over the victory conditions for level four.
      */
@@ -98,5 +97,5 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
         conditions.add(new TimeLimitVictoryCondition(400)); // Survive for 400 seconds
         return conditions.iterator();
     }
-    
+
 }

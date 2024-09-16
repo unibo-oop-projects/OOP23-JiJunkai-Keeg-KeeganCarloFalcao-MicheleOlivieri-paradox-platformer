@@ -48,7 +48,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
     public Iterator<DeathCondition> defaultConditions() {
         List<DeathCondition> defaultList = new ArrayList<>();
         // Default condition: Player dies if health is below 0.
-        defaultList.add(new HealthBelowZeroCondition(this.player));
+        defaultList.add(new FallenCondition(this.player));
         return defaultList.iterator();
     }
 
@@ -61,7 +61,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
     public Iterator<DeathCondition> levelOneConditions() {
         List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if health is below 0.
-        conditions.add(new HealthBelowZeroCondition(this.player));
+        conditions.add(new FallenCondition(this.player));
         return conditions.iterator();
     }
 
@@ -87,7 +87,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
     public Iterator<DeathCondition> levelThreeConditions() {
         List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if health is below 0.
-        conditions.add(new HealthBelowZeroCondition(this.player));
+        conditions.add(new FallenCondition(this.player));
         return conditions.iterator();
     }
 
@@ -100,8 +100,9 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
     public Iterator<DeathCondition> levelFourConditions() {
         List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if health is below 0.
-        conditions.add(new HealthBelowZeroCondition(this.player));
+        conditions.add(new FallenCondition(this.player));
         return conditions.iterator();
+
     }
 
 }

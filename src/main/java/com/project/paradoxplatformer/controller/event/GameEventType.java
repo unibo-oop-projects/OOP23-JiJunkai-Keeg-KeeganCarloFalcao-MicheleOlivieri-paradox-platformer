@@ -31,5 +31,11 @@ public enum GameEventType {
      * Indicates that an trigger has been activated and needs to be processed by
      * effect handler.
      */
-    TRIGGER_EFFECT
+    TRIGGER_EFFECT, 
+
+    /**
+     * Indicates that a win condition has been activated.
+     */
+    WIN_CONDITION_MET
+    
 }

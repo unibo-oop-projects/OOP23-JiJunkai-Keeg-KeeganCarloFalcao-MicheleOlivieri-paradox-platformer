@@ -56,7 +56,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private final Function<GraphicAdapter<C>, Coord2D> position;
     private final Function<GraphicAdapter<C>, Dimension> dimension;
 
-    private CollisionManager collisionManager;
+    private final CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
     private final EndGameManager endGameManager;
 
@@ -81,7 +81,12 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.dimension = GraphicAdapter::dimension;
         this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(level));
         this.currentLevel = level;
-        this.endGameManager = new EndGameManagerImpl(new VictoryConditionsFactoryImpl().defaultConditions(), new DeathConditionsFactoryImpl().defaultConditions());
+        this.endGameManager = new EndGameManagerImpl(
+            new VictoryConditionsFactoryImpl()
+                .defaultConditions(),
+            new DeathConditionsFactoryImpl()
+                .defaultConditions(), 
+            this.currentLevel);
 
         this.eventSubscriber = new GameControllerEventSubscriber(this);
         this.objectRemover = new ObjectRemover<>(model, view);
@@ -130,8 +135,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                 .map(m -> Pair.of(m, g))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Failed to pair object and graphic\nCause: "
-                                + "\nGraphic: " + dimension.apply(g)
+                        """
+                        Failed to pair object and graphic
+                        Cause: 
+                        Graphic: """ + dimension.apply(g)
                                 + "\nGraphic: " + position.apply(g)));
 
         // Imposta il listener se l'oggetto è il palyer
@@ -162,6 +169,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     @Override
     public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, String type) {
         this.setupGameMode(gameModel.getWorld().player(), type);
+        this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl().createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
+        this.endGameManager.setDeathHandler(new DeathConditionsFactoryImpl().createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
         this.gameManager = new GameLoopFactoryImpl(dt -> {
             ic.checkPool(
                     inputer.getKeyAssetter(),
@@ -194,6 +203,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
+
+            // this.endGameManager.checkForDeath();
+            // this.endGameManager.checkForVictory();
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 
@@ -267,6 +279,11 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     @Override
     public void handleTriggerEffect(PageIdentifier id, Obstacle param) {
         System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
+    }
+    
+    @Override
+    public void handleVictory(PageIdentifier id, Level param) {
+        this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl().createConditionsForLevel(param,this.gameModel.getWorld().player()) );
     }
 
 }

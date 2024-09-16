@@ -8,8 +8,6 @@ Email dei componenti:
 
 - junkai.ji@studio.unibo.it
 
-- pierdavide.elia@studio.unibo.it
-
 
 
 Il gruppo si pone come obbiettivo quello di realizzare un platform game 2D chiamato 'Paradox Platformer', un avventura in cui il giocatore esplora diverse mappe affrontando sfide e risolvendo enigmi per raggiungere la porta di endgame. Il cuore del gioco si basa sull'idea innovativa di oggetti, ostacoli e triggers controintuitivi, che mettono il giocatore di fronte a sfide in grado di sovvertire le dinamiche di gioco tradizionali.
@@ -75,11 +73,10 @@ Funzionalità opzionali:
 Suddivisione del lavoro:
 
 
-
+- Common: gestione del gioco.
+  
 - Olivieri: Implementazione degli ostacoli di tipo letale, del personaggio principale e della gravità.
 
-- Falcao: Implementazione degli ostacoli di tipo non letale, dei modifier delle entità e della gestione dell'I/O.
+- Falcao: Implementazione degli ostacoli di tipo non letale, del mondo di gioco, del game loop e della gestione dell'I/O.
 
-- Elia: Implementazione del mondo di gioco, gestione del game loop e salvataggio del gioco.
-
-- Ji: Implementazione degli eventi di collisione tra il personaggio e gli oggetti, dei trigger vari, del menu e dell'interfaccia per il punteggio e il conteggio delle morti (scoreboard e death counter).
+- Ji: Implementazione della collisione tra il personaggio e gli oggetti, dei trigger, del menu e degli effetti delle entità.

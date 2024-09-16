@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.effect.ColorAdjust?>
 
-<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.project.paradoxplatformer.SettingsPage">
-    <Slider fx:id="brightnessSlider" min="0" max="100" value="100" />
-    <Button fx:id="toggleSoundButton" text="Toggle Sound" />
-    <Button fx:id="saveButton" text="Save" />
-</VBox>
+<BorderPane fx:id="settingsPagePane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.paradoxplatformer.SettingsPage">
+   <center>
+      <VBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <Slider fx:id="brightnessSlider" min="0" max="100" value="100" styleClass="slider" />
+            <Button fx:id="toggleSoundButton" text="Toggle Sound" styleClass="menu-button" />
+            <Button fx:id="saveButton" text="Save" styleClass="menu-button" />
+         </children>
+         <BorderPane.margin>
+            <Insets top="30.0" />
+         </BorderPane.margin>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" spacing="30.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backButton" text="Back" styleClass="foot-button" />
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="30.0" />
+         </BorderPane.margin>
+      </HBox>
+   </bottom>
+   <effect>
+      <ColorAdjust saturation="-0.1" />
+   </effect>
+</BorderPane>

@@ -60,7 +60,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
     private final CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
-    private VictoryManager victoryManager;
+    private final VictoryManager victoryManager;
 
     private final Random rand = new Random();
     private final EventManager<ViewEventType, PageIdentifier> eventManager;
@@ -148,13 +148,15 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                 .map(m -> Pair.of(m, g))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Failed to pair object and graphic\nCause: "
-                                + "\nGraphic: " + dimension.apply(g)
+                        """
+                        Failed to pair object and graphic
+                        Cause: 
+                        Graphic: """ + dimension.apply(g)
                                 + "\nGraphic: " + position.apply(g)));
 
         // Imposta il listener se l'oggetto è il palyer
-        if (pair.getKey() instanceof AbstractControllableObject) {
-            ((AbstractControllableObject) pair.getKey()).setGameEventListener(this);
+        if (pair.getKey() instanceof AbstractControllableObject abstractControllableObject) {
+            abstractControllableObject.setGameEventListener(this);
         }
 
         if (firstTime) {
@@ -213,6 +215,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
+
+            this.victoryManager.checkForVictory();
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 

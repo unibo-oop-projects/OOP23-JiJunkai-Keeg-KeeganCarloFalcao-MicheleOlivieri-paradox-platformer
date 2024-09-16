@@ -1,35 +1,58 @@
 package com.project.paradoxplatformer.utils.victory;
 
-import java.util.List;
+import java.util.Iterator;
 
+/**
+ * Implementation of the VictoryManager interface.
+ * It manages and checks a collection of victory conditions.
+ */
 public class VictoryManagerImpl implements VictoryManager {
 
-    private List<VictoryCondition> conditions;
+    private Iterator<VictoryCondition> conditions;
 
-    public VictoryManagerImpl(List<VictoryCondition> conditions) {
+    /**
+     * Constructs a VictoryManagerImpl with the specified list of conditions.
+     *
+     * @param conditions An iterator over the victory conditions to be managed.
+     */
+    public VictoryManagerImpl(Iterator<VictoryCondition> conditions) {
         this.conditions = conditions; 
     }
 
+    /**
+     * Checks each registered victory condition to determine if any have been met.
+     *
+     * @return true if a victory condition has been met, false otherwise.
+     */
     @Override
     public boolean checkForVictory() {
-        return conditions.stream()
-            .filter(VictoryCondition::Win) // Filtra le condizioni che soddisfano win()
-            .findFirst()
-            .map(condition -> {            // Se presente, esegui onVictory()
+        while (conditions.hasNext()) {
+            VictoryCondition condition = conditions.next();
+            if (condition.Win()) {
                 onVictory();
-                return true;               // Ritorna true in caso di vittoria
-            })
-            .orElse(false);                // Se nessuna condizione è vincente, ritorna false
+                return true;
+            }
+        }
+        return false;
     }
 
+    /**
+     * Called when a victory condition has been met. 
+     * This method handles the victory event, such as displaying a win screen.
+     */
     @Override
     public void onVictory() {
-        // Azioni da intraprendere in caso di vittoria, come mostrare schermate di vittoria o cambiare il livello.
+        // Actions to be taken upon victory, such as showing a victory screen or changing the level.
         System.out.println("Victory achieved!");
     }
 
+    /**
+     * Sets the iterator over the new victory conditions to be handled by the manager.
+     *
+     * @param newList An iterator over the new victory conditions.
+     */
     @Override
-    public void setVictoryHandler(List<VictoryCondition> newList) {
+    public void setVictoryHandler(Iterator<VictoryCondition> newList) {
         this.conditions = newList;
     }
 

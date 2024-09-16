@@ -1,17 +1,30 @@
 package com.project.paradoxplatformer.utils.victory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
-public class VictoryConditionsFactoryImpl implements VictoryConditionsFactory{
+/**
+ * VictoryConditionsFactoryImpl generates different victory conditions for each level.
+ * It allows the dynamic creation of conditions based on the level and player model.
+ */
+public class VictoryConditionsFactoryImpl implements VictoryConditionsFactory {
 
-    private PlayerModel player; 
+    private PlayerModel player;
 
+    /**
+     * Creates an iterator of victory conditions for the specified level.
+     * Each level can have unique conditions or default ones.
+     *
+     * @param level  the current game level.
+     * @param player the player model used to track game state.
+     * @return an iterator over victory conditions specific to the level.
+     */
     @Override
-    public List<VictoryCondition> createVictoryConditionsForLevel(Level level, PlayerModel player) {
+    public Iterator<VictoryCondition> createVictoryConditionsForLevel(Level level, PlayerModel player) {
         this.player = player;
         return switch (level) {
             case LEVEL_ONE -> levelOneVictoryCondition();
@@ -22,26 +35,62 @@ public class VictoryConditionsFactoryImpl implements VictoryConditionsFactory{
         };
     }
 
-    public List<VictoryCondition> defaultVictoryCondition() {
-        List<VictoryCondition> defaultList = new ArrayList();
-        defaultList.add(new CoinCollectionVictoryCondition(this.player, 5)); // Just for test
-        return defaultList;
+    /**
+     * Creates an iterator over default victory conditions, which can be used as a fallback.
+     *
+     * @return an iterator over the default victory conditions.
+     */
+    public Iterator<VictoryCondition> defaultVictoryCondition() {
+        List<VictoryCondition> defaultList = new ArrayList<>();
+        // Example: Collect 5 coins to win.
+        defaultList.add(new CoinCollectionVictoryCondition(this.player, 5)); 
+        return defaultList.iterator();
     }
 
-    private List<VictoryCondition> levelOneVictoryCondition() {
-        return defaultVictoryCondition();
+    /**
+     * Defines the victory conditions for level one.
+     *
+     * @return an iterator over the victory conditions for level one.
+     */
+    private Iterator<VictoryCondition> levelOneVictoryCondition() {
+        List<VictoryCondition> conditions = new ArrayList<>();
+        conditions.add(new CoinCollectionVictoryCondition(this.player, 10)); // Collect 10 coins
+        conditions.add(new TimeLimitVictoryCondition(300)); // Win by surviving for 300 seconds
+        return conditions.iterator();
     }
 
-    private List<VictoryCondition> levelTwoVictoryCondition() {
-        return defaultVictoryCondition();
+    /**
+     * Defines the victory conditions for level two.
+     *
+     * @return an iterator over the victory conditions for level two.
+     */
+    private Iterator<VictoryCondition> levelTwoVictoryCondition() {
+        List<VictoryCondition> conditions = new ArrayList<>();
+        conditions.add(new TriggerCollisionVictoryCondition()); // Reach specific end game level
+        return conditions.iterator();
     }
 
-    private List<VictoryCondition> levelThreeVictoryCondition() {
-        return defaultVictoryCondition();
+    /**
+     * Defines the victory conditions for level three.
+     *
+     * @return an iterator over the victory conditions for level three.
+     */
+    private Iterator<VictoryCondition> levelThreeVictoryCondition() {
+        List<VictoryCondition> conditions = new ArrayList<>();
+        conditions.add(new CoinCollectionVictoryCondition(this.player, 15)); // Collect 15 coins
+        conditions.add(new TimeLimitVictoryCondition(300)); // Win by surviving for 300 seconds
+        return conditions.iterator();
     }
 
-    private List<VictoryCondition> levelFourVictoryCondition() {
-        return defaultVictoryCondition();
+    /**
+     * Defines the victory conditions for level four.
+     *
+     * @return an iterator over the victory conditions for level four.
+     */
+    private Iterator<VictoryCondition> levelFourVictoryCondition() {
+        List<VictoryCondition> conditions = new ArrayList<>();
+        conditions.add(new TimeLimitVictoryCondition(400)); // Survive for 400 seconds
+        return conditions.iterator();
     }
 
 }

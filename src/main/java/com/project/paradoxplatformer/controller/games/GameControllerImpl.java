@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
@@ -26,8 +27,13 @@ import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.world.api.World;
+import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
+import com.project.paradoxplatformer.utils.endGame.DeathConditionsFactoryImpl;
+import com.project.paradoxplatformer.utils.endGame.EndGameManager;
+import com.project.paradoxplatformer.utils.endGame.EndGameManagerImpl;
+import com.project.paradoxplatformer.utils.endGame.VictoryConditionsFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.game.GameView;
@@ -36,7 +42,6 @@ import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
-import com.project.paradoxplatformer.utils.InvalidResourceException;
 
 /**
  * An implementation of a basic Game Controller.
@@ -53,6 +58,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
     private CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
+    private final EndGameManager endGameManager;
 
     @SuppressWarnings("unused")
     private final GameControllerEventSubscriber eventSubscriber;
@@ -75,6 +81,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.dimension = GraphicAdapter::dimension;
         this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(level));
         this.currentLevel = level;
+        this.endGameManager = new EndGameManagerImpl(new VictoryConditionsFactoryImpl().defaultConditions(), new DeathConditionsFactoryImpl().defaultConditions());
 
         this.eventSubscriber = new GameControllerEventSubscriber(this);
         this.objectRemover = new ObjectRemover<>(model, view);

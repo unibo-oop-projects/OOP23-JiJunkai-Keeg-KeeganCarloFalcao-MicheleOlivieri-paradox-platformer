@@ -28,7 +28,7 @@ public class TimeLimitVictoryCondition implements VictoryCondition {
     public boolean Win() {
         long currentTime = System.currentTimeMillis();
         // Check if the elapsed time is within the time limit
-        return (currentTime - startTime) / 1000 < timeLimitSeconds;
+        return (currentTime + startTime) / 1000 < timeLimitSeconds;
     }
     
 }

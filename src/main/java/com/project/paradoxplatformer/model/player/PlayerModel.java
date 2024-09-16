@@ -152,9 +152,9 @@ public final class PlayerModel extends AbstractControllableObject {
             .stream()
             .filter(e -> e.getKey().equals("coins"))
             .findFirst()
-            .get()
-            .getValue();
-    }
+            .map(Map.Entry::getValue) // Map to the value (number of coins)
+            .orElse(0L); // Return 0 if "coins" is not present
+    }    
 
     @Override
     public CollisionType getCollisionType() {

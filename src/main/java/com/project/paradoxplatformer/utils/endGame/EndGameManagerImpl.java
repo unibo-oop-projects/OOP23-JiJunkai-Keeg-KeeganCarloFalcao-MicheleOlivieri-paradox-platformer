@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.utils.endGame;
 
 import java.util.Iterator;
-
 import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
+import com.project.paradoxplatformer.utils.StreamUtil;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
 
@@ -20,10 +20,12 @@ public class EndGameManagerImpl implements EndGameManager {
     /**
      * Constructs a EndGameManagerImpl with the specified list of conditions.
      *
-     * @param conditions An iterator over the victory conditions to be managed.
+     * @param victory An iterator over the victory conditions to be managed.
+     * @param death   An iterator over the death conditions to be managed.
+     * @param level   The current level being managed.
      */
     public EndGameManagerImpl(Level level) {
-        this.victory = new VictoryConditionsFactoryImpl().defaultConditions(); 
+        this.victory = new VictoryConditionsFactoryImpl().defaultConditions();
         this.death = new DeathConditionsFactoryImpl().defaultConditions();
         this.level = level;
     }
@@ -35,55 +37,40 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public boolean checkForVictory() {
-        while (victory.hasNext()) {
-            VictoryCondition condition = victory.next();
-            if (condition.Win()) {
-                onVictory();
-                return true;
-            }
-        }
-        return false;
+        return checkCondition(victory, VictoryCondition::Win, this::onVictory);
     }
 
     /**
-     * Called when a victory condition has been met. 
+     * Called when a victory condition has been met.
      * This method handles the victory event, such as displaying a win screen.
      */
     @Override
     public void onVictory() {
-        // Actions to be taken upon victory, such as showing a victory screen or changing the level.
-        System.out.println("Victory achieved!");
-        try {
-            ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.level);
-        } catch (InvalidResourceException ex) {
-        }
+        triggerEvent("Victory achieved!", PageIdentifier.GAME);
     }
 
     /**
      * Checks each registered death condition to determine if any have been met.
      *
-     * @return true if a victory condition has been met, false otherwise.
+     * @return true if a death condition has been met, false otherwise.
      */
     @Override
     public boolean checkForDeath() {
-        while (death.hasNext()) {
-            DeathCondition condition = death.next();
-            if (condition.death()) {
-                onDeath();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void onDeath() {
-        // Actions to be taken upon victory, such as showing a death screen or changing the level.
-        System.out.println("Victory achieved!");
+        return checkCondition(death, DeathCondition::death, this::onDeath);
     }
 
     /**
-     * Sets the iterator over the new victory conditions to be handled by the manager.
+     * Called when a death condition has been met.
+     * This method handles the death event, such as displaying a death screen.
+     */
+    @Override
+    public void onDeath() {
+        triggerEvent("Death achieved!", null);
+    }
+
+    /**
+     * Sets the iterator over the new victory conditions to be handled by the
+     * manager.
      *
      * @param newList An iterator over the new victory conditions.
      */
@@ -102,4 +89,37 @@ public class EndGameManagerImpl implements EndGameManager {
         this.death = newList;
     }
 
+    /**
+     * General method to check a condition iterator, execute an action on success.
+     *
+     * @param iterator  The condition iterator.
+     * @param condition The condition to check.
+     * @param onSuccess The action to execute on success.
+     * @return true if the condition was met, false otherwise.
+     */
+    private <T> boolean checkCondition(Iterator<T> iterator, java.util.function.Predicate<T> condition,
+            Runnable onSuccess) {
+        boolean result = StreamUtil.toStream(iterator).anyMatch(condition);
+        if (result) {
+            onSuccess.run();
+        }
+        return result;
+    }
+
+    /**
+     * Triggers an event with a given message and navigates to the specified page.
+     *
+     * @param message The message to print.
+     * @param page    The page identifier to navigate to (can be null).
+     */
+    private void triggerEvent(String message, PageIdentifier page) {
+        System.out.println(message);
+        if (page != null) {
+            try {
+                ViewNavigator.getInstance().openView(page, this.level);
+            } catch (InvalidResourceException ex) {
+                // Handle exception if necessary
+            }
+        }
+    }
 }

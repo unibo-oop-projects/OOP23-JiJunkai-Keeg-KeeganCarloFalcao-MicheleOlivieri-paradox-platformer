@@ -45,6 +45,6 @@ public interface EndGameManager {
      *
      * @param newList The list of new death conditions.
      */
-    void setVictoryHandler(Iterator<DeathCondition> newList);
-    
+    void setDeathHandler(Iterator<DeathCondition> newList);
+
 }

@@ -146,6 +146,16 @@ public final class PlayerModel extends AbstractControllableObject {
         return this.inventory.getItemsCounts();
     }
 
+    public long getCollectedCoins() {
+        return this.inventory.getItemsCounts()
+            .entrySet()
+            .stream()
+            .filter(e -> e.getKey().equals("coins"))
+            .findFirst()
+            .get()
+            .getValue();
+    }
+
     @Override
     public CollisionType getCollisionType() {
         return CollisionType.PLAYER;

@@ -36,6 +36,20 @@
 		},
 		{
 			"type": "obstacle",
+			"x": 290,
+			"y": 0,
+			"width": 40,
+			"height": 100,
+			"subtype": "Platform",
+			"color": {
+				"blu": 42,
+				"red": 18,
+				"green": 77,
+				"alpha": 1
+			}
+		},
+		{
+			"type": "obstacle",
 			"x": 330,
 			"y": 0,
 			"width": 310,
@@ -120,12 +134,12 @@
 			}
 		},
 		{
-			"type": "obstacle",
+			"type": "trigger",
 			"x": 300,
 			"y": 110,
 			"width": 16,
 			"height": 16,
-			"subtype": "Coin",
+			"subtype": "Floor",
 			"image": "gems.png",
 			"spriteMeta": {
 				"special": false,

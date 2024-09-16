@@ -22,9 +22,9 @@ public class EndGameManagerImpl implements EndGameManager {
      *
      * @param conditions An iterator over the victory conditions to be managed.
      */
-    public EndGameManagerImpl(Iterator<VictoryCondition> victory, Iterator<DeathCondition> death, Level level) {
-        this.victory = victory; 
-        this.death = death;
+    public EndGameManagerImpl(Level level) {
+        this.victory = new VictoryConditionsFactoryImpl().defaultConditions(); 
+        this.death = new DeathConditionsFactoryImpl().defaultConditions();
         this.level = level;
     }
 
@@ -67,9 +67,9 @@ public class EndGameManagerImpl implements EndGameManager {
     @Override
     public boolean checkForDeath() {
         while (death.hasNext()) {
-            VictoryCondition condition = victory.next();
-            if (condition.Win()) {
-                onVictory();
+            DeathCondition condition = death.next();
+            if (condition.death()) {
+                onDeath();
                 return true;
             }
         }

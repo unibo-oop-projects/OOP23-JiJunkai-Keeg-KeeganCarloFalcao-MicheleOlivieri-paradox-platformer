@@ -81,12 +81,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         this.dimension = GraphicAdapter::dimension;
         this.collisionManager = new CollisionManager(new EffectHandlerFactoryImpl().getEffectHandlerForLevel(level));
         this.currentLevel = level;
-        this.endGameManager = new EndGameManagerImpl(
-            new VictoryConditionsFactoryImpl()
-                .defaultConditions(),
-            new DeathConditionsFactoryImpl()
-                .defaultConditions(), 
-            this.currentLevel);
+        this.endGameManager = new EndGameManagerImpl(this.currentLevel);
 
         this.eventSubscriber = new GameControllerEventSubscriber(this);
         this.objectRemover = new ObjectRemover<>(model, view);
@@ -204,8 +199,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             this.collisionManager.handleCollisions(gamePairs.keySet(),
                     player);
 
-            // this.endGameManager.checkForDeath();
-            // this.endGameManager.checkForVictory();
+            this.endGameManager.checkForDeath();
+            this.endGameManager.checkForVictory();
 
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 
@@ -282,8 +277,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     }
     
     @Override
-    public void handleVictory(PageIdentifier id, Level param) {
-        this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl().createConditionsForLevel(param,this.gameModel.getWorld().player()) );
+    public void handleVictory(PageIdentifier id) {
+        this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl().createConditionsForLevel(this.currentLevel,this.gameModel.getWorld().player()) );
     }
 
 }

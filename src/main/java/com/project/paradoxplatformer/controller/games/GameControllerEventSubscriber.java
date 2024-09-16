@@ -27,7 +27,7 @@ public class GameControllerEventSubscriber {
         eventManager.subscribe(GameEventType.STOP_VIEW, this::handleStopView);
         eventManager.subscribe(GameEventType.REMOVE_OBJECT, this::handleRemoveObject);
         eventManager.subscribe(GameEventType.TRIGGER_EFFECT, this::handleTriggerEffect);
-        eventManager.subscribe(GameEventType.TRIGGER_EFFECT, this::handleVictory);
+        eventManager.subscribe(GameEventType.WIN_CONDITION_MET, this::handleVictory);
     }
 
     private void handleStopView(PageIdentifier id, Level param) {
@@ -42,8 +42,8 @@ public class GameControllerEventSubscriber {
         gameEventListener.handleTriggerEffect(id, param);
     }
 
-    private void handleVictory(PageIdentifier id, Level param) {
-        gameEventListener.handleVictory(id, param);
+    private void handleVictory(PageIdentifier id, Level level) {
+        gameEventListener.handleVictory(id);
     }
 
 }

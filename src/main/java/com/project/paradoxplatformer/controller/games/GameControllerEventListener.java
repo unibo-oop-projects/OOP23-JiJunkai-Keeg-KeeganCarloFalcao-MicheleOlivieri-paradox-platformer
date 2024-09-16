@@ -15,6 +15,6 @@ public interface GameControllerEventListener {
 
     void handleTriggerEffect(PageIdentifier id, Obstacle param);
 
-    void handleVictory(PageIdentifier id, Level param);
-    
+    void handleVictory(PageIdentifier id);
+
 }

@@ -74,6 +74,9 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.verticalSpeed = Polar2DVector.nullVector();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Coord2D getPosition() {
         return this.position;
@@ -87,14 +90,27 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.position = new Coord2D(pos.x(), pos.y());
     }
 
+    /**
+     * Sets the displacement of the player using the specified position.
+     *
+     * @param pos The new position to set as displacement.
+     */
     public void setDisplacement(final Coord2D pos) {
         this.displacement = new Simple2DVector(pos.x(), pos.y());
     }
 
+    /**
+     * Sets the horizontal displacement of the player.
+     *
+     * @param x The new horizontal displacement value.
+     */
     public void setDisplacement(final double x) {
         this.displacement = new Simple2DVector(x, this.displacement.yComponent());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dimension getDimension() {
         return this.dimension;
@@ -108,6 +124,9 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.dimension = dimension;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Vector2D getSpeed() {
         if (this.horizontalSpeed == null) {
@@ -116,10 +135,18 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         return this.horizontalSpeed;
     }
 
+    /**
+     * Sets the speed of the player.
+     *
+     * @param speed The new speed to set.
+     */
     public void setSpeed(final Vector2D speed) {
         this.horizontalSpeed = speed;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateState(final long dt) {
         this.fall();
@@ -129,11 +156,17 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.jumpBehavior.setFalling(true);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void collectItem(final CollectableGameObject item) {
         this.inventory.addItem(item);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public CollisionType getCollisionType() {
         return CollisionType.PLAYER;
@@ -157,7 +190,11 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         return new SimpleInventory(this.inventory.getImmutableItems());
     }
 
-    // Gestione del movimento orizzontale
+    /**
+     * Handles the horizontal movement of the player based on the elapsed time.
+     *
+     * @param dt The elapsed time since the last update.
+     */
     private void handleHorizontalMovement(final long dt) {
         this.displacement = physics.step(this.displacement,
                 this.displacement.add(this.horizontalSpeed),
@@ -165,7 +202,11 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
                 dt);
     }
 
-    // Gestione del movimento verticale
+    /**
+     * Handles the vertical movement of the player based on the elapsed time.
+     *
+     * @param dt The elapsed time since the last update.
+     */
     private void handleVerticalMovement(final long dt) {
         var nextVerticalDisplace = physics.moveTo(this.displacement,
             this.displacement.add(verticalSpeed),

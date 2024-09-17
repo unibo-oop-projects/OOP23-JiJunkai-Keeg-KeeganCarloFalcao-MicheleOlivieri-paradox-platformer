@@ -10,31 +10,34 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
- * A Coin game object is a collectable object which a player can collect and store in the inventory.
+ * A Coin is a collectable object that a player can collect and store in the inventory.
  * @see com.project.paradoxplatformer.model.effect.impl.CollectingEffect
  */
-public final class Coin extends AbstractObstacle implements CollectableGameObject{
+public final class Coin extends AbstractObstacle implements CollectableGameObject {
 
     /**
-     * Constructs a coin based on id, position, dimension and queue of trajectories (upon activation).
-     * @param key of a coin
-     * @param position of a coin
-     * @param dimension of a coin
-     * @param trajectoryQueue of a coin
+     * Constructs a Coin based on id, position, dimension, and a queue of trajectories (upon activation).
+     * @param key             The unique identifier for the coin.
+     * @param position        The position of the coin.
+     * @param dimension       The dimension of the coin.
+     * @param trajectoryQueue The queue of trajectories associated with the coin upon activation.
      */
     public Coin(
-        final int key,
-        final Coord2D position,
-        final Dimension dimension,
-        final Queue<TrajectoryInfo> trajectoryQueue
+            final int key,
+            final Coord2D position,
+            final Dimension dimension,
+            final Queue<TrajectoryInfo> trajectoryQueue
     ) {
         super(key, position, dimension, trajectoryQueue);
     }
 
     /**
-     * {@inheritDoc}
+     * Constructs a Coin based on id, position, and dimension.
+     * @param key       The unique identifier for the coin.
+     * @param position  The position of the coin.
+     * @param dimension The dimension of the coin.
      */
-    public Coin(final int key, Coord2D position, Dimension dimension) {
+    public Coin(final int key, final Coord2D position, final Dimension dimension) {
         super(key, position, dimension);
     }
 
@@ -53,5 +56,4 @@ public final class Coin extends AbstractObstacle implements CollectableGameObjec
     public String getName() {
         return "Coin";
     }
-    
 }

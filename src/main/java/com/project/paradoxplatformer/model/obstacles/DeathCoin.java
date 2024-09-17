@@ -8,16 +8,18 @@ import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
+/**
+ * A DeathCoin is an obstacle that causes the player to lose the game if collided with.
+ */
 public final class DeathCoin extends AbstractObstacle {
 
     /**
-     * Constructs a death coin based on id, position, dimension and queue of
-     * trajectories (upon activation).
-     * 
-     * @param key             of a death coin
-     * @param position        of a death coin
-     * @param dimension       of a death coin
-     * @param trajectoryQueue of a death coin
+     * Constructs a DeathCoin with the specified parameters.
+     *
+     * @param key             The unique identifier for the death coin.
+     * @param position        The position of the death coin.
+     * @param dimension       The dimension of the death coin.
+     * @param trajectoryQueue The queue of trajectories associated with the death coin upon activation.
      */
     public DeathCoin(
             final int key,
@@ -31,5 +33,4 @@ public final class DeathCoin extends AbstractObstacle {
     public CollisionType getCollisionType() {
         return CollisionType.DEATH_OBS;
     }
-
 }

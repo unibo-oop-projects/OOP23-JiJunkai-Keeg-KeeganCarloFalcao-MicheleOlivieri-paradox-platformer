@@ -15,34 +15,35 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
  * This class extends {@link AbstractTrigger} and defines a button's position
  * and size. When activated, the button can trigger actions such as affecting
  * obstacles. The button is treated as a collidable object with the collision
- * type {@link CollisionType#BUTTON}.
+ * type
+ * {@link CollisionType#BUTTON}.
  * </p>
  */
 public class Button extends AbstractTrigger {
 
     /**
-     * Constructs a Button with the given position, size, id, and the trajectory queue.
+     * Constructs a Button with the given position, size, id and the trajectory
+     * queue.
      * 
-     * @param key              The unique id of the Button.
-     * @param position         The position of the Button in 2D space.
-     * @param dimension        The size (width and height) of the Button.
-     * @param trajectoryQueue The trajectory queue of the Button.
+     * @param key             The unique id of the Button
+     * @param position        the position of the Button in 2D space
+     * @param dimension       the size (width and height) of the Button
+     * @param trajectoryQueue of the Button
      */
     public Button(
             final int key,
-            final Coord2D position, 
-            final Dimension dimension, 
-            final Queue<TrajectoryInfo> trajectoryQueue
-    ) {
+            final Coord2D position,
+            final Dimension dimension,
+            final Queue<TrajectoryInfo> trajectoryQueue) {
         super(key, position, dimension, trajectoryQueue);
     }
 
     /**
-     * Constructs a Button with the given position, size, and id.
+     * Constructs a Button with the given position, size and id.
      * 
-     * @param key        The unique id of the Button.
-     * @param position   The position of the Button in 2D space.
-     * @param dimension  The size (width and height) of the Button.
+     * @param key       The unique id of the Button
+     * @param position  the position of the Button in 2D space
+     * @param dimension the size (width and height) of the Button
      */
     public Button(final int key, final Coord2D position, final Dimension dimension) {
         super(key, position, dimension);
@@ -51,7 +52,7 @@ public class Button extends AbstractTrigger {
     /**
      * Returns the collision type associated with this button.
      * 
-     * @return The collision type, which is {@link CollisionType#BUTTON}.
+     * @return the collision type, which is {@link CollisionType#BUTTON}
      */
     @Override
     public CollisionType getCollisionType() {

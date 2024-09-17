@@ -87,6 +87,8 @@ public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         // Add specific effects for level four
         // handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new
         // ChangeLevelEffect(Level.LEVEL_ONE));
+        // handler.addCollisionEffectsForType(CollisionType.BUTTON,
+        // () -> new TransportEffect(new Coord2D(100, 200), true));
         return handler;
     }
 

@@ -14,7 +14,8 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
     /**
      * Constructs a CoinCollectionVictoryCondition.
      *
-     * @param player      The player model, used to track the number of coins collected.
+     * @param player      The player model, used to track the number of coins
+     *                    collected.
      * @param targetCoins The number of coins the player must collect to win.
      */
     public CoinCollectionVictoryCondition(final PlayerModel player, final int targetCoins) {
@@ -25,10 +26,12 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
     /**
      * Checks if the player has won by collecting the required number of coins.
      *
-     * @return true if the player has collected at least the target number of coins, false otherwise.
+     * @return true if the player has collected at least the target number of coins,
+     *         false otherwise.
      */
     @Override
     public boolean win() {
+        System.out.println("PLAYER'S COIN:" + player.getCollectedCoins());
         return player.getCollectedCoins() >= this.targetCoins;
     }
 

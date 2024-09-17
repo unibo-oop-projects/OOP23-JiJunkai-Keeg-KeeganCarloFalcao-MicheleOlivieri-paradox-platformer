@@ -14,7 +14,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
  * it.
  * </p>
  */
-public class ReadOnlyMutableObjectWrapper implements MutableObject {
+public final class ReadOnlyMutableObjectWrapper implements MutableObject {
 
     private final MutableObject wrapped;
 

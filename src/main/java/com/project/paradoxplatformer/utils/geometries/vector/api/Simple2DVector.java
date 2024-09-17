@@ -54,7 +54,7 @@ public sealed class Simple2DVector extends AbstractVector permits Polar2DVector 
      *         polar coordinates
      */
     @Override
-    public Vector2D scalar(final double scalar) {
+    public Vector2D scale(final double scalar) {
         return new Polar2DVector(scalar * this.magnitude(), this.direction());
     }
 

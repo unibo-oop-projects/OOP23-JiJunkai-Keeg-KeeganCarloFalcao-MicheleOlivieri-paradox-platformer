@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.utils.endGame;
 import java.util.Iterator;
 
 import com.project.paradoxplatformer.controller.games.Level;
-import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.StreamUtil;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
@@ -21,11 +20,9 @@ public class EndGameManagerImpl implements EndGameManager {
     /**
      * Constructs a EndGameManagerImpl with the specified list of conditions.
      *
-     * @param victory An iterator over the victory conditions to be managed.
-     * @param death   An iterator over the death conditions to be managed.
      * @param level   The current level being managed.
      */
-    public EndGameManagerImpl(Level level) {
+    public EndGameManagerImpl(final Level level) {
         this.victory = new VictoryConditionsFactoryImpl().defaultConditions();
         this.death = new DeathConditionsFactoryImpl().defaultConditions();
         this.level = level;
@@ -76,7 +73,7 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param newList An iterator over the new victory conditions.
      */
     @Override
-    public void setVictoryHandler(Iterator<VictoryCondition> newList) {
+    public void setVictoryHandler(final Iterator<VictoryCondition> newList) {
         this.victory = newList;
     }
 
@@ -86,7 +83,7 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param newList An iterator over the new death conditions.
      */
     @Override
-    public void setDeathHandler(Iterator<DeathCondition> newList) {
+    public void setDeathHandler(final Iterator<DeathCondition> newList) {
         this.death = newList;
     }
 
@@ -96,11 +93,12 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param iterator  The condition iterator.
      * @param condition The condition to check.
      * @param onSuccess The action to execute on success.
+     * @param <T> type of condition
      * @return true if the condition was met, false otherwise.
      */
-    private <T> boolean checkCondition(Iterator<T> iterator, java.util.function.Predicate<T> condition,
-            Runnable onSuccess) {
-        boolean result = StreamUtil.toStream(iterator).anyMatch(condition);
+    private <T> boolean checkCondition(final Iterator<T> iterator, final java.util.function.Predicate<T> condition,
+            final Runnable onSuccess) {
+        final boolean result = StreamUtil.toStream(iterator).anyMatch(condition);
         if (result) {
             onSuccess.run();
         }
@@ -113,7 +111,7 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param message The message to print.
      * @param page    The page identifier to navigate to (can be null).
      */
-    private void triggerEvent(String message, PageIdentifier page) {
+    private void triggerEvent(final String message, final PageIdentifier page) {
         System.out.println(message);
         if (page != null) {
             ViewNavigator.getInstance().openView(page, this.level);

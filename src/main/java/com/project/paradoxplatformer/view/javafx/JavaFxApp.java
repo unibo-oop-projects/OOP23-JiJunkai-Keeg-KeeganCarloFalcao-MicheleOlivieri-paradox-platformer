@@ -12,7 +12,7 @@ import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.Page;
-import com.project.paradoxplatformer.view.legacy.ViewLegacy;
+import com.project.paradoxplatformer.view.legacy.ViewFramework;
 import com.project.paradoxplatformer.view.manager.ViewManager;
 
 import javafx.application.Application;
@@ -148,7 +148,7 @@ public class JavaFxApp extends Application implements ViewManager {
             var entry = helper.mapper().apply(id);
             scene.setRoot(
                     entry.map(Pair::getKey)
-                            .orElse(ViewLegacy.javaFxFactory().blankPage()));
+                            .orElse(ViewFramework.javaFxFactory().blankPage()));
             stage.sizeToScene();
 
             System.out.println("[PANE]: " + entry.map(Pair::getValue).orElse(Page.defaultPage()));
@@ -238,7 +238,7 @@ public class JavaFxApp extends Application implements ViewManager {
 
     private void setInitialScene() {
         final double resolution = 720;
-        scene = new Scene(ViewLegacy.javaFxFactory().loadingPage(), resolution * ASPECT_RATIO, resolution);
+        scene = new Scene(ViewFramework.javaFxFactory().loadingPage(), resolution * ASPECT_RATIO, resolution);
         stage.sizeToScene();
         stage.setScene(scene);
 

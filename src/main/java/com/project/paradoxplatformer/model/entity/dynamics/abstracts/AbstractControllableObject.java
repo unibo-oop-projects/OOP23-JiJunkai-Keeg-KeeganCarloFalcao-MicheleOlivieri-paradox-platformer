@@ -32,7 +32,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
      * Constructs an {@code AbstractControllableObject} with the specified initial
      * displacement
      * and horizontal statistics.
-     * 
+     * @param id unique id for the controllable object
      * @param initDisplacement the initial displacement vector for the object as a
      *                         {@link Vector2D} object
      * @param stats            the horizontal statistics to be used, encapsulated in
@@ -75,7 +75,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
      * @param jb the {@link JumpBehavior} to be set
      */
     @Override
-    public void setJumpBehavior(JumpBehavior jb) {
+    public void setJumpBehavior(final JumpBehavior jb) {
         this.jumpBehavior = jb;
     }
 
@@ -87,7 +87,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
      * 
      * @param listener the {@link GameEventListener} to be set
      */
-    public void setGameEventListener(GameEventListener listener) {
+    public void setGameEventListener(final GameEventListener listener) {
         this.gameEventListener = listener;
     }
 

@@ -22,10 +22,10 @@ import javafx.scene.layout.StackPane;
  * This class includes methods to obtain view adapter factories for JavaFX.
  * </p>
  */
-public final class ViewLegacy {
+public final class ViewFramework {
 
     // Private constructor to prevent instantiation
-    private ViewLegacy() {
+    private ViewFramework() {
         throw new UnsupportedOperationException("Utility class should not be instantiated.");
     }
 

@@ -21,7 +21,7 @@ import static com.project.paradoxplatformer.utils.OptionalUtils.peek;
  * 
  * @see {@link com.project.paradoxplatformer.model.entity.CollectableGameObject}
  */
-public class CollectingEffect extends AbstractRecreatableEffect {
+public final class CollectingEffect extends AbstractRecreatableEffect {
 
     private Optional<PlayerModel> player = Optional.empty();
 
@@ -29,7 +29,7 @@ public class CollectingEffect extends AbstractRecreatableEffect {
      * {@inheritDoc}
      */
     @Override
-    protected CompletableFuture<Void> applyToTarget(Optional<? extends CollidableGameObject> target) {
+    protected CompletableFuture<Void> applyToTarget(final Optional<? extends CollidableGameObject> target) {
         return target.map(gameObject -> {
             System.out.println("Target → " + target.get());
             if (gameObject instanceof PlayerModel pl) {
@@ -43,7 +43,7 @@ public class CollectingEffect extends AbstractRecreatableEffect {
      * {@inheritDoc}
      */
     @Override
-    protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
+    protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         return CompletableFuture.runAsync(() -> {
             Optional.of(gameObject)
                     .filter(CollectableGameObject.class::isInstance)
@@ -51,7 +51,6 @@ public class CollectingEffect extends AbstractRecreatableEffect {
                     .map(CollectableGameObject.class::cast)
                     .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " collected")))
                     .ifPresent(this.player.get()::collectItem);
-
         });
     }
 
@@ -59,9 +58,12 @@ public class CollectingEffect extends AbstractRecreatableEffect {
      * {@inheritDoc}
      */
     @Override
-    protected CompletableFuture<Void> applyToSelf(Optional<? extends CollidableGameObject> self) {
-        return super.applyToSelf(self).thenAccept(obj -> EventManager.getInstance()
-                .publish(GameEventType.REMOVE_OBJECT, PageIdentifier.GAME, self));
+    protected CompletableFuture<Void> applyToSelf(final Optional<? extends CollidableGameObject> self) {
+        return super.applyToSelf(self)
+                .thenAccept(obj -> 
+                    EventManager.getInstance()
+                        .publish(GameEventType.REMOVE_OBJECT, PageIdentifier.GAME, self)
+                );
     }
 
     /**

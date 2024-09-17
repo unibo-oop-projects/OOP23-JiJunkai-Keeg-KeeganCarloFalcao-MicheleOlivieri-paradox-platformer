@@ -13,7 +13,7 @@ import com.project.paradoxplatformer.view.javafx.PageIdentifier;
  * This class subscribes to various game events and delegates the handling to
  * the provided GameControllerEventListener.
  */
-public class GameControllerEventSubscriber {
+public final class GameControllerEventSubscriber {
 
     private final GameControllerEventListener gameEventListener;
     private final EventManager<GameEventType, PageIdentifier> eventManager;

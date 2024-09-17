@@ -29,17 +29,22 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
     private final DoubleProperty widthProperty;
     private final DoubleProperty heightProperty;
 
-    
+
     /**
      * Constructs an {@code FXImageAdapter} with specified dimensions, position, and
      * image URL.
-     * 
+     * @param id the unique id of the button
      * @param dimension the dimension of the image
      * @param position  the position of the image
      * @param imageURL  the URL of the image to be loaded
      * @throws InvalidResourceException if the image resource is invalid
      */
-    protected FXImageAdapter(final int id, Dimension dimension, Coord2D position, String imageURL) throws InvalidResourceException {
+    protected FXImageAdapter(
+        final int id, 
+        final Dimension dimension,
+        final Coord2D position,
+        final String imageURL
+    ) throws InvalidResourceException {
         super(id, new ImageView(), dimension, position);
 
         if (this.getUiComponent() instanceof ImageView imgCopy) {

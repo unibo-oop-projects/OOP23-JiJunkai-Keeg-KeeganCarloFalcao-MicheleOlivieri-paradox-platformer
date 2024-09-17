@@ -8,6 +8,9 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
+import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
+import com.project.paradoxplatformer.utils.geometries.physic.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
@@ -24,31 +27,44 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
  */
 public abstract class AbstractTrasformableObject extends AbstractPositionableObject{
 
+    private static final double BASE_DELTA = 0.d;
     protected Dimension dimension;
     protected Vector2D heightVector;
     protected Vector2D widthVector;
     private final Queue<TrajectoryInfo> trasformationStats;
     private final double anchorY;
     private final double anchorHeight;
+    protected boolean isIdle;
+    private final PhysicsEngine mover;
+    private final InterpolatorFactory interFactory;
 
     /**
      * Constructs an {@code AbstractTransformableObject} with the specified
      * initial position and dimension.
      * 
+     * @param key the unique id of the positional game object
+     * @param position the initial position of the object as a {@link Coord2D}
+     *                 object
      * @param position  the initial position of the object as a {@link Coord2D}
      *                  object
      * @param dimension the initial dimension of the object as a {@link Dimension}
      *                  object
      */
-    protected AbstractTrasformableObject(final int key, final Coord2D position, final Dimension dimension, final Queue<TrajectoryInfo> trajectoryQueue) {
+    protected AbstractTrasformableObject(
+        final int key,
+        final Coord2D position, 
+        final Dimension dimension, 
+        final Queue<TrajectoryInfo> 
+        trajectoryQueue
+        ) {
         super(key, position);
         this.dimension = dimension;
+        this.mover = new PhysicsEngine();
+        this.interFactory = new InterpolatorFactoryImpl();
         this.heightVector = new Simple2DVector(0.d, dimension.height());
         this.widthVector = new Simple2DVector(dimension.width(), 0.);
         this.trasformationStats = trajectoryQueue;
-        if(this.getCollisionType() == CollisionType.WALLS){
-            System.out.println();
-        }
+        this.isIdle = true;
         this.anchorY = position.y();
         this.anchorHeight = dimension.height();
     }
@@ -78,16 +94,6 @@ public abstract class AbstractTrasformableObject extends AbstractPositionableObj
     }
 
     /**
-     * Sets the position of this object.
-     * 
-     * @param position the new position to set as a {@link Coord2D} object
-     */
-    @Override
-    public void setPosition(Coord2D position) {
-        this.position = position;
-    }
-
-    /**
      * Returns the collision type of this object.
      * <p>
      * This method must be implemented by subclasses to provide the object's
@@ -98,8 +104,6 @@ public abstract class AbstractTrasformableObject extends AbstractPositionableObj
      */
     @Override
     public abstract CollisionType getCollisionType();
-
-    
 
     /**
      * Returns the speed of this object.
@@ -127,7 +131,7 @@ public abstract class AbstractTrasformableObject extends AbstractPositionableObj
      */
     @Override
     public double getBaseDelta() {
-        return 0;
+        return BASE_DELTA;
     }
 
     /**
@@ -142,11 +146,10 @@ public abstract class AbstractTrasformableObject extends AbstractPositionableObj
     @Override
     public void updateState(final long dt) {
         if (!this.isIdle && !this.trasformationStats.isEmpty()) {
-            TrajectoryInfo currentTransf = trasformationStats.peek();
+            final TrajectoryInfo currentTransf = trasformationStats.peek();
             switch (currentTransf.transfType()) {
                 case DISPLACEMENT:
                     this.displacement = this.trasform(this.displacement, currentTransf, dt).getKey();
-                    
                     break;
                 case HEIGHT:    
                     this.displacement = this.mover.moveTo(
@@ -165,19 +168,18 @@ public abstract class AbstractTrasformableObject extends AbstractPositionableObj
                     throw new IllegalStateException();
             }
         }
-        
     }
     
     //When the current trasgormation movement definition is finished is removed from queue
     private void popWhenFinished(final double percentage) {
-        if(percentage >= 1.d) {
+        if (percentage >= 1.d) {
             this.mover.stop();
             this.trasformationStats.remove();
         }
     }
 
-    private Pair<Vector2D, Double> trasform(final Vector2D vector2d, final TrajectoryInfo trajectoryInfo, long dt) {
-        Pair<Vector2D, Double> transf = this.mover.moveTo(
+    private Pair<Vector2D, Double> trasform(final Vector2D vector2d, final TrajectoryInfo trajectoryInfo, final long dt) {
+        final Pair<Vector2D, Double> transf = this.mover.moveTo(
                     vector2d, 
                     trajectoryInfo.endpoint(),
                     trajectoryInfo.duration(),

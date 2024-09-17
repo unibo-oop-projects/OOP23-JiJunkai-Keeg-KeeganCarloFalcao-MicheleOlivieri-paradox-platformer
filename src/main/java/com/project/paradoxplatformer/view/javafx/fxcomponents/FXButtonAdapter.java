@@ -23,13 +23,14 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
     /**
      * Constructs an FXButtonAdapter with specified dimensions, position, and text.
      * 
+     * @param id the unique id of the button
      * @param dimension   the dimensions of the button
      * @param relativePos the position of the button relative to its container
      * @param text        the text to display on the button
      * @throws IllegalArgumentException if the underlying UI component is not a
      *                                  {@link Button}
      */
-    public FXButtonAdapter(final int id, Dimension dimension, Coord2D relativePos, String text) {
+    public FXButtonAdapter(final int id, final Dimension dimension, final Coord2D relativePos, final String text) {
         super(id, new Button(), dimension, relativePos);
         if (this.getUiComponent() instanceof Button buttonCopy) {
             this.buttonCompo = buttonCopy;
@@ -43,10 +44,11 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
      * Constructs an FXButtonAdapter with default id, dimensions and position, and
      * specified text.
      * 
-     * * @param id the unique id of the button
+     * @param id the unique id of the button
+     * 
      * @param text the text to display on the button
      */
-    public FXButtonAdapter(int id, final String text) {
+    public FXButtonAdapter(final int id, final String text) {
         this(id, Dimension.dot(), Coord2D.origin(), text);
     }
 
@@ -69,6 +71,9 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
                 .map(Color.class::cast);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <G> void onAction(final Command<G> action, final G actor) {
         this.buttonCompo.setOnAction(e -> action.execute(actor));

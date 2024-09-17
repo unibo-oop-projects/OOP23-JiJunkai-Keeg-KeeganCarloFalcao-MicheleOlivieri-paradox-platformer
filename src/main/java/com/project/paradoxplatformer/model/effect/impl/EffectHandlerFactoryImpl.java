@@ -4,7 +4,6 @@ import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.effect.api.EffectHandler;
 import com.project.paradoxplatformer.model.effect.api.EffectHandlerFactory;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
-import com.project.paradoxplatformer.utils.sound.SoundType;
 
 /**
  * Implementation of the EffectHandlerFactory that creates specific
@@ -13,7 +12,7 @@ import com.project.paradoxplatformer.utils.sound.SoundType;
  * managing
  * the effects applied to game objects during collisions.
  */
-public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
+public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
 
     /**
      * Creates a default EffectHandler with a set of predefined collision effects.

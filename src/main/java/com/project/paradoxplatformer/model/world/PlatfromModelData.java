@@ -62,71 +62,39 @@ public final class PlatfromModelData implements GameModelData {
 	@Override
 	public void init() {
 		Optional.of(
-				Arrays.stream(packedData.getGameDTOs())
-						.map(GameDTO::getType)
-						.anyMatch(Objects::isNull))
-				.filter(not(Boolean::booleanValue))
-				.orElseThrow(() -> new IllegalStateException("Can not map, attribute GameDTO is undefined"));
+			Arrays.stream(packedData.getGameDTOs())
+					.map(GameDTO::getType)
+					.anyMatch(Objects::isNull)
+			)
+			.filter(not(Boolean::booleanValue))
+			.orElseThrow(() -> new IllegalStateException("Can not map, attribute GameDTO is undefined"));
 
-		PlayerModel player = modelFactory.playerToModel().map(
+		PlayerModel player = modelFactory.playerToModel()
+			.map(
 				this.findGameDTOData("player")
-						.stream()
-						.findFirst()
-						.orElseThrow());
+					.stream()
+					.findFirst()
+					.orElseThrow()
+			);
 
 		Obstacle[] obstacles = this.findGameDTOData("obstacle").stream()
-				.map(modelFactory.obstacleToModel()::map)
-				.toList()
-				.toArray(new Obstacle[0]);
+			.map(modelFactory.obstacleToModel()::map)
+			.toList()
+			.toArray(new Obstacle[0]);
 
 		Trigger[] triggers = this.findGameDTOData("trigger").stream()
-				.map(modelFactory.triggerToModel()::map)
-				.toList()
-				.toArray(new Trigger[0]);
+			.map(modelFactory.triggerToModel()::map)
+			.toList()
+			.toArray(new Trigger[0]);
 
 		this.addObstaclesToTrigger(obstacles, triggers);
 
 		this.world = this.worldBuilder
-				.addBounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
-				.addPlayer(player)
-				.addObstacle(obstacles)
-				.addTrigger(triggers)
-				.build();
-	}
-
-	private void addObstaclesToTrigger(Obstacle[] obstacles, Trigger[] triggers) {
-		Arrays.stream(triggers)
-			.filter(t -> t.getTriggerableID().isPresent())
-			.forEach(t -> t.addObstacle(this.findObstacle(t.getTriggerableID().get(), obstacles)));
-	}
-
-	private Triggerable findObstacle(int id, Obstacle[] obstacles) {
-		return Arrays.stream(obstacles)
-			.filter(o -> o.getID() == id)
-			.findFirst()
-			.orElseThrow(() -> new IllegalArgumentException(" Associated obstacle id not found in the stream of obstacles"));
-	}
-
-	/**
-	 * Finds and returns the collection of {@link GameDTO} objects matching the
-	 * specified attribute.
-	 * 
-	 * @param attribute the type of game DTO to find
-	 * @return a collection of {@link GameDTO} objects matching the specified
-	 *         attribute
-	 * @throws IllegalArgumentException if no game DTOs match the specified
-	 *                                  attribute
-	 */
-	private Collection<GameDTO> findGameDTOData(final String attribute) {
-		return Optional.of(
-				List.of(packedData.getGameDTOs())
-						.stream()
-						.filter(g -> g.getType().equals(attribute))
-						.toList())
-				.filter(not(List::isEmpty))
-				.orElseThrow(
-						() -> new IllegalArgumentException(
-								"attribute does not match any game dto type: " + attribute));
+			.addBounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
+			.addPlayer(player)
+			.addObstacle(obstacles)
+			.addTrigger(triggers)
+			.build();
 	}
 
 	/**
@@ -159,5 +127,42 @@ public final class PlatfromModelData implements GameModelData {
 	@Override
 	public void actionOnWorld(final Consumer<World> action) {
 		action.accept(this.world);
+	}
+
+	/**
+	 * Finds and returns the collection of {@link GameDTO} objects matching the
+	 * specified attribute.
+	 * 
+	 * @param attribute the type of game DTO to find
+	 * @return a collection of {@link GameDTO} objects matching the specified
+	 *         attribute
+	 * @throws IllegalArgumentException if no game DTOs match the specified
+	 *                                  attribute
+	 */
+	private Collection<GameDTO> findGameDTOData(final String attribute) {
+		return Optional.of(
+				List.of(packedData.getGameDTOs())
+						.stream()
+						.filter(g -> g.getType().equals(attribute))
+						.toList())
+				.filter(not(List::isEmpty))
+				.orElseThrow(
+						() -> new IllegalArgumentException(
+								"attribute does not match any game dto type: " + attribute));
+	}
+
+	private void addObstaclesToTrigger(final Obstacle[] obstacles, final Trigger[] triggers) {
+		Arrays.stream(triggers)
+			.filter(t -> t.getTriggerableID().isPresent())
+			.forEach(t -> t.addObstacle(this.findObstacle(t.getTriggerableID().get(), obstacles)));
+	}
+
+	private Triggerable findObstacle(final int id, final Obstacle[] obstacles) {
+		return Arrays.stream(obstacles)
+			.filter(o -> o.getID() == id)
+			.findFirst()
+			.orElseThrow(() -> 
+				new IllegalArgumentException(" Associated obstacle id not found in the stream of obstacles")
+			);
 	}
 }

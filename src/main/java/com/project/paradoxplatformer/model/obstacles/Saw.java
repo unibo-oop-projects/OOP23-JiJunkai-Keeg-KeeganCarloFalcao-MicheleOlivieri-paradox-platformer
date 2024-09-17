@@ -9,18 +9,35 @@ import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObst
 import java.util.Optional;
 import java.util.Queue;
 
-public class Saw extends AbstractDeathObstacle {
+/**
+ * A Saw is an harmful obstacle upon which the player may get damage
+ */
+public final class Saw extends AbstractDeathObstacle {
 
-    public Saw(final int key, Coord2D position, Dimension dimension, final Queue<TrajectoryInfo> trajectoryQueue) {
+    /**
+     * {@inheritDoc}
+     */
+    public Saw(
+        final int key,
+        final Coord2D position,
+        final Dimension dimension,
+        final Queue<TrajectoryInfo> trajectoryQueue
+    ) {
         super(key, position, dimension, trajectoryQueue);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void triggerExplosion() {
         // Implementazione specifica per Saws
         System.out.println("Saw triggered!");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCollision(Optional<ControllableObject> ob) {
         super.onCollision(ob);

@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.model.trigger;
 
-import java.util.Optional;
 import java.util.Queue;
 
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
@@ -23,18 +22,30 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 public class Button extends AbstractTrigger {
 
     /**
-     * Constructs a Button with the given position and size.
+     * Constructs a Button with the given position, size, id and the trajectory queue.
      * 
+     * @param key  The unique id of the Button
+     * @param position  the position of the Button in 2D space
+     * @param dimension the size (width and height) of the Button
+     * @param trajectoryQueue of the Button
+     */
+    public Button(
+        final int key,
+        final Coord2D position, 
+        final Dimension dimension, 
+        final Queue<TrajectoryInfo> trajectoryQueue
+        ){
+        super(key, position, dimension, trajectoryQueue);
+    }
+
+    /**
+     * Constructs a Button with the given position, size and id.
+     * 
+     * @param key  The unique id of the Button
      * @param position  the position of the Button in 2D space
      * @param dimension the size (width and height) of the Button
      */
-    public Button(final int key, Coord2D position, Dimension dimension, final Queue<TrajectoryInfo> trajectoryQueue) {
-        super(key, position, dimension, trajectoryQueue);
-        this.position = position;
-        this.dimension = dimension;
-    }
-
-    public Button(final int key, Coord2D position, Dimension dimension) {
+    public Button(final int key, final Coord2D position, final Dimension dimension) {
         super(key, position, dimension);
     }
 

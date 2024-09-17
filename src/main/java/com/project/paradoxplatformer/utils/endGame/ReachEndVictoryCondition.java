@@ -17,7 +17,7 @@ public class ReachEndVictoryCondition implements VictoryCondition {
      *
      * @param player The player model used to track the player's position.
      */
-    public ReachEndVictoryCondition(PlayerModel player) {
+    public ReachEndVictoryCondition(final PlayerModel player) {
         this.player = player;
     }
 
@@ -29,7 +29,7 @@ public class ReachEndVictoryCondition implements VictoryCondition {
      */
     @Override
     public boolean Win() {
-        return this.player.getPosition().x() > this.END_WORLD;
+        return this.player.getPosition().x() > ReachEndVictoryCondition.END_WORLD;
     }
 
 }

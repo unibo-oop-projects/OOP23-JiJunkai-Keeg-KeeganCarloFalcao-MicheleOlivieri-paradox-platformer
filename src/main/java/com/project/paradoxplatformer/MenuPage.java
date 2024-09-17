@@ -22,7 +22,7 @@ import javafx.util.Duration;
  * This class manages the menu UI, handles navigation between game levels,
  * and applies visual effects to the menu.
  */
-public class MenuPage extends AbstractThreadedPage {
+public final class MenuPage extends AbstractThreadedPage {
 
     // The duration of the animation.
     private static final int ANIMATION_DURATION = 2000;

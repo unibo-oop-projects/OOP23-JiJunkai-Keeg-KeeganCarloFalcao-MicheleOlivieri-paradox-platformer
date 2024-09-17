@@ -13,7 +13,7 @@ public class TimeLimitDeathCondition implements DeathCondition {
      *
      * @param timeLimit the time limit in seconds after which the player dies.
      */
-    public TimeLimitDeathCondition(long timeLimit) {
+    public TimeLimitDeathCondition(final long timeLimit) {
         this.startTime = System.currentTimeMillis();
         this.timeLimit = timeLimit * 1000; // Convert seconds to milliseconds
     }

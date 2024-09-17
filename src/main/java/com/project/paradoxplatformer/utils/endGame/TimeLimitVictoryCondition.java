@@ -14,7 +14,7 @@ public class TimeLimitVictoryCondition implements VictoryCondition {
      *
      * @param timeLimitSeconds The maximum time in seconds the player has to win.
      */
-    public TimeLimitVictoryCondition(int timeLimitSeconds) {
+    public TimeLimitVictoryCondition(final int timeLimitSeconds) {
         this.startTime = System.currentTimeMillis(); // Capture the current time at the start
         this.timeLimitSeconds = timeLimitSeconds;
     }

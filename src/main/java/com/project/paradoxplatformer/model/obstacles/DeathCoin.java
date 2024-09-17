@@ -10,15 +10,33 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 public final class DeathCoin extends AbstractDeathObstacle {
 
-    public DeathCoin(final int key, Coord2D position, Dimension dimension, final Queue<TrajectoryInfo> trajectoryQueue) {
+    /**
+     * Constructs a death coin based on id, position, dimension and queue of trajectories (upon activation).
+     * @param key of a death coin
+     * @param position of a death coin
+     * @param dimension of a death coin
+     * @param trajectoryQueue of a death coin
+     */
+    public DeathCoin(
+        final int key,
+        final Coord2D position,
+        final Dimension dimension,
+        final Queue<TrajectoryInfo> trajectoryQueue
+    ) {
         super(key, position, dimension, trajectoryQueue);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void triggerExplosion() {
         // Implementa la logica di esplosione (effetti grafici, suoni, ecc.)
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void inflictDamage(ControllableObject player) {
         super.inflictDamage(player);

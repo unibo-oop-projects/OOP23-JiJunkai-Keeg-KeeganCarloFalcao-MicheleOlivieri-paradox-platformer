@@ -9,18 +9,39 @@ import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObst
 import java.util.Optional;
 import java.util.Queue;
 
-public class Spike extends AbstractDeathObstacle {
+/**
+ * When a player encounters a Spike it may receive some damage
+ */
+public final class Spike extends AbstractDeathObstacle {
 
-    public Spike(final int key, Coord2D position, Dimension dimension, final Queue<TrajectoryInfo> trajectoryQueue) {
-        super(key, position, dimension, trajectoryQueue); // Puoi specificare il danno se necessario
+    /**
+     * Constructs a spike based on id, position, dimension and queue of trajectories (upon activation).
+     * @param key of a spike
+     * @param position of a spike
+     * @param dimension of a spike
+     * @param trajectoryQueue of a spike
+     */
+    public Spike(
+        final int key,
+        final Coord2D position,
+        final Dimension dimension,
+        final Queue<TrajectoryInfo> trajectoryQueue
+    ) {
+        super(key, position, dimension, trajectoryQueue);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void triggerExplosion() {
         // Implementazione specifica per Spike
         System.out.println("Spike triggered!");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void onCollision(Optional<ControllableObject> ob) {
         super.onCollision(ob);

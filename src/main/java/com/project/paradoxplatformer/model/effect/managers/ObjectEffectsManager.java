@@ -15,7 +15,7 @@ import com.project.paradoxplatformer.utils.collision.api.CollisionType;
  * Each combination of a collision type and game object can have its own chain
  * of effects.
  */
-public class ObjectEffectsManager {
+public final class ObjectEffectsManager {
 
     // Maps each CollisionType to a map of CollidableGameObject -> ChainOfEffects
     private final Map<CollisionType, Map<CollidableGameObject, ChainOfEffects>> objectEffectsMap = new EnumMap<>(

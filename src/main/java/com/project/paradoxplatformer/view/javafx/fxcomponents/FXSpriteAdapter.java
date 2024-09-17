@@ -22,7 +22,7 @@ public final class FXSpriteAdapter extends FXImageAdapter implements Spriteable<
 
     /**
      * Constructs a new {@code FXSpriteAdapter} with the given parameters.
-     *
+     * @param id the unique id of the button
      * @param dimension  The {@code Dimension} of the sprite.
      * @param position   The {@code Coord2D} position of the sprite.
      * @param imageURL   The URL of the image to use for the sprite.
@@ -32,9 +32,9 @@ public final class FXSpriteAdapter extends FXImageAdapter implements Spriteable<
      *                                  there are issues with loading the image.
      */
     protected FXSpriteAdapter(final int id, 
-        Dimension dimension, 
-        Coord2D position, 
-        String imageURL, 
+        final Dimension dimension, 
+        final Coord2D position, 
+        final String imageURL, 
         final SpriteDTO spriteMeta
     ) throws InvalidResourceException {
         super(id, dimension, position, imageURL);

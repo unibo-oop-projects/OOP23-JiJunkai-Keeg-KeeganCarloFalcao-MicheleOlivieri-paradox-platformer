@@ -22,8 +22,9 @@ import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.game.settings.GameSettings;
 import com.project.paradoxplatformer.view.game.settings.SimpleGameSettings;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
-import com.project.paradoxplatformer.view.legacy.ViewLegacy;
+import com.project.paradoxplatformer.view.legacy.ViewFramework;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -35,9 +36,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
-import javafx.application.*;
 
-public class GamePage<V, K> extends AbstractThreadedPage {
+/**
+ * Controller for the game's main page.
+ * This class manages to initiate the model, view and controller for the specified level of the game.
+ * It runs on the JavaFX main thread son a console implementation should me allowed to create it.
+ */
+public final class GamePage extends AbstractThreadedPage {
 
     @FXML
     private AnchorPane gamePane;
@@ -48,36 +53,32 @@ public class GamePage<V, K> extends AbstractThreadedPage {
     @FXML
     private HBox pauseBox;
 
+    /**
+     * A non argument constructor with empty implementation, it used to reinitialize the fxml controls.
+     */
     public GamePage() {
-        // CREATION COULD BE DONE HERE BUT SINCE FXML NEEDS AN NON-ARGUMENT CONTROCUTOR
-        // EVERYTHING IS CREATED IN A SECURE STRICT create(Params) method, (such to
-        // ensure a page structure).
-        // FXML COULD TO THE START A CONTROLLER DYNAMICALLY (SET a FACTORY, via
-        // CallBack) but
-        // NEEDS A Complicated INJECTION HANDLING
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @FXML
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(final URL location, final ResourceBundle resources) {
         pagePane.widthProperty().addListener((ob, old, n) -> System.out.println("Width: " + n));
         pagePane.heightProperty().addListener((ob, old, n) -> System.out.println("Height: " + n));
     }
 
-    protected void test() {
-        // gameModel.getWorld().obstacles().forEach(ob ->
-        // ob.effect(Optional.of(gameModel.getWorld().player())));
-    }
-
-    // SHOULD PASS A PARAMETER DETANING THE MODEL STATE
-
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void runOnFXThread(final Level param) throws Exception {
         // this.pausePane.setVisible(true);
         // HERE's WHERE MAGIC HAPPENS, looks very free needs to be coupled atleast
         final LevelDTO level = this.getLevel(param);
 
-        var mappingFactory = ViewLegacy.javaFxFactory()
+        var mappingFactory = ViewFramework.javaFxFactory()
                 .getComponentsFactory()
                 .get();
 
@@ -88,7 +89,7 @@ public class GamePage<V, K> extends AbstractThreadedPage {
                 BackgroundPosition.CENTER,
                 new BackgroundSize(100, 100, true, true, false, true))));
         final GameModelData gameModel = new PlatfromModelData(level);
-        final GraphicContainer<Node, KeyCode> gameGraphContainer = ViewLegacy.javaFxFactory().containerMapper()
+        final GraphicContainer<Node, KeyCode> gameGraphContainer = ViewFramework.javaFxFactory().containerMapper()
                 .apply(this.gamePane);
         final GameView<Node> gameView = new GamePlatformView<>(level, gameGraphContainer, mappingFactory);
 
@@ -102,7 +103,7 @@ public class GamePage<V, K> extends AbstractThreadedPage {
         // System.out.println(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
         gameController.startGame(inputController, gameGraphContainer, level.getType());
 
-        final GraphicContainer<Node, KeyCode> gameSettingsContainer = ViewLegacy.javaFxFactory().containerMapper()
+        final GraphicContainer<Node, KeyCode> gameSettingsContainer = ViewFramework.javaFxFactory().containerMapper()
                 .apply(this.pauseBox);
         GameSettings<Node> gameSettings = new SimpleGameSettings<>(
                 new SimpleGameSettingsModel(SimpleGameSettingsModel.basicSettings()),
@@ -118,74 +119,17 @@ public class GamePage<V, K> extends AbstractThreadedPage {
         gc.syncView();
     }
 
-    private LevelDTO getLevel(Level level) throws IOException, InvalidResourceException {
+    private LevelDTO getLevel(final Level level) throws IOException, InvalidResourceException {
         return new DeserializerFactoryImpl()
                 .levelDeserialzer()
                 .deserialize(level.getResourceFile());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return "Main Game Controller";
     }
-
-    // final GraphicContainer<Node> pause = new FXContainerAdapter(pausePane);
-    // var res = new FXButtonAdapter(new Dimension(0,0), new Coord2D(0, 0),
-    // "RESUME");
-    // var ret = new FXButtonAdapter(new Dimension(0,0), new Coord2D(0, 0),
-    // "RETRY");
-    // res.onAction(() -> {
-    // gamePane.setEffect(null);
-    // this.loopManager.start();
-    // pausePane.setVisible(false);
-    // gameGraphContainer.activateKeyInput(() ->
-    // Platform.runLater(gamePane::requestFocus));
-    // });
-    // ret.onAction(() -> {
-    // loopManager.stop();
-    // this.gamePane.getChildren().clear();
-    // //MUST FIX, if retry then pause must not rinitialize
-    // this.pausePane.getChildren().removeIf(Button.class::isInstance);
-    // gamePane.setEffect(null);
-    // try {
-    // create(param);
-    // pausePane.setVisible(false);
-    // } catch (Exception e) {
-
-    // }
-    // });
-    // var qui = new FXButtonAdapter(new Dimension(0,0), new Coord2D(0, 0), "QUIT");
-    // qui.onAction(() -> {
-    // Platform.exit();
-    // });
-    // List.of(res,ret,qui).forEach(pause::render);
-
-    // InputModel<LoopManager> w = () -> new EnumMap<>(Map.of(
-    // InputType.P, LoopManager::stop,
-    // InputType.ESCAPE, LoopManager::stop,
-    // InputType.T, l -> this.test()
-    // ));
-
-    // InputController<LoopManager> ig = new InputController<>(w);
-
-    // TaskLoopFactory kk = new GameLoopFactoryImpl(dt ->
-    // ig.cyclePool(gameGraphContainer.getKeyAssetter(), this.loopManager, o ->
-    // {}));
-    // kk.animationLoop().start();
-
-    // Observer lo = new Observer() {
-
-    // @Override
-    // public void update() {
-    // if(!loopManager.isRunning() && Objects.isNull(gamePane.getEffect()) &&
-    // !pausePane.isVisible()) {
-    // pausePane.setVisible(true);
-    // gamePane.setEffect(new GaussianBlur(10.));
-
-    // }
-    // }
-    // };
-
-    // loopManager.addObserver(lo);
-    // loopManager.start();
 }

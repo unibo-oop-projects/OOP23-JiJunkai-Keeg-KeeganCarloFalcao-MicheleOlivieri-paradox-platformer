@@ -21,7 +21,7 @@ import com.project.paradoxplatformer.utils.collision.api.CollisionType;
  * objects
  * based on their collision types and specific instances.
  */
-public class EffectHandlerImpl implements EffectHandler {
+public final class EffectHandlerImpl implements EffectHandler {
 
         private final TypeEffectsManager typeEffectsManager = new TypeEffectsManager();
         private final ObjectEffectsManager objectEffectsManager = new ObjectEffectsManager();

@@ -3,9 +3,6 @@ package com.project.paradoxplatformer.model.entity;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
-import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.physic.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
@@ -22,26 +19,18 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
  */
 public abstract class AbstractPositionableObject extends AbstractMutableObject {
 
-    protected final PhysicsEngine mover;
-    protected final InterpolatorFactory interFactory;
-    protected boolean isIdle;
     protected Vector2D displacement;
-    protected Coord2D position;
+    private Coord2D position;
 
     /**
      * Constructs an {@code AbstractPositionableObject} with the specified initial
      * position.
-     * 
+     * @param key the unique id of the positional game object
      * @param position the initial position of the object as a {@link Coord2D}
      *                 object
      */
-
-
      protected AbstractPositionableObject(final int key, final Coord2D position) {
         super(key);
-        this.isIdle = true;
-        this.mover = new PhysicsEngine();
-        this.interFactory = new InterpolatorFactoryImpl();
         this.displacement = new Simple2DVector(position.x(), position.y());
         this.position = position;
     }
@@ -81,14 +70,13 @@ public abstract class AbstractPositionableObject extends AbstractMutableObject {
 
     /**
      * Sets the position of this object.
-     * <p>
-     * This method must be implemented by subclasses to set the object's position.
-     * </p>
      * 
      * @param position the new position to set as a {@link Coord2D} object
      */
     @Override
-    public abstract void setPosition(Coord2D position);
+    public void setPosition(final Coord2D position) {
+        this.position = position;
+    }
 
     /**
      * Returns the collision type of this object.

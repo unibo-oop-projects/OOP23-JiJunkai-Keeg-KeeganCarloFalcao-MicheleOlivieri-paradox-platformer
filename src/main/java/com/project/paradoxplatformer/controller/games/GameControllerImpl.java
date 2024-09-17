@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ForkJoinPool;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -26,7 +25,6 @@ import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.world.api.World;
-import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.endGame.DeathConditionsFactoryImpl;
@@ -39,7 +37,7 @@ import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
-import com.project.paradoxplatformer.view.legacy.ViewLegacy;
+import com.project.paradoxplatformer.view.legacy.ViewFramework;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
 
 /**
@@ -70,7 +68,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
      * 
      * @param model model type
      * @param view  view type
-     * @param id the level id (json file for the level)
+     * @param level the level id (json file for the level)
      */
     public GameControllerImpl(final GameModelData model, final GameView<C> view, final Level level) {
         this.gameModel = model;
@@ -149,8 +147,11 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         return mutableObject.getID() == gComponent.getID();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
-    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, String type) {
+    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, final String type) {
         this.setupGameMode(gameModel.getWorld().player(), type);
         this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
                 .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
@@ -167,7 +168,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
     }
 
-    private void setupGameMode(ControllableObject player, String type) {
+    private void setupGameMode(final ControllableObject player, final String type) {
         if ("flappy".equalsIgnoreCase(type)) {
             player.setJumpBehavior(new FlappyJump());
         } else {
@@ -176,7 +177,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     }
 
     /**
-     * 
+     * .
      * 
      * @param dt
      */
@@ -218,6 +219,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
     public void onPlayerDeath() {
         // Ricarica il livello
@@ -228,18 +232,24 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
     public void restartGame() {
         this.gameManager.stop();
         System.out.println("RESTART");
 
         try {
-            ViewLegacy.javaFxFactory().mainAppManager().get().switchPage(PageIdentifier.GAME).create(currentLevel);
+            ViewFramework.javaFxFactory().mainAppManager().get().switchPage(PageIdentifier.GAME).create(currentLevel);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
     public void exitGame() {
         this.gameManager.stop();
@@ -247,24 +257,36 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         ViewNavigator.getInstance().goToMenu();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
-    public void handleStopView(PageIdentifier id, Level param) {
+    public void handleStopView(final PageIdentifier id, final Level param) {
         System.out.println("STOPPING VIEW BEFORE RECREATE IT.");
         this.gameManager.stop();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
-    public void handleRemoveObject(PageIdentifier id, Optional<? extends CollidableGameObject> object) {
+    public void handleRemoveObject(final PageIdentifier id, final Optional<? extends CollidableGameObject> object) {
         objectRemover.handleRemoveObject(id, object);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
-    public void handleTriggerEffect(PageIdentifier id, Obstacle param) {
+    public void handleTriggerEffect(final PageIdentifier id, final Obstacle param) {
         System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
     }
 
+    /**
+     * {@inheritdoc}
+     */
     @Override
-    public void handleVictory(PageIdentifier id) {
+    public void handleVictory(final PageIdentifier id) {
         this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
                 .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
     }

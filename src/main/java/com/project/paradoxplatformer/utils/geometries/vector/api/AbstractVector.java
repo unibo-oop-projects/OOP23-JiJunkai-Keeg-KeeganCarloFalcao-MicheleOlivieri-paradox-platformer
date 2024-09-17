@@ -96,7 +96,7 @@ public abstract sealed class AbstractVector implements Vector2D permits Simple2D
      * @param scalar the scalar value to multiply this vector by
      * @return a new {@link Vector2D} that is the result of the scaling
      */
-    public abstract Vector2D scalar(double scalar);
+    public abstract Vector2D scale(double scalar);
 
     /**
      * Returns the y component of this vector.

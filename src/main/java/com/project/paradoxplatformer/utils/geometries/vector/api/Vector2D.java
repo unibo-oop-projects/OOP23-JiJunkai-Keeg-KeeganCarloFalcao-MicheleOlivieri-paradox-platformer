@@ -55,7 +55,7 @@ public sealed interface Vector2D permits AbstractVector {
      * @param scalar the scalar value to multiply the vector by
      * @return the resulting scaled vector
      */
-    Vector2D scalar(double scalar);
+    Vector2D scale(double scalar);
 
     /**
      * Subtracts another vector from this vector.

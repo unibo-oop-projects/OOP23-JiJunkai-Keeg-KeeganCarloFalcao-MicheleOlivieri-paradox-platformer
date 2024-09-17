@@ -25,16 +25,15 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
     private final Coord2D bindedPosition;
     private int key;
 
-     
     /**
      * Constructs an AbstractFXGraphicAdapter with the specified component,
      * dimension, and position.
-     *
+     * @param id the unique id of the button
      * @param component   The Node component to be managed.
      * @param dimension   The dimension of the graphical component.
      * @param relativePos The relative position of the graphical component.
      */
-    protected AbstractFXGraphicAdapter(final int id, final Node component, Dimension dimension, Coord2D relativePos) {
+    protected AbstractFXGraphicAdapter(final int id, final Node component, final Dimension dimension, final Coord2D relativePos) {
         this.key = id;
         this.uiComponent = component;
         this.dimension = dimension;

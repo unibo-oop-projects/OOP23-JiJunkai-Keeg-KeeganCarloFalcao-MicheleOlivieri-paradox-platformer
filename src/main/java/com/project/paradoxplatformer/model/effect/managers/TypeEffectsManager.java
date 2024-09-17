@@ -11,7 +11,7 @@ import com.project.paradoxplatformer.utils.collision.api.CollisionType;
  * Manages effects that are associated with collision types.
  * Each collision type can have a chain of effects applied to it.
  */
-public class TypeEffectsManager {
+public final class TypeEffectsManager {
 
     // Maps each CollisionType to its associated ChainOfEffects
     private final Map<CollisionType, ChainOfEffects> typeEffectsMap = new EnumMap<>(CollisionType.class);

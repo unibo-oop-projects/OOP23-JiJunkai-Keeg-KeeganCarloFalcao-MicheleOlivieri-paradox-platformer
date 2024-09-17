@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public class PlatformJump extends AbstractJumpBehavior{
+public final class PlatformJump extends AbstractJumpBehavior{
 
     private static final double POWER = 13;
     private static final double ANTI_GRAVITY = -POWER + 1;

@@ -9,7 +9,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
-public class SettingsPage extends AbstractThreadedPage {
+/**
+ * Controller for the app setting page.
+ * This controller manages to handle and change some view-based settings such as brightness and sound.
+ */
+public final class SettingsPage extends AbstractThreadedPage {
 
     @FXML
     private Slider brightnessSlider;
@@ -22,8 +26,18 @@ public class SettingsPage extends AbstractThreadedPage {
 
     private boolean soundEnabled = true; // Example state
 
+    /**
+     * A non argument constructor with empty implementation, it used to reinitialize the fxml controls.
+     */
+    public SettingsPage() {
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(final URL location, final ResourceBundle resources) {
         bindEvents();
     }
 
@@ -44,6 +58,9 @@ public class SettingsPage extends AbstractThreadedPage {
         System.out.println("Brightness set to: " + brightness);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void runOnFXThread(final Level param) throws Exception {
         System.out.println("[Main Settings Panel]"); // Debug output or placeholder for actual logic

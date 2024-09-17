@@ -31,13 +31,12 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
     protected double magnitude;
     protected Vector2D horizontalSpeed;
     private Direction currentDirection;
-    private boolean isJumping;
 
 
      /**
      * Constructs an {@code AbstractHorizontalObject} with the specified
      * limit and delta values.
-     * 
+     * @param key unique id of the player
      * @param limit the maximum magnitude of movement
      * @param delta the amount of magnitude change per movement
      */
@@ -48,10 +47,6 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
         this.limit = limit;
         this.currentDirection = Direction.RIGHT;
     }
-
-        
-   
-
     /**
      * Gets the base delta value used for adjusting movement speed.
      * 

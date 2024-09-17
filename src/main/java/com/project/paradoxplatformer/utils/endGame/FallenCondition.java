@@ -14,7 +14,7 @@ public class FallenCondition implements DeathCondition {
      *
      * @param player the player model to check the health of.
      */
-    public FallenCondition(PlayerModel player) {
+    public FallenCondition(final PlayerModel player) {
         this.player = player;
     }
 

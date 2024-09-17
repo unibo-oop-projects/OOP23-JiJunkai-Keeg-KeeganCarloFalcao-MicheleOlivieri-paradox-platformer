@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.view.manager;
 
-import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;

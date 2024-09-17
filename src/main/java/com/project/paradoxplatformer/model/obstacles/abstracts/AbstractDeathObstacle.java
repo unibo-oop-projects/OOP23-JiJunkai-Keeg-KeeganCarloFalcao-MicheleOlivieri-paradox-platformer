@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.model.obstacles.abstracts;
 
-import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
 
@@ -28,7 +27,7 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
         this(key, position, dimension, Optional.of(DEFAULT_DAMAGE_POINTS), trajectoryQueue);
     }
 
-    public void onCollision(Optional<ControllableObject> ob) {
+    public void onCollision(final Optional<ControllableObject> ob) {
         // ob.ifPresent(player -> this.inflictDamage(player));
         
         if (gameEventListener != null) {
@@ -40,10 +39,10 @@ public abstract class AbstractDeathObstacle extends AbstractObstacle implements 
     }
 
     @Override
-    public void inflictDamage(ControllableObject player) {
+    public void inflictDamage(final ControllableObject player) {
         System.out.println("Inflict damage called on player.");
         // Usa il valore predefinito se damagePoints è vuoto
-        int damage = damagePoints.orElse(DEFAULT_DAMAGE_POINTS);
+        final int damage = damagePoints.orElse(DEFAULT_DAMAGE_POINTS);
         // player.decreaseLifePoints(damage); 
 
         // this.triggerExplosion();

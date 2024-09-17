@@ -1,13 +1,11 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ForkJoinPool;
 
 import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffect;
-import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
@@ -42,7 +40,7 @@ public class ChangeLevelEffect extends AbstractOneTimeEffect {
     @Override
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         //To ensure that this operation is done only one time
-        if(isNew) {
+        if (isNew) {
             // Notify the event manager to stop the current view
             EventManager.getInstance().publish(GameEventType.STOP_VIEW, PageIdentifier.GAME, level);
 
@@ -50,8 +48,6 @@ public class ChangeLevelEffect extends AbstractOneTimeEffect {
             ViewNavigator.getInstance().openView(PageIdentifier.GAME, level);
             isNew = false;
         }
-            
-
         return CompletableFuture.completedFuture(null); // Return a completed future
     }
 

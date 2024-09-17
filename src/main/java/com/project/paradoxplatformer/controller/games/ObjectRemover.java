@@ -21,7 +21,7 @@ import java.util.Map;
  *
  * @param <C> The type of graphics associated with the game view.
  */
-public class ObjectRemover<C> {
+public final class ObjectRemover<C> {
     private final GameModelData gameModel; // Model data for interacting with the game world
     private final GameView<C> gameView; // View component for rendering game graphics
     private final List<MutableObject> objects; // List of mutable objects to be removed

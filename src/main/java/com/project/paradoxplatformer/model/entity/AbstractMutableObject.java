@@ -16,12 +16,15 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
  */
 public abstract class AbstractMutableObject implements MutableObject {
 
-    private int key;
+    private final int id;
 
-    public AbstractMutableObject(int key) {
-        this.key = key;
+    /**
+     * Constructs a basic mutable object with a given id.
+     * @param key unique id
+     */
+    public AbstractMutableObject(final int key) {
+        this.id = key;
     }
-    
 
     /**
      * Returns the position of this mutable object.
@@ -86,6 +89,6 @@ public abstract class AbstractMutableObject implements MutableObject {
      */
     @Override
     public int getID() {
-        return this.key;
+        return this.id;
     }
 }

@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.model.trigger;
 
-import java.util.Optional;
 import java.util.Queue;
 
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
@@ -18,16 +17,30 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 public class Floor extends AbstractTrigger {
 
     /**
-     * Constructs a new Floor trigger with a specified position and dimension.
+     * Constructs a Floor with the given position, size, id and the trajectory queue.
      * 
-     * @param position  the position of the floor trigger in 2D space
-     * @param dimension the size of the floor trigger
+     * @param key  The unique id of the Floor
+     * @param position  the position of the Floor in 2D space
+     * @param dimension the size (width and height) of the Floor
+     * @param trajectoryQueue of the Floor
      */
-    public Floor(final int key, Coord2D position, Dimension dimension, final Queue<TrajectoryInfo> trajectoryQueue) {
+    public Floor(
+        final int key,
+        final Coord2D position, 
+        final Dimension dimension, 
+        final Queue<TrajectoryInfo> trajectoryQueue
+        ) {
         super(key, position, dimension, trajectoryQueue);
     }
 
-    public Floor(final int key, Coord2D position, Dimension dimension) {
+    /**
+     * Constructs a Floor with the given position, size and id.
+     * 
+     * @param key The unique id of the Floor
+     * @param position  the position of the Floor in 2D space
+     * @param dimension the size (width and height) of the Floor
+     */
+    public Floor(final int key, final Coord2D position, final Dimension dimension) {
         super(key, position, dimension);
     }
 

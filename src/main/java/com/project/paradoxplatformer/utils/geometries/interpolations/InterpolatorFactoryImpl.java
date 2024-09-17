@@ -49,50 +49,50 @@ public final class InterpolatorFactoryImpl implements InterpolatorFactory {
                                 + Math.min(Math.pow(base.apply(t), exponent), UNIT)));
     }
 
+    /**
+     * Creates a linear interpolator.
+     * <p>
+     * This interpolator performs linear interpolation between two {@link Vector2D}
+     * values.
+     * </p>
+     *
+     * @return an {@link Interpolator} for {@link Vector2D} that performs linear
+     *         interpolation
+     */
     @Override
     public Interpolator<Vector2D> linear() {
-        /**
-         * Creates a linear interpolator.
-         * <p>
-         * This interpolator performs linear interpolation between two {@link Vector2D}
-         * values.
-         * </p>
-         *
-         * @return an {@link Interpolator} for {@link Vector2D} that performs linear
-         *         interpolation
-         */
         return templateEase(UnaryOperator.identity(), LINEAR_EXPO, Optional.empty());
     }
 
+    /**
+     * Creates an ease-in interpolator.
+     * <p>
+     * This interpolator performs easing-in interpolation, where the interpolation
+     * starts slowly
+     * and accelerates towards the end.
+     * </p>
+     *
+     * @return an {@link Interpolator} for {@link Vector2D} that performs ease-in
+     *         interpolation
+     */
     @Override
     public Interpolator<Vector2D> easeIn() {
-        /**
-         * Creates an ease-in interpolator.
-         * <p>
-         * This interpolator performs easing-in interpolation, where the interpolation
-         * starts slowly
-         * and accelerates towards the end.
-         * </p>
-         *
-         * @return an {@link Interpolator} for {@link Vector2D} that performs ease-in
-         *         interpolation
-         */
         return templateEase(UnaryOperator.identity(), EASY_IN_EXPO, Optional.empty());
     }
 
+    /**
+     * Creates an ease-out interpolator.
+     * <p>
+     * This interpolator performs easing-out interpolation, where the interpolation
+     * starts quickly
+     * and decelerates towards the end.
+     * </p>
+     *
+     * @return an {@link Interpolator} for {@link Vector2D} that performs ease-out
+     *         interpolation
+     */
     @Override
     public Interpolator<Vector2D> easeOut() {
-        /**
-         * Creates an ease-out interpolator.
-         * <p>
-         * This interpolator performs easing-out interpolation, where the interpolation
-         * starts quickly
-         * and decelerates towards the end.
-         * </p>
-         *
-         * @return an {@link Interpolator} for {@link Vector2D} that performs ease-out
-         *         interpolation
-         */
         return templateEase(t -> 1 - t, EASY_OUT_EXPO, Optional.of(UNIT));
     }
 

@@ -24,7 +24,7 @@ import javafx.scene.Node;
 public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
 
     private static final int DEFAULT_ID = 0;
-    
+
     /**
      * Constructs an {@link FXViewMappingFactoryImpl}.
      */
@@ -78,7 +78,8 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
                     new Coord2D(g.getX(), g.getY()),
                     g.getImage(), 
                     g.getSpriteMeta()
-                ) :
+                ) 
+                :
                 new FXImageAdapter(
                     g.getID(),
                     new Dimension(g.getWidth(), g.getHeight()),

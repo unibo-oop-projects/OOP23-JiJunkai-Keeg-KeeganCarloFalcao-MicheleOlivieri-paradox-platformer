@@ -25,7 +25,7 @@ public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
      * {@inheritDoc}
      */
     @Override
-    protected CompletableFuture<Void> applyToTarget(Optional<? extends CollidableGameObject> target) {
+    protected CompletableFuture<Void> applyToTarget(final Optional<? extends CollidableGameObject> target) {
         return target.map(gameObject -> {
             if (gameObject instanceof PlayerModel pl) {
                 this.player = Optional.of(pl);
@@ -38,19 +38,21 @@ public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
      * {@inheritDoc}
      */
     @Override
-    protected CompletableFuture<Void> applyToGameObject(CollidableGameObject gameObject) {
+    protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         return CompletableFuture.runAsync(() -> {
             Optional.of(gameObject)
                     .filter(Wall.class::isInstance)
                     .filter(g -> this.player.isPresent())
                     .map(Wall.class::cast)
                     .ifPresent(w -> {
-                        System.out.println("player pos " + player.get().getPosition());
-                        System.out.println(w.getPosition().y());
-                        System.out.println(w.getDimension().height());
-                        System.out.println(w.getPosition().y() + w.getDimension().height());
-                        if(player.get().getPosition().y() >= w.getPosition().y() + w.getDimension().height()) {
-                            this.player.get().setDisplacement(new Coord2D(this.player.get().getPosition().x(), w.getPosition().y() + w.getDimension().height()));
+                        if (player.get().getPosition().y() >= w.getPosition().y() + w.getDimension().height()) {
+                            this.player.get()
+                                .setDisplacement(
+                                    new Coord2D(
+                                        this.player.get().getPosition().x(), 
+                                        w.getPosition().y() + w.getDimension().height()
+                                    )
+                                );
                         } 
                         else {
                             if (player.get().direction() == Direction.LEFT) {
@@ -61,11 +63,8 @@ public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
                                         w.getPosition().x() - this.player.get().getDimension().width() - TOLERANCE);
                             }
                         }
-                        
-                        
                         System.out.println(this.player.get().toString());
                         this.player.get().stopFall();
-
                     });
         });
     }

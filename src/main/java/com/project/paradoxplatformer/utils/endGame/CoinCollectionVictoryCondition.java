@@ -17,7 +17,7 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
      * @param player      The player model, used to track the number of coins collected.
      * @param targetCoins The number of coins the player must collect to win.
      */
-    public CoinCollectionVictoryCondition(PlayerModel player, int targetCoins) {
+    public CoinCollectionVictoryCondition(final PlayerModel player, final int targetCoins) {
         this.player = player;
         this.targetCoins = targetCoins;
     }

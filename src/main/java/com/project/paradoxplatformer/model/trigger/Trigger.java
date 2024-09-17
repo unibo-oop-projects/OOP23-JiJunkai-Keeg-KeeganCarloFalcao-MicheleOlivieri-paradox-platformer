@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.model.trigger;
 import java.util.Optional;
 
 import com.project.paradoxplatformer.model.entity.MutableObject;
-import com.project.paradoxplatformer.model.obstacles.Obstacle;
 
 /**
  * The Trigger interface represents an entity that can activate certain actions

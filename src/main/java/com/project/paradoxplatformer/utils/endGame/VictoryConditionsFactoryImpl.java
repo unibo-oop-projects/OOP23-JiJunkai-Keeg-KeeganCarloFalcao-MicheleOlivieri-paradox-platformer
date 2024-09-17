@@ -26,7 +26,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
      * @return an iterator over victory conditions specific to the level.
      */
     @Override
-    public Iterator<VictoryCondition> createConditionsForLevel(Level level, PlayerModel player) {
+    public Iterator<VictoryCondition> createConditionsForLevel(final Level level, final PlayerModel player) {
         this.player = player;
         return switch (level) {
             case LEVEL_ONE -> levelOneConditions();

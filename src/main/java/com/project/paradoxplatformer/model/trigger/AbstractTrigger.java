@@ -25,8 +25,9 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
     private Optional<Integer> triggerableID;
 
     /**
-     * Constructs a new AbstractTrigger with the specified position and dimension.
+     * Constructs a new AbstractTrigger with the specified position and dimension. with (id)
      *
+     * @param key  The unique id of the trigger
      * @param position  The initial position of the trigger.
      * @param dimension The initial dimension (size) of the trigger.
      */
@@ -34,7 +35,20 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
         super(key, position, dimension);
     }
 
-    protected AbstractTrigger(final int key, final Coord2D position, final Dimension dimension, final Queue<TrajectoryInfo> trajectoryQueue) {
+    /**
+     * Constructs a new AbstractTrigger with the specified position and dimension, with id and trajectory queue.
+     *
+     * @param key  The unique id of the trigger
+     * @param position  The initial position of the trigger.
+     * @param dimension The initial dimension (size) of the trigger.
+     * @param trajectoryQueue of the potential trigger trasformations 
+     */
+    protected AbstractTrigger(
+        final int key,
+        final Coord2D position, 
+        final Dimension dimension, 
+        final Queue<TrajectoryInfo> trajectoryQueue
+        ) {
         super(key, position, dimension, trajectoryQueue);
     }
 

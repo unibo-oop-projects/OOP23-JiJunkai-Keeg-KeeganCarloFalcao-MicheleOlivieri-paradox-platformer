@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.geometries.observer.Observer;
-import com.project.paradoxplatformer.view.legacy.ViewLegacy;
+import com.project.paradoxplatformer.view.legacy.ViewFramework;
 
 import javafx.animation.AnimationTimer;
 
@@ -120,7 +120,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
             } catch (Exception e) {
                 this.stop();
                 System.err.println(ExceptionUtils.advancedDisplay(e));
-                ViewLegacy.javaFxFactory().mainAppManager().get().safeError();
+                ViewFramework.javaFxFactory().mainAppManager().get().safeError();
             }
         }
 

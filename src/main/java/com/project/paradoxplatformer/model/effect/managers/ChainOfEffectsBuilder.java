@@ -8,7 +8,7 @@ import com.project.paradoxplatformer.model.effect.api.Effect;
 /**
  * Builder class for constructing ChainOfEffects instances.
  */
-public class ChainOfEffectsBuilder {
+public final class ChainOfEffectsBuilder {
     private final List<Effect> effects = new ArrayList<>();
 
     /**

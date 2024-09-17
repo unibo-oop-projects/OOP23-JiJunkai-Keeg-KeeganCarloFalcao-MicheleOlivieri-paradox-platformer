@@ -35,7 +35,7 @@ public final class PlatformJump extends AbstractJumpBehavior {
     @Override
     public Vector2D fall() {
         if (this.isFalling()) {
-            return new Simple2DVector(0., grav - 1);
+            return new Simple2DVector(0., grav -= 1);
         } else {
             // If the player is not falling, return a zero vector to stop vertical movement
             return new Simple2DVector(0., 0.);

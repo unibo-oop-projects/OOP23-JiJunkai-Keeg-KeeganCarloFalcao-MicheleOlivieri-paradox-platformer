@@ -1,7 +1,6 @@
 package com.project.paradoxplatformer.view;
 
 import javafx.scene.control.Button;
-import javafx.scene.shape.Circle;
 
 /**
  * Provides utility methods for binding event handlers to UI elements.
@@ -23,16 +22,5 @@ public class EventBinder {
      */
     public static void bindButtons(final Button settingsButton, final Runnable onSettingsClick) {
         settingsButton.setOnAction(event -> onSettingsClick.run()); // Binds the click event to the provided action
-    }
-
-    /**
-     * Binds an event handler to a Circle.
-     * The provided action is executed when the Circle is clicked.
-     *
-     * @param circle        The Circle to bind the handler to.
-     * @param onCircleClick The action to perform when the Circle is clicked.
-     */
-    public static void bindLevelCircle(final Circle circle, final Runnable onCircleClick) {
-        circle.setOnMouseClicked(event -> onCircleClick.run()); // Binds the mouse click event to the provided action
     }
 }

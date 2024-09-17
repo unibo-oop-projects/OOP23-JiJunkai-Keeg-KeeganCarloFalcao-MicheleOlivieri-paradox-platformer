@@ -21,9 +21,9 @@ public class CollisionTest {
         EffectHandler effectHandler = new EffectHandler();
         CollisionManager collisionManager = new CollisionManager(effectHandler);
 
-        PlayerModel player = new PlayerModel(new Coord2D(0, 0), new Dimension(50, 50));
-        Button button = new Button(new Coord2D(0, 0), new Dimension(0, 0));
-        Floor floor = new Floor(new Coord2D(0, 0), new Dimension(0, 0));
+        PlayerModel player = new PlayerModel(2, new Coord2D(0, 0), new Dimension(50, 50));
+        Button button = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
+        Floor floor = new Floor(1, new Coord2D(0, 0), new Dimension(0, 0));
 
         // Simulate a list of CollidableGameObjects
         List<? extends CollidableGameObject> collidables = List.of(player, button, floor);

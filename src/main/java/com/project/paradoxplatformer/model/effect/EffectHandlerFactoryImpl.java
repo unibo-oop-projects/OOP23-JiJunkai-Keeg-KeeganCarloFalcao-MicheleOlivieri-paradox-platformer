@@ -4,12 +4,15 @@ import java.util.List;
 
 import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.effect.impl.ChangeLevelEffect;
+import com.project.paradoxplatformer.model.effect.impl.CollectingEffect;
 import com.project.paradoxplatformer.model.effect.impl.DeathEffect;
 import com.project.paradoxplatformer.model.effect.impl.FloorEffect;
+import com.project.paradoxplatformer.model.effect.impl.HorizontalBlockEffect;
 import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
 import com.project.paradoxplatformer.model.effect.impl.SoundEffect;
 import com.project.paradoxplatformer.model.effect.impl.SpringEffect;
 import com.project.paradoxplatformer.model.effect.impl.TransportEffect;
+import com.project.paradoxplatformer.model.effect.impl.TriggerEffect;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.sound.SoundType;
@@ -43,8 +46,8 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.BUTTON, chain);
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
-        handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
-        handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
+        handler.addCollisionEffectsForType(CollisionType.COLLECTING, CollectingEffect::new);
+        handler.addCollisionEffectsForType(CollisionType.WALLS, HorizontalBlockEffect::new);
         // handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new
         // SoundEffect(SoundType.JUMP));
 
@@ -61,8 +64,9 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
 
         // Add effects specific to level one
         handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new ChangeLevelEffect(Level.LEVEL_TWO));
-        handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
-        handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
+        handler.addCollisionEffectsForType(CollisionType.COLLECTING, CollectingEffect::new);
+        handler.addCollisionEffectsForType(CollisionType.WALLS, HorizontalBlockEffect::new);
+        handler.addCollisionEffectsForType(CollisionType.FLOOR, TriggerEffect::new);
         // handler.addCollisionEffectsForType(CollisionType.DEATH_OBS,
         // DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
@@ -85,8 +89,8 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
-        handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
-        handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
+        handler.addCollisionEffectsForType(CollisionType.COLLECTING, CollectingEffect::new);
+        handler.addCollisionEffectsForType(CollisionType.WALLS, HorizontalBlockEffect::new);
 
         return handler;
     }
@@ -104,8 +108,8 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
-        handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
-        handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
+        handler.addCollisionEffectsForType(CollisionType.COLLECTING, CollectingEffect::new);
+        handler.addCollisionEffectsForType(CollisionType.WALLS, HorizontalBlockEffect::new);
         handler.addCollisionEffectsForType(CollisionType.PLATFORM, FloorEffect::new);
 
         return handler;
@@ -123,8 +127,8 @@ public class EffectHandlerFactoryImpl extends AbstractEffectHandlerFactory {
         // handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new
         // ChangeLevelEffect(Level.LEVEL_ONE));
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
-        handler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
-        handler.addCollisionEffectsForType(CollisionType.WALLS, new EffectFactoryImpl()::stoppingEffect);
+        handler.addCollisionEffectsForType(CollisionType.COLLECTING, CollectingEffect::new);
+        handler.addCollisionEffectsForType(CollisionType.WALLS, HorizontalBlockEffect::new);
         handler.addCollisionEffectsForType(CollisionType.PLATFORM, FloorEffect::new);
 
         return handler;

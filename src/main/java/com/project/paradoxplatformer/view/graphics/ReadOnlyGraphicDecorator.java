@@ -70,11 +70,6 @@ public class ReadOnlyGraphicDecorator<C> implements GraphicAdapter<C>{
     }
 
     @Override
-    public void setKey(int key) {
-        this.graphicReader.setKey(key);
-    }
-
-    @Override
     public int getID() {
         return graphicReader.getID();
     }

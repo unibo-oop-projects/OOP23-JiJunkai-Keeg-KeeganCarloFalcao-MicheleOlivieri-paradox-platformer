@@ -5,6 +5,8 @@ import java.util.Optional;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
+
+
 public class FlappyJump extends AbstractJumpBehavior {
     
     private static final double POWER = 3;

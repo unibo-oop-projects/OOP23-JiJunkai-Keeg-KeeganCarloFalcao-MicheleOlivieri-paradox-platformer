@@ -20,9 +20,11 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
     protected double magnitude;
     protected Vector2D horizontalSpeed;
     private Direction currentDirection;
+    private boolean isJumping;
 
 
-    protected AbstractHorizontalObject(final double limit, final double delta) {
+    protected AbstractHorizontalObject(final int key, final double limit, final double delta) {
+        super(key);
         this.magnitude = RESET_MAG;
         this.delta = delta;
         this.limit = limit;

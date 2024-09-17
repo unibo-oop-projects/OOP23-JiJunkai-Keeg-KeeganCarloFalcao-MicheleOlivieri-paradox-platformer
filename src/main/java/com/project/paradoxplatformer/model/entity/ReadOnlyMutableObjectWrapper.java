@@ -49,11 +49,6 @@ public class ReadOnlyMutableObjectWrapper implements MutableObject{
         throw new UnsupportedOperationException("Unable to execute 'updateState'");
     }
 
-    @Override
-    public void setKey(int key) {
-        throw new UnsupportedOperationException("Unable to execute 'setKey'");
-    }
-
     public Vector2D getSpeed() {
         return this.wrapped.getSpeed();
     }

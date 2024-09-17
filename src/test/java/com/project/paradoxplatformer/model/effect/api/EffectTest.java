@@ -22,7 +22,7 @@ class EffectTest {
     @BeforeEach
     void setUp() {
         mockEffect = new NoOpEffect();
-        mockGameObject = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        mockGameObject = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
     }
 
     @Test

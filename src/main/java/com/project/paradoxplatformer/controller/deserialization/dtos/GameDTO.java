@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class GameDTO {
     private String type;
+    private int id;
     private double x;
     private double y;
     private double width;
@@ -21,12 +22,23 @@ public final class GameDTO {
     private final TrajMacro[] traj;
     @JsonProperty 
     private SpriteDTO spriteMeta;
+    private final int triggeringId;
 
     /**
      * Non-argument constructors which initialises the trajectory moves, making it final.
      */
     public GameDTO() {
         this.traj = new TrajMacro[0];
+        this.triggeringId = -1;
+    }
+
+    /**
+     * An unique id to identify the gameObject.
+     * Very useful for join predicates and to reckon the game object in find operations.
+     * @return the unique id (a simple incremental value)
+     */
+    public int getID() {
+        return this.id;
     }
 
     /**
@@ -116,14 +128,23 @@ public final class GameDTO {
         return this.subtype;
     }
 
-    /**
-     * Has a value greater than zero only if the image is a sprite.
-     * It basically provides the minimum number of frames nedded to change the current sprite. It is useful to give a sense of
-     * animation. Note that its frame management is different than the delta time and gameloop cause it is view dedicated section.
-     * @return the minimum amount of frames for swithichng to next image
+     /**
+     * Has content about the sprite data.
+     * Is valuable only when the image in acutually sprite as it holds info about the number of images regarding 
+     * running, jumping, idling and falling of a full sprite
+     * @return the sprite data
      */
 
-    public SpriteDTO getSpriteMeta() {
+     public SpriteDTO getSpriteMeta() {
         return spriteMeta;
+    }
+
+    /**
+     * Gets the game object id which must be triggered by a trigger.
+     * It is logic to refer game objects whcih have a particular triggerable move set, otherwise this operation in vane.
+     * @return game object id to be triggered
+     */
+    public int getTriggeringId() {
+        return this.triggeringId;
     }
 }

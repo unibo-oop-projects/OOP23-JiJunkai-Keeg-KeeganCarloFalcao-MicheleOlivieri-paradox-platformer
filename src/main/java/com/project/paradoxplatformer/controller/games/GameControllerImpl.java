@@ -5,7 +5,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -40,9 +39,6 @@ import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 
-import java.util.List;
-import java.util.ArrayList;
-
 /**
  * An implementation of a basic Game Controller.
  * 
@@ -59,7 +55,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     private CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
 
-    private final Random rand = new Random();
     private final EventManager<GameEventType, PageIdentifier> eventManager;
     private ObservableLoopManager gameManager;
     private final String modelID;
@@ -69,6 +64,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
      * 
      * @param model model type
      * @param view  view type
+     * @param id the level id (json file for the level)
      */
     public GameControllerImpl(final GameModelData model, final GameView<C> view, String id) {
         this.gameModel = model;
@@ -88,18 +84,98 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         eventManager.subscribe(GameEventType.TRIGGER_EFFECT, this::handleTriggerEffect);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void loadModel() {
         gameModel.init();
         System.out.println("Game Model is loaded.");
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void syncView() {
         gameView.init();
-        this.sync(true);
+        this.sync();
 
         System.out.println("Game View is loaded.");
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onPlayerDeath() {
+        // Ricarica il livello
+        try {
+            // this.restartGame();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void restartGame() {
+        this.gameManager.stop();
+        System.out.println("RESTART");
+
+        try {
+            ViewLegacy.javaFxFactory().mainAppManager().get().switchPage(PageIdentifier.GAME).create(modelID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void exitGame() {
+        this.gameManager.stop();
+        System.out.println("EXITED");
+        try {
+            ViewNavigator.getInstance().goToMenu();
+        } catch (InvalidResourceException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 
+     * 
+     * @param dt
+     */
+    public void update(final long dt) {
+        if (Objects.nonNull(gamePairs)) {
+
+            // System.out.println("-----------------------------------------------");
+
+            // ThreadGroup rootGroup = Thread.currentThread().getThreadGroup().getParent();
+            // if (rootGroup == null) {
+            //     rootGroup = Thread.currentThread().getThreadGroup();
+            // }
+
+            // int activeCount = rootGroup.activeCount();
+            // System.out.println("Number of active threads in root thread group: " + activeCount);
+
+            gamePairs.forEach((m, g) -> m.updateState(dt));
+            CollidableGameObject player = this.gameModel.getWorld().player();
+
+            this.collisionManager.handleCollisions(gamePairs.keySet(),
+                    player);
+
+            this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
+
+            removeGameObjects();
+
+        }
     }
 
     private void handleStopView(final PageIdentifier id, final Level param) {
@@ -125,22 +201,21 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
     }
 
-    private void sync(final boolean firstTime) {
+    private void sync() {
         gamePairs = this.gameView.getUnmodifiableControls()
                 .stream()
-                .map(g -> this.join(new ReadOnlyGraphicDecorator<>(g), this.gameModel.getWorld(), firstTime))
+                .map(g -> this.join(new ReadOnlyGraphicDecorator<>(g), this.gameModel.getWorld()))
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
     private Pair<MutableObject, ReadOnlyGraphicDecorator<C>> join(
             final ReadOnlyGraphicDecorator<C> g,
-            final World world,
-            final boolean firstTime) {
+            final World world) {
 
         final Set<MutableObject> str = new LinkedHashSet<>(world.gameObjects());
 
         Pair<MutableObject, ReadOnlyGraphicDecorator<C>> pair = str.stream()
-                .filter(m -> this.joinPredicate(m, g, firstTime))
+                .filter(m -> this.joinPredicate(m, g))
                 .map(m -> Pair.of(m, g))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -153,24 +228,11 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
             ((AbstractControllableObject) pair.getKey()).setGameEventListener(this);
         }
 
-        if (firstTime) {
-            this.assignKey(pair.getKey(), pair.getValue());
-        }
-
         return pair;
     }
 
-    private void assignKey(MutableObject mutableObject, ReadOnlyGraphicDecorator<C> graphicDecorator) {
-        final int key = rand.nextInt();
-        mutableObject.setKey(key);
-        graphicDecorator.setKey(key);
-    }
-
-    private boolean joinPredicate(final MutableObject mutableObject, final GraphicAdapter<C> gComponent,
-            final boolean firstTime) {
-        return firstTime ? mutableObject.getDimension().equals(dimension.apply(gComponent))
-                && mutableObject.getPosition().equals(position.apply(gComponent))
-                : mutableObject.getID() == gComponent.getID();
+    private boolean joinPredicate(final MutableObject mutableObject, final GraphicAdapter<C> gComponent) {
+        return mutableObject.getID() == gComponent.getID();
     }
 
     @Override
@@ -195,36 +257,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
         }
     }
 
-    /**
-     * 
-     * 
-     * @param dt
-     */
-    public void update(final long dt) {
-        if (Objects.nonNull(gamePairs)) {
-
-            System.out.println("-----------------------------------------------");
-
-            ThreadGroup rootGroup = Thread.currentThread().getThreadGroup().getParent();
-            if (rootGroup == null) {
-                rootGroup = Thread.currentThread().getThreadGroup();
-            }
-
-            int activeCount = rootGroup.activeCount();
-            System.out.println("Number of active threads in root thread group: " + activeCount);
-
-            gamePairs.forEach((m, g) -> m.updateState(dt));
-            CollidableGameObject player = this.gameModel.getWorld().player();
-
-            this.collisionManager.handleCollisions(gamePairs.keySet(),
-                    player);
-
-            this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
-
-            removeGameObjects();
-
-        }
-    }
 
     private Map<ReadOnlyMutableObjectWrapper, ReadOnlyGraphicDecorator<C>> readOnlyPairs(
             final Map<MutableObject, ReadOnlyGraphicDecorator<C>> pairs) {
@@ -235,41 +267,5 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
-    private void resync() {
-        this.sync(false);
-    }
-
-    @Override
-    public void onPlayerDeath() {
-        // Ricarica il livello
-        try {
-            // this.restartGame();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void restartGame() {
-        this.gameManager.stop();
-        System.out.println("RESTART");
-
-        try {
-            ViewLegacy.javaFxFactory().mainAppManager().get().switchPage(PageIdentifier.GAME).create(modelID);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void exitGame() {
-        this.gameManager.stop();
-        System.out.println("EXITED");
-        try {
-            ViewNavigator.getInstance().goToMenu();
-        } catch (InvalidResourceException e) {
-            e.printStackTrace();
-        }
-    }
 
 }

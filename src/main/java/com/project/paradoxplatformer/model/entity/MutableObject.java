@@ -7,8 +7,6 @@ public interface MutableObject extends CollidableGameObject {
 
     public void updateState(final long dt);
 
-    public void setKey(int key);
-
     public int getID();
 
     public Vector2D getSpeed();

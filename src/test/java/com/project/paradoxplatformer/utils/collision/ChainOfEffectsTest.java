@@ -26,7 +26,7 @@ class ChainOfEffectsTest {
     @BeforeEach
     void setUp() {
         noOpEffect = new NoOpEffect();
-        targetObject = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        targetObject = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
     }
 
     @Test

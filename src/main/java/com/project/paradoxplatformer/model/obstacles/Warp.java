@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.model.obstacles;
 
+import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -8,6 +9,7 @@ import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractObstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
 import java.util.Optional;
+import java.util.Queue;
 
 public class Warp extends AbstractObstacle {
 
@@ -15,8 +17,8 @@ public class Warp extends AbstractObstacle {
 
     // da migliorare con possibilità di costruire l'oggeto con un parametro in più
     // che è la destinazione
-    public Warp(Coord2D position, Dimension dimension, Coord2D destination) {
-        super(position, dimension);
+    public Warp(final int key, Coord2D position, Dimension dimension, Coord2D destination, final Queue<TrajectoryInfo> trajectoryQueue) {
+        super(key, position, dimension, trajectoryQueue);
         this.destination = destination;
     }
 

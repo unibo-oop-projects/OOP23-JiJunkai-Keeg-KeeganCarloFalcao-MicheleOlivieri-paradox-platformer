@@ -15,8 +15,8 @@ public final class FXSpriteAdapter extends FXImageAdapter implements Spriteable<
     private SpriteAnimator<Image> spriteAnimator;
     private boolean isSpecial;
 
-    protected FXSpriteAdapter(Dimension dimension, Coord2D position, String imageURL, final SpriteDTO spriteMeta) throws InvalidResourceException {
-        super(dimension, position, imageURL);
+    protected FXSpriteAdapter(final int id, Dimension dimension, Coord2D position, String imageURL, final SpriteDTO spriteMeta) throws InvalidResourceException {
+        super(id, dimension, position, imageURL);
         this.spriteAnimator = new SpriteAnimator<Image>(
                     new FXSpriterSetter(
                             imageURL,

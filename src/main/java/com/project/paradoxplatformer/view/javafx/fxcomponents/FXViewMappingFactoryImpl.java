@@ -17,6 +17,8 @@ import javafx.scene.Node;
 
 public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
 
+    private static final int DEFAULT_ID = 0;
+
     public FXViewMappingFactoryImpl() {}
 
     @Override         
@@ -27,6 +29,7 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
     @Override
     public EntityDataMapper<GraphicAdapter<Node>> blockToView() {
         return g -> new FXRectangleAdapter(
+            g.getID(),
             new Dimension(g.getWidth(), g.getHeight()),
             new Coord2D(g.getX(), g.getY()),
             g.getColor().toFXColor()
@@ -36,12 +39,14 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
     private GraphicAdapter<Node> reckonImageFromSprite(GameDTO g) {
         try {
             return Objects.nonNull(g.getSpriteMeta()) ? new FXSpriteAdapter(
+                    g.getID(),
                     new Dimension(g.getWidth(), g.getHeight()),
                     new Coord2D(g.getX(), g.getY()),
                     g.getImage(), 
                     g.getSpriteMeta()
                 ) :
                 new FXImageAdapter(
+                    g.getID(),
                     new Dimension(g.getWidth(), g.getHeight()),
                     new Coord2D(g.getX(), g.getY()),
                     g.getImage()
@@ -55,7 +60,7 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
     @Override
     public Function<MenuItem, GraphicAdapter<Node>> menuItemToView(final GameController<Node> gameController) {
         return m -> {
-            var button = new FXButtonAdapter(m.name());
+            var button = new FXButtonAdapter(DEFAULT_ID, m.name());
             button.onAction(m.action(), gameController);
             return button;
         };

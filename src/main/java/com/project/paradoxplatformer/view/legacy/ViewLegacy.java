@@ -13,9 +13,6 @@ import com.project.paradoxplatformer.view.javafx.JavaFxApp;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.FXContainerAdapter;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.FXViewMappingFactoryImpl;
 import com.project.paradoxplatformer.view.manager.ViewManager;
-import com.project.paradoxplatformer.view.swing.SwingApp;
-import com.project.paradoxplatformer.view.swing.SwingContainerAdapter;
-import com.project.paradoxplatformer.view.swing.SwingMapperFactoryImpl;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -57,38 +54,10 @@ public class ViewLegacy {
     }
 
     public static ViewAdapterFactory<JComponent, JPanel, KeyEvent> swingFactory() {
-        return new ViewAdapterFactory<JComponent, JPanel, KeyEvent>() {
-
-            @Override
-            public JPanel blankPage() {
-                return new JPanel();
-            }
-
-            @Override
-            public Supplier<ViewMappingFactory<JComponent>> getComponentsFactory() {
-                return SwingMapperFactoryImpl::new;
-            }
-
-            @Override
-            public Function<JPanel, GraphicContainer<JComponent, KeyEvent>> containerMapper() {
-                return SwingContainerAdapter::new;
-            }
-
-            @Override
-            public Supplier<ViewManager> mainAppManager() {
-                return SwingApp::new;
-            }
-
-            @Override
-            public JPanel loadingPage() {
-                return this.blankPage();
-            }
-
-        };
+        throw new UnsupportedOperationException("Unimplemented method 'swing'");
     }
 
     public static ViewAdapterFactory<String, String, String> console() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'console'");
     }
 

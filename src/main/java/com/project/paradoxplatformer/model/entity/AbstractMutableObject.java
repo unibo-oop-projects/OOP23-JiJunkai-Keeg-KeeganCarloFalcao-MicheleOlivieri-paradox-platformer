@@ -9,6 +9,16 @@ public abstract class AbstractMutableObject implements MutableObject{
 
     private int key;
 
+    public AbstractMutableObject(int key) {
+        this.key = key;
+    }
+
+    @Override
+    public int getID() {
+        return this.key;
+    }
+    
+
     @Override
     public abstract  Coord2D getPosition();
 
@@ -30,14 +40,5 @@ public abstract class AbstractMutableObject implements MutableObject{
     @Override
     public abstract Vector2D getSpeed();
 
-    @Override
-    public void setKey(int key) {
-        this.key = key;
-    }
 
-    @Override
-    public int getID() {
-        return this.key;
-    }
-    
 }

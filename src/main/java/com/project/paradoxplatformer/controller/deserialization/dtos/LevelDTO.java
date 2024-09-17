@@ -60,6 +60,10 @@ public final class LevelDTO {
         return this.gameDTOs;
     }
 
+    /**
+     * Used to retrive the background image for the level
+     * @return background image path
+     */
     public String getBackgroundFile() {
         return backgroundFile;
     }

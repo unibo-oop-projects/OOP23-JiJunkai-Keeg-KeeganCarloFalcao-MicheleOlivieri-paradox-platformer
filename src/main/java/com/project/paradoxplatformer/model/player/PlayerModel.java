@@ -11,7 +11,6 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
 import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
@@ -21,6 +20,8 @@ public final class PlayerModel extends AbstractControllableObject {
 
     // Definizioni costanti
     private static final Dimension DEFAULT_SIZE = new Dimension(10, 20);
+
+    private static final int DEFAULT_ID = 0;
 
     // Proprietà del giocatore
     private Coord2D position;
@@ -34,19 +35,17 @@ public final class PlayerModel extends AbstractControllableObject {
     // Inventory
     private Inventory inventory;
 
-    // Flag per il controllo della direzione
-    private boolean isRight;
-    private boolean isLeft;
+    private Simple2DVector anchorVerticalPos;
 
     // Costruttore principale
-    public PlayerModel(Coord2D pos, Dimension dimension) {
-        super(new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(140.d, 14)); 
-        initialize(pos, dimension);
+    public PlayerModel(final int key, Coord2D pos, Dimension dimension) {
+        super(key, new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(150.d, 10)); 
+        this.initialize(pos, dimension);
     }
 
     // Costruttore di default
     public PlayerModel() {
-        this(Coord2D.origin(), DEFAULT_SIZE);
+        this(DEFAULT_ID, Coord2D.origin(), DEFAULT_SIZE);
         this.setJumpBehavior(new PlatformJump());
     }
 
@@ -60,6 +59,7 @@ public final class PlayerModel extends AbstractControllableObject {
         this.physics = new PhysicsEngine();
         this.interpFactory = new InterpolatorFactoryImpl();
         this.inventory = new SimpleInventory();
+        this.anchorVerticalPos = new Simple2DVector(pos.x(), pos.y());
     }
 
     // Getters and setters per posizione e dimensioni
@@ -113,6 +113,7 @@ public final class PlayerModel extends AbstractControllableObject {
     @Override
     public void updateState(long dt) {
         this.fall();
+        System.out.println(verticalSpeed);
         handleHorizontalMovement(dt);
         handleVerticalMovement(dt);
         this.setPosition(this.displacement.convert());
@@ -132,9 +133,12 @@ public final class PlayerModel extends AbstractControllableObject {
 
     // Gestione del movimento verticale
     private void handleVerticalMovement(long dt) {
-        var k = physics.moveTo(this.displacement,
+        
+            var k = physics.moveTo(this.displacement,
                 this.displacement.add(verticalSpeed), 1, interpFactory.easeIn(), dt);
-        this.displacement = k.getKey();
+            this.displacement = k.getKey();
+        
+        
     }
 
     // Metodo per la raccolta di oggetti

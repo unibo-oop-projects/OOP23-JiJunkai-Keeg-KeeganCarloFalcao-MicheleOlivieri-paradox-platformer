@@ -20,7 +20,8 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
     private final Coord2D bindedPosition;
     private int key;
 
-    protected AbstractFXGraphicAdapter(final Node component, Dimension dimension, Coord2D relativePos) {
+    protected AbstractFXGraphicAdapter(final int id, final Node component, Dimension dimension, Coord2D relativePos) {
+        this.key = id;
         this.uiComponent = component;   
         this.dimension = dimension;
         this.xProperty = new SimpleDoubleProperty(relativePos.x());
@@ -91,13 +92,6 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
         result = prime * result + ((yProperty == null) ? 0 : yProperty.hashCode());
         return result;
     }
-
-
-    @Override
-    public void setKey(int key) {
-        this.key = key;
-    }
-
 
     @Override
     public int getID() {

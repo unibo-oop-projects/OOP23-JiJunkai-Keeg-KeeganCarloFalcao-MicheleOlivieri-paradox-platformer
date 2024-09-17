@@ -23,8 +23,8 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
     private final DoubleProperty widthProperty;
     private final DoubleProperty heighProperty;
 
-    protected FXImageAdapter(Dimension dimension, Coord2D position, String imageURL) throws InvalidResourceException {
-        super(new ImageView(), dimension, position);
+    protected FXImageAdapter(final int id, Dimension dimension, Coord2D position, String imageURL) throws InvalidResourceException {
+        super(id, new ImageView(), dimension, position);
 
         if (this.uiComponent instanceof ImageView imgCopy) {
             this.imgComponent = imgCopy;

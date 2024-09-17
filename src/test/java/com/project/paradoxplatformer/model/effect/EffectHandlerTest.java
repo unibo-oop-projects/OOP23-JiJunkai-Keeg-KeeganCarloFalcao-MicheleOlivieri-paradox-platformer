@@ -34,8 +34,8 @@ class EffectHandlerTest {
         effectHandler.addCollisionEffectsForType(type, effectSupplier);
 
         // Create test objects
-        Button source = new Button(new Coord2D(0, 0), new Dimension(0, 0));
-        Button target = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        Button source = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
+        Button target = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
 
         // Apply effects
         CompletableFuture<Void> result = effectHandler.applyEffects(source, target);
@@ -48,14 +48,14 @@ class EffectHandlerTest {
     void testAddAndApplyCollisionEffectsForObject() {
         // Setup
         CollisionType type = CollisionType.BUTTON;
-        Button object = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        Button object = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
         Supplier<Effect> effectSupplier = NoOpEffect::new;
 
         // Add effects
         effectHandler.addCollisionEffectsForObject(type, object, effectSupplier);
 
         // Create test objects
-        Button source = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        Button source = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
 
         // Apply effects
         CompletableFuture<Void> result = effectHandler.applyEffects(source, object);
@@ -68,7 +68,7 @@ class EffectHandlerTest {
     void testGetAllEffects() {
         // Setup
         CollisionType type = CollisionType.BUTTON;
-        Button object = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        Button object = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
         effectHandler.addCollisionEffectsForObject(type, object, NoOpEffect::new);
 
         // Get all effects
@@ -83,7 +83,7 @@ class EffectHandlerTest {
     void testResetEffects() {
         // Setup
         CollisionType type = CollisionType.BUTTON;
-        Button object = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        Button object = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
         effectHandler.addCollisionEffectsForObject(type, object, NoOpEffect::new);
 
         // Reset effects

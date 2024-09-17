@@ -9,8 +9,8 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 import com.project.paradoxplatformer.controller.gameloop.GameLoop;
-import com.project.paradoxplatformer.model.effect.EffectFactoryImpl;
 import com.project.paradoxplatformer.model.effect.EffectHandler;
+import com.project.paradoxplatformer.model.effect.impl.CollectingEffect;
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.obstacles.Coin;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
@@ -27,7 +27,7 @@ public class SimpleInventoryTest {
     void simpleCollectingItem() {
 
         PlayerModel player = new PlayerModel();
-        CollectableGameObject coin = new Coin(Coord2D.origin(), Dimension.dot());
+        CollectableGameObject coin = new Coin(0, Coord2D.origin(), Dimension.dot());
 
         player.collectItem(coin);
 
@@ -35,7 +35,7 @@ public class SimpleInventoryTest {
         assertTrue(player.getInventoryData().get(Coin.class.getSimpleName()) == 1L);
 
         // Collects another coin
-        CollectableGameObject coin2 = new Coin(Coord2D.origin(), Dimension.dot());
+        CollectableGameObject coin2 = new Coin(1, Coord2D.origin(), Dimension.dot());
         player.collectItem(coin2);
 
         assertTrue(player.getInventoryData().get(Coin.class.getSimpleName()) == 2L);
@@ -50,11 +50,11 @@ public class SimpleInventoryTest {
     void collectingWithCollision() {
 
         final PlayerModel player = new PlayerModel();
-        final CollectableGameObject coin = new Coin(new Coord2D(COIN_POSITION_X_1, 0), new Dimension(20, 20));
-        final CollectableGameObject coin2 = new Coin(new Coord2D(COIN_POSITION_X_2, 0), new Dimension(20, 20));
+        final CollectableGameObject coin = new Coin(0, new Coord2D(COIN_POSITION_X_1, 0), new Dimension(20, 20));
+        final CollectableGameObject coin2 = new Coin(1, new Coord2D(COIN_POSITION_X_2, 0), new Dimension(20, 20));
 
         final EffectHandler effectHandler = new EffectHandler();
-        effectHandler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
+        effectHandler.addCollisionEffectsForType(CollisionType.COLLECTING, CollectingEffect::new);
         final CollisionManager collisionManager = new CollisionManager(effectHandler);
 
         final List<? extends CollidableGameObject> collidables = List.of(player, coin, coin2);

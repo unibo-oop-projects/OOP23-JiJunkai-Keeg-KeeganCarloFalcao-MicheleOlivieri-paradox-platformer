@@ -21,7 +21,7 @@ public class TransportEffectTest {
         TransportEffect transportEffect = new TransportEffect(destination, false); // Apply to target
 
         // Create a TestGameObject
-        Button testGameObject = new Button(new Coord2D(0, 0), new Dimension(50, 50));
+        Button testGameObject = new Button(1, new Coord2D(0, 0), new Dimension(50, 50));
 
         // Act
         CompletableFuture<Void> future = transportEffect.apply(Optional.of(testGameObject), Optional.empty());
@@ -58,7 +58,7 @@ public class TransportEffectTest {
         TransportEffect transportEffect = new TransportEffect(destination, true); // Apply to self
 
         // Create a TestGameObject
-        PlayerModel testGameObject = new PlayerModel(new Coord2D(0, 0), new Dimension(50, 50));
+        PlayerModel testGameObject = new PlayerModel(0, new Coord2D(0, 0), new Dimension(50, 50));
 
         // Act
         CompletableFuture<Void> future = transportEffect.apply(Optional.empty(), Optional.of(testGameObject));

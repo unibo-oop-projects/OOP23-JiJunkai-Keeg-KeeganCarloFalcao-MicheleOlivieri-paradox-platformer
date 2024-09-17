@@ -2,9 +2,7 @@ package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.controller.games.GameEventListener;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
-import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
@@ -16,16 +14,17 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
     protected Vector2D verticalSpeed;
     protected JumpBehavior jumpBehavior;
     private GameEventListener gameEventListener;
+    protected boolean isJumping;
 
-    protected AbstractControllableObject(final Vector2D initDisplacement, final HorizonalStats stats) {
-        super(stats.limit(), stats.delta());
+    protected AbstractControllableObject(final int key, final Vector2D initDisplacement, final HorizonalStats stats) {
+        super(key, stats.limit(), stats.delta());
         this.verticalSpeed = new Simple2DVector(0., 0.);
+        isJumping = false;
     }
 
     //should implement by abstract class
     @Override
     public void jump() {
-
         jumpBehavior.jump().ifPresent(vector -> {
             this.verticalSpeed = vector;
         });

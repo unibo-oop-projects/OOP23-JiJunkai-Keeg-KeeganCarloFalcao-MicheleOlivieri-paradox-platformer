@@ -28,7 +28,7 @@ class CollisionManagerTest {
     void testHandleCollisions_WithCollisions() {
         // Setup test objects
         CollidableGameObject player = new PlayerModel();
-        CollidableGameObject object1 = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        CollidableGameObject object1 = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
         object1.setPosition(new Coord2D(0, 0)); // Position overlaps with player
         player.setPosition(new Coord2D(0, 0)); // Position matches object1
 
@@ -44,7 +44,7 @@ class CollisionManagerTest {
     void testHandleCollisions_WithoutCollisions() {
         // Setup test objects
         CollidableGameObject player = new PlayerModel();
-        CollidableGameObject object1 = new Button(new Coord2D(0, 0), new Dimension(0, 0));
+        CollidableGameObject object1 = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
         object1.setPosition(new Coord2D(10, 10)); // Position does not overlap with player
         player.setPosition(new Coord2D(0, 0)); // Position different from object1
 

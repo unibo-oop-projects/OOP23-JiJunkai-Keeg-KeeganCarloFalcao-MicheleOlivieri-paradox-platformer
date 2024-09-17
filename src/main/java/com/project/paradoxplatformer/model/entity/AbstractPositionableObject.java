@@ -17,7 +17,8 @@ public abstract class AbstractPositionableObject extends AbstractMutableObject {
     protected Vector2D displacement;
     protected Coord2D position;
 
-    protected AbstractPositionableObject(final Coord2D position) {
+    protected AbstractPositionableObject(final int key, final Coord2D position) {
+        super(key);
         this.isIdle = true;
         this.mover = new PhysicsEngine();
         this.interFactory = new InterpolatorFactoryImpl();

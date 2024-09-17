@@ -21,9 +21,9 @@ class CollisionDetectorTest {
     @BeforeEach
     void setUp() {
         // Initialize buttons with different positions and dimensions
-        button1 = new Button(new Coord2D(100, 200), new Dimension(50, 50));
-        button2 = new Button(new Coord2D(120, 220), new Dimension(50, 50)); // Overlapping with button1
-        button3 = new Button(new Coord2D(300, 400), new Dimension(50, 50)); // Not overlapping
+        button1 = new Button(0, new Coord2D(100, 200), new Dimension(50, 50));
+        button2 = new Button(1, new Coord2D(120, 220), new Dimension(50, 50)); // Overlapping with button1
+        button3 = new Button(2, new Coord2D(300, 400), new Dimension(50, 50)); // Not overlapping
     }
 
     @Test

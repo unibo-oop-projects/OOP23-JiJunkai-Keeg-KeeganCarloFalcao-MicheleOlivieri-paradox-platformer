@@ -18,8 +18,8 @@ public class FXRectangleAdapter extends AbstractFXGraphicAdapter {
     private final SimpleDoubleProperty widthProperty;
     
     
-    protected FXRectangleAdapter(Dimension dimension, Coord2D position, Color fill) {
-        super(new Rectangle(), dimension, position);
+    protected FXRectangleAdapter(final int id, Dimension dimension, Coord2D position, Color fill) {
+        super(id, new Rectangle(), dimension, position);
         if (this.uiComponent instanceof Rectangle blockCopy) {
             this.blockComponent = blockCopy;
             this.blockComponent.setFill(fill);

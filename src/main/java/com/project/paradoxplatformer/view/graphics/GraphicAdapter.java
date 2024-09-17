@@ -24,8 +24,6 @@ public interface GraphicAdapter<C> extends ViewComponent<C> {
 
     void flip();
 
-    void setKey(int key);
-
     int getID();
 
     default boolean equals(GraphicAdapter<C> other) {

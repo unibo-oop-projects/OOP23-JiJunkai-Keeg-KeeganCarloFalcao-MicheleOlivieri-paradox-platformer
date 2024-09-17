@@ -21,7 +21,7 @@ public class InputControllerTest {
         var factory = new InputMovesFactoryImpl();
         var inputController = new InputController<>(factory.wasdModel());
 
-        PlayerModel player = new PlayerModel(new Coord2D(0, 0), new Dimension(30, 30));
+        PlayerModel player = new PlayerModel(0, new Coord2D(0, 0), new Dimension(30, 30));
         player.setJumpBehavior(new PlatformJump());
 
         //Simulate a jump and moving simulteanosly

@@ -1,5 +1,9 @@
 package com.project.paradoxplatformer.model.trigger;
 
+import java.util.Optional;
+import java.util.Queue;
+
+import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -19,8 +23,12 @@ public class Floor extends AbstractTrigger {
      * @param position  the position of the floor trigger in 2D space
      * @param dimension the size of the floor trigger
      */
-    public Floor(Coord2D position, Dimension dimension) {
-        super(position, dimension);
+    public Floor(final int key, Coord2D position, Dimension dimension, final Queue<TrajectoryInfo> trajectoryQueue) {
+        super(key, position, dimension, trajectoryQueue);
+    }
+
+    public Floor(final int key, Coord2D position, Dimension dimension) {
+        super(key, position, dimension);
     }
 
     /**

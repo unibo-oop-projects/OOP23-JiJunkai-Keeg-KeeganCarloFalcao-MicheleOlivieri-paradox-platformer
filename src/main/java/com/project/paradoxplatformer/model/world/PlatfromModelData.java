@@ -15,6 +15,7 @@ import com.project.paradoxplatformer.model.mappings.model.ModelMappingFactoryImp
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.Trigger;
+import com.project.paradoxplatformer.model.trigger.Triggerable;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -59,12 +60,27 @@ public final class PlatfromModelData implements GameModelData {
 				.toList()
 				.toArray(new Trigger[0]);
 
+		this.addObstaclesToTrigger(obstacles, triggers);
+
 		this.world = this.worldBuilder
 				.addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
 				.addPlayer(player)
 				.addObstacle(obstacles)
 				.addTrigger(triggers)
 				.build();
+	}
+
+	private void addObstaclesToTrigger(Obstacle[] obstacles, Trigger[] triggers) {
+		Arrays.stream(triggers)
+			.filter(t -> t.getTriggerableID().isPresent())
+			.forEach(t -> t.addObstacle(this.findObstacle(t.getTriggerableID().get(), obstacles)));
+	}
+
+	private Triggerable findObstacle(int id, Obstacle[] obstacles) {
+		return Arrays.stream(obstacles)
+			.filter(o -> o.getID() == id)
+			.findFirst()
+			.orElseThrow(() -> new IllegalArgumentException(" Associated obstacle id not found in the stream of obstacles"));
 	}
 
 	private Collection<GameDTO> findGameDTOData(final String attribute) {

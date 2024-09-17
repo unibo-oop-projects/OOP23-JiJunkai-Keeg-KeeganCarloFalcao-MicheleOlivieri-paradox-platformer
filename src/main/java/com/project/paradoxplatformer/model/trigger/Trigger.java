@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.model.trigger;
 
+import java.util.Optional;
+
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 
@@ -30,7 +32,21 @@ public interface Trigger extends MutableObject {
      * Associates an obstacle with this trigger, allowing it to activate the
      * obstacle's effects when triggered.
      * 
-     * @param obstacle the obstacle to associate with this trigger
+     * @param obstacle the triggerable objects to associate with this trigger
      */
-    void addObstacle(Obstacle obstacle);
+    void addObstacle(Triggerable obstacle);
+
+    /**
+     * Sets the trigger associated obstacle/triggerable object its Id.
+     * 
+     * @param id an id the trigger is eligible to trigger it
+     */
+    void setTriggerableID(Optional<Integer> id);
+
+     /**
+     * Gets the trigger associated obstacle/triggerable object its Id.
+     * 
+     * @return the id associated to the triggerable object
+     */
+    Optional<Integer> getTriggerableID();
 }

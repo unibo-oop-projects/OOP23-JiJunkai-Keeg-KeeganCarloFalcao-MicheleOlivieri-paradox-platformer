@@ -46,8 +46,16 @@ public interface GameController<C> {
      */
     <K> void startGame(InputController<ControllableObject> inputController, KeyInputer<K> inputer, String type);
 
+    /**
+    * Restarts the game by stopping the thread if running.
+    *{@link #restartGame()}
+    */
     void restartGame();
 
+    /**
+    * Exits the current game and should end all threads.
+    *{@link #exitGame()}
+    */
     void exitGame();
 
 }

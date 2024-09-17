@@ -15,8 +15,8 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
 
     private final Button buttonCompo;
 
-    public FXButtonAdapter(Dimension dimension, Coord2D relativePos, String text) {
-        super(new Button(), dimension, relativePos);
+    public FXButtonAdapter(final int id, Dimension dimension, Coord2D relativePos, String text) {
+        super(id, new Button(), dimension, relativePos);
         if (this.uiComponent instanceof Button buttonCopy) {
             this.buttonCompo = buttonCopy;
             this.buttonCompo.setText(text);
@@ -25,8 +25,8 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
         }
     }
 
-    public FXButtonAdapter(final String text) {
-        this(Dimension.dot(), Coord2D.origin(), text);
+    public FXButtonAdapter(int id, final String text) {
+        this(id, Dimension.dot(), Coord2D.origin(), text);
     }
 
     @Override

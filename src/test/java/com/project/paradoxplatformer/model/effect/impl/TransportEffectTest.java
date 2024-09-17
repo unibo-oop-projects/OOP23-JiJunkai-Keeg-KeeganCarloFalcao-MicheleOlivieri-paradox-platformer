@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
-import com.project.paradoxplatformer.model.effect.impl.TransportEffect;
 import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -23,7 +22,7 @@ class TransportEffectTest {
         Coord2D destination = new Coord2D(300, 300);
         transportEffectToTarget = new TransportEffect(destination, true);
         transportEffectToSelf = new TransportEffect(destination, false);
-        button = new Button(new Coord2D(100, 200),
+        button = new Button(0, new Coord2D(100, 200),
                 new com.project.paradoxplatformer.utils.geometries.Dimension(50, 50));
     }
 

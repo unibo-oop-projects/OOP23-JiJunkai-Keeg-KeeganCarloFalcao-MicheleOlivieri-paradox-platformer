@@ -11,11 +11,11 @@ public interface ViewAdapterFactory<V, P, K> {
 
     Supplier<ViewManager> mainAppManager();
 
-    P blankPage();
-
-    P loadingPage();
-
     Supplier<ViewMappingFactory<V>> getComponentsFactory();
 
     Function<P, GraphicContainer<V, K>> containerMapper();
+
+    P blankPage();
+
+    P loadingPage();
 }

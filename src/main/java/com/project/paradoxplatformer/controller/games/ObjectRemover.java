@@ -47,7 +47,7 @@ public class ObjectRemover<C> {
     public void handleRemoveObject(final PageIdentifier id, final Optional<? extends CollidableGameObject> self) {
         self.filter(MutableObject.class::isInstance)
                 .map(MutableObject.class::cast)
-                .ifPresentOrElse(objects::add,
+                .ifPresentOrElse(this.objects::add,
                         () -> System.out.println("Cannot remove object. It is not a MutableGameObject."));
     }
 

@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.utils.endGame;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
@@ -31,7 +32,10 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      */
     @Override
     public Iterator<DeathCondition> createConditionsForLevel(final Level level, final PlayerModel player) {
-        this.player = player;
+        if (player == null) {
+            return defaultConditions();
+        }
+        this.player = Optional.of(player).get();
         return switch (level) {
             case LEVEL_ONE -> levelOneConditions();
             case LEVEL_TWO -> levelTwoConditions();
@@ -52,7 +56,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
     public Iterator<DeathCondition> defaultConditions() {
         List<DeathCondition> defaultList = new ArrayList<>();
         // Default condition: Player dies if health is below 0.
-        defaultList.add(new FallenCondition(this.player));
+        // defaultList.add(new FallenCondition(this.player));
         return defaultList.iterator();
     }
 

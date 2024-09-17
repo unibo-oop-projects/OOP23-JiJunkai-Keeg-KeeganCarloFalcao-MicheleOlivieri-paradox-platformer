@@ -21,7 +21,7 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
      * @param targetCoins The number of coins the player must collect to win.
      */
     public CoinCollectionVictoryCondition(final PlayerModel player, final int targetCoins) {
-        this.player = player;
+        this.player = Optional.of(player).get();
         this.targetCoins = targetCoins;
     }
 
@@ -33,7 +33,6 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
      */
     @Override
     public boolean win() {
-        System.out.println("PLAYER'S COIN:" + player.getCollectedCoins());
         return player.getCollectedCoins() >= this.targetCoins;
     }
 

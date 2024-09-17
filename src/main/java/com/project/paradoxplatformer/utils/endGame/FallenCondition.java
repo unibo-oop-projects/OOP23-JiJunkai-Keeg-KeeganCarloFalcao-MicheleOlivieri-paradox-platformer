@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.utils.endGame;
 
+import java.util.Optional;
+
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
 /**
@@ -15,7 +17,7 @@ public class FallenCondition implements DeathCondition {
      * @param player the player model to check the health of.
      */
     public FallenCondition(final PlayerModel player) {
-        this.player = player;
+        this.player = Optional.of(player).get();
     }
 
     /**

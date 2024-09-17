@@ -2,7 +2,7 @@ package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
 import com.project.paradoxplatformer.model.entity.AbstractMutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.HorizontalObject;
-import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
+import com.project.paradoxplatformer.utils.geometries.physic.Direction;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 

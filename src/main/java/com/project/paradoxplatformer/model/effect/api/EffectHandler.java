@@ -65,7 +65,7 @@ public interface EffectHandler {
      * @param object the game object
      * @return a ChainOfEffects instance containing all combined effects
      */
-    public ChainOfEffects getAllEffects(final CollidableGameObject object);
+    ChainOfEffects getAllEffects(CollidableGameObject object);
 
     /**
      * Resets the effects associated with a specific game object and collision type,

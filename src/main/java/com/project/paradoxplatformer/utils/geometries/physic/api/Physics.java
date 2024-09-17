@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.geometries.modifiers.api;
+package com.project.paradoxplatformer.utils.geometries.physic.api;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -18,7 +18,9 @@ public interface Physics {
      * @param dt
      * @return
      */
-    Pair<Vector2D, Double> moveTo(final Vector2D start, final Vector2D end, final long duration, Interpolator<Vector2D> interpType, final long dt);
+    Pair<Vector2D, Double> moveTo(final Vector2D start, final Vector2D end, final long duration,
+            Interpolator<Vector2D> interpType, final long dt);
+
     /**
      * 
      * @param start
@@ -28,6 +30,7 @@ public interface Physics {
      * @return
      */
     Vector2D step(final Vector2D start, final Vector2D end, final Interpolator<Vector2D> interpType, final long dt);
+
     /**
      * 
      * @return

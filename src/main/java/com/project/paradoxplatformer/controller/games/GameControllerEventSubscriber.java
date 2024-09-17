@@ -10,18 +10,28 @@ import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 /**
  * Manages subscriptions to game events.
+ * This class subscribes to various game events and delegates the handling to
+ * the provided GameControllerEventListener.
  */
 public class GameControllerEventSubscriber {
 
     private final GameControllerEventListener gameEventListener;
     private final EventManager<GameEventType, PageIdentifier> eventManager;
 
-    public GameControllerEventSubscriber(GameControllerEventListener gameEventListener) {
+    /**
+     * Constructs a GameControllerEventSubscriber with the given event listener.
+     *
+     * @param gameEventListener the listener to handle game events
+     */
+    public GameControllerEventSubscriber(final GameControllerEventListener gameEventListener) {
         this.gameEventListener = gameEventListener;
         this.eventManager = EventManager.getInstance();
         subscribeToEvents();
     }
 
+    /**
+     * Subscribes to various game events and associates them with their handlers.
+     */
     private void subscribeToEvents() {
         eventManager.subscribe(GameEventType.STOP_VIEW, this::handleStopView);
         eventManager.subscribe(GameEventType.REMOVE_OBJECT, this::handleRemoveObject);
@@ -29,20 +39,43 @@ public class GameControllerEventSubscriber {
         eventManager.subscribe(GameEventType.WIN_CONDITION_MET, this::handleVictory);
     }
 
-    private void handleStopView(PageIdentifier id, Level param) {
-        gameEventListener.handleStopView(id, param);
+    /**
+     * Handles the STOP_VIEW event.
+     *
+     * @param id    the identifier of the page
+     * @param level the level associated with the event
+     */
+    private void handleStopView(final PageIdentifier id, final Level level) {
+        gameEventListener.handleStopView(id, level);
     }
 
-    private void handleRemoveObject(PageIdentifier id, Optional<? extends CollidableGameObject> object) {
+    /**
+     * Handles the REMOVE_OBJECT event.
+     *
+     * @param id     the identifier of the page
+     * @param object the optional object to be removed
+     */
+    private void handleRemoveObject(final PageIdentifier id, final Optional<? extends CollidableGameObject> object) {
         gameEventListener.handleRemoveObject(id, object);
     }
 
-    private void handleTriggerEffect(PageIdentifier id, Obstacle param) {
+    /**
+     * Handles the TRIGGER_EFFECT event.
+     *
+     * @param id    the identifier of the page
+     * @param param the obstacle associated with the event
+     */
+    private void handleTriggerEffect(final PageIdentifier id, final Obstacle param) {
         gameEventListener.handleTriggerEffect(id, param);
     }
 
-    private void handleVictory(PageIdentifier id, Level level) {
+    /**
+     * Handles the WIN_CONDITION_MET event.
+     *
+     * @param id    the identifier of the page
+     * @param level the level associated with the victory
+     */
+    private void handleVictory(final PageIdentifier id, final Level level) {
         gameEventListener.handleVictory(id);
     }
-
 }

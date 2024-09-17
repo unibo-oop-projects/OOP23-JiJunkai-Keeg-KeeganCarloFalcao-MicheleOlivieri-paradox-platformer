@@ -11,8 +11,8 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
-import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
+import com.project.paradoxplatformer.utils.geometries.physic.Direction;
+import com.project.paradoxplatformer.utils.geometries.physic.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
@@ -148,13 +148,13 @@ public final class PlayerModel extends AbstractControllableObject {
 
     public long getCollectedCoins() {
         return this.inventory.getItemsCounts()
-            .entrySet()
-            .stream()
-            .filter(e -> e.getKey().equals("coins"))
-            .findFirst()
-            .map(Map.Entry::getValue) // Map to the value (number of coins)
-            .orElse(0L); // Return 0 if "coins" is not present
-    }    
+                .entrySet()
+                .stream()
+                .filter(e -> e.getKey().equals("coins"))
+                .findFirst()
+                .map(Map.Entry::getValue) // Map to the value (number of coins)
+                .orElse(0L); // Return 0 if "coins" is not present
+    }
 
     @Override
     public CollisionType getCollisionType() {

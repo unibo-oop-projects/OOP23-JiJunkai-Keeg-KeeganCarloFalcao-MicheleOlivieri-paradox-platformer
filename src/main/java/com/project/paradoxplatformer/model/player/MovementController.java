@@ -5,7 +5,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
+import com.project.paradoxplatformer.utils.geometries.physic.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
@@ -23,7 +23,7 @@ public class MovementController {
         this.physics = physicsEngine;
         this.interpolatorFactory = new InterpolatorFactoryImpl();
         this.horizontalSpeed = Polar2DVector.nullVector(); // Inizializzazione della velocità orizzontale
-        this.verticalSpeed = Polar2DVector.nullVector();   // Inizializzazione della velocità verticale
+        this.verticalSpeed = Polar2DVector.nullVector(); // Inizializzazione della velocità verticale
     }
 
     public Coord2D updateMovement(long dt) {
@@ -38,7 +38,7 @@ public class MovementController {
                 newDisplacement.add(verticalSpeed), 1, interpolatorFactory.easeIn(), dt);
 
         // Aggiorna la posizione del giocatore
-        this.position = verticalMovement.getLeft().convert(); 
+        this.position = verticalMovement.getLeft().convert();
         return this.position;
     }
 
@@ -56,7 +56,7 @@ public class MovementController {
     }
 
     private Vector2D toVector2D(Coord2D position) {
-        return new Simple2DVector(position.x(),position.y());
+        return new Simple2DVector(position.x(), position.y());
     }
-    
+
 }

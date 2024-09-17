@@ -1,5 +1,10 @@
 package com.project.paradoxplatformer.model.obstacles;
 
+/**
+ * Enum representing different types of obstacles in the game.
+ * Each obstacle type serves a specific purpose and interacts differently within
+ * the game environment.
+ */
 public enum ObstacleType {
     /**
      * Represents a platform collision type.

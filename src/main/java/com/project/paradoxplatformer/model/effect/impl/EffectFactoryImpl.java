@@ -14,7 +14,7 @@ import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.obstacles.Wall;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
+import com.project.paradoxplatformer.utils.geometries.physic.Direction;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 import static com.project.paradoxplatformer.utils.OptionalUtils.peek;

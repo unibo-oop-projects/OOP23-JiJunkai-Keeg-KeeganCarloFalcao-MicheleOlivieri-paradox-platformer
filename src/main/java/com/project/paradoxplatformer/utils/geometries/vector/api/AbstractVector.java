@@ -12,7 +12,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.api.Cartesian;
  * by subclasses.
  * </p>
  */
-public sealed abstract class AbstractVector implements Vector2D permits Simple2DVector {
+public abstract sealed class AbstractVector implements Vector2D permits Simple2DVector {
 
     private final Cartesian cartesian;
     private final double magnitude;
@@ -96,7 +96,7 @@ public sealed abstract class AbstractVector implements Vector2D permits Simple2D
      * @param scalar the scalar value to multiply this vector by
      * @return a new {@link Vector2D} that is the result of the scaling
      */
-    public abstract Vector2D scalar(final double scalar);
+    public abstract Vector2D scalar(double scalar);
 
     /**
      * Returns the y component of this vector.
@@ -133,6 +133,16 @@ public sealed abstract class AbstractVector implements Vector2D permits Simple2D
         return "{" + cartesian + ", Mag: " + magnitude + "}";
     }
 
+    /**
+     * Returns the Cartesian coordinates of this vector.
+     * <p>
+     * This method provides access to the underlying Cartesian coordinates of
+     * the vector. Subclasses can use this method to get the coordinates for
+     * further calculations or representations.
+     * </p>
+     *
+     * @return a {@link Cartesian} instance representing the Cartesian coordinates
+     */
     public Cartesian getCartesian() {
         return cartesian;
     }

@@ -92,7 +92,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
      * @return an EffectHandler instance specific to the level
      */
     @Override
-    public EffectHandler getEffectHandlerForLevel(Level level) {
+    public EffectHandler getEffectHandlerForLevel(final Level level) {
         return switch (level) {
             case LEVEL_ONE -> levelOneEffectHandler();
             case LEVEL_TWO -> levelTwoEffectHandler();

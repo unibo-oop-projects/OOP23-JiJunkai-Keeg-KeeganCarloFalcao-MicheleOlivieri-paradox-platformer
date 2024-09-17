@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.model.entity.dynamics;
 
-import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
+import com.project.paradoxplatformer.utils.geometries.physic.Direction;
 
 /**
  * Represents an object that can move horizontally.

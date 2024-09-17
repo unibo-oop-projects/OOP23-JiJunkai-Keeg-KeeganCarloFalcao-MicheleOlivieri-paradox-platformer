@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.geometries.modifiers;
+package com.project.paradoxplatformer.utils.geometries.physic;
 
 /**
  * Enum representing possible directions with a status of whether they are

@@ -142,7 +142,8 @@ public final class GamePlatformView<C, K> implements GameView<C> {
      * @param graphicCompo the read-only graphic component to be updated
      */
     @Override
-    public void updateControlState(ReadOnlyMutableObjectWrapper mutEntity, ReadOnlyGraphicDecorator<C> graphicCompo) {
+    public void updateControlState(final ReadOnlyMutableObjectWrapper mutEntity,
+            final ReadOnlyGraphicDecorator<C> graphicCompo) {
         retriveGraphic(graphicCompo).ifPresent(graph -> {
 
             final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());

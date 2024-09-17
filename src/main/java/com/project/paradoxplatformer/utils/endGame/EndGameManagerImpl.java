@@ -1,10 +1,13 @@
 package com.project.paradoxplatformer.utils.endGame;
 
 import java.util.Iterator;
-
+import java.util.List;
+import java.util.function.Predicate;
+import com.project.paradoxplatformer.controller.event.EventManager;
+import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.utils.StreamUtil;
+import com.project.paradoxplatformer.utils.ListUtil;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
 
@@ -14,9 +17,9 @@ import com.project.paradoxplatformer.view.manager.ViewNavigator;
  */
 public class EndGameManagerImpl implements EndGameManager {
 
-    private Iterator<VictoryCondition> victory;
-    private Iterator<DeathCondition> death;
-    private final Level level;
+    private List<VictoryCondition> victory;
+    private List<DeathCondition> death;
+    private final Level nextLevel;
 
     /**
      * Constructs a EndGameManagerImpl with the specified list of conditions.
@@ -26,9 +29,9 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param level   The current level being managed.
      */
     public EndGameManagerImpl(Level level) {
-        this.victory = new VictoryConditionsFactoryImpl().defaultConditions();
-        this.death = new DeathConditionsFactoryImpl().defaultConditions();
-        this.level = level;
+        this.victory = ListUtil.toList(new VictoryConditionsFactoryImpl().defaultConditions());
+        this.death = ListUtil.toList(new DeathConditionsFactoryImpl().defaultConditions());
+        this.nextLevel = level.next();
     }
 
     /**
@@ -47,7 +50,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void onVictory() {
-        triggerEvent("Victory achieved!", PageIdentifier.GAME);
+        triggerEvent("Victory achieved!", PageIdentifier.MENU);
     }
 
     /**
@@ -66,7 +69,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void onDeath() {
-        triggerEvent("Death achieved!", null);
+        triggerEvent("Death achieved!", PageIdentifier.GAME);
     }
 
     /**
@@ -77,7 +80,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void setVictoryHandler(Iterator<VictoryCondition> newList) {
-        this.victory = newList;
+        this.victory = ListUtil.toList(newList);
     }
 
     /**
@@ -87,7 +90,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void setDeathHandler(Iterator<DeathCondition> newList) {
-        this.death = newList;
+        this.death = ListUtil.toList(newList);
     }
 
     /**
@@ -98,9 +101,9 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param onSuccess The action to execute on success.
      * @return true if the condition was met, false otherwise.
      */
-    private <T> boolean checkCondition(Iterator<T> iterator, java.util.function.Predicate<T> condition,
+    private <T> boolean checkCondition(List<T> list, Predicate<T> condition,
             Runnable onSuccess) {
-        boolean result = StreamUtil.toStream(iterator).anyMatch(condition);
+        boolean result = list.stream().anyMatch(condition);
         if (result) {
             onSuccess.run();
         }
@@ -116,7 +119,14 @@ public class EndGameManagerImpl implements EndGameManager {
     private void triggerEvent(String message, PageIdentifier page) {
         System.out.println(message);
         if (page != null) {
-            ViewNavigator.getInstance().openView(page, this.level);
+            EventManager.getInstance().publish(GameEventType.STOP_VIEW, page, null);
+            if (page.equals(PageIdentifier.GAME)) {
+                System.out.println("IN THE GAME");
+                ViewNavigator.getInstance().openView(page, this.nextLevel);
+            } else {
+                System.out.println("GO TO MENU");
+                ViewNavigator.getInstance().goToMenu();
+            }
         }
     }
 }

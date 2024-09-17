@@ -49,4 +49,24 @@ public enum Level {
     public String getResourceFile() {
         return resourceFile;
     }
+
+    /**
+     * Returns the next level in sequence.
+     * If it's the last level, it wraps around to the first level (excluding
+     * EMPTY_LEVEL).
+     *
+     * @return the next level, or null if it's the last level and no wrapping is
+     *         desired
+     */
+    public Level next() {
+        Level[] levels = Level.values();
+        int ordinal = this.ordinal();
+
+        // Skip EMPTY_LEVEL and only consider valid levels
+        if (this == EMPTY_LEVEL || ordinal >= levels.length - 1) {
+            return null; // Return null if already at the last valid level
+        }
+
+        return levels[ordinal + 1];
+    }
 }

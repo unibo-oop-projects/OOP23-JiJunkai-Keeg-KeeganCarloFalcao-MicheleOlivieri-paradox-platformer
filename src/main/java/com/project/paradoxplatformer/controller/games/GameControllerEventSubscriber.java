@@ -26,13 +26,12 @@ public final class GameControllerEventSubscriber {
     public GameControllerEventSubscriber(final GameControllerEventListener gameEventListener) {
         this.gameEventListener = gameEventListener;
         this.eventManager = EventManager.getInstance();
-        subscribeToEvents();
     }
 
     /**
      * Subscribes to various game events and associates them with their handlers.
      */
-    private void subscribeToEvents() {
+    public void subscribeToEvents() {
         eventManager.subscribe(GameEventType.STOP_VIEW, this::handleStopView);
         eventManager.subscribe(GameEventType.REMOVE_OBJECT, this::handleRemoveObject);
         eventManager.subscribe(GameEventType.TRIGGER_EFFECT, this::handleTriggerEffect);

@@ -55,8 +55,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     private final CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
     private final EndGameManager endGameManager;
-
-    @SuppressWarnings("unused")
     private final GameControllerEventSubscriber eventSubscriber;
 
     private ObservableLoopManager gameManager;
@@ -81,6 +79,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         this.endGameManager = new EndGameManagerImpl(this.currentLevel);
 
         this.eventSubscriber = new GameControllerEventSubscriber(this);
+        this.eventSubscriber.subscribeToEvents();
+
         this.objectRemover = new ObjectRemover<>(model, view);
 
         System.out.println("Current level: " + level);

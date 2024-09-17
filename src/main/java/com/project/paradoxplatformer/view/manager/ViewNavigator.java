@@ -12,7 +12,7 @@ import com.project.paradoxplatformer.controller.games.Level;
  */
 public final class ViewNavigator {
 
-    private static ViewNavigator instance; // Singleton instance of ViewNavigator
+    private static volatile ViewNavigator instance;
 
     // Private constructor to prevent direct instantiation
     private ViewNavigator() {
@@ -40,7 +40,7 @@ public final class ViewNavigator {
      * @param id    The identifier of the view to open.
      * @param param The level parameter to pass to the view.
      */
-    public void openView(final PageIdentifier id, final Level param)  {
+    public void openView(final PageIdentifier id, final Level param) {
         EventManager.getInstance().publish(GameEventType.SWITCH_VIEW, id, param);
     }
 

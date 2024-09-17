@@ -34,7 +34,7 @@ public final class ObjectRemover<C> {
      */
     public ObjectRemover(final GameModelData gameModel, final GameView<C> gameView) {
         this.gameModel = gameModel;
-        this.gameView = gameView;
+        this.gameView = gameView; // Store a reference, but don't expose directly
         this.objects = new ArrayList<>();
     }
 
@@ -66,10 +66,19 @@ public final class ObjectRemover<C> {
                 // Remove the game object from the game world
                 gameModel.actionOnWorld(w -> w.removeGameObjects(key));
                 // Remove the associated graphic from the view
-                gameView.removeGraphic(entry.getValue());
+                removeGraphic(entry.getValue());
                 return true; // Indicate that the object was removed
             }
             return false; // Indicate that the object was not removed
         });
+    }
+
+    /**
+     * Removes a graphic from the view.
+     *
+     * @param graphicDecorator The graphic decorator to be removed.
+     */
+    private void removeGraphic(final ReadOnlyGraphicDecorator<C> graphicDecorator) {
+        gameView.removeGraphic(graphicDecorator);
     }
 }

@@ -24,7 +24,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
     private static final int LEFT_MAG_SIGN = -1;
     private static final int RIGHT_MAG_SIGN = 1;
     private static final double RESET_MAG = 0.0;
-    private static final double NO_ADDINGS = 0.0;
+    // private static final double NO_ADDINGS = 0.0;
 
     private final double limit;
     private final double delta;

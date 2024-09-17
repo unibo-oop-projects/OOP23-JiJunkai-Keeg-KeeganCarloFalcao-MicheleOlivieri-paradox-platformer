@@ -6,7 +6,8 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 /**
- * Defines the behavior for platform jumping, including gravity and falling logic.
+ * Defines the behavior for platform jumping, including gravity and falling
+ * logic.
  */
 public final class PlatformJump extends AbstractJumpBehavior {
 
@@ -35,7 +36,8 @@ public final class PlatformJump extends AbstractJumpBehavior {
     @Override
     public Vector2D fall() {
         if (this.isFalling()) {
-            return new Simple2DVector(0., grav -= 1);
+            this.grav -= 1;
+            return new Simple2DVector(0., this.grav);
         } else {
             // If the player is not falling, return a zero vector to stop vertical movement
             return new Simple2DVector(0., 0.);

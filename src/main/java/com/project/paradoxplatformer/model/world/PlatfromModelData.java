@@ -65,7 +65,7 @@ public final class PlatfromModelData implements GameModelData {
 						.map(GameDTO::getType)
 						.anyMatch(Objects::isNull))
 				.filter(not(Boolean::booleanValue))
-				.orElseThrow(() -> new IllegalStateException("Attribute type of game DTO is undefined, could not map"));
+				.orElseThrow(() -> new IllegalStateException("Can not map, attribute GameDTO is undefined"));
 
 		PlayerModel player = modelFactory.playerToModel().map(
 				this.findGameDTOData("player")

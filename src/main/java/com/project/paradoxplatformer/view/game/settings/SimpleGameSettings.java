@@ -42,7 +42,8 @@ public class SimpleGameSettings<C> implements GameSettings<C> {
      * @param factory        the {@link ViewMappingFactory} for mapping menu items
      *                       to views
      */
-    public SimpleGameSettings(GameSettingsModel model, GameController<C> gameController, final GraphicContainer<C, ?> g,
+    public SimpleGameSettings(final GameSettingsModel model, final GameController<C> gameController,
+            final GraphicContainer<C, ?> g,
             final ViewMappingFactory<C> factory) {
         this.viewMappingFactory = factory;
         this.listComponents = new ArrayList<>();

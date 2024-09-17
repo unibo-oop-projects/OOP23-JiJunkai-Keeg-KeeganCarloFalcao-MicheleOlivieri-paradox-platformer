@@ -1,11 +1,7 @@
 package com.project.paradoxplatformer.view.legacy;
 
-import java.awt.event.KeyEvent;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import com.project.paradoxplatformer.view.game.ViewMappingFactory;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
@@ -20,8 +16,30 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 
-public class ViewLegacy {
+/**
+ * Provides factories for creating view adapters for different UI frameworks.
+ * <p>
+ * This class includes methods to obtain view adapter factories for JavaFX.
+ * </p>
+ */
+public final class ViewLegacy {
 
+    // Private constructor to prevent instantiation
+    private ViewLegacy() {
+        throw new UnsupportedOperationException("Utility class should not be instantiated.");
+    }
+
+    /**
+     * Creates a factory for adapting JavaFX views.
+     * <p>
+     * This factory provides methods to create blank pages, loading pages,
+     * component factories, and container mappers specific to JavaFX.
+     * </p>
+     * 
+     * @return a {@link ViewAdapterFactory} for JavaFX with {@link Node} and
+     *         {@link Pane}
+     *         as view components and {@link KeyCode} as input events.
+     */
     public static ViewAdapterFactory<Node, Pane, KeyCode> javaFxFactory() {
         return new ViewAdapterFactory<>() {
 
@@ -53,10 +71,17 @@ public class ViewLegacy {
         };
     }
 
-    public static ViewAdapterFactory<JComponent, JPanel, KeyEvent> swingFactory() {
-        throw new UnsupportedOperationException("Unimplemented method 'swing'");
-    }
-
+    /**
+     * Placeholder for a factory that adapts console-based views.
+     * <p>
+     * This method is not yet implemented and currently throws an exception
+     * indicating that the console view adapter is not available.
+     * </p>
+     * 
+     * @return a {@link ViewAdapterFactory} for console-based views.
+     * @throws UnsupportedOperationException if the method is called
+     *                                       before implementation.
+     */
     public static ViewAdapterFactory<String, String, String> console() {
         throw new UnsupportedOperationException("Unimplemented method 'console'");
     }

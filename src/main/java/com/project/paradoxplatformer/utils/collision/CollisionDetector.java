@@ -17,6 +17,11 @@ import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
  */
 public final class CollisionDetector {
 
+    // Private constructor to prevent instantiation
+    private CollisionDetector() {
+        throw new UnsupportedOperationException("Utility class should not be instantiated.");
+    }
+
     /**
      * Detects collisions between the player and other collidable objects.
      *

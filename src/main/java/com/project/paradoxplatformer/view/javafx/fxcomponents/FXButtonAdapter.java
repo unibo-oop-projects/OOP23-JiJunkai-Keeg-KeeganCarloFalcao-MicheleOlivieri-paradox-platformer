@@ -11,13 +11,27 @@ import com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts.Abstract
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 
-public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements Actionable{
+/**
+ * A JavaFX-based graphical adapter for buttons, extending the abstract graphic
+ * adapter
+ * and implementing the {@link Actionable} interface for handling actions.
+ */
+public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements Actionable {
 
     private final Button buttonCompo;
 
+    /**
+     * Constructs an FXButtonAdapter with specified dimensions, position, and text.
+     * 
+     * @param dimension   the dimensions of the button
+     * @param relativePos the position of the button relative to its container
+     * @param text        the text to display on the button
+     * @throws IllegalArgumentException if the underlying UI component is not a
+     *                                  {@link Button}
+     */
     public FXButtonAdapter(final int id, Dimension dimension, Coord2D relativePos, String text) {
         super(id, new Button(), dimension, relativePos);
-        if (this.uiComponent instanceof Button buttonCopy) {
+        if (this.getUiComponent() instanceof Button buttonCopy) {
             this.buttonCompo = buttonCopy;
             this.buttonCompo.setText(text);
         } else {
@@ -25,29 +39,38 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
         }
     }
 
+    /**
+     * Constructs an FXButtonAdapter with default id, dimensions and position, and
+     * specified text.
+     * 
+     * * @param id the unique id of the button
+     * @param text the text to display on the button
+     */
     public FXButtonAdapter(int id, final String text) {
         this(id, Dimension.dot(), Coord2D.origin(), text);
     }
 
     @Override
-    public void setDimension(double width, double height) {
+    public void setDimension(final double width, final double height) {
         System.out.println(width);
         this.buttonCompo.setPrefHeight(height);
         this.buttonCompo.setPrefWidth(width);
     }
 
+    /**
+     * Gets the color of the text on the button.
+     * 
+     * @return an {@link Optional} containing the text color if it is an instance of
+     *         {@link Color}, otherwise an empty {@link Optional}
+     */
     public Optional<Color> color() {
         return Optional.of(this.buttonCompo.getTextFill())
-            .filter(Color.class::isInstance)
-            .map(Color.class::cast);
+                .filter(Color.class::isInstance)
+                .map(Color.class::cast);
     }
 
     @Override
     public <G> void onAction(final Command<G> action, final G actor) {
-        this.buttonCompo.setOnAction(e -> {
-                action.execute(actor);
-            }
-        );
+        this.buttonCompo.setOnAction(e -> action.execute(actor));
     }
-    
 }

@@ -2,11 +2,8 @@ package com.project.paradoxplatformer.model.obstacles.abstracts;
 
 import java.util.Queue;
 
-import com.project.paradoxplatformer.model.effect.GameEventType;
 import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
-import com.project.paradoxplatformer.model.effect.GameEventType;
-import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;

@@ -10,6 +10,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 public interface OffsetCorrector {
     /**
      * Corrects.
+     * 
      * @param boxDimension dimensions
      * @param elementCoord the wrong coords to be corrected
      * @return a new Coorected coord

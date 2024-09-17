@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import com.project.paradoxplatformer.utils.ExceptionUtils;
-import com.project.paradoxplatformer.utils.geometries.api.observer.Observer;
+import com.project.paradoxplatformer.utils.geometries.observer.Observer;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 
 import javafx.animation.AnimationTimer;
@@ -17,7 +17,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
 
     private final GameLoop loop;
     private static final int SECONDS_TO_MILLIS = 1_000; // millis in a second
-    private static final int FPS = 50; // in-game fps
+    private static final int FPS = 40; // in-game fps
     private static final long PERIOD = SECONDS_TO_MILLIS / FPS;
 
     /**
@@ -72,7 +72,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
             }
 
             @Override
-            public void addObserver(Observer observer) {
+            public void addObserver(final Observer observer) {
                 // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'addObserver'");
             }
@@ -113,12 +113,13 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
             final long delta = lastFrame != 0 ? now - lastFrame : 0;
             this.lastFrame = now;
             final long dt = TimeUnit.NANOSECONDS.toMillis(delta);
+            
             try {
                 loop.loop(dt);
                 GameLoopFactoryImpl.this.delay(dt);
             } catch (Exception e) {
                 this.stop();
-                System.err.println(ExceptionUtils.advacendDisplay(e));
+                System.err.println(ExceptionUtils.advancedDisplay(e));
                 ViewLegacy.javaFxFactory().mainAppManager().get().safeError();
             }
         }

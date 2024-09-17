@@ -11,7 +11,7 @@ import javafx.scene.shape.Circle;
  * Provides utility methods for applying styles to UI elements.
  * Utilizes builder patterns for styling Button and Circle elements.
  */
-public class ElementDecorator {
+public final class ElementDecorator {
 
     // Private constructor to prevent instantiation
     private ElementDecorator() {

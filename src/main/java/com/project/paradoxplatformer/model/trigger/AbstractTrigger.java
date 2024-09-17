@@ -12,8 +12,8 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
  * An abstract class representing a trigger in the game.
- * This class extends AbstractTransformableObject and implements the Trigger
- * interface.
+ * This class extends {@link AbstractTransformableObject} and implements the
+ * {@link Trigger} interface.
  * It provides a basic implementation for triggers that can activate associated
  * obstacles.
  */

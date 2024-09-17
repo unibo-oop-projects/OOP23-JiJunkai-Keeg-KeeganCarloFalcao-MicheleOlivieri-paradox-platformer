@@ -22,6 +22,13 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 import static java.util.function.Predicate.not;
 
+/**
+ * Represents the model data for the platform game.
+ * <p>
+ * This class initializes and manages the game world, including player,
+ * obstacles, and triggers.
+ * </p>
+ */
 public final class PlatfromModelData implements GameModelData {
 
 	private final LevelDTO packedData;
@@ -29,20 +36,37 @@ public final class PlatfromModelData implements GameModelData {
 	private World world;
 	private final ModelMappingFactory modelFactory;
 
+	/**
+	 * Constructs a {@link PlatfromModelData} with the specified level data.
+	 * 
+	 * @param packedData the level data to initialize the game model
+	 */
 	public PlatfromModelData(final LevelDTO packedData) {
 		this.packedData = packedData;
 		this.modelFactory = new ModelMappingFactoryImpl();
 		this.worldBuilder = new WordBuilderImpl();
 	}
 
+	/**
+	 * Initializes the game model based on the provided level data.
+	 * <p>
+	 * This method maps the player, obstacles, and triggers from the level data and
+	 * builds the game world.
+	 * </p>
+	 * 
+	 * @throws IllegalStateException    if the attribute type of game DTO is
+	 *                                  undefined
+	 * @throws IllegalArgumentException if no game DTOs match the required
+	 *                                  attributes
+	 */
 	@Override
 	public void init() {
 		Optional.of(
 				Arrays.stream(packedData.getGameDTOs())
 						.map(GameDTO::getType)
 						.anyMatch(Objects::isNull))
-				.filter(u -> !u)
-				.orElseThrow(() -> new IllegalStateException("Attribute type of game DTO is undefined, could not map"));
+				.filter(not(Boolean::booleanValue))
+				.orElseThrow(() -> new IllegalStateException("Can not map, attribute GameDTO is undefined"));
 
 		PlayerModel player = modelFactory.playerToModel().map(
 				this.findGameDTOData("player")
@@ -63,7 +87,7 @@ public final class PlatfromModelData implements GameModelData {
 		this.addObstaclesToTrigger(obstacles, triggers);
 
 		this.world = this.worldBuilder
-				.addbounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
+				.addBounds(new Dimension(packedData.getWidth(), packedData.getHeight()))
 				.addPlayer(player)
 				.addObstacle(obstacles)
 				.addTrigger(triggers)
@@ -83,6 +107,16 @@ public final class PlatfromModelData implements GameModelData {
 			.orElseThrow(() -> new IllegalArgumentException(" Associated obstacle id not found in the stream of obstacles"));
 	}
 
+	/**
+	 * Finds and returns the collection of {@link GameDTO} objects matching the
+	 * specified attribute.
+	 * 
+	 * @param attribute the type of game DTO to find
+	 * @return a collection of {@link GameDTO} objects matching the specified
+	 *         attribute
+	 * @throws IllegalArgumentException if no game DTOs match the specified
+	 *                                  attribute
+	 */
 	private Collection<GameDTO> findGameDTOData(final String attribute) {
 		return Optional.of(
 				List.of(packedData.getGameDTOs())
@@ -96,21 +130,34 @@ public final class PlatfromModelData implements GameModelData {
 	}
 
 	/**
-	 * Due to security reasons returning world must be defensive copy of itself
+	 * Returns a defensive copy of the current game world.
+	 * <p>
+	 * Due to security reasons, the returned world is a copy of the internal world
+	 * state.
+	 * </p>
+	 * 
+	 * @return a defensive copy of the current game world
 	 */
 	@Override
 	public World getWorld() {
 		return new WorldImpl(this.world);
 	}
 
+	/**
+	 * Rebuilds the game world using a new world builder.
+	 */
 	@Override
 	public void rebuild() {
 		this.worldBuilder = new WordBuilderImpl();
 	}
 
+	/**
+	 * Executes the specified action on the current game world.
+	 * 
+	 * @param action the action to be executed on the game world
+	 */
 	@Override
-	public void actionOnWorld(Consumer<World> action) {
+	public void actionOnWorld(final Consumer<World> action) {
 		action.accept(this.world);
 	}
-
 }

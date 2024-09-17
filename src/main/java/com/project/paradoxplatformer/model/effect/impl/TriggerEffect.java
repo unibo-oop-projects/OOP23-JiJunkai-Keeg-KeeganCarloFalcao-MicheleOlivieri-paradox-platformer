@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.model.effect.impl;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import com.project.paradoxplatformer.model.effect.AbstractRecreatableEffect;
+import com.project.paradoxplatformer.model.effect.abstracts.AbstractRecreatableEffect;
 import com.project.paradoxplatformer.model.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;

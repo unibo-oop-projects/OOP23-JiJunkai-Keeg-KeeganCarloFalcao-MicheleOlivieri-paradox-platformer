@@ -1,7 +1,8 @@
 package com.project.paradoxplatformer.utils.collision;
 
-import com.project.paradoxplatformer.model.effect.EffectHandler;
-import com.project.paradoxplatformer.model.effect.EffectHandlerFactoryImpl;
+import com.project.paradoxplatformer.controller.games.Level;
+import com.project.paradoxplatformer.model.effect.api.EffectHandler;
+import com.project.paradoxplatformer.model.effect.impl.EffectHandlerFactoryImpl;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
@@ -20,12 +21,12 @@ class CollisionManagerTest {
 
     @BeforeEach
     void setUp() {
-        testEffectHandler = new EffectHandlerFactoryImpl().defaultEffectHandler();
+        testEffectHandler = new EffectHandlerFactoryImpl().getEffectHandlerForLevel(Level.EMPTY_LEVEL);
         collisionManager = new CollisionManager(testEffectHandler);
     }
 
     @Test
-    void testHandleCollisions_WithCollisions() {
+    void testHandleCollisionsWithCollisions() {
         // Setup test objects
         CollidableGameObject player = new PlayerModel();
         CollidableGameObject object1 = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
@@ -41,7 +42,7 @@ class CollisionManagerTest {
     }
 
     @Test
-    void testHandleCollisions_WithoutCollisions() {
+    void testHandleCollisionsWithoutCollisions() {
         // Setup test objects
         CollidableGameObject player = new PlayerModel();
         CollidableGameObject object1 = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));

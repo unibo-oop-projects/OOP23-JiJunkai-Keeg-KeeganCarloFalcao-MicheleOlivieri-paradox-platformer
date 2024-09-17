@@ -3,11 +3,11 @@ package com.project.paradoxplatformer.utils.collision;
 import java.util.Optional;
 import java.util.Set;
 
-import com.project.paradoxplatformer.model.effect.EffectHandler;
-import com.project.paradoxplatformer.model.effect.GameEventType;
+import com.project.paradoxplatformer.controller.event.EventManager;
+import com.project.paradoxplatformer.controller.event.GameEventType;
+import com.project.paradoxplatformer.model.effect.api.EffectHandler;
 import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.utils.BiConsumerWithAndThen;
-import com.project.paradoxplatformer.utils.EventManager;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
@@ -29,7 +29,7 @@ public class CollisionObserver {
      * @param effectHandler the effect handler responsible for applying and
      *                      resetting effects.
      */
-    public CollisionObserver(EffectHandler effectHandler) {
+    public CollisionObserver(final EffectHandler effectHandler) {
         this.effectHandler = effectHandler;
     }
 
@@ -89,7 +89,7 @@ public class CollisionObserver {
      *
      * @param object the collidable game object that may be a trigger.
      */
-    private void activateTriggerIfPresent(CollidableGameObject object) {
+    private void activateTriggerIfPresent(final CollidableGameObject object) {
         if (object instanceof Trigger) {
             System.out.println(object + " is triggered from Collision Observer.");
             ((Trigger) object).activate();
@@ -103,7 +103,7 @@ public class CollisionObserver {
      * @param object        the game object that might need to be removed.
      * @param collisionType the collision type associated with the object.
      */
-    private void removeTriggerIfPresent(CollidableGameObject object, CollisionType collisionType) {
+    private void removeTriggerIfPresent(final CollidableGameObject object, final CollisionType collisionType) {
         if (object instanceof Trigger) {
             System.out.println(object + " is removed from Collision Observer.");
             EventManager.getInstance().publish(GameEventType.REMOVE_OBJECT, PageIdentifier.EMPTY, Optional.of(object));

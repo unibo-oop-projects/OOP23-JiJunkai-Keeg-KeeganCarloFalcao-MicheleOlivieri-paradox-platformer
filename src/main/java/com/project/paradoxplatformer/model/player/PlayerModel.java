@@ -4,19 +4,21 @@ import java.util.Map;
 
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
-import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizonalStats;
+import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizontalStats;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
+import com.project.paradoxplatformer.model.obstacles.Coin;
+import com.project.paradoxplatformer.utils.StreamUtil;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactory;
 import com.project.paradoxplatformer.utils.geometries.interpolations.InterpolatorFactoryImpl;
-import com.project.paradoxplatformer.utils.geometries.modifiers.PhysicsEngine;
+import com.project.paradoxplatformer.utils.geometries.physic.PhysicsEngine;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
-public final class PlayerModel extends AbstractControllableObject {
+public final class PlayerModel extends AbstractControllableObject implements InventoryManager{
 
     // Definizioni costanti
     private static final Dimension DEFAULT_SIZE = new Dimension(10, 20);
@@ -39,7 +41,7 @@ public final class PlayerModel extends AbstractControllableObject {
 
     // Costruttore principale
     public PlayerModel(final int key, Coord2D pos, Dimension dimension) {
-        super(key, new Simple2DVector(pos.x(), pos.y()), new HorizonalStats(150.d, 10)); 
+        super(key, new Simple2DVector(pos.x(), pos.y()), new HorizontalStats(150.d, 10)); 
         this.initialize(pos, dimension);
     }
 
@@ -104,50 +106,37 @@ public final class PlayerModel extends AbstractControllableObject {
         this.horizontalSpeed = speed;
     }
 
-    // Metodo per modificare la dimensione del player
-    public void changeSize(double factorX, double factorY) {
-        this.dimension = new Dimension(this.dimension.width() * factorX, this.dimension.height() * factorY);
-    }
-
     // Metodo principale per aggiornare lo stato
     @Override
     public void updateState(long dt) {
         this.fall();
-        System.out.println(verticalSpeed);
+        
         handleHorizontalMovement(dt);
         handleVerticalMovement(dt);
         this.setPosition(this.displacement.convert());
         this.jumpBehavior.setFalling(true);
     }
 
-    // Gestione del movimento orizzontale
-    private void handleHorizontalMovement(long dt) {
-        if (horizontalSpeed.magnitude() == this.getBaseDelta()) {
-            this.horizontalSpeed = Polar2DVector.nullVector();
-        }
-        this.displacement = physics.step(this.displacement,
-                this.displacement.add(this.horizontalSpeed),
-                interpFactory.linear(),
-                dt);
-    }
-
-    // Gestione del movimento verticale
-    private void handleVerticalMovement(long dt) {
-        
-            var k = physics.moveTo(this.displacement,
-                this.displacement.add(verticalSpeed), 1, interpFactory.easeIn(), dt);
-            this.displacement = k.getKey();
-        
-        
-    }
-
     // Metodo per la raccolta di oggetti
+    @Override
     public void collectItem(CollectableGameObject item) {
         this.inventory.addItem(item);
     }
 
-    public Map<String, Long> getInventoryData() {
-        return this.inventory.getItemsCounts();
+    @Override
+    public long getCollectedCoins() {
+        return this.inventory.getItemsCounts()
+            .entrySet()
+            .stream()
+            .filter(
+                StreamUtil.mapAndFilter(
+                    Map.Entry::getKey,
+                    Coin.class::isInstance
+                )
+            )
+            .findFirst()
+            .map(Map.Entry::getValue) // Map to the value (number of coins)
+            .orElse(0L); // Return 0 if "coins" is not present
     }
 
     @Override
@@ -157,7 +146,37 @@ public final class PlayerModel extends AbstractControllableObject {
 
     @Override
     public String toString() {
-        return "Player: " + this.position + ", Inventory: " + this.getInventoryData();
+        return "Player: " + this.position + ", Inventory: " + this.inventory.getItemsCounts();
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return new SimpleInventory(this.inventory.getImmutableItems());
+    }
+
+    // Gestione del movimento orizzontale
+    private void handleHorizontalMovement(long dt) {
+        
+        // if (horizontalSpeed.magnitude() == this.getBaseDelta()) {
+        //     this.horizontalSpeed = Polar2DVector.nullVector();
+        // }
+        this.displacement = physics.step(this.displacement,
+                this.displacement.add(this.horizontalSpeed),
+                interpFactory.linear(),
+                dt
+            );
+    }
+
+    // Gestione del movimento verticale
+    private void handleVerticalMovement(long dt) {
+        var nextVerticalDisplace = physics.moveTo(this.displacement,
+            this.displacement.add(verticalSpeed),
+            1,
+            interpFactory.easeIn(), 
+            dt
+        );
+        this.displacement = nextVerticalDisplace.getKey();
+        
     }
 
 }

@@ -2,18 +2,21 @@ package com.project.paradoxplatformer.view.manager;
 
 import java.util.concurrent.CountDownLatch;
 
+import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 /**
  * Interface for managing views in the application.
- * This interface provides methods for switching pages, creating views,
- * displaying messages, handling errors, and managing the application lifecycle.
+ * Provides methods for switching pages, creating views, displaying messages,
+ * handling errors, and managing the application lifecycle.
  */
 public interface ViewManager {
 
-    // Constant representing the aspect ratio of the application views (16:9)
-    public static final double ASPECT_RATIO = 16 / 9.d;
+    /**
+     * Aspect ratio of the application views (16:9).
+     */
+    double ASPECT_RATIO = 16 / 9.d;
 
     /**
      * Switches to a different page identified by the given PageIdentifier.
@@ -21,14 +24,14 @@ public interface ViewManager {
      * @param pageID the identifier of the page to switch to
      * @return the Page instance associated with the given identifier
      */
-    Page<String> switchPage(final PageIdentifier pageID);
+    Page<Level> switchPage(PageIdentifier pageID);
 
     /**
      * Creates and initializes a view with the given title.
      *
      * @param title the title of the view
      */
-    void create(final String title);
+    void create(String title);
 
     /**
      * Creates and initializes a view with the given title and a CountDownLatch
@@ -37,7 +40,7 @@ public interface ViewManager {
      * @param latch the CountDownLatch for synchronization
      * @param title the title of the view
      */
-    void create(final CountDownLatch latch, final String title);
+    void create(CountDownLatch latch, String title);
 
     /**
      * Displays a message to the user with the given title, header, and content.
@@ -81,5 +84,4 @@ public interface ViewManager {
      * @param runner the Runnable to be executed on the main thread
      */
     void runOnAppThread(Runnable runner);
-
 }

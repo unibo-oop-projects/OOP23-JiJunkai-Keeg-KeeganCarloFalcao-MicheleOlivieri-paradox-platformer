@@ -39,6 +39,21 @@
 		{
 			"id": 2,
 			"type": "obstacle",
+			"x": 290,
+			"y": 0,
+			"width": 40,
+			"height": 100,
+			"subtype": "Platform",
+			"color": {
+				"blu": 42,
+				"red": 18,
+				"green": 77,
+				"alpha": 1
+			}
+		},
+		{
+			"id": 14,
+			"type": "obstacle",
 			"x": 330,
 			"y": 0,
 			"width": 310,
@@ -129,12 +144,12 @@
 		},
 		{
 			"id": 8,
-			"type": "obstacle",
+			"type": "trigger",
 			"x": 300,
 			"y": 110,
 			"width": 16,
 			"height": 16,
-			"subtype": "Coin",
+			"subtype": "Floor",
 			"image": "gems.png",
 			"spriteMeta": {
 				"special": false,
@@ -188,7 +203,6 @@
 				"minFrames": 10
 			}
 		},
-		
 		{
 			"id": 12,
 			"type": "trigger",
@@ -197,7 +211,11 @@
 			"width": 20,
 			"height": 20,
 			"subtype": "Floor",
-			"image": "coin.png"
+			"spriteMeta": {
+				"special": false,
+				"idleFrames": 7,
+				"minFrames": 10
+			}
 		},
 		{
 			"id": 13,

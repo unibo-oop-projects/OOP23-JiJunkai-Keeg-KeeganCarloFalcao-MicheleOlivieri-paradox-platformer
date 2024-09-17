@@ -18,7 +18,7 @@ public interface WorldBuilder {
      * @param playerModel The player model to be added.
      * @return The current instance of WorldBuilder for chaining.
      */
-    WorldBuilder addPlayer(final PlayerModel playerModel);
+    WorldBuilder addPlayer(PlayerModel playerModel);
 
     /**
      * Adds one or more triggers to the world being built.
@@ -26,7 +26,7 @@ public interface WorldBuilder {
      * @param trigger One or more triggers to be added.
      * @return The current instance of WorldBuilder for chaining.
      */
-    WorldBuilder addTrigger(final Trigger... trigger);
+    WorldBuilder addTrigger(Trigger... trigger);
 
     /**
      * Adds one or more obstacles to the world being built.
@@ -34,7 +34,7 @@ public interface WorldBuilder {
      * @param obstacle One or more obstacles to be added.
      * @return The current instance of WorldBuilder for chaining.
      */
-    WorldBuilder addObstacle(final Obstacle... obstacle);
+    WorldBuilder addObstacle(Obstacle... obstacle);
 
     /**
      * Sets the dimensions (bounds) of the world being built.
@@ -42,7 +42,7 @@ public interface WorldBuilder {
      * @param dimension The dimensions of the world.
      * @return The current instance of WorldBuilder for chaining.
      */
-    WorldBuilder addbounds(final Dimension dimension);
+    WorldBuilder addBounds(Dimension dimension);
 
     /**
      * Builds and returns the constructed world with the added components.

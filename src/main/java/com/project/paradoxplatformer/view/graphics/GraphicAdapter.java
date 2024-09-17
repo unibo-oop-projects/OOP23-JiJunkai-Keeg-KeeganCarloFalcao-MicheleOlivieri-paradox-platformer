@@ -6,28 +6,89 @@ import com.project.paradoxplatformer.view.renders.ViewComponent;
 
 import javafx.beans.value.ObservableDoubleValue;
 
+/**
+ * Interface for graphical adapters that manage graphical representations of
+ * objects.
+ *
+ * @param <C> The type of the graphical component.
+ */
 public interface GraphicAdapter<C> extends ViewComponent<C> {
 
+    /**
+     * Returns the dimension of the graphical component.
+     *
+     * @return The dimension of the graphical component.
+     */
     Dimension dimension();
 
+    /**
+     * Returns the absolute position of the graphical component.
+     *
+     * @return The absolute position of the graphical component.
+     */
     Coord2D absolutePosition();
 
+    /**
+     * Returns the relative position of the graphical component.
+     *
+     * @return The relative position of the graphical component.
+     */
     Coord2D relativePosition();
 
-    void setDimension(final double width, final double height);
+    /**
+     * Sets the dimension of the graphical component.
+     *
+     * @param width  The new width of the graphical component.
+     * @param height The new height of the graphical component.
+     */
+    void setDimension(double width, double height);
 
-    void setPosition(final double x, final double y);
+    /**
+     * Sets the position of the graphical component.
+     *
+     * @param x The new x-coordinate of the graphical component.
+     * @param y The new y-coordinate of the graphical component.
+     */
+    void setPosition(double x, double y);
 
-    void translate(final double x, final double y);
+    /**
+     * Translates the position of the graphical component by the specified amounts.
+     *
+     * @param x The amount to translate in the x direction.
+     * @param y The amount to translate in the y direction.
+     */
+    void translate(double x, double y);
 
-    void bindPropreties(ObservableDoubleValue wRatio, ObservableDoubleValue hRatio);
+    /**
+     * Binds the width and height properties of the graphical component to the
+     * specified ratios.
+     *
+     * @param wRatio The observable ratio for the width.
+     * @param hRatio The observable ratio for the height.
+     */
+    void bindProperties(ObservableDoubleValue wRatio, ObservableDoubleValue hRatio);
 
+    /**
+     * Flips the graphical component.
+     */
     void flip();
 
+    /**
+     * Returns the key identifier for the graphical component.
+     *
+     * @return The key identifier.
+     */
     int getID();
 
+    /**
+     * Checks if the given graphical adapter is equal to this one based on their
+     * dimensions and relative positions.
+     *
+     * @param other The other graphical adapter to compare to.
+     * @return {@code true} if the dimensions and relative positions are equal,
+     *         {@code false} otherwise.
+     */
     default boolean equals(GraphicAdapter<C> other) {
         return other.dimension().equals(this.dimension()) && other.relativePosition().equals(this.relativePosition());
     }
-    
 }

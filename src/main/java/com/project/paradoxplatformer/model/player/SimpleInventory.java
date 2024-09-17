@@ -16,6 +16,10 @@ public class SimpleInventory implements Inventory {
         this.items = new LinkedHashSet<>();
     }
 
+    public SimpleInventory(Set<CollectableGameObject> defCopy) {
+        this.items = new LinkedHashSet<>(defCopy);
+    }
+
     @Override
     public void addItem(CollectableGameObject item) {
         this.items.add(item);
@@ -30,14 +34,18 @@ public class SimpleInventory implements Inventory {
     public Map<String, Long> getItemsCounts() {
         return Collections.unmodifiableMap(
             this.items.stream()
-                .map(CollectableGameObject::getClass)
                 .collect(
                     Collectors.groupingBy(
-                        Class::getSimpleName, 
+                        CollectableGameObject::getName,
                         Collectors.counting()
                     )
                 )
             );
+    }
+
+    @Override
+    public Set<CollectableGameObject> getImmutableItems() {
+        return Collections.unmodifiableSet(this.items);
     }
     
 }

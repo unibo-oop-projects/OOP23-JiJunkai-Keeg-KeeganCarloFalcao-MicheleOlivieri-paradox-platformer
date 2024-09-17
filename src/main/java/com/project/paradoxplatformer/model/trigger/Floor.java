@@ -32,7 +32,7 @@ public class Floor extends AbstractTrigger {
     }
 
     /**
-     * Returns the type of collision this trigger represents, which is "FLOOR."
+     * Returns the type of collision this trigger represents, which is "FLOOR".
      *
      * @return the collision type as FLOOR
      */

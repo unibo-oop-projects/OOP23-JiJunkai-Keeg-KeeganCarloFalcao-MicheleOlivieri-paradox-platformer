@@ -5,57 +5,78 @@ import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 
 /**
- * {@code GameController} loads the game model and then syncs to the view, finally it starts the game, 
- * they MUST be called sequentally.
- * Built this way to give a clear separation of concerns and a much coupled implementation.
+ * Interface for controlling a game, including loading the model, syncing with
+ * the view,
+ * and starting the game. The methods must be called sequentially to ensure
+ * proper game setup.
+ * <p>
+ * Note: Both the model and view are not strictly specified in this interface.
+ * They should
+ * be implemented in a way that they can interact with {@link InputController}
+ * and {@link KeyInputer}.
+ * If they do not, the updates may be ineffective.
+ * </p>
  * 
- * <p>NOTE: Both model and view are not specified, however they should be implemented in a way that 
- * {@link #startGame(InputController, KeyInputer)}
- * they have a refercence to the {@code InputController} and {@code KeyInputer},
- *  otherwise updates are like kicking air</p>
- * @param <C> the type of view component used for rendering {@code MutableObject}
+ * @param <C> the type of view component used for rendering
+ *            {@code MutableObject}
  * @author Keegan Carlo Falcao
  */
 public interface GameController<C> {
 
     /**
-     * Loads the model. 
-     * 
-     * <p>NOTE: Model is not strictly specified, cause it can any, however it works only for platform type games
-     * as {@link #startGame(InputController, KeyInputer)} states </p>
-     * {@link #loadModel()}
+     * Loads the game model.
+     * <p>
+     * Note: The model is not strictly specified as it can vary, but it should work
+     * for platform-type games as indicated in
+     * {@link #startGame(InputController, KeyInputer, String)}.
+     * </p>
      */
     void loadModel();
 
     /**
-    * Sycs and inits the view.
-    *
-    * <p>NOTE: Should be called only after model is loaded. As model it is not strict coupled with a default view</p>
-    *{@link #syncView()}
-    */
+     * Syncs and initializes the view.
+     * <p>
+     * This method should only be called after the model has been loaded. The model
+     * is not strictly coupled with a default view, so syncing is necessary.
+     * </p>
+     */
     void syncView();
 
     /**
-     * Start the game.
+     * Starts the game.
+     * <p>
+     * The behavior of this method is specific to the game type. For platform-type
+     * games,
+     * it requires a {@code ControllableObject} and {@code KeyInputer<K>} for
+     * handling
+     * user inputs.
+     * </p>
      * 
-     * <p>NOTE: it's relative to game, in our case it is a platform type game, that's the reason why it needs 
-     * {@code ControllableObject} and {@code KeyInputer<K>} </p>
-     * @param <K> type of key utiity used in view context → [ JavaFX ({@code KeyCode}), Swing ({@code KeyEvent}) ]
-     * @param inputController of a specified controllable entity
-     * @param inputer holding key loggins, it should call {@code KeyAssetter<K>} to pool the available pressed key
+     * @param inputController the controller managing the controllable entity
+     * @param inputer         the key utility holding key logs; it should call
+     *                        {@code KeyAssetter<K>} to pool the available pressed
+     *                        keys
+     * @param type            the type of the game to be started
+     * 
+     * @param <K>             the type of key utility used in the view context
+     *                        (e.g., JavaFX ({@code KeyCode}), Swing
+     *                        ({@code KeyEvent}))
      */
     <K> void startGame(InputController<ControllableObject> inputController, KeyInputer<K> inputer, String type);
 
     /**
-    * Restarts the game by stopping the thread if running.
-    *{@link #restartGame()}
-    */
+     * Restarts the game.
+     * <p>
+     * This method resets the game state and reloads necessary components.
+     * </p>
+     */
     void restartGame();
 
     /**
-    * Exits the current game and should end all threads.
-    *{@link #exitGame()}
-    */
+     * Exits the game.
+     * <p>
+     * This method handles the cleanup and termination of the game session.
+     * </p>
+     */
     void exitGame();
-
 }

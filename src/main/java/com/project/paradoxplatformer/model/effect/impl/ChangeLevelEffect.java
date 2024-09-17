@@ -1,11 +1,12 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 
-import com.project.paradoxplatformer.model.effect.AbstractOneTimeEffect;
-import com.project.paradoxplatformer.model.effect.GameEventType;
-import com.project.paradoxplatformer.model.effect.api.Level;
-import com.project.paradoxplatformer.utils.EventManager;
+import com.project.paradoxplatformer.controller.event.EventManager;
+import com.project.paradoxplatformer.controller.event.GameEventType;
+import com.project.paradoxplatformer.controller.games.Level;
+import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffect;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
@@ -18,6 +19,7 @@ import com.project.paradoxplatformer.view.manager.ViewNavigator;
 public class ChangeLevelEffect extends AbstractOneTimeEffect {
 
     private final Level level; // The level to which the game should be changed
+    private boolean isNew; //flag to ensure a that the current game is changin in a new level
 
     /**
      * Constructs a ChangeLevelEffect with the specified level.
@@ -26,6 +28,7 @@ public class ChangeLevelEffect extends AbstractOneTimeEffect {
      */
     public ChangeLevelEffect(final Level level) {
         this.level = level;
+        isNew = true;
     }
 
     /**
@@ -38,15 +41,16 @@ public class ChangeLevelEffect extends AbstractOneTimeEffect {
      */
     @Override
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
-        try {
+        //To ensure that this operation is done only one time
+        if(isNew) {
             // Notify the event manager to stop the current view
             EventManager.getInstance().publish(GameEventType.STOP_VIEW, PageIdentifier.GAME, level);
 
             // Open the new view associated with the specified level
             ViewNavigator.getInstance().openView(PageIdentifier.GAME, level);
-        } catch (InvalidResourceException e) {
-            e.printStackTrace(); // Print the stack trace if an exception occurs
+            isNew = false;
         }
+            
 
         return CompletableFuture.completedFuture(null); // Return a completed future
     }

@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.utils.collision;
 import java.util.Collection;
 import java.util.Set;
 
-import com.project.paradoxplatformer.model.effect.EffectHandler;
+import com.project.paradoxplatformer.model.effect.api.EffectHandler;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 
 /**

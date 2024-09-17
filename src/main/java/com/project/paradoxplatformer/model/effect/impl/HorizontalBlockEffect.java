@@ -3,14 +3,14 @@ package com.project.paradoxplatformer.model.effect.impl;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import com.project.paradoxplatformer.model.effect.AbstractRecreatableEffect;
+import com.project.paradoxplatformer.model.effect.abstracts.AbstractRecreatableEffect;
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.model.obstacles.Wall;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.utils.geometries.modifiers.Direction;
+import com.project.paradoxplatformer.utils.geometries.physic.Direction;
 
 /**
 * Effects to handle stopping/blocking effect of the target (in this case is only the player) to a Wall (it is specific for walls).
@@ -46,6 +46,9 @@ public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
                     .map(Wall.class::cast)
                     .ifPresent(w -> {
                         System.out.println("player pos " + player.get().getPosition());
+                        System.out.println(w.getPosition().y());
+                        System.out.println(w.getDimension().height());
+                        System.out.println(w.getPosition().y() + w.getDimension().height());
                         if(player.get().getPosition().y() >= w.getPosition().y() + w.getDimension().height()) {
                             this.player.get().setDisplacement(new Coord2D(this.player.get().getPosition().x(), w.getPosition().y() + w.getDimension().height()));
                         } 
@@ -61,6 +64,7 @@ public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
                         
                         
                         System.out.println(this.player.get().toString());
+                        this.player.get().stopFall();
 
                     });
         });

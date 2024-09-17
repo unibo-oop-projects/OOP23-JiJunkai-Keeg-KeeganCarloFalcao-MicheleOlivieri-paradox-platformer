@@ -3,25 +3,58 @@ package com.project.paradoxplatformer.controller.deserialization.dtos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents the sprite DTO for sprite images.
+ * Data Transfer Object (DTO) for sprite information.
+ * <p>
+ * This class represents the data structure for sprite attributes used in
+ * deserialization. It contains information about the sprite's animation
+ * frames and whether the sprite is special. The attributes are used to
+ * configure sprite animations for different states like idle, running,
+ * jumping, and falling.
+ * </p>
  */
 public final class SpriteDTO {
-    
+
+    /**
+     * Indicates if the sprite is special.
+     */
     @JsonProperty
     private final boolean special;
+
+    /**
+     * The number of frames for the idle animation.
+     */
     @JsonProperty
     private final int idleFrames;
+
+    /**
+     * The number of frames for the running animation.
+     */
     @JsonProperty
     private final int runningFrames;
+
+    /**
+     * The number of frames for the jumping animation.
+     */
     @JsonProperty
     private final int jumpingFrames;
+
+    /**
+     * The number of frames for the falling animation.
+     */
     @JsonProperty
     private final int fallingFrames;
+
+    /**
+     * The minimum number of frames required for the sprite.
+     */
     @JsonProperty
     private final int minFrames;
 
     /**
-     * Non argument constructor for a basic sprite image (not special).
+     * Default constructor initializing all fields to default values.
+     * <p>
+     * Sets {@code special} to {@code false}, and all frame counts to {@code 0}.
+     * </p>
      */
     public SpriteDTO() {
         this.special = false;
@@ -33,52 +66,55 @@ public final class SpriteDTO {
     }
 
     /**
-     * Check flag wether a sprite is full sprite player (so it can run, jump...) or a looping image so it is always on idle.
-     * @return flag to distinguish wether is a player or a normal sprite
+     * Gets whether the sprite is special.
+     *
+     * @return {@code true} if the sprite is special, {@code false} otherwise
      */
     public boolean isSpecial() {
         return this.special;
     }
 
     /**
-     * Number of sprite images regarding the idle animation.
-     * @return idle frames
+     * Gets the number of frames for the idle animation.
+     *
+     * @return the number of idle animation frames
      */
     public int getIdleFrames() {
         return this.idleFrames;
     }
 
     /**
-     * Number of sprite images regarding the running animation.
-     * @return running frames
+     * Gets the number of frames for the running animation.
+     *
+     * @return the number of running animation frames
      */
     public int getRunningFrames() {
         return this.runningFrames;
     }
 
     /**
-     * Number of sprite images regarding the running animation
-     * @return running frames
+     * Gets the number of frames for the jumping animation.
+     *
+     * @return the number of jumping animation frames
      */
     public int getJumpingFrames() {
         return this.jumpingFrames;
     }
 
     /**
-     * Number of sprite images regarding the running animation
-     * @return running frames
+     * Gets the number of frames for the falling animation.
+     *
+     * @return the number of falling animation frames
      */
     public int getFallingFrames() {
         return this.fallingFrames;
     }
 
     /**
-     * Has a value greater than zero only if the image is a sprite.
-     * It basically provides the minimum number of frames nedded to change the current sprite. It is useful to give a sense of
-     * animation. Note that its frame management is different than the delta time and gameloop cause they are view-dedicated sections.
-     * @return the minimum amount of frames for swithichng to the next image
+     * Gets the minimum number of frames required for the sprite.
+     *
+     * @return the minimum number of frames
      */
-
     public int getMinFrames() {
         return this.minFrames;
     }

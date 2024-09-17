@@ -13,13 +13,16 @@ public interface LoopManager {
 
     /**
      * Stops the {@code LoopManager}.
-     * * {@link #stop()}
+     * {@link #stop()}
      */
     void stop();
 
     /**
      * Check wether the {@code LoopManager} is running.
      * {@link #isRunning()}
+     * 
+     * @return the running state of the loop.
+     * 
      */
     boolean isRunning();
 }

@@ -26,7 +26,7 @@ public final class ImageLoader {
      * @throws InvalidResourceException if the image resource cannot be found or
      *                                  loaded
      */
-    public static Image FXImage(final String imagePath) throws InvalidResourceException {
+    public static Image createFXImage(final String imagePath) throws InvalidResourceException {
         return new Image(ResourcesFinder.getURL(imagePath).toExternalForm());
     }
 
@@ -39,7 +39,7 @@ public final class ImageLoader {
      * @throws InvalidResourceException if the image resource cannot be found or
      *                                  loaded
      */
-    public static java.awt.image.BufferedImage AWTImage(final String imagePath)
+    public static java.awt.image.BufferedImage createAWTImage(final String imagePath)
             throws IOException, InvalidResourceException {
         try {
             // Read the image from the resource URL

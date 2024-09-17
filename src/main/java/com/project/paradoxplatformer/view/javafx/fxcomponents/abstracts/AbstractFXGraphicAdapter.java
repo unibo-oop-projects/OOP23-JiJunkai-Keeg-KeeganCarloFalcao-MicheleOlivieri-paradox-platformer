@@ -10,79 +10,141 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.Node;
 
-public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
+/**
+ * Abstract base class for FX graphical adapters, providing common functionality
+ * for handling graphical components in a JavaFX application.
+ */
+public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
 
-    private static final double INVERTED_FACTOR = -1.d;
-    protected final Node uiComponent;
-    protected final Dimension dimension;
-    protected DoubleProperty xProperty;
-    protected DoubleProperty yProperty;
+    private static final double INVERTED_FACTOR = -1.0;
+
+    private final Node uiComponent;
+    private final Dimension dimension;
+    private final DoubleProperty xProperty;
+    private final DoubleProperty yProperty;
     private final Coord2D bindedPosition;
     private int key;
 
+     
+    /**
+     * Constructs an AbstractFXGraphicAdapter with the specified component,
+     * dimension, and position.
+     *
+     * @param component   The Node component to be managed.
+     * @param dimension   The dimension of the graphical component.
+     * @param relativePos The relative position of the graphical component.
+     */
     protected AbstractFXGraphicAdapter(final int id, final Node component, Dimension dimension, Coord2D relativePos) {
         this.key = id;
-        this.uiComponent = component;   
+        this.uiComponent = component;
         this.dimension = dimension;
         this.xProperty = new SimpleDoubleProperty(relativePos.x());
         this.yProperty = new SimpleDoubleProperty(relativePos.y());
-        this.bindedPosition = relativePos; 
+        this.bindedPosition = relativePos;
     }
 
-
+    /**
+     * Returns the absolute position of the graphical component.
+     *
+     * @return the absolute position as a Coord2D instance
+     */
     @Override
     public Coord2D absolutePosition() {
         return new Coord2D(
-            this.bindedPosition.x(),
-            this.bindedPosition.y()
-        );
+                this.bindedPosition.x(),
+                this.bindedPosition.y());
     }
 
+    /**
+     * Returns the relative position of the graphical component.
+     *
+     * @return the relative position as a Coord2D instance
+     */
     @Override
     public Coord2D relativePosition() {
         return new Coord2D(
-            this.xProperty.doubleValue(),
-            this.yProperty.doubleValue() 
-        );
+                this.xProperty.doubleValue(),
+                this.yProperty.doubleValue());
     }
-    @Override
-    public abstract void setDimension(final double width, final double height);
 
-    //Must decide wether relative or absolute
+    /**
+     * Sets the dimension of the graphical component.
+     *
+     * @param width  The new width of the component.
+     * @param height The new height of the component.
+     */
+    @Override
+    public abstract void setDimension(double width, double height);
+
+    /**
+     * Sets the position of the graphical component.
+     *
+     * @param x The new x-coordinate.
+     * @param y The new y-coordinate.
+     */
     @Override
     public void setPosition(final double x, final double y) {
         this.xProperty.set(x);
         this.yProperty.set(y);
-        
     }
 
+    /**
+     * Translates the position of the graphical component by the specified amounts.
+     *
+     * @param x The amount to translate in the x direction.
+     * @param y The amount to translate in the y direction.
+     */
     @Override
     public void translate(final double x, final double y) {
         this.setPosition(this.absolutePosition().x() + x, this.absolutePosition().y() + y);
     }
 
+    /**
+     * Returns the wrapped Node component.
+     *
+     * @return the Node component managed by this adapter
+     */
     @Override
     public Node unwrap() {
         return SecureWrapper.of(this.uiComponent).get();
     }
 
+    /**
+     * Returns the dimension of the graphical component.
+     *
+     * @return the dimension as a Dimension instance
+     */
     @Override
-    public  Dimension dimension() {
+    public Dimension dimension() {
         return this.dimension;
     }
 
+    /**
+     * Flips the graphical component by inverting its scale along the x-axis.
+     */
     @Override
     public void flip() {
-        this.uiComponent.setScaleX(INVERTED_FACTOR  * uiComponent.getScaleX());
+        this.uiComponent.setScaleX(INVERTED_FACTOR * uiComponent.getScaleX());
     }
 
-    @Override 
-    public void bindPropreties(ObservableDoubleValue wratio, ObservableDoubleValue hRatio) {
+    /**
+     * Binds the width and height properties of the graphical component to the
+     * specified ratios.
+     *
+     * @param wratio The observable ratio for the width.
+     * @param hRatio The observable ratio for the height.
+     */
+    @Override
+    public void bindProperties(final ObservableDoubleValue wratio, final ObservableDoubleValue hRatio) {
         this.uiComponent.translateYProperty().bind(yProperty.multiply(hRatio));
         this.uiComponent.translateXProperty().bind(xProperty.multiply(wratio));
     }
 
-
+    /**
+     * Calculates the hash code for the graphical adapter based on its properties.
+     *
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -93,11 +155,45 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node>{
         return result;
     }
 
+    /**
+     * Returns the ID associated with the graphical adapter.
+     *
+     * @return the ID
+     */
     @Override
     public int getID() {
         return this.key;
     }
-   
-    
-    
+
+    /**
+     * Gets the node component.
+     * 
+     * @return an {@link Node} component associated.
+     */
+    public Node getUiComponent() {
+        return uiComponent;
+    }
+
+    /**
+     * Checks if this graphical adapter is equal to another object. The comparison
+     * is based on the properties of the graphical adapter.
+     *
+     * @param obj the object to compare with
+     * @return true if this graphical adapter is equal to the specified object
+     */
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        AbstractFXGraphicAdapter other = (AbstractFXGraphicAdapter) obj;
+        return key == other.key
+                && dimension.equals(other.dimension)
+                && xProperty.get() == other.xProperty.get()
+                && yProperty.get() == other.yProperty.get();
+    }
+
 }

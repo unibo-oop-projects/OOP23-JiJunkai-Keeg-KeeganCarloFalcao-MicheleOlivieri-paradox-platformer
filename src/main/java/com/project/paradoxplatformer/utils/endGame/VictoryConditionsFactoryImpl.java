@@ -110,7 +110,8 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     public Iterator<VictoryCondition> levelFourConditions() {
         List<VictoryCondition> conditions = new ArrayList<>();
         conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
-        conditions.add(new TimeLimitVictoryCondition(LEVEL_FOUR_TIME_LIMIT)); // Survive for 400 seconds
+        conditions.add(new CoinCollectionVictoryCondition(this.player,4)); // Reach specific end game level
+        conditions.add(new CompositeVictoryCondition(new ReachEndVictoryCondition(this.player), new CoinCollectionVictoryCondition(this.player,5)));
         conditions.add(new TimeLimitVictoryCondition(LEVEL_FOUR_TIME_LIMIT)); // Survive for 400 seconds
         return conditions.iterator();
     }

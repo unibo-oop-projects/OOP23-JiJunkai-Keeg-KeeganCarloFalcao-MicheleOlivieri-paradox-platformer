@@ -30,7 +30,7 @@ public class CollisionObserver {
      *                      resetting effects.
      */
     public CollisionObserver(final EffectHandler effectHandler) {
-        this.effectHandler = effectHandler;
+        this.effectHandler = Optional.of(effectHandler).get();
     }
 
     /**

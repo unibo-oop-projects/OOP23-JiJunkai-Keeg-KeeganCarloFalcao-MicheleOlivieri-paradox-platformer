@@ -11,6 +11,9 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 /**
@@ -37,7 +40,7 @@ public class InputControllerTest {
         var inputController = new InputController<>(factory.wasdModel());
 
         PlayerModel player = new PlayerModel(0, new Coord2D(0, 0), new Dimension(PLAYER_DIMENSION, PLAYER_DIMENSION));
-        player.setJumpBehavior(new PlatformJump());
+        player.setJumpBehavior(Optional.of(new PlatformJump()));
 
         // Simulate a jump and movement to the right
         KeyInputerImpl keyInput = new KeyInputerImpl();

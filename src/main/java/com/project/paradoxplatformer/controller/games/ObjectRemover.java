@@ -34,7 +34,7 @@ public final class ObjectRemover<C> {
      */
     public ObjectRemover(final GameModelData gameModel, final GameView<C> gameView) {
         this.gameModel = gameModel;
-        this.gameView = gameView; // Store a reference, but don't expose directly
+        this.gameView = Optional.of(gameView).get();
         this.objects = new ArrayList<>();
     }
 

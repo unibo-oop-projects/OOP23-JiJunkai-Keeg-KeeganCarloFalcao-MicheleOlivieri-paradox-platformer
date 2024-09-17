@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.base.Optional;
 import com.project.paradoxplatformer.controller.gameloop.LoopManager;
 import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.controller.input.api.InputType;
@@ -34,7 +35,7 @@ public class SimpleGameSettingsModel implements GameSettingsModel {
      *                        instances
      */
     public SimpleGameSettingsModel(final Map<String, MenuItem> settingsMapping) {
-        this.settingMapping = settingsMapping;
+        this.settingMapping = Optional.of(settingsMapping).get();
     }
 
     /**
@@ -64,7 +65,7 @@ public class SimpleGameSettingsModel implements GameSettingsModel {
      */
     @Override
     public Map<String, MenuItem> getSettingsItems() {
-        return this.settingMapping;
+        return Optional.of(this.settingMapping).get();
     }
 
     /**

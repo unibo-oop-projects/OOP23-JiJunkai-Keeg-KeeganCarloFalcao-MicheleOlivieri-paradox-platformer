@@ -70,7 +70,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      */
     public GameControllerImpl(final GameModelData model, final GameView<C> view, final Level level) {
         this.gameModel = model;
-        this.gameView = view;
+        this.gameView = Optional.of(view).get();
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;

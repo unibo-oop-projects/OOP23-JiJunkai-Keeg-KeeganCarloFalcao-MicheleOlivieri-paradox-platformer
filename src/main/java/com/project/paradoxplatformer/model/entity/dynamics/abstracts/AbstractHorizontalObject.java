@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
+import java.util.Optional;
 import com.project.paradoxplatformer.model.entity.AbstractMutableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.HorizontalObject;
 import com.project.paradoxplatformer.utils.geometries.physic.Direction;
@@ -112,7 +113,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
      */
     @Override
     public Direction direction() {
-        return this.currentDirection;
+        return Optional.of(this.currentDirection).get();
     }
 
     /**

@@ -102,7 +102,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
         private long lastFrame = 0;
         private final Set<Observer> observers;
 
-        public LoopManagerTimer() {
+        LoopManagerTimer() {
             this.isRunning = false;
             this.observers = new HashSet<>();
         }
@@ -113,7 +113,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
             final long delta = lastFrame != 0 ? now - lastFrame : 0;
             this.lastFrame = now;
             final long dt = TimeUnit.NANOSECONDS.toMillis(delta);
-            
+
             try {
                 loop.loop(dt);
                 GameLoopFactoryImpl.this.delay(dt);

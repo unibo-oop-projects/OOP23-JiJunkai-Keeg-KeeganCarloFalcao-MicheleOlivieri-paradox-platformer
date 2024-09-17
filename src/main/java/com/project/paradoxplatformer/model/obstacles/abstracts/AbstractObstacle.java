@@ -10,38 +10,44 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
- * An abstract obstacle is distinguished from other game objects by its ability to be triggered, having special effects upon activation.
- * <p>This abstract class simplifies the implementation of basic actions for all its subclasses.</p>
+ * An abstract obstacle is distinguished from other game objects by its ability
+ * to be triggered, having special effects upon activation.
+ * <p>
+ * This abstract class simplifies the implementation of basic actions for all
+ * its subclasses.
+ * </p>
  */
 public abstract class AbstractObstacle extends AbstractTrasformableObject implements Obstacle {
 
     /**
-     * Constructs an abstract obstacle with trajectory information for activation effects.
-     * @param key The unique identifier for the obstacle.
-     * @param position The position of the obstacle.
-     * @param dimension The dimension of the obstacle.
-     * @param trajectoryQueue The queue of trajectories associated with the obstacle upon activation.
+     * Constructs an abstract obstacle with trajectory information for activation
+     * effects.
+     * 
+     * @param key             The unique identifier for the obstacle.
+     * @param position        The position of the obstacle.
+     * @param dimension       The dimension of the obstacle.
+     * @param trajectoryQueue The queue of trajectories associated with the obstacle
+     *                        upon activation.
      */
     protected AbstractObstacle(
             final int key,
             final Coord2D position,
             final Dimension dimension,
-            final Queue<TrajectoryInfo> trajectoryQueue
-    ) {
+            final Queue<TrajectoryInfo> trajectoryQueue) {
         super(key, position, dimension, trajectoryQueue);
     }
 
     /**
      * Constructs an abstract obstacle with basic game object parameters.
-     * @param key The unique identifier for the obstacle.
-     * @param position The position of the obstacle.
+     * 
+     * @param key       The unique identifier for the obstacle.
+     * @param position  The position of the obstacle.
      * @param dimension The dimension of the obstacle.
      */
     protected AbstractObstacle(
             final int key,
             final Coord2D position,
-            final Dimension dimension
-    ) {
+            final Dimension dimension) {
         super(key, position, dimension);
     }
 
@@ -57,6 +63,7 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
 
     /**
      * Gets the collision type for the obstacle.
+     * 
      * @return The collision type.
      */
     public abstract CollisionType getCollisionType();

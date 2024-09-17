@@ -198,10 +198,10 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
             return false;
         }
         AbstractFXGraphicAdapter other = (AbstractFXGraphicAdapter) obj;
-        return key == other.key &&
-                dimension.equals(other.dimension) &&
-                xProperty.get() == other.xProperty.get() &&
-                yProperty.get() == other.yProperty.get();
+        return key == other.key
+                && dimension.equals(other.dimension)
+                && xProperty.get() == other.xProperty.get()
+                && yProperty.get() == other.yProperty.get();
     }
 
 }

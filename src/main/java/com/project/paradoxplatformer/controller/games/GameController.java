@@ -19,8 +19,6 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
  * 
  * @param <C> the type of view component used for rendering
  *            {@code MutableObject}
- * @param <K> the type of key utility used in the view context (e.g., JavaFX
- *            ({@code KeyCode}), Swing ({@code KeyEvent}))
  * @author Keegan Carlo Falcao
  */
 public interface GameController<C> {

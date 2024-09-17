@@ -42,7 +42,7 @@ public interface WorldBuilder {
      * @param dimension The dimensions of the world.
      * @return The current instance of WorldBuilder for chaining.
      */
-    WorldBuilder addbounds(Dimension dimension);
+    WorldBuilder addBounds(Dimension dimension);
 
     /**
      * Builds and returns the constructed world with the added components.

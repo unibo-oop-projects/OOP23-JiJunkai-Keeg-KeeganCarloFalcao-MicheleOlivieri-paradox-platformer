@@ -12,7 +12,7 @@ public interface Actionable {
     /**
      * Executes the specified action with the given actor.
      * 
-     * @param <G>    the type of the actor
+     * @param <G>    the type of the actor performing the action
      * @param action the command to be executed
      * @param actor  the actor performing the action
      */

@@ -90,7 +90,7 @@ public final class WordBuilderImpl implements WorldBuilder {
      * @throws IllegalStateException if the world has already been built
      */
     @Override
-    public WorldBuilder addbounds(final Dimension dimension) {
+    public WorldBuilder addBounds(final Dimension dimension) {
         buildCheck();
         this.bounds = dimension;
         return this;

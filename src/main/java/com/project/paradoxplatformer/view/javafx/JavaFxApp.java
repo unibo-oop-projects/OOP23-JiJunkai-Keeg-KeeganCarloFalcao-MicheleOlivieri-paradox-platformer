@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.view.javafx;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
+
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.games.Level;
@@ -59,7 +60,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param root the root node for the scene
      * @return the newly created Scene
      */
-    public static Scene createScene(Parent root) {
+    public static Scene createScene(final Parent root) {
         return new Scene(root);
     }
 
@@ -69,6 +70,14 @@ public class JavaFxApp extends Application implements ViewManager {
     public JavaFxApp() {
     }
 
+    /**
+     * Initializes the application.
+     * 
+     * <p>
+     * This method is called by the JavaFX runtime to initialize the application.
+     * It should be called before {@link #start(Stage)}.
+     * </p>
+     */
     @Override
     public void init() {
         this.created = true;
@@ -81,7 +90,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @throws IOException if there is an issue loading the FXML pages
      */
     @Override
-    public void start(Stage primeStage) throws IOException {
+    public void start(final Stage primeStage) throws IOException {
         if (!created) {
             throw new IllegalStateException("Cannot create application, Security reasons");
         }
@@ -131,7 +140,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @throws IllegalStateException if called from a non-JavaFX thread
      */
     @Override
-    public Page<Level> switchPage(PageIdentifier id) {
+    public Page<Level> switchPage(final PageIdentifier id) {
         if (Platform.isFxApplicationThread()) {
             System.out.println("In SWITCH PANE FUNCTION");
             System.out.println("[CURRENT ID]: " + id);
@@ -157,7 +166,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param content the content text of the message dialog
      */
     @Override
-    public void displayMessage(String title, String header, String content) {
+    public void displayMessage(final String title, final String header, final String content) {
         final Alert alert = new Alert(AlertType.NONE);
         this.setAndShowAlert(alert, AlertType.INFORMATION, title, header, content);
         this.runOnAppThread(alert::showAndWait);
@@ -169,7 +178,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param content the content text of the error dialog
      */
     @Override
-    public void displayError(String content) {
+    public void displayError(final String content) {
         var al = new Alert(AlertType.ERROR, content);
         DialogPane errorPane;
         try {
@@ -193,7 +202,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param closingContent the content text of the confirmation dialog
      */
     @Override
-    public void closeWithMessage(String header, String closingContent) {
+    public void closeWithMessage(final String header, final String closingContent) {
         final Alert alert = new Alert(AlertType.NONE);
         this.setAndShowAlert(alert, AlertType.CONFIRMATION, "CLOSING", header, closingContent);
         alert.showAndWait().ifPresent(b -> this.exit());
@@ -223,7 +232,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param runner the Runnable to run on the JavaFX application thread
      */
     @Override
-    public void runOnAppThread(Runnable runner) {
+    public void runOnAppThread(final Runnable runner) {
         Platform.runLater(runner);
     }
 

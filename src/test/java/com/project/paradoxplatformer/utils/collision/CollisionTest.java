@@ -2,8 +2,8 @@ package com.project.paradoxplatformer.utils.collision;
 
 import org.junit.jupiter.api.Test;
 
-import com.project.paradoxplatformer.model.effect.EffectHandler;
-import com.project.paradoxplatformer.model.effect.EffectHandlerImpl;
+import com.project.paradoxplatformer.model.effect.api.EffectHandler;
+import com.project.paradoxplatformer.model.effect.impl.EffectHandlerImpl;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.model.trigger.Floor;

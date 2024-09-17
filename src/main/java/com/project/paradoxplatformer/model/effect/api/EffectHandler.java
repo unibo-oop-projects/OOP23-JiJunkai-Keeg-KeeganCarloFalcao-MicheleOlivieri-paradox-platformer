@@ -1,9 +1,8 @@
-package com.project.paradoxplatformer.model.effect;
+package com.project.paradoxplatformer.model.effect.api;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
-import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.managers.ChainOfEffects;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;

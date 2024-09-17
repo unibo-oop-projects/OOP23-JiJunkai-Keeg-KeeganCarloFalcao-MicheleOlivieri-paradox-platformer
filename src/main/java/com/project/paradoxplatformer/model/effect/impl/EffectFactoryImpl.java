@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.effect;
+package com.project.paradoxplatformer.model.effect.impl;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -7,6 +7,7 @@ import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.model.effect.abstracts.AbstractRecreatableEffect;
 import com.project.paradoxplatformer.model.effect.api.Effect;
+import com.project.paradoxplatformer.model.effect.api.EffectsFactory;
 import com.project.paradoxplatformer.model.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;

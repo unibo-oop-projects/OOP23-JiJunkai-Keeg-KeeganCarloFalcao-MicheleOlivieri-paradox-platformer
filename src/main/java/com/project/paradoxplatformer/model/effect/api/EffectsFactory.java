@@ -1,6 +1,5 @@
-package com.project.paradoxplatformer.model.effect;
+package com.project.paradoxplatformer.model.effect.api;
 
-import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 
 /**

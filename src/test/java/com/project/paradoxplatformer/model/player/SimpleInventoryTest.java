@@ -9,9 +9,9 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 import com.project.paradoxplatformer.controller.gameloop.GameLoop;
-import com.project.paradoxplatformer.model.effect.EffectFactoryImpl;
-import com.project.paradoxplatformer.model.effect.EffectHandler;
-import com.project.paradoxplatformer.model.effect.EffectHandlerImpl;
+import com.project.paradoxplatformer.model.effect.api.EffectHandler;
+import com.project.paradoxplatformer.model.effect.impl.EffectFactoryImpl;
+import com.project.paradoxplatformer.model.effect.impl.EffectHandlerImpl;
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.obstacles.Coin;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;

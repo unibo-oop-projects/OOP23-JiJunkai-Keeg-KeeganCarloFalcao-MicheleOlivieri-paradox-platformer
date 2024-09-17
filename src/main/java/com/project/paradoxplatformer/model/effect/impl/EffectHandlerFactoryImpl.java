@@ -1,11 +1,8 @@
-package com.project.paradoxplatformer.model.effect;
+package com.project.paradoxplatformer.model.effect.impl;
 
 import com.project.paradoxplatformer.controller.games.Level;
-import com.project.paradoxplatformer.model.effect.impl.ChangeLevelEffect;
-import com.project.paradoxplatformer.model.effect.impl.DeathEffect;
-import com.project.paradoxplatformer.model.effect.impl.FloorEffect;
-import com.project.paradoxplatformer.model.effect.impl.SoundEffect;
-import com.project.paradoxplatformer.model.effect.impl.SpringEffect;
+import com.project.paradoxplatformer.model.effect.api.EffectHandler;
+import com.project.paradoxplatformer.model.effect.api.EffectHandlerFactory;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.sound.SoundType;
 
@@ -23,8 +20,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
      *
      * @return a default EffectHandler instance
      */
-    @Override
-    public EffectHandler defaultEffectHandler() {
+    private EffectHandler defaultEffectHandler() {
         EffectHandler handler = new EffectHandlerImpl();
 
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);

@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.effect;
+package com.project.paradoxplatformer.model.effect.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import com.project.paradoxplatformer.model.effect.api.Effect;
+import com.project.paradoxplatformer.model.effect.api.EffectHandler;
 import com.project.paradoxplatformer.model.effect.managers.ChainOfEffects;
 import com.project.paradoxplatformer.model.effect.managers.ChainOfEffectsBuilder;
 import com.project.paradoxplatformer.model.effect.managers.ObjectEffectsManager;

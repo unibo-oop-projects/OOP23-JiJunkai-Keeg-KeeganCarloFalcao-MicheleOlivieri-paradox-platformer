@@ -1,6 +1,8 @@
 package com.project.paradoxplatformer.model.effect;
 
 import com.project.paradoxplatformer.model.effect.api.Effect;
+import com.project.paradoxplatformer.model.effect.api.EffectHandler;
+import com.project.paradoxplatformer.model.effect.impl.EffectHandlerImpl;
 import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
 import com.project.paradoxplatformer.model.effect.managers.ChainOfEffects;
 import com.project.paradoxplatformer.model.trigger.Button;

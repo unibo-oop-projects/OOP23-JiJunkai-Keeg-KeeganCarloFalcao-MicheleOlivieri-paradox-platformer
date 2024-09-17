@@ -1,7 +1,8 @@
 package com.project.paradoxplatformer.utils.collision;
 
-import com.project.paradoxplatformer.model.effect.EffectHandler;
-import com.project.paradoxplatformer.model.effect.EffectHandlerFactoryImpl;
+import com.project.paradoxplatformer.controller.games.Level;
+import com.project.paradoxplatformer.model.effect.api.EffectHandler;
+import com.project.paradoxplatformer.model.effect.impl.EffectHandlerFactoryImpl;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
@@ -20,7 +21,7 @@ class CollisionManagerTest {
 
     @BeforeEach
     void setUp() {
-        testEffectHandler = new EffectHandlerFactoryImpl().defaultEffectHandler();
+        testEffectHandler = new EffectHandlerFactoryImpl().getEffectHandlerForLevel(Level.EMPTY_LEVEL);
         collisionManager = new CollisionManager(testEffectHandler);
     }
 

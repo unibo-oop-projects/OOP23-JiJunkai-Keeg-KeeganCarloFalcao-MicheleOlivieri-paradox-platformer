@@ -17,7 +17,7 @@ import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
-import com.project.paradoxplatformer.model.effect.EffectHandlerFactoryImpl;
+import com.project.paradoxplatformer.model.effect.impl.EffectHandlerFactoryImpl;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;

@@ -15,14 +15,15 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 /**
- * Player model.
+ * Player model that handles the player's state, position, movement,
+ * and inventory management.
  */
-public final class PlayerModel extends AbstractControllableObject implements InventoryManager{
+public final class PlayerModel extends AbstractControllableObject implements InventoryManager {
 
     // Definizioni costanti
     private static final Dimension DEFAULT_SIZE = new Dimension(10, 20);
-
     private static final int DEFAULT_ID = 0;
+    private static final double DEFAULT_SPEED = 150.0; // Magic number replaced
 
     // Proprietà del giocatore
     private Coord2D position;
@@ -36,22 +37,35 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
     // Inventory
     private final Inventory inventory;
 
-    // Costruttore principale
+    /**
+     * Constructs a PlayerModel with a given key, position, and dimension.
+     *
+     * @param key       The identifier of the player.
+     * @param pos       The initial position of the player.
+     * @param dimension The dimension of the player.
+     */
     public PlayerModel(final int key, final Coord2D pos, final Dimension dimension) {
-        super(key, new Simple2DVector(pos.x(), pos.y()), new HorizontalStats(150.d, 10)); 
+        super(key, new Simple2DVector(pos.x(), pos.y()), new HorizontalStats(DEFAULT_SPEED, 10));
         this.initialize(pos, dimension);
         this.physics = new PhysicsEngine();
         this.interpFactory = new InterpolatorFactoryImpl();
         this.inventory = new SimpleInventory();
     }
 
-    // Costruttore di default
+    /**
+     * Constructs a PlayerModel with default values.
+     */
     public PlayerModel() {
         this(DEFAULT_ID, Coord2D.origin(), DEFAULT_SIZE);
         this.setJumpBehavior(new PlatformJump());
     }
 
-    // Metodo di inizializzazione comune ai costruttori
+    /**
+     * Initializes the player's position and dimension.
+     *
+     * @param pos       The initial position.
+     * @param dimension The dimension of the player.
+     */
     private void initialize(final Coord2D pos, final Dimension dimension) {
         this.setPosition(pos);
         this.setDimension(dimension);
@@ -60,7 +74,6 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.verticalSpeed = Polar2DVector.nullVector();
     }
 
-    // Getters and setters per posizione e dimensioni
     @Override
     public Coord2D getPosition() {
         return this.position;
@@ -82,9 +95,6 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.displacement = new Simple2DVector(x, this.displacement.yComponent());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Dimension getDimension() {
         return this.dimension;
@@ -98,7 +108,6 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.dimension = dimension;
     }
 
-    // Metodi relativi alla velocità
     @Override
     public Vector2D getSpeed() {
         if (this.horizontalSpeed == null) {
@@ -111,18 +120,15 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.horizontalSpeed = speed;
     }
 
-    // Metodo principale per aggiornare lo stato
     @Override
     public void updateState(final long dt) {
         this.fall();
-        
         handleHorizontalMovement(dt);
         handleVerticalMovement(dt);
         this.setPosition(this.displacement.convert());
         this.jumpBehavior.setFalling(true);
     }
 
-    // Metodo per la raccolta di oggetti
     @Override
     public void collectItem(final CollectableGameObject item) {
         this.inventory.addItem(item);
@@ -134,7 +140,9 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
     }
 
     /**
-     * gets the description of the player. (position and inventory).
+     * Gets the description of the player, including position and inventory.
+     *
+     * @return A string representation of the player's state.
      */
     @Override
     public String toString() {
@@ -151,15 +159,10 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
 
     // Gestione del movimento orizzontale
     private void handleHorizontalMovement(final long dt) {
-        
-        // if (horizontalSpeed.magnitude() == this.getBaseDelta()) {
-        //     this.horizontalSpeed = Polar2DVector.nullVector();
-        // }
         this.displacement = physics.step(this.displacement,
                 this.displacement.add(this.horizontalSpeed),
                 interpFactory.linear(),
-                dt
-            );
+                dt);
     }
 
     // Gestione del movimento verticale
@@ -167,11 +170,8 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         var nextVerticalDisplace = physics.moveTo(this.displacement,
             this.displacement.add(verticalSpeed),
             1,
-            interpFactory.easeIn(), 
-            dt
-        );
+            interpFactory.easeIn(),
+            dt);
         this.displacement = nextVerticalDisplace.getKey();
-        
     }
-
 }

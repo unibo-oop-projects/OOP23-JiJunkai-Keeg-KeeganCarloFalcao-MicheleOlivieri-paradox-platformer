@@ -3,6 +3,7 @@ package com.project.paradoxplatformer.utils.endGame;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
+
 import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.controller.games.Level;
@@ -26,7 +27,7 @@ public class EndGameManagerImpl implements EndGameManager {
      *
      * @param level The current level being managed.
      */
-    public EndGameManagerImpl(Level level) {
+    public EndGameManagerImpl(final Level level) {
         this.victory = ListUtil.toList(new VictoryConditionsFactoryImpl().defaultConditions());
         this.death = ListUtil.toList(new DeathConditionsFactoryImpl().defaultConditions());
         this.currentLevel = level;
@@ -78,7 +79,7 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param newList An iterator over the new victory conditions.
      */
     @Override
-    public void setVictoryHandler(Iterator<VictoryCondition> newList) {
+    public void setVictoryHandler(final Iterator<VictoryCondition> newList) {
         this.victory = ListUtil.toList(newList);
     }
 
@@ -88,21 +89,21 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param newList An iterator over the new death conditions.
      */
     @Override
-    public void setDeathHandler(Iterator<DeathCondition> newList) {
+    public void setDeathHandler(final Iterator<DeathCondition> newList) {
         this.death = ListUtil.toList(newList);
     }
 
     /**
      * General method to check a condition iterator, execute an action on success.
      *
-     * @param iterator  The condition iterator.
+     * @param list The condition list.
      * @param condition The condition to check.
      * @param onSuccess The action to execute on success.
-     * @param <T>       type of condition
+     * @param <T> type of condition.
      * @return true if the condition was met, false otherwise.
      */
-    private <T> boolean checkCondition(List<T> list, Predicate<T> condition,
-            Runnable onSuccess) {
+    private <T> boolean checkCondition(final List<T> list, final Predicate<T> condition,
+            final Runnable onSuccess) {
 
         boolean result = list.stream().anyMatch(condition);
         if (result) {
@@ -115,9 +116,9 @@ public class EndGameManagerImpl implements EndGameManager {
      * Triggers an event with a given message and navigates to the specified page.
      *
      * @param message The message to print.
-     * @param page    The page identifier to navigate to (can be null).
+     * @param condition The condition to trigger (WIN or LOSE).
      */
-    private void triggerEvent(String message, ConditionType condition) {
+    private void triggerEvent(final String message, final ConditionType condition) {
         System.out.println(message);
         if (condition != null) {
             EventManager.getInstance().publish(GameEventType.STOP_VIEW, null, null);

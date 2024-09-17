@@ -1,9 +1,12 @@
 package com.project.paradoxplatformer.utils.endGame;
 
 import java.util.Iterator;
-
+import java.util.List;
+import java.util.function.Predicate;
+import com.project.paradoxplatformer.controller.event.EventManager;
+import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.controller.games.Level;
-import com.project.paradoxplatformer.utils.StreamUtil;
+import com.project.paradoxplatformer.utils.ListUtil;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
 
@@ -13,19 +16,21 @@ import com.project.paradoxplatformer.view.manager.ViewNavigator;
  */
 public class EndGameManagerImpl implements EndGameManager {
 
-    private Iterator<VictoryCondition> victory;
-    private Iterator<DeathCondition> death;
-    private final Level level;
+    private List<VictoryCondition> victory;
+    private List<DeathCondition> death;
+    private final Level nextLevel;
+    private final Level currentLevel;
 
     /**
      * Constructs a EndGameManagerImpl with the specified list of conditions.
      *
      * @param level   The current level being managed.
      */
-    public EndGameManagerImpl(final Level level) {
-        this.victory = new VictoryConditionsFactoryImpl().defaultConditions();
-        this.death = new DeathConditionsFactoryImpl().defaultConditions();
-        this.level = level;
+    public EndGameManagerImpl(Level level) {
+        this.victory = ListUtil.toList(new VictoryConditionsFactoryImpl().defaultConditions());
+        this.death = ListUtil.toList(new DeathConditionsFactoryImpl().defaultConditions());
+        this.currentLevel = level;
+        this.nextLevel = level.next();
     }
 
     /**
@@ -44,7 +49,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void onVictory() {
-        triggerEvent("Victory achieved!", PageIdentifier.GAME);
+        triggerEvent("Victory achieved!", ConditionType.WIN);
     }
 
     /**
@@ -63,7 +68,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void onDeath() {
-        triggerEvent("Death achieved!", null);
+        triggerEvent("Death achieved!", ConditionType.LOSE);
     }
 
     /**
@@ -73,8 +78,8 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param newList An iterator over the new victory conditions.
      */
     @Override
-    public void setVictoryHandler(final Iterator<VictoryCondition> newList) {
-        this.victory = newList;
+    public void setVictoryHandler(Iterator<VictoryCondition> newList) {
+        this.victory = ListUtil.toList(newList);
     }
 
     /**
@@ -83,8 +88,8 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param newList An iterator over the new death conditions.
      */
     @Override
-    public void setDeathHandler(final Iterator<DeathCondition> newList) {
-        this.death = newList;
+    public void setDeathHandler(Iterator<DeathCondition> newList) {
+        this.death = ListUtil.toList(newList);
     }
 
     /**
@@ -96,9 +101,9 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param <T> type of condition
      * @return true if the condition was met, false otherwise.
      */
-    private <T> boolean checkCondition(final Iterator<T> iterator, final java.util.function.Predicate<T> condition,
-            final Runnable onSuccess) {
-        final boolean result = StreamUtil.toStream(iterator).anyMatch(condition);
+    private <T> boolean checkCondition(List<T> list, Predicate<T> condition,
+            Runnable onSuccess) {
+        boolean result = list.stream().anyMatch(condition);
         if (result) {
             onSuccess.run();
         }
@@ -111,10 +116,17 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param message The message to print.
      * @param page    The page identifier to navigate to (can be null).
      */
-    private void triggerEvent(final String message, final PageIdentifier page) {
+    private void triggerEvent(String message, ConditionType condition) {
         System.out.println(message);
-        if (page != null) {
-            ViewNavigator.getInstance().openView(page, this.level);
+        if (condition != null) {
+            EventManager.getInstance().publish(GameEventType.STOP_VIEW, null, null);
+            if (condition.equals(ConditionType.WIN)) {
+                System.out.println("GO TO NEXT LEVEL.");
+                ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.nextLevel);
+            } else {
+                System.out.println("RESTART CURRENT LEVEL.");
+                ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.currentLevel);
+            }
         }
     }
 }

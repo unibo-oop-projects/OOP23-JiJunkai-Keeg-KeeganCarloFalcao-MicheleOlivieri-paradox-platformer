@@ -7,6 +7,7 @@ import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffec
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
+import com.project.paradoxplatformer.utils.endGame.DeathObstacleCollisionCondition;
 
 /**
  * An effect that causes the end of the game.
@@ -28,8 +29,9 @@ public final class DeathEffect extends AbstractOneTimeEffect {
     protected CompletableFuture<Void> applyToTarget(final Optional<? extends CollidableGameObject> target) {
         return CompletableFuture.runAsync(() -> {
             target.ifPresent(t -> {
-                if (t instanceof ControllableObject) {
-                    ((ControllableObject) t).onCollision();
+                DeathObstacleCollisionCondition.setDeath(true);
+                if (t instanceof ControllableObject controllableObject) {
+                    controllableObject.onCollision();
                     // System.out.println("DeathEffect applied: Player killed.");
                 }
             });

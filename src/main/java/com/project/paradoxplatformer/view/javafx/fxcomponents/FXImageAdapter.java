@@ -10,9 +10,11 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 
 /**
@@ -39,6 +41,7 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
      * @param imageURL  the URL of the image to be loaded
      * @throws InvalidResourceException if the image resource is invalid
      */
+    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR", justification = "The overridden method getUiComponent is checked before use.")
     protected FXImageAdapter(
             final int id,
             final Dimension dimension,
@@ -106,4 +109,5 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
     public ImageView getImageView() {
         return Optional.of(imgComponent).get();
     }
+
 }

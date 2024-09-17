@@ -215,7 +215,7 @@ public class JavaFxApp extends Application implements ViewManager {
     @Override
     public void safeError() {
         this.exit();
-        System.exit(-1);
+        Runtime.getRuntime().exit(0);
     }
 
     /**

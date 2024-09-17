@@ -40,7 +40,7 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
      * @param imageURL  the URL of the image to be loaded
      * @throws InvalidResourceException if the image resource is invalid
      */
-    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR", justification = "The overridden method getUiComponent is checked before use.")
+    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR", justification = "This method is checked before use.")
     protected FXImageAdapter(
             final int id,
             final Dimension dimension,

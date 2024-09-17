@@ -113,7 +113,7 @@ public final class OffsetFactoryImpl implements OffsetFactory {
      * function and an anchor.
      * </p>
      */
-    private final static class TemplateOffset implements Offset {
+    private static final class TemplateOffset implements Offset {
         private Coord2D combined;
         private final BiFunction<Double, Double, Coord2D> poleMapper;
 

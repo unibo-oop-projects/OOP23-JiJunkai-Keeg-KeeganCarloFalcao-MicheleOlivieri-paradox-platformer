@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.utils.endGame;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A static implementation of the DeathCondition interface that tracks
  * if a player is dead based on collision with a death obstacle.
@@ -12,8 +14,9 @@ public class DeathObstacleCollisionCondition implements DeathCondition {
     /**
      * Constructor initializing the death state to false.
      */
+    @SuppressFBWarnings(value = { "ST" }, justification = "For a simply call.")
     public DeathObstacleCollisionCondition() {
-        isDead = false; // Initially, the player is not dead.
+        isDead = false;
     }
 
     /**

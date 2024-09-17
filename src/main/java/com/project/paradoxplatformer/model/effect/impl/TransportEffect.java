@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
-import com.project.paradoxplatformer.model.effect.abstracts.AbstractRecreatableEffect;
-import com.project.paradoxplatformer.model.effect.api.RecreateableEffect;
+import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffect;
+import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
  * Represents an effect that transports a game object to a specified
  * destination.
  */
-public final class TransportEffect extends AbstractRecreatableEffect {
+public final class TransportEffect extends AbstractOneTimeEffect {
 
     private final Coord2D destination; // The destination coordinates for transport
     private final boolean applyToTarget; // Whether to apply the effect to the target
@@ -70,18 +70,13 @@ public final class TransportEffect extends AbstractRecreatableEffect {
      * @return a CompletableFuture that completes when the effect is applied
      */
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
-        return CompletableFuture.runAsync(() -> gameObject.setPosition(destination));
+        return CompletableFuture.runAsync(() -> {
+            if (gameObject instanceof PlayerModel) {
+                ((PlayerModel) gameObject).setDisplacement(this.destination);
+            } else {
+                gameObject.setPosition(destination);
+            }
+        });
     }
 
-    /**
-     * Creates a new instance of this TransportEffect, effectively recreating it.
-     *
-     * @return a new TransportEffect instance with a random destination and the same
-     *         applyToTarget value
-     */
-    @Override
-    public RecreateableEffect recreate() {
-        System.out.println("Transport Effect gets recreated");
-        return new TransportEffect(Coord2D.randomX(100), applyToTarget);
-    }
 }

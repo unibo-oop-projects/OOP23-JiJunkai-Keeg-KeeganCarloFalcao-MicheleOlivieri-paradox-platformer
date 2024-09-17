@@ -15,6 +15,7 @@ import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.legacy.ViewFramework;
 import com.project.paradoxplatformer.view.manager.ViewManager;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -90,6 +91,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @throws IOException if there is an issue loading the FXML pages
      */
     @Override
+    @SuppressFBWarnings(value = { "ST" }, justification = "Made for a better structure.")
     public void start(final Stage primeStage) throws IOException {
         if (!created) {
             throw new IllegalStateException("Cannot create application, Security reasons");
@@ -114,6 +116,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param appTitle the title of the application window
      */
     @Override
+    @SuppressFBWarnings(value = { "ST" }, justification = "Made for a better structure.")
     public void create(final String appTitle) {
         staticTitle = appTitle;
         JavaFxApp.launch();
@@ -127,6 +130,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param appTitle     the title of the application window
      */
     @Override
+    @SuppressFBWarnings(value = { "ST" }, justification = "Made for a better structure.")
     public void create(final CountDownLatch referedLatch, final String appTitle) {
         latch = referedLatch;
         this.create(appTitle);

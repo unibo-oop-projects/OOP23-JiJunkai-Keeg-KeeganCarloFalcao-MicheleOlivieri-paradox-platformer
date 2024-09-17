@@ -4,6 +4,7 @@ import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.effect.api.EffectHandler;
 import com.project.paradoxplatformer.model.effect.api.EffectHandlerFactory;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
  * Implementation of the EffectHandlerFactory that creates specific
@@ -13,6 +14,9 @@ import com.project.paradoxplatformer.utils.collision.api.CollisionType;
  * the effects applied to game objects during collisions.
  */
 public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
+
+    private static final int TRANSPORT_EFFECT_X = 300;
+    private static final int TRANSPORT_EFFECT_Y = 150;
 
     /**
      * Creates a default EffectHandler with a set of predefined collision effects.
@@ -87,8 +91,8 @@ public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         // Add specific effects for level four
         // handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new
         // ChangeLevelEffect(Level.LEVEL_ONE));
-        // handler.addCollisionEffectsForType(CollisionType.BUTTON,
-        // () -> new TransportEffect(new Coord2D(100, 200), true));
+        handler.addCollisionEffectsForType(CollisionType.BUTTON,
+                () -> new TransportEffect(new Coord2D(TRANSPORT_EFFECT_X, TRANSPORT_EFFECT_Y), true));
         return handler;
     }
 

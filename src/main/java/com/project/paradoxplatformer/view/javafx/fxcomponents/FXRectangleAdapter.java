@@ -32,7 +32,7 @@ public class FXRectangleAdapter extends AbstractFXGraphicAdapter {
      * @throws IllegalArgumentException If the underlying UI component is not a
      *                                  {@code Rectangle}.
      */
-    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR", justification = "The overridden method getUiComponent is checked before use.")
+    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR", justification = "This method is checked before use.")
     protected FXRectangleAdapter(final int id, final Dimension dimension, final Coord2D position, final Color fill) {
         super(id, new Rectangle(), dimension, position);
         if (this.getUiComponent() instanceof Rectangle blockCopy) {

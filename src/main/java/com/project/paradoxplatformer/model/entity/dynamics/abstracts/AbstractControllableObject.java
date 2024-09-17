@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 import java.util.Optional;
 
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;

@@ -73,13 +73,11 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
 
             @Override
             public void addObserver(final Observer observer) {
-                // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'addObserver'");
             }
 
             @Override
             public void notifyObservers() {
-                // TODO Auto-generated method stub
                 throw new UnsupportedOperationException("Unimplemented method 'notifyObservers'");
             }
 

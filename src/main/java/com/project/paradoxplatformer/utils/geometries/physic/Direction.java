@@ -6,7 +6,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * Enum representing possible directions with a status of whether they are
  * activated or not.
  */
-@SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "The Direction.values() method is used to provide a predefined set of constants and is necessary for enum functionality.")
+@SuppressFBWarnings(value = "MS_EXPOSE_REP", justification = "The Direction.values() is necessary for enum functionality.")
 public enum Direction {
     /**
      * Direction to the right.

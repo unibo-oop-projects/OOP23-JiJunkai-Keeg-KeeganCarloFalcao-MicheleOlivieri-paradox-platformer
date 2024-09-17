@@ -25,11 +25,12 @@ public abstract class AbstractPositionableObject extends AbstractMutableObject {
     /**
      * Constructs an {@code AbstractPositionableObject} with the specified initial
      * position.
-     * @param key the unique id of the positional game object
+     * 
+     * @param key      the unique id of the positional game object
      * @param position the initial position of the object as a {@link Coord2D}
      *                 object
      */
-     protected AbstractPositionableObject(final int key, final Coord2D position) {
+    protected AbstractPositionableObject(final int key, final Coord2D position) {
         super(key);
         this.displacement = new Simple2DVector(position.x(), position.y());
         this.position = position;

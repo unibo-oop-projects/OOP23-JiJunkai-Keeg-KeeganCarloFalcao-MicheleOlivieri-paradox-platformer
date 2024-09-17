@@ -63,11 +63,12 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     private final Level currentLevel;
 
     /**
-     * A generic constructor of a game controller.
+     * Constructs a new GameControllerImpl with the specified model, view, and
+     * level.
      * 
-     * @param model model type
-     * @param view  view type
-     * @param level the level id (json file for the level)
+     * @param model the game model data
+     * @param view  the game view
+     * @param level the current level being played
      */
     public GameControllerImpl(final GameModelData model, final GameView<C> view, final Level level) {
         this.gameModel = model;
@@ -86,7 +87,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * {@inheritDoc}
+     * Loads the game model and initializes it.
      */
     @Override
     public void loadModel() {
@@ -95,7 +96,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * {@inheritDoc}
+     * Synchronizes the view by initializing it and syncing the game state.
      */
     @Override
     public void syncView() {
@@ -105,10 +106,20 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         System.out.println("Game View is loaded.");
     }
 
+    /**
+     * Removes game objects from both the model and the view.
+     * 
+     * @param <T> the type of the objects to be removed
+     */
     public <T> void removeGameObjects() {
         objectRemover.removeGameObjects(gamePairs);
     }
 
+    /**
+     * Syncs the game view with the game model by pairing each graphic component
+     * with
+     * its corresponding mutable object in the world.
+     */
     private void sync() {
         gamePairs = this.gameView.getUnmodifiableControls()
                 .stream()
@@ -116,32 +127,51 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
     }
 
+    /**
+     * Joins the graphical component with the corresponding mutable object in the
+     * world.
+     * 
+     * @param g     the graphic component to join
+     * @param world the game world containing the objects to pair with the graphic
+     * @return a Pair of the matched MutableObject and ReadOnlyGraphicDecorator
+     * @throws IllegalArgumentException if no matching object is found for the given
+     *                                  graphic
+     */
     private Pair<MutableObject, ReadOnlyGraphicDecorator<C>> join(
             final ReadOnlyGraphicDecorator<C> g,
             final World world) {
 
-        final Set<MutableObject> str = new LinkedHashSet<>(world.gameObjects());
+        final Set<MutableObject> objects = new LinkedHashSet<>(world.gameObjects());
 
-        Pair<MutableObject, ReadOnlyGraphicDecorator<C>> pair = str.stream()
+        return objects.stream()
                 .filter(m -> this.joinPredicate(m, g))
                 .map(m -> Pair.of(m, g))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
-                        """
-                                Failed to pair object and graphic.
-                                Cause:
-                                Graphic: """ + dimension.apply(g)
-                                + "\nGraphic: " + position.apply(g)));
-
-        return pair;
+                        "Failed to pair object and graphic. Cause: Graphic: "
+                                + dimension.apply(g) + "\nGraphic: " + position.apply(g)));
     }
 
+    /**
+     * Predicate for determining whether a mutable object and a graphic component
+     * should be joined.
+     * 
+     * @param mutableObject the mutable object to test
+     * @param gComponent    the graphic component to test
+     * @return true if the IDs of the mutable object and the graphic component match
+     */
     private boolean joinPredicate(final MutableObject mutableObject, final GraphicAdapter<C> gComponent) {
         return mutableObject.getID() == gComponent.getID();
     }
 
     /**
-     * {@inheritdoc}
+     * Starts the game, setting up the player's controls and initiating the game
+     * loop.
+     * 
+     * @param <K>     the type of the key input
+     * @param ic      the input controller for the player
+     * @param inputer the key input handler
+     * @param type    the game mode type (e.g., "flappy" or "platform")
      */
     @Override
     public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer,
@@ -161,6 +191,13 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         this.gameManager.start();
     }
 
+    /**
+     * Sets up the game mode by configuring the player's jump behavior based on the
+     * provided type.
+     * 
+     * @param player the controllable player object
+     * @param type   the game mode type (e.g., "flappy" or "platform")
+     */
     private void setupGameMode(final ControllableObject player, final String type) {
         if ("flappy".equalsIgnoreCase(type)) {
             player.setJumpBehavior(new FlappyJump());
@@ -170,7 +207,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Updates the state of the game.
+     * Updates the game state, handling object updates, collisions, and end-game
+     * conditions.
      * 
      * @param dt the time delta
      */
@@ -190,6 +228,14 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         }
     }
 
+    /**
+     * Converts the mutable object and graphic pairs to read-only pairs.
+     * 
+     * @param pairs the map of mutable objects and their corresponding graphic
+     *              decorators
+     * @return a map of read-only wrappers of mutable objects and their
+     *         corresponding graphic decorators
+     */
     private Map<ReadOnlyMutableObjectWrapper, ReadOnlyGraphicDecorator<C>> readOnlyPairs(
             final Map<MutableObject, ReadOnlyGraphicDecorator<C>> pairs) {
         return pairs.entrySet().stream()
@@ -200,7 +246,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Restarts the game.
+     * Restarts the game by stopping the current game loop and recreating the game
+     * view.
      */
     @Override
     public void restartGame() {
@@ -215,7 +262,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Exits the game.
+     * Exits the game by stopping the game loop and navigating back to the main
+     * menu.
      */
     @Override
     public void exitGame() {
@@ -225,9 +273,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Handles the stop view event.
+     * Handles the stop view event by stopping the game loop before recreating the
+     * view.
      * 
-     * @param id   the page identifier
+     * @param id    the page identifier
      * @param param the level parameter
      */
     @Override
@@ -237,10 +286,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Handles the remove object event.
+     * Handles the removal of an object from the game world.
      * 
-     * @param id      the page identifier
-     * @param object the optional collidable game object
+     * @param id     the page identifier
+     * @param object the optional collidable game object to remove
      */
     @Override
     public void handleRemoveObject(final PageIdentifier id, final Optional<? extends CollidableGameObject> object) {
@@ -248,7 +297,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Handles the trigger effect event.
+     * Handles the trigger effect event, logging the triggered obstacle.
      * 
      * @param id    the page identifier
      * @param param the obstacle parameter
@@ -259,7 +308,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Handles the victory event.
+     * Handles the victory event by setting up the victory conditions for the
+     * current level.
      * 
      * @param id the page identifier
      */
@@ -268,4 +318,5 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
                 .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
     }
+
 }

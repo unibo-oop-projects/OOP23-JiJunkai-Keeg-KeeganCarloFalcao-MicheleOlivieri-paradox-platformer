@@ -24,7 +24,7 @@ public class EndGameManagerImpl implements EndGameManager {
     /**
      * Constructs a EndGameManagerImpl with the specified list of conditions.
      *
-     * @param level   The current level being managed.
+     * @param level The current level being managed.
      */
     public EndGameManagerImpl(Level level) {
         this.victory = ListUtil.toList(new VictoryConditionsFactoryImpl().defaultConditions());
@@ -98,11 +98,12 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param iterator  The condition iterator.
      * @param condition The condition to check.
      * @param onSuccess The action to execute on success.
-     * @param <T> type of condition
+     * @param <T>       type of condition
      * @return true if the condition was met, false otherwise.
      */
     private <T> boolean checkCondition(List<T> list, Predicate<T> condition,
             Runnable onSuccess) {
+
         boolean result = list.stream().anyMatch(condition);
         if (result) {
             onSuccess.run();

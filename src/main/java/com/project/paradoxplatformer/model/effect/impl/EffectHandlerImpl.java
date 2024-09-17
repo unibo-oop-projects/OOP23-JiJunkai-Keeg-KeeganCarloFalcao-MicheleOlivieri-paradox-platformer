@@ -85,6 +85,7 @@ public final class EffectHandlerImpl implements EffectHandler {
         @Override
         public CompletableFuture<Void> applyEffects(final CollidableGameObject source,
                         final CollidableGameObject target) {
+
                 // Apply type-based effects
                 final CompletableFuture<Void> typeEffectsFuture = applyEffects(
                                 typeEffectsManager.getEffects(target.getCollisionType()), source, target);

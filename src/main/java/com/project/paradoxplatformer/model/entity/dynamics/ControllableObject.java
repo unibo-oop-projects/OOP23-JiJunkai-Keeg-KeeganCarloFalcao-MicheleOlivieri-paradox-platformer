@@ -21,12 +21,6 @@ public interface ControllableObject extends HorizontalObject, VerticalObject {
     void setJumpBehavior(JumpBehavior jb);
 
     /**
-     * Handles actions to be taken when the object collides with another entity.
-     * This method should be called when a collision is detected.
-     */
-    void onCollision();
-
-    /**
      * Stops the falling action of the object.
      * This method should be called to stop any ongoing falling motion.
      */

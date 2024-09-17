@@ -58,5 +58,7 @@ public enum CollisionType {
      * Represents a warp collision type.
      * Used for objects that transport the player to somewhere else.
      */
-    WARP
+    WARP,
+
+    SAW
 }

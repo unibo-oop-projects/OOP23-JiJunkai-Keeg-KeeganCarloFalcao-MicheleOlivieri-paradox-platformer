@@ -23,8 +23,10 @@ public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         EffectHandler handler = new EffectHandlerImpl();
 
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
+        handler.addCollisionEffectsForType(CollisionType.SAW, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
-        // handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new SoundEffect(SoundType.JUMP));
+        // handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new
+        // SoundEffect(SoundType.JUMP));
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, CollectingEffect::new);
         handler.addCollisionEffectsForType(CollisionType.WALLS, HorizontalBlockEffect::new);
         handler.addCollisionEffectsForType(CollisionType.PLATFORM, FloorEffect::new);
@@ -41,7 +43,8 @@ public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         EffectHandler handler = this.defaultEffectHandler();
 
         // Add specific effects for level one
-        handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new ChangeLevelEffect(Level.LEVEL_TWO));
+        // handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new
+        // ChangeLevelEffect(Level.LEVEL_TWO));
         return handler;
     }
 
@@ -54,7 +57,8 @@ public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         EffectHandler handler = this.defaultEffectHandler();
 
         // Add specific effects for level two
-        handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new ChangeLevelEffect(Level.LEVEL_THREE));
+        // handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new
+        // ChangeLevelEffect(Level.LEVEL_THREE));
         return handler;
     }
 
@@ -67,7 +71,8 @@ public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         EffectHandler handler = this.defaultEffectHandler();
 
         // Add specific effects for level three
-        handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new ChangeLevelEffect(Level.LEVEL_FOUR));
+        // handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new
+        // ChangeLevelEffect(Level.LEVEL_FOUR));
         return handler;
     }
 
@@ -80,7 +85,8 @@ public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         EffectHandler handler = this.defaultEffectHandler();
 
         // Add specific effects for level four
-        handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new ChangeLevelEffect(Level.LEVEL_ONE));
+        // handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new
+        // ChangeLevelEffect(Level.LEVEL_ONE));
         return handler;
     }
 

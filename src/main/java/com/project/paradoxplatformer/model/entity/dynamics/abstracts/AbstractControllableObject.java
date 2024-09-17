@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
-import com.project.paradoxplatformer.controller.games.GameEventListener;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
@@ -25,14 +24,14 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
 
     protected Vector2D verticalSpeed;
     protected JumpBehavior jumpBehavior;
-    private GameEventListener gameEventListener;
     protected boolean isJumping;
 
     /**
      * Constructs an {@code AbstractControllableObject} with the specified initial
      * displacement
      * and horizontal statistics.
-     * @param id unique id for the controllable object
+     * 
+     * @param id               unique id for the controllable object
      * @param initDisplacement the initial displacement vector for the object as a
      *                         {@link Vector2D} object
      * @param stats            the horizontal statistics to be used, encapsulated in
@@ -77,37 +76,6 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
     @Override
     public void setJumpBehavior(final JumpBehavior jb) {
         this.jumpBehavior = jb;
-    }
-
-    /**
-     * Sets the game event listener for this object.
-     * <p>
-     * The listener will be notified when collision events occur.
-     * </p>
-     * 
-     * @param listener the {@link GameEventListener} to be set
-     */
-    public void setGameEventListener(final GameEventListener listener) {
-        this.gameEventListener = listener;
-    }
-
-    /**
-     * Handles a collision event.
-     * <p>
-     * If a {@link GameEventListener} is attached, it triggers the player death
-     * event.
-     * If no listener is attached, a message is printed indicating the absence of a
-     * listener.
-     * </p>
-     */
-    @Override
-    public void onCollision() {
-        if (gameEventListener != null) {
-            System.out.println("Player death event triggered.");
-            gameEventListener.onPlayerDeath(); // Notifies the controller of the event
-        } else {
-            System.out.println("No GameEventListener attached.");
-        }
     }
 
     /**

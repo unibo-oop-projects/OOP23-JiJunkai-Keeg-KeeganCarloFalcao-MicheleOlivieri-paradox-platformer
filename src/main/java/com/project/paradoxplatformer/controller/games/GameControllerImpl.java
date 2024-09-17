@@ -20,7 +20,6 @@ import com.project.paradoxplatformer.model.effect.impl.EffectHandlerFactoryImpl;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
@@ -45,7 +44,7 @@ import com.project.paradoxplatformer.view.manager.ViewNavigator;
  * 
  * @param <C> type of view component
  */
-public final class GameControllerImpl<C> implements GameController<C>, GameEventListener, GameControllerEventListener {
+public final class GameControllerImpl<C> implements GameController<C>, GameControllerEventListener {
 
     private final GameModelData gameModel;
     private Map<MutableObject, ReadOnlyGraphicDecorator<C>> gamePairs;
@@ -135,11 +134,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                                 Graphic: """ + dimension.apply(g)
                                 + "\nGraphic: " + position.apply(g)));
 
-        // Imposta il listener se l'oggetto è il palyer
-        if (pair.getKey() instanceof AbstractControllableObject) {
-            ((AbstractControllableObject) pair.getKey()).setGameEventListener(this);
-        }
-
         return pair;
     }
 
@@ -151,7 +145,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
      * {@inheritdoc}
      */
     @Override
-    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, final String type) {
+    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer,
+            final String type) {
         this.setupGameMode(gameModel.getWorld().player(), type);
         this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
                 .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
@@ -188,11 +183,12 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
 
             // ThreadGroup rootGroup = Thread.currentThread().getThreadGroup().getParent();
             // if (rootGroup == null) {
-            //     rootGroup = Thread.currentThread().getThreadGroup();
+            // rootGroup = Thread.currentThread().getThreadGroup();
             // }
 
             // int activeCount = rootGroup.activeCount();
-            // System.out.println("Number of active threads in root thread group: " + activeCount);
+            // System.out.println("Number of active threads in root thread group: " +
+            // activeCount);
 
             gamePairs.forEach((m, g) -> m.updateState(dt));
             CollidableGameObject player = this.gameModel.getWorld().player();
@@ -217,19 +213,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                         new ReadOnlyMutableObjectWrapper(p.getKey()),
                         p.getValue()))
                 .collect(Collectors.toMap(Pair::getKey, Pair::getValue));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    @Override
-    public void onPlayerDeath() {
-        // Ricarica il livello
-        try {
-            // this.restartGame();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**

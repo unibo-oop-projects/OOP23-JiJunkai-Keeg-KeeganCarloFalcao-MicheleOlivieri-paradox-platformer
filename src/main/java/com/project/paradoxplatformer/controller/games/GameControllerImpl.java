@@ -200,9 +200,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      */
     private void setupGameMode(final ControllableObject player, final String type) {
         if ("flappy".equalsIgnoreCase(type)) {
-            player.setJumpBehavior(new FlappyJump());
+            player.setJumpBehavior(Optional.of(new FlappyJump()));
         } else {
-            player.setJumpBehavior(new PlatformJump());
+            player.setJumpBehavior(Optional.of(new PlatformJump()));
         }
     }
 

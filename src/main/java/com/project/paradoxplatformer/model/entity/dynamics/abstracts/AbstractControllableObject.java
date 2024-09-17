@@ -1,7 +1,11 @@
 package com.project.paradoxplatformer.model.entity.dynamics.abstracts;
 
+import java.util.Optional;
+
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.FlappyJump;
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
+import com.project.paradoxplatformer.model.entity.dynamics.behavior.PlatformJump;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
@@ -40,6 +44,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
         super(id, stats.limit(), stats.delta());
         this.verticalSpeed = new Simple2DVector(0.0, 0.0);
         this.isJumping = false;
+        this.jumpBehavior = new PlatformJump();
     }
 
     /**
@@ -75,8 +80,8 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
      * @param jb the {@link JumpBehavior} to be set
      */
     @Override
-    public void setJumpBehavior(final JumpBehavior jb) {
-        this.jumpBehavior = jb;
+    public void setJumpBehavior(final Optional<JumpBehavior> jb) {
+        this.jumpBehavior = jb.get();
     }
 
     /**

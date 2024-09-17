@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.model.player;
 
+import java.util.Optional;
+
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.AbstractControllableObject;
 import com.project.paradoxplatformer.model.entity.dynamics.abstracts.HorizontalStats;
@@ -57,7 +59,7 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
      */
     public PlayerModel() {
         this(DEFAULT_ID, Coord2D.origin(), DEFAULT_SIZE);
-        this.setJumpBehavior(new PlatformJump());
+        this.setJumpBehavior(Optional.of(new PlatformJump()));
     }
 
     /**

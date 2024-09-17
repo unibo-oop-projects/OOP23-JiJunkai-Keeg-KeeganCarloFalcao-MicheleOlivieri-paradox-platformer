@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.model.entity.dynamics;
 
+import java.util.Optional;
+
 import com.project.paradoxplatformer.model.entity.dynamics.behavior.JumpBehavior;
 
 /**
@@ -18,7 +20,7 @@ public interface ControllableObject extends HorizontalObject, VerticalObject {
      * 
      * @param jb the {@link JumpBehavior} to be applied during a jump
      */
-    void setJumpBehavior(JumpBehavior jb);
+    void setJumpBehavior(Optional<JumpBehavior> jb);
 
     /**
      * Stops the falling action of the object.

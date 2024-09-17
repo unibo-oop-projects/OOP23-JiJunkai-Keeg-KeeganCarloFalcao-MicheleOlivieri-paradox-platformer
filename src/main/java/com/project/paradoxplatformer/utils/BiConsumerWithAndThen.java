@@ -4,8 +4,7 @@ import java.util.Objects;
 
 /**
  * A functional interface similar to {@code BiConsumer}, but with the ability to
- * chain multiple
- * actions using the {@code andThen} method.
+ * chain multiple actions using the {@code andThen} method.
  *
  * @param <T> the type of the first argument to the operation
  * @param <U> the type of the second argument to the operation

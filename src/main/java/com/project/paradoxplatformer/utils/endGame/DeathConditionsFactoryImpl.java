@@ -18,6 +18,7 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
  */
 public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondition> {
 
+    private static final int TIME_LIMIT = 600; // Constant for time limit in seconds
     private PlayerModel player;
 
     /**
@@ -29,7 +30,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      * @return an iterator over death conditions specific to the level.
      */
     @Override
-    public Iterator<DeathCondition> createConditionsForLevel(Level level, PlayerModel player) {
+    public Iterator<DeathCondition> createConditionsForLevel(final Level level, final PlayerModel player) {
         this.player = player;
         return switch (level) {
             case LEVEL_ONE -> levelOneConditions();
@@ -77,7 +78,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
     public Iterator<DeathCondition> levelTwoConditions() {
         List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if they exceed the time limit of 600 seconds.
-        conditions.add(new TimeLimitDeathCondition(600));
+        conditions.add(new TimeLimitDeathCondition(TIME_LIMIT));
         return conditions.iterator();
     }
 
@@ -106,7 +107,5 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
         conditions.add(new FallenCondition(this.player));
         conditions.add(new DeathObstacleCollisionCondition());
         return conditions.iterator();
-
     }
-
 }

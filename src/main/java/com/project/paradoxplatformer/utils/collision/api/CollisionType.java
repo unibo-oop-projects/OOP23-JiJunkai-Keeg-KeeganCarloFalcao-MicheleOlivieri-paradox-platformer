@@ -18,7 +18,7 @@ public enum CollisionType {
     BUTTON,
 
     /**
-     * Represents a invisible trigger collision type.
+     * Represents an invisible trigger collision type.
      * Used for objects that trigger events or actions when the player interacts
      * with them.
      */
@@ -60,5 +60,9 @@ public enum CollisionType {
      */
     WARP,
 
+    /**
+     * Represents a saw collision type.
+     * Used for saw-like obstacles that can cause damage to the player.
+     */
     SAW
 }

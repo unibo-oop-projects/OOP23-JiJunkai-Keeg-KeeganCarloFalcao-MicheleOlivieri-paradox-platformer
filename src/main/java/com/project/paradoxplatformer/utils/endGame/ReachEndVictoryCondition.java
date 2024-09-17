@@ -31,7 +31,7 @@ public class ReachEndVictoryCondition implements VictoryCondition {
      * @return true if the player has reached the end of the world, false otherwise.
      */
     @Override
-    public boolean Win() {
+    public boolean win() {
         return this.player.getPosition().x() > ReachEndVictoryCondition.END_WORLD;
     }
 

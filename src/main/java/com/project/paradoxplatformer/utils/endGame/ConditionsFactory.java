@@ -54,8 +54,7 @@ public interface ConditionsFactory<E> {
 
     /**
      * Defines the conditions specific to level three. This method provides a list
-     * of
-     * conditions that are tailored for the third level of the game.
+     * of conditions that are tailored for the third level of the game.
      *
      * @return an iterator over the conditions for level three.
      */

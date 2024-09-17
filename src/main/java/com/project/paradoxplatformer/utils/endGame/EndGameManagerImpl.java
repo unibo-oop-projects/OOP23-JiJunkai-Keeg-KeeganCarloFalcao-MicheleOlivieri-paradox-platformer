@@ -41,7 +41,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public boolean checkForVictory() {
-        return checkCondition(victory, VictoryCondition::Win, this::onVictory);
+        return checkCondition(victory, VictoryCondition::win, this::onVictory);
     }
 
     /**

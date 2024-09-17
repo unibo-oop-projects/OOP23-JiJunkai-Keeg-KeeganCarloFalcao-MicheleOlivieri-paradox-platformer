@@ -25,7 +25,7 @@ public class TimeLimitVictoryCondition implements VictoryCondition {
      * @return true if the player has won within the time limit, false otherwise.
      */
     @Override
-    public boolean Win() {
+    public boolean win() {
         long currentTime = System.currentTimeMillis();
         // Check if the elapsed time is within the time limit
         return (currentTime + startTime) / 1000 < timeLimitSeconds;

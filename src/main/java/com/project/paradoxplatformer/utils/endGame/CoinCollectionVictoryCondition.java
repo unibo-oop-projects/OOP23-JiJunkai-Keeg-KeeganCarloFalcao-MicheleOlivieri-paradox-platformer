@@ -28,7 +28,7 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
      * @return true if the player has collected at least the target number of coins, false otherwise.
      */
     @Override
-    public boolean Win() {
+    public boolean win() {
         return player.getCollectedCoins() >= this.targetCoins;
     }
 

@@ -11,6 +11,6 @@ public interface VictoryCondition {
      *
      * @return true if the condition has been met, false otherwise.
      */
-    boolean Win();
+    boolean win();
 
 }

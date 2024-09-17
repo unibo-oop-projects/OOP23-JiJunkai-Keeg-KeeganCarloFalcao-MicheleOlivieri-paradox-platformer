@@ -19,7 +19,7 @@ public class EndGameManagerImpl implements EndGameManager {
     private List<VictoryCondition> victory;
     private List<DeathCondition> death;
     private final Level nextLevel;
-    private final Level level;
+    private final Level currentLevel;
 
     /**
      * Constructs a EndGameManagerImpl with the specified list of conditions.
@@ -31,8 +31,8 @@ public class EndGameManagerImpl implements EndGameManager {
     public EndGameManagerImpl(Level level) {
         this.victory = ListUtil.toList(new VictoryConditionsFactoryImpl().defaultConditions());
         this.death = ListUtil.toList(new DeathConditionsFactoryImpl().defaultConditions());
+        this.currentLevel = level;
         this.nextLevel = level.next();
-        this.level = level; 
     }
 
     /**
@@ -51,7 +51,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void onVictory() {
-        triggerEvent("Victory achieved!", PageIdentifier.MENU);
+        triggerEvent("Victory achieved!", ConditionType.WIN);
     }
 
     /**
@@ -70,7 +70,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void onDeath() {
-        triggerEvent("Death achieved!", PageIdentifier.GAME);
+        triggerEvent("Death achieved!", ConditionType.LOSE);
     }
 
     /**
@@ -117,18 +117,16 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param message The message to print.
      * @param page    The page identifier to navigate to (can be null).
      */
-    private void triggerEvent(String message, PageIdentifier page) {
+    private void triggerEvent(String message, ConditionType condition) {
         System.out.println(message);
-        if (page != null) {
-            EventManager.getInstance().publish(GameEventType.STOP_VIEW, page, null);
-            if (page.equals(PageIdentifier.GAME)) {
-                System.out.println("IN THE GAME");
-                if (message.equals("Death achieved!")) {
-                    ViewNavigator.getInstance().openView(page, this.level);
-                }
+        if (condition != null) {
+            EventManager.getInstance().publish(GameEventType.STOP_VIEW, null, null);
+            if (condition.equals(ConditionType.WIN)) {
+                System.out.println("GO TO NEXT LEVEL.");
+                ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.nextLevel);
             } else {
-                System.out.println("GO TO MENU");
-                ViewNavigator.getInstance().goToMenu();
+                System.out.println("RESTART CURRENT LEVEL.");
+                ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.currentLevel);
             }
         }
     }

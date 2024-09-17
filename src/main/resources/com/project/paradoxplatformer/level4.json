@@ -88,7 +88,7 @@
 			"y": 110,
 			"width": 16,
 			"height": 16,
-			"subtype": "Coin",
+			"subtype": "DeathCoin",
 			"image": "gems.png",
 			"spriteMeta": {
 				"special": false,
@@ -180,7 +180,7 @@
 			"y": 110,
 			"width": 16,
 			"height": 16,
-			"subtype": "Coin",
+			"subtype": "DeathCoin",
 			"image": "gems.png",
 			"spriteMeta": {
 				"special": false,

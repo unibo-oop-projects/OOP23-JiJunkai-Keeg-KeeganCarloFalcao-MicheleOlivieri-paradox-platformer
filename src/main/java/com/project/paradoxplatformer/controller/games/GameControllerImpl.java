@@ -63,7 +63,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     private final Level currentLevel;
 
     /**
-     * A generic constuctor of a gamecontroller.
+     * A generic constructor of a game controller.
      * 
      * @param model model type
      * @param view  view type
@@ -83,7 +83,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         this.objectRemover = new ObjectRemover<>(model, view);
 
         System.out.println("Current level: " + level);
-
     }
 
     /**
@@ -129,7 +128,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         """
-                                Failed to pair object and graphic
+                                Failed to pair object and graphic.
                                 Cause:
                                 Graphic: """ + dimension.apply(g)
                                 + "\nGraphic: " + position.apply(g)));
@@ -160,7 +159,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
             this.update(dt);
         }).animationLoop();
         this.gameManager.start();
-
     }
 
     private void setupGameMode(final ControllableObject player, final String type) {
@@ -172,29 +170,16 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * .
+     * Updates the state of the game.
      * 
-     * @param dt
+     * @param dt the time delta
      */
     public void update(final long dt) {
         if (Objects.nonNull(gamePairs)) {
-
-            // System.out.println("-----------------------------------------------");
-
-            // ThreadGroup rootGroup = Thread.currentThread().getThreadGroup().getParent();
-            // if (rootGroup == null) {
-            // rootGroup = Thread.currentThread().getThreadGroup();
-            // }
-
-            // int activeCount = rootGroup.activeCount();
-            // System.out.println("Number of active threads in root thread group: " +
-            // activeCount);
-
             gamePairs.forEach((m, g) -> m.updateState(dt));
             CollidableGameObject player = this.gameModel.getWorld().player();
 
-            this.collisionManager.handleCollisions(gamePairs.keySet(),
-                    player);
+            this.collisionManager.handleCollisions(gamePairs.keySet(), player);
 
             this.endGameManager.checkForDeath();
             this.endGameManager.checkForVictory();
@@ -202,7 +187,6 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
             this.readOnlyPairs(gamePairs).forEach(this.gameView::updateControlState);
 
             removeGameObjects();
-
         }
     }
 
@@ -216,7 +200,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * {@inheritdoc}
+     * Restarts the game.
      */
     @Override
     public void restartGame() {
@@ -231,7 +215,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * {@inheritdoc}
+     * Exits the game.
      */
     @Override
     public void exitGame() {
@@ -241,7 +225,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * {@inheritdoc}
+     * Handles the stop view event.
+     * 
+     * @param id   the page identifier
+     * @param param the level parameter
      */
     @Override
     public void handleStopView(final PageIdentifier id, final Level param) {
@@ -250,7 +237,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * {@inheritdoc}
+     * Handles the remove object event.
+     * 
+     * @param id      the page identifier
+     * @param object the optional collidable game object
      */
     @Override
     public void handleRemoveObject(final PageIdentifier id, final Optional<? extends CollidableGameObject> object) {
@@ -258,7 +248,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * {@inheritdoc}
+     * Handles the trigger effect event.
+     * 
+     * @param id    the page identifier
+     * @param param the obstacle parameter
      */
     @Override
     public void handleTriggerEffect(final PageIdentifier id, final Obstacle param) {
@@ -266,12 +259,13 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * {@inheritdoc}
+     * Handles the victory event.
+     * 
+     * @param id the page identifier
      */
     @Override
     public void handleVictory(final PageIdentifier id) {
         this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
                 .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
     }
-
 }

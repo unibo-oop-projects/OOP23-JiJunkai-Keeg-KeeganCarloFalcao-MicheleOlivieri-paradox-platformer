@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.controller.games.Level;
-import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ListUtil;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
@@ -20,6 +19,7 @@ public class EndGameManagerImpl implements EndGameManager {
     private List<VictoryCondition> victory;
     private List<DeathCondition> death;
     private final Level nextLevel;
+    private final Level level;
 
     /**
      * Constructs a EndGameManagerImpl with the specified list of conditions.
@@ -32,6 +32,7 @@ public class EndGameManagerImpl implements EndGameManager {
         this.victory = ListUtil.toList(new VictoryConditionsFactoryImpl().defaultConditions());
         this.death = ListUtil.toList(new DeathConditionsFactoryImpl().defaultConditions());
         this.nextLevel = level.next();
+        this.level = level; 
     }
 
     /**
@@ -122,7 +123,9 @@ public class EndGameManagerImpl implements EndGameManager {
             EventManager.getInstance().publish(GameEventType.STOP_VIEW, page, null);
             if (page.equals(PageIdentifier.GAME)) {
                 System.out.println("IN THE GAME");
-                ViewNavigator.getInstance().openView(page, this.nextLevel);
+                if (message.equals("Death achieved!")) {
+                    ViewNavigator.getInstance().openView(page, this.level);
+                }
             } else {
                 System.out.println("GO TO MENU");
                 ViewNavigator.getInstance().goToMenu();

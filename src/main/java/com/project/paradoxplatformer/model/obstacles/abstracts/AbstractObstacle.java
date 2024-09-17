@@ -2,7 +2,7 @@ package com.project.paradoxplatformer.model.obstacles.abstracts;
 
 import java.util.Queue;
 
-import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
+import com.project.paradoxplatformer.model.entity.AbstractTransformableObject;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
@@ -17,7 +17,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
  * its subclasses.
  * </p>
  */
-public abstract class AbstractObstacle extends AbstractTrasformableObject implements Obstacle {
+public abstract class AbstractObstacle extends AbstractTransformableObject implements Obstacle {
 
     /**
      * Constructs an abstract obstacle with trajectory information for activation
@@ -57,8 +57,8 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
     @Override
     public void updateState(final long dt) {
         super.updateState(dt);
-        this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));
-        this.setDimension(new Dimension(this.widthVector.magnitude(), this.heightVector.yComponent()));
+        this.setPosition(new Coord2D(getDisplacement().xComponent(), getDisplacement().yComponent()));
+        this.setDimension(new Dimension(getWidthVector().magnitude(), getHeightVector().yComponent()));
     }
 
     /**
@@ -74,6 +74,6 @@ public abstract class AbstractObstacle extends AbstractTrasformableObject implem
     @Override
     public void execute() {
         System.out.println("GAME OBJECT TRIGGERED");
-        this.isIdle = false;
+        setIdle(false);
     }
 }

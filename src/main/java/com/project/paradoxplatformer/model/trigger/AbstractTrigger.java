@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Queue;
 
-import com.project.paradoxplatformer.model.entity.AbstractTrasformableObject;
+import com.project.paradoxplatformer.model.entity.AbstractTransformableObject;
 import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -17,7 +17,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
  * It provides a basic implementation for triggers that can activate associated
  * obstacles.
  */
-public abstract class AbstractTrigger extends AbstractTrasformableObject implements Trigger {
+public abstract class AbstractTrigger extends AbstractTransformableObject implements Trigger {
 
     // A list of obstacles associated with this trigger. When the trigger is
     // activated, all these obstacles will be affected.
@@ -64,9 +64,9 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
     public void updateState(final long dt) {
         super.updateState(dt);
         // Update the position of the trigger based on its displacement vector.
-        this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));
+        this.setPosition(new Coord2D(getDisplacement().xComponent(), getDisplacement().yComponent()));
         // Update the dimension of the trigger based on its width and height vectors.
-        this.setDimension(new Dimension(this.widthVector.magnitude(), this.heightVector.yComponent()));
+        this.setDimension(new Dimension(getWidthVector().magnitude(), getHeightVector().yComponent()));
     }
 
     /**

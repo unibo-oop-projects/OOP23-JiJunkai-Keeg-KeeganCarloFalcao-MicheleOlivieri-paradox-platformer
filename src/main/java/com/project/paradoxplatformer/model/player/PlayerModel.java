@@ -70,8 +70,8 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.setPosition(pos);
         this.setDimension(dimension);
         this.displacement = new Simple2DVector(pos.x(), pos.y());
-        this.horizontalSpeed = Polar2DVector.nullVector();
-        this.verticalSpeed = Polar2DVector.nullVector();
+        setHorizontalSpeed(Polar2DVector.nullVector());
+        setVerticalSpeed(Polar2DVector.nullVector());
     }
 
     /**
@@ -129,10 +129,10 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
      */
     @Override
     public Vector2D getSpeed() {
-        if (this.horizontalSpeed == null) {
-            this.horizontalSpeed = Polar2DVector.nullVector(); // Default to null vector if uninitialized
+        if (getHorizontalSpeed() == null) {
+            setHorizontalSpeed(Polar2DVector.nullVector()); // Default to null vector if uninitialized
         }
-        return this.horizontalSpeed;
+        return getHorizontalSpeed();
     }
 
     /**
@@ -141,7 +141,7 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
      * @param speed The new speed to set.
      */
     public void setSpeed(final Vector2D speed) {
-        this.horizontalSpeed = speed;
+        setHorizontalSpeed(speed);
     }
 
     /**
@@ -153,7 +153,7 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         handleHorizontalMovement(dt);
         handleVerticalMovement(dt);
         this.setPosition(this.displacement.convert());
-        this.jumpBehavior.setFalling(true);
+        getJumpBehavior().setFalling(true);
     }
 
     /**
@@ -197,7 +197,7 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
      */
     private void handleHorizontalMovement(final long dt) {
         this.displacement = physics.step(this.displacement,
-                this.displacement.add(this.horizontalSpeed),
+                this.displacement.add(getHorizontalSpeed()),
                 interpFactory.linear(),
                 dt);
     }
@@ -209,10 +209,10 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
      */
     private void handleVerticalMovement(final long dt) {
         var nextVerticalDisplace = physics.moveTo(this.displacement,
-            this.displacement.add(verticalSpeed),
-            1,
-            interpFactory.easeIn(),
-            dt);
+                this.displacement.add(getVerticalSpeed()),
+                1,
+                interpFactory.easeIn(),
+                dt);
         this.displacement = nextVerticalDisplace.getKey();
     }
 }

@@ -10,12 +10,12 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
  * Abstract base class for objects that move horizontally. This class
  * extends {@link AbstractMutableObject} and implements
  * {@link HorizontalObject}.
- * It provides methods to move left, right, and stop, while managing the
- * object's horizontal speed and direction.
  * <p>
- * The movement is controlled using a magnitude that adjusts based on
- * the object's speed and direction. The object will stop if the magnitude
- * reaches zero.
+ * It provides methods to move left, right, and stop, while managing the
+ * object's horizontal speed and direction. The movement is controlled using
+ * a magnitude that adjusts based on the object's speed and direction. The
+ * object
+ * will stop if the magnitude reaches zero.
  * </p>
  */
 public abstract class AbstractHorizontalObject extends AbstractMutableObject implements HorizontalObject {
@@ -28,15 +28,15 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
 
     private final double limit;
     private final double delta;
-    protected double magnitude;
-    protected Vector2D horizontalSpeed;
+    private double magnitude;
+    private Vector2D horizontalSpeed;
     private Direction currentDirection;
 
-
-     /**
+    /**
      * Constructs an {@code AbstractHorizontalObject} with the specified
      * limit and delta values.
-     * @param key unique id of the player
+     * 
+     * @param key   unique id of the object
      * @param limit the maximum magnitude of movement
      * @param delta the amount of magnitude change per movement
      */
@@ -46,7 +46,9 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
         this.delta = delta;
         this.limit = limit;
         this.currentDirection = Direction.RIGHT;
+        this.horizontalSpeed = Polar2DVector.nullVector(); // Initialize horizontalSpeed
     }
+
     /**
      * Gets the base delta value used for adjusting movement speed.
      * 
@@ -69,7 +71,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
         if (movingDir.getStatus()) {
             this.magnitude = RESET_MAG;
         }
-        this.magnitude += this.magnitude > this.limit ? NO_ADDINGS : this.delta;
+        this.magnitude = Math.min(this.magnitude + this.delta, this.limit);
 
         // Update horizontal speed using polar coordinates
         this.horizontalSpeed = new Polar2DVector(this.magnitude * magnitudeSign, 0.0);
@@ -99,10 +101,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
      */
     @Override
     public void stop() {
-        this.magnitude -= this.magnitude > 0 ? delta : 0.0;
-        this.horizontalSpeed = new Polar2DVector(
-                this.magnitude * (horizontalSpeed.xComponent() >= 0.0 ? 1 : -1),
-                0.0);
+        this.magnitude = Math.max(this.magnitude - delta, RESET_MAG);
         this.horizontalSpeed = Polar2DVector.nullVector();
     }
 
@@ -116,8 +115,39 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
         return this.currentDirection;
     }
 
-    // ALTERNATIVE
-    // In moveBehaviour, use two boolean parameters, respectively moveRight and
-    // moveLeft
-    // Will simplify implementation, declare them in constructor and as fields
+    /**
+     * Gets the current magnitude of horizontal movement.
+     * 
+     * @return the magnitude of horizontal movement
+     */
+    public double getMagnitude() {
+        return magnitude;
+    }
+
+    /**
+     * Sets the magnitude of horizontal movement.
+     * 
+     * @param magnitude the new magnitude of horizontal movement
+     */
+    public void setMagnitude(final double magnitude) {
+        this.magnitude = magnitude;
+    }
+
+    /**
+     * Gets the current horizontal speed vector of the object.
+     * 
+     * @return the horizontal speed vector
+     */
+    public Vector2D getHorizontalSpeed() {
+        return horizontalSpeed;
+    }
+
+    /**
+     * Sets the horizontal speed vector of the object.
+     * 
+     * @param horizontalSpeed the new horizontal speed vector
+     */
+    public void setHorizontalSpeed(final Vector2D horizontalSpeed) {
+        this.horizontalSpeed = horizontalSpeed;
+    }
 }

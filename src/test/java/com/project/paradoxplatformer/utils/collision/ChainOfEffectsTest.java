@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.utils.collision;
 
-import com.project.paradoxplatformer.model.effect.ChainOfEffects;
-import com.project.paradoxplatformer.model.effect.ChainOfEffectsBuilder;
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
+import com.project.paradoxplatformer.model.effect.managers.ChainOfEffects;
+import com.project.paradoxplatformer.model.effect.managers.ChainOfEffectsBuilder;
 import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;

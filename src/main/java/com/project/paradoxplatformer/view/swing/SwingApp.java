@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.project.paradoxplatformer.model.effect.api.Level;
+import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.javafx.FXMLPageHelper;

@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.project.paradoxplatformer.model.effect.api.Level;
+import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
 /**
- * DeathConditionsFactoryImpl generates different death conditions based on the game level 
+ * DeathConditionsFactoryImpl generates different death conditions based on the
+ * game level
  * and the player's state.
  * 
- * It uses the ConditionsFactory interface to provide specific death conditions for each level 
+ * It uses the ConditionsFactory interface to provide specific death conditions
+ * for each level
  * or default conditions when no specific ones are defined.
  */
 public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondition> {
@@ -39,7 +41,8 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
     }
 
     /**
-     * Creates an iterator over default death conditions, which can be used as a fallback
+     * Creates an iterator over default death conditions, which can be used as a
+     * fallback
      * when no specific conditions are required for a level.
      *
      * @return an iterator over the default death conditions.

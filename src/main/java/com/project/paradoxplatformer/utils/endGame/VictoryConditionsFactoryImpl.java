@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.project.paradoxplatformer.model.effect.api.Level;
+import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
 /**
- * VictoryConditionsFactoryImpl generates different victory conditions for each level.
- * It allows the dynamic creation of conditions based on the level and player model.
+ * VictoryConditionsFactoryImpl generates different victory conditions for each
+ * level.
+ * It allows the dynamic creation of conditions based on the level and player
+ * model.
  */
 public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCondition> {
 
@@ -36,7 +38,8 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     }
 
     /**
-     * Creates an iterator over default victory conditions, which can be used as a fallback.
+     * Creates an iterator over default victory conditions, which can be used as a
+     * fallback.
      *
      * @return an iterator over the default victory conditions.
      */
@@ -44,8 +47,8 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     public Iterator<VictoryCondition> defaultConditions() {
         List<VictoryCondition> defaultList = new ArrayList<>();
         defaultList.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
-        defaultList.add(new CoinCollectionVictoryCondition(this.player, 5)); 
-        System.err.println(""+defaultList.toString());
+        defaultList.add(new CoinCollectionVictoryCondition(this.player, 5));
+        System.err.println("" + defaultList.toString());
         return defaultList.iterator();
     }
 
@@ -60,7 +63,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
         conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
         conditions.add(new CoinCollectionVictoryCondition(this.player, 10)); // Collect 10 coins
         conditions.add(new TimeLimitVictoryCondition(300)); // Win by surviving for 300 seconds
-        System.err.println(""+conditions.toString());
+        System.err.println("" + conditions.toString());
         return conditions.iterator();
     }
 

@@ -3,7 +3,7 @@ package com.project.paradoxplatformer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import com.project.paradoxplatformer.model.effect.api.Level;
+import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.legacy.ViewLegacy;
 

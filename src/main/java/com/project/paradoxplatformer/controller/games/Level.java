@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.effect.api;
+package com.project.paradoxplatformer.controller.games;
 
 /**
  * Enum representing different game levels.

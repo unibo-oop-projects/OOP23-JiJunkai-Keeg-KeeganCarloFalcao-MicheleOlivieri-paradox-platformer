@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.project.paradoxplatformer.model.effect.api.Level;
+import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;

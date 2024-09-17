@@ -4,8 +4,8 @@ import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;
+import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffect;
-import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;

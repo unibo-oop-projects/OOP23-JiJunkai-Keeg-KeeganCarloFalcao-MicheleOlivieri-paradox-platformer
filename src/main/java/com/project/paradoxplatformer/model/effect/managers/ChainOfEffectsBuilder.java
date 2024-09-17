@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model.effect;
+package com.project.paradoxplatformer.model.effect.managers;
 
 import java.util.ArrayList;
 import java.util.List;

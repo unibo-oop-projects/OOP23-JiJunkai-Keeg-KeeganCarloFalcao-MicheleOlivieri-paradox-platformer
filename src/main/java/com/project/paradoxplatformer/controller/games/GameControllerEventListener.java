@@ -1,6 +1,5 @@
 package com.project.paradoxplatformer.controller.games;
 
-import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;

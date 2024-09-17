@@ -4,8 +4,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import com.project.paradoxplatformer.model.effect.ChainOfEffects;
-import com.project.paradoxplatformer.model.effect.ChainOfEffectsBuilder;
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 

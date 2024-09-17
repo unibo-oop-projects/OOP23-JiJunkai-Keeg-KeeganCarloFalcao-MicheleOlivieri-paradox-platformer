@@ -1,6 +1,6 @@
-package com.project.paradoxplatformer.model.effect.api;
+package com.project.paradoxplatformer.model.effect;
 
-import com.project.paradoxplatformer.model.effect.EffectHandler;
+import com.project.paradoxplatformer.controller.games.Level;
 
 /**
  * Factory interface for creating instances of {@link EffectHandler}.

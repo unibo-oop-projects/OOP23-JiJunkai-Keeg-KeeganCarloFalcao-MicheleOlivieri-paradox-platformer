@@ -1,7 +1,8 @@
 package com.project.paradoxplatformer.utils.endGame;
 
 import java.util.Iterator;
-import com.project.paradoxplatformer.model.effect.api.Level;
+
+import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.StreamUtil;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;

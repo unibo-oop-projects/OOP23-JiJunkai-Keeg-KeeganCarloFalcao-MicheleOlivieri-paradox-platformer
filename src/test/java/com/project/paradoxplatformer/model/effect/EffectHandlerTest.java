@@ -2,6 +2,7 @@ package com.project.paradoxplatformer.model.effect;
 
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.impl.NoOpEffect;
+import com.project.paradoxplatformer.model.effect.managers.ChainOfEffects;
 import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
@@ -24,7 +25,7 @@ class EffectHandlerTest {
 
     @BeforeEach
     void setUp() {
-        effectHandler = new EffectHandler();
+        effectHandler = new EffectHandlerImpl();
     }
 
     @Test

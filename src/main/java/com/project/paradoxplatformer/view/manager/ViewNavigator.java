@@ -4,7 +4,7 @@ import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;
-import com.project.paradoxplatformer.model.effect.api.Level;
+import com.project.paradoxplatformer.controller.games.Level;
 
 /**
  * ViewNavigator handles the navigation between different views in the

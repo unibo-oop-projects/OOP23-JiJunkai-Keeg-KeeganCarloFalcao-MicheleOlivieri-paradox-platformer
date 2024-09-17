@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer.view;
 
-import com.project.paradoxplatformer.model.effect.api.Level;
+import com.project.paradoxplatformer.controller.games.Level;
 
 /**
  * Interface representing a page in the application.

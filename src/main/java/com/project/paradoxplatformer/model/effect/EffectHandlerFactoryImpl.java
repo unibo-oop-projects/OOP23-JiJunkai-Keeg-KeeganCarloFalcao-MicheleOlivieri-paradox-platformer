@@ -1,7 +1,6 @@
 package com.project.paradoxplatformer.model.effect;
 
-import com.project.paradoxplatformer.model.effect.api.EffectHandlerFactory;
-import com.project.paradoxplatformer.model.effect.api.Level;
+import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.effect.impl.ChangeLevelEffect;
 import com.project.paradoxplatformer.model.effect.impl.DeathEffect;
 import com.project.paradoxplatformer.model.effect.impl.FloorEffect;
@@ -26,7 +25,7 @@ public class EffectHandlerFactoryImpl implements EffectHandlerFactory {
      */
     @Override
     public EffectHandler defaultEffectHandler() {
-        EffectHandler handler = new EffectHandler();
+        EffectHandler handler = new EffectHandlerImpl();
 
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);

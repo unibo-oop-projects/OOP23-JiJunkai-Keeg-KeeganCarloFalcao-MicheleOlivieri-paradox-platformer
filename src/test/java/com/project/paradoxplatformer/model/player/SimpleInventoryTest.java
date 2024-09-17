@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import com.project.paradoxplatformer.controller.gameloop.GameLoop;
 import com.project.paradoxplatformer.model.effect.EffectFactoryImpl;
 import com.project.paradoxplatformer.model.effect.EffectHandler;
+import com.project.paradoxplatformer.model.effect.EffectHandlerImpl;
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 import com.project.paradoxplatformer.model.obstacles.Coin;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
@@ -62,7 +63,7 @@ public class SimpleInventoryTest {
         final CollectableGameObject coin2 = new Coin(new Coord2D(COIN_POSITION_X_2, 0),
                 new Dimension(COIN_SIZE, COIN_SIZE));
 
-        final EffectHandler effectHandler = new EffectHandler();
+        final EffectHandler effectHandler = new EffectHandlerImpl();
         effectHandler.addCollisionEffectsForType(CollisionType.COLLECTING, new EffectFactoryImpl()::collectingEffect);
         final CollisionManager collisionManager = new CollisionManager(effectHandler);
 

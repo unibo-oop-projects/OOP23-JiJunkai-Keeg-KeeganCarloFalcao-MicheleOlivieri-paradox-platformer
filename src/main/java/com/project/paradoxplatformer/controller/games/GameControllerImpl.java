@@ -18,7 +18,6 @@ import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.effect.EffectHandlerFactoryImpl;
-import com.project.paradoxplatformer.model.effect.api.Level;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
@@ -131,9 +130,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         """
-                        Failed to pair object and graphic
-                        Cause: 
-                        Graphic: """ + dimension.apply(g)
+                                Failed to pair object and graphic
+                                Cause:
+                                Graphic: """ + dimension.apply(g)
                                 + "\nGraphic: " + position.apply(g)));
 
         // Imposta il listener se l'oggetto è il palyer
@@ -164,8 +163,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     @Override
     public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer, String type) {
         this.setupGameMode(gameModel.getWorld().player(), type);
-        this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl().createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
-        this.endGameManager.setDeathHandler(new DeathConditionsFactoryImpl().createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
+        this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
+                .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
+        this.endGameManager.setDeathHandler(new DeathConditionsFactoryImpl().createConditionsForLevel(this.currentLevel,
+                this.gameModel.getWorld().player()));
         this.gameManager = new GameLoopFactoryImpl(dt -> {
             ic.checkPool(
                     inputer.getKeyAssetter(),
@@ -275,10 +276,11 @@ public final class GameControllerImpl<C> implements GameController<C>, GameEvent
     public void handleTriggerEffect(PageIdentifier id, Obstacle param) {
         System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
     }
-    
+
     @Override
     public void handleVictory(PageIdentifier id) {
-        this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl().createConditionsForLevel(this.currentLevel,this.gameModel.getWorld().player()) );
+        this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
+                .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
     }
 
 }

@@ -10,7 +10,7 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
  */
 public class ReachEndVictoryCondition implements VictoryCondition {
 
-    private final static int END_WORLD = 600; // TO FIX With real value
+    private static final int END_WORLD = 600; // TO FIX With real value
     private final PlayerModel player;
 
     /**

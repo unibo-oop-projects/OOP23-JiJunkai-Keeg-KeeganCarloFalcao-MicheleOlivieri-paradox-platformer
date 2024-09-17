@@ -22,15 +22,15 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
     // A list of obstacles associated with this trigger. When the trigger is
     // activated, all these obstacles will be affected.
     private final List<Triggerable> associatedObstacles = new ArrayList<>();
-    
+
     private Optional<Integer> triggerableID;
 
     /**
      * Constructs a new AbstractTrigger with the specified position and dimension.
      * 
-     * @param key        The unique id of the trigger.
-     * @param position   The initial position of the trigger.
-     * @param dimension  The initial dimension (size) of the trigger.
+     * @param key       The unique id of the trigger.
+     * @param position  The initial position of the trigger.
+     * @param dimension The initial dimension (size) of the trigger.
      */
     protected AbstractTrigger(final int key, final Coord2D position, final Dimension dimension) {
         super(key, position, dimension);
@@ -40,17 +40,16 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
      * Constructs a new AbstractTrigger with the specified position and dimension,
      * with id and trajectory queue.
      * 
-     * @param key              The unique id of the trigger.
-     * @param position         The initial position of the trigger.
-     * @param dimension        The initial dimension (size) of the trigger.
+     * @param key             The unique id of the trigger.
+     * @param position        The initial position of the trigger.
+     * @param dimension       The initial dimension (size) of the trigger.
      * @param trajectoryQueue The queue of potential trigger transformations.
      */
     protected AbstractTrigger(
             final int key,
             final Coord2D position,
             final Dimension dimension,
-            final Queue<TrajectoryInfo> trajectoryQueue
-    ) {
+            final Queue<TrajectoryInfo> trajectoryQueue) {
         super(key, position, dimension, trajectoryQueue);
     }
 
@@ -105,7 +104,7 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
     /**
      * Sets the unique ID for this trigger.
      * 
-     * @param id An {@link Optional} containing the ID to set. 
+     * @param id An {@link Optional} containing the ID to set.
      */
     @Override
     public void setTriggerableID(final Optional<Integer> id) {

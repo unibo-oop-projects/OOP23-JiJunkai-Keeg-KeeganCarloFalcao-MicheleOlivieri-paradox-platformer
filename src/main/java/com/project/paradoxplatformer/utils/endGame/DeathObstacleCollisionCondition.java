@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.utils.endGame;
 
 /**
- * A static implementation of the DeathCondition interface that tracks 
+ * A static implementation of the DeathCondition interface that tracks
  * if a player is dead based on collision with a death obstacle.
  */
 public class DeathObstacleCollisionCondition implements DeathCondition {
@@ -28,12 +28,13 @@ public class DeathObstacleCollisionCondition implements DeathCondition {
 
     /**
      * Sets the death state of the player.
-     * This method will be called by an observer when a collision with a 
+     * This method will be called by an observer when a collision with a
      * deathObstacle occurs.
      *
-     * @param dead true if the player has collided with a death obstacle, false otherwise.
+     * @param dead true if the player has collided with a death obstacle, false
+     *             otherwise.
      */
-    public static void setDeath(boolean dead) {
+    public static void setDeath(final boolean dead) {
         isDead = dead;
     }
 }

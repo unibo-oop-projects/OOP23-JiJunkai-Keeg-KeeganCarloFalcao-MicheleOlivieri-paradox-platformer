@@ -13,7 +13,8 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.physic.Direction;
 
 /**
- * Effects to handle stopping/blocking effect of the target (in this case is only the player) to a Wall (it is specific for walls).
+ * Effects to handle stopping/blocking effect of the target (in this case is
+ * only the player) to a Wall (it is specific for walls).
  */
 public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
 
@@ -47,20 +48,16 @@ public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
                     .ifPresent(w -> {
                         if (player.get().getPosition().y() >= w.getPosition().y() + w.getDimension().height()) {
                             this.player.get().setDisplacement(
-                                new Coord2D(
-                                    this.player.get().getPosition().x(),
-                                    w.getPosition().y() + w.getDimension().height()
-                                )
-                            );
+                                    new Coord2D(
+                                            this.player.get().getPosition().x(),
+                                            w.getPosition().y() + w.getDimension().height()));
                         } else {
                             if (player.get().direction() == Direction.LEFT) {
                                 this.player.get().setDisplacement(
-                                    w.getPosition().x() + w.getDimension().width() + TOLERANCE
-                                );
+                                        w.getPosition().x() + w.getDimension().width() + TOLERANCE);
                             } else if (player.get().direction() == Direction.RIGHT) {
                                 this.player.get().setDisplacement(
-                                    w.getPosition().x() - this.player.get().getDimension().width() - TOLERANCE
-                                );
+                                        w.getPosition().x() - this.player.get().getDimension().width() - TOLERANCE);
                             }
                         }
                         System.out.println(this.player.get().toString());

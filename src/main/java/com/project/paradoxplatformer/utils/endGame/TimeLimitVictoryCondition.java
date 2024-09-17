@@ -20,7 +20,8 @@ public class TimeLimitVictoryCondition implements VictoryCondition {
     }
 
     /**
-     * Checks if the player has won by verifying if the time limit has not been exceeded.
+     * Checks if the player has won by verifying if the time limit has not been
+     * exceeded.
      *
      * @return true if the player has won within the time limit, false otherwise.
      */
@@ -30,5 +31,5 @@ public class TimeLimitVictoryCondition implements VictoryCondition {
         // Check if the elapsed time is within the time limit
         return (currentTime + startTime) / 1000 < timeLimitSeconds;
     }
-    
+
 }

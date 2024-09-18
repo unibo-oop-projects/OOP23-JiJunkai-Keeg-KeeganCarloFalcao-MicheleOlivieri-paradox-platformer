@@ -5,15 +5,19 @@ import org.junit.jupiter.api.Test;
 
 import com.project.paradoxplatformer.controller.event.EventManager;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.function.BiConsumer;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for the EventManager class, ensuring functionality for
- * subscribing,
- * publishing, unsubscribing events, and verifying the Singleton pattern.
+ * subscribing, publishing, unsubscribing events, and verifying the Singleton
+ * pattern.
  */
 class EventManagerTest {
 
@@ -46,20 +50,24 @@ class EventManagerTest {
         // Create output container
         final StringBuilder output = new StringBuilder();
 
-        // Override System.out to capture the print statements
-        System.setOut(new java.io.PrintStream(new java.io.OutputStream() {
-            @Override
-            public void write(final int b) {
-                output.append((char) b);
-            }
-        }));
+        try (PrintStream originalOut = System.out) {
+            // Override System.out to capture the print statements with UTF-8 encoding
+            System.setOut(new PrintStream(new OutputStream() {
+                @Override
+                public void write(int b) {
+                    output.append((char) b);
+                }
+            }, true, "UTF-8"));
 
-        // Publish the event
-        eventManager.publish(TEST_EVENT_TYPE, TEST_PARAM, "Hello");
+            // Publish the event
+            eventManager.publish(TEST_EVENT_TYPE, TEST_PARAM, "Hello");
 
-        // Verify
-        assertTrue(output.toString().contains("Event triggered with params: 123, Hello"),
-                "The published event should print the correct parameters.");
+            // Verify
+            assertTrue(output.toString().contains("Event triggered with params: 123, Hello"),
+                    "The published event should print the correct parameters.");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("UTF-8 encoding is not supported", e);
+        }
     }
 
     /**
@@ -82,20 +90,24 @@ class EventManagerTest {
         // Create output container
         final StringBuilder output = new StringBuilder();
 
-        // Override System.out to capture the print statements
-        System.setOut(new java.io.PrintStream(new java.io.OutputStream() {
-            @Override
-            public void write(final int b) {
-                output.append((char) b);
-            }
-        }));
+        try (PrintStream originalOut = System.out) {
+            // Override System.out to capture the print statements with UTF-8 encoding
+            System.setOut(new PrintStream(new OutputStream() {
+                @Override
+                public void write(int b) {
+                    output.append((char) b);
+                }
+            }, true, "UTF-8"));
 
-        // Publish the event
-        eventManager.publish(TEST_EVENT_TYPE, TEST_PARAM, "Hello");
+            // Publish the event
+            eventManager.publish(TEST_EVENT_TYPE, TEST_PARAM, "Hello");
 
-        // Verify
-        assertTrue(output.toString().contains("Could not find event testEvent, event not published"),
-                "Unsubscribed event should not trigger the action and should print the appropriate message.");
+            // Verify
+            assertFalse(output.toString().contains("Could not find event testEvent, event not published"),
+                    "Unsubscribed event should not trigger the action.");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("UTF-8 encoding is not supported", e);
+        }
     }
 
     /**

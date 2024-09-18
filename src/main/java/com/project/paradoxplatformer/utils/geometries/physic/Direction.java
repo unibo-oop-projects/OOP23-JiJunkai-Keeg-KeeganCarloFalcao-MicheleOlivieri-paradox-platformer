@@ -34,7 +34,7 @@ public enum Direction {
      *
      * @return {@code true} if the direction is activated, {@code false} otherwise
      */
-    public boolean getStatus() {
+    public boolean isActive() {
         return this.activatedStatus;
     }
 

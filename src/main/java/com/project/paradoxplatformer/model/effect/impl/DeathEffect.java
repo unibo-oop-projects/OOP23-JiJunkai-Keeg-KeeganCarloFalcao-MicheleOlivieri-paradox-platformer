@@ -4,7 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffect;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.utils.endGame.DeathObstacleCollisionCondition;
+import com.project.paradoxplatformer.utils.endgame.DeathObstacleCollisionCondition;
 
 /**
  * An effect that causes the end of the game.
@@ -18,7 +18,7 @@ public final class DeathEffect extends AbstractOneTimeEffect {
     @Override
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         return CompletableFuture.runAsync(() -> {
-//            System.out.println(gameObject);
+            // System.out.println(gameObject);
             DeathObstacleCollisionCondition.setDeath(true);
         });
     }

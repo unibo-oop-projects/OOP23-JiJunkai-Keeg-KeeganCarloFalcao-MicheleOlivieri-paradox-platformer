@@ -25,7 +25,7 @@ public class SoundLoader {
     public CompletableFuture<Void> playSound(final URL soundUrl) {
         return CompletableFuture.runAsync(() -> {
             try (AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundUrl)) {
-                Clip clip = AudioSystem.getClip();
+                final Clip clip = AudioSystem.getClip();
                 clip.open(audioInputStream);
                 clip.start();
 

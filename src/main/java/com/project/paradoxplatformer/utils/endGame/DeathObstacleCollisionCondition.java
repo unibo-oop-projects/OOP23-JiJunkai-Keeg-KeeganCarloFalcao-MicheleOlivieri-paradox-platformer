@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
 
 /**
  * Represents a condition that determines if a player has won the game.

@@ -46,7 +46,7 @@ public final class SimpleController<N, P, K> implements Controller {
      */
     @Override
     public void quit() {
-        this.viewManager.safeError(); //Force quit
+        this.viewManager.safeError(); // Force quit
     }
 
     /**
@@ -56,10 +56,11 @@ public final class SimpleController<N, P, K> implements Controller {
     public void start() {
         try {
             new Thread(() -> viewManager.create(latch, title)).start();
-            latch.await(); //waits on main thread that the application is started
+            latch.await(); // waits on main thread that the application is started
             viewManager.runOnAppThread(this::initRoutine);
         } catch (InterruptedException | RuntimeException e) {
-            System.err.println("\nErrors encountered within view creation:\n → " + ExceptionUtils.simpleDisplay(e));
+            // System.err.println("\nErrors encountered within view creation:\n → " +
+            // ExceptionUtils.simpleDisplay(e));
             viewManager.safeError();
         }
     }
@@ -72,7 +73,7 @@ public final class SimpleController<N, P, K> implements Controller {
      * @param param the level parameter associated with the view
      */
     private void handleViewSwitch(final PageIdentifier id, final Level param) {
-//        System.out.println("NOW RECREATE THE VIEW.");
+        // System.out.println("NOW RECREATE THE VIEW.");
         this.switchView(id, param);
     }
 

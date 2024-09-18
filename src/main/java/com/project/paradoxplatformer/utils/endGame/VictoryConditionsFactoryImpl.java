@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -54,7 +54,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
      */
     @Override
     public Iterator<VictoryCondition> defaultConditions() {
-        List<VictoryCondition> defaultList = new ArrayList<>();
+        final List<VictoryCondition> defaultList = new ArrayList<>();
         return defaultList.iterator();
     }
 
@@ -65,11 +65,10 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
      */
     @Override
     public Iterator<VictoryCondition> levelOneConditions() {
-        List<VictoryCondition> conditions = new ArrayList<>();
+        final List<VictoryCondition> conditions = new ArrayList<>();
         conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
         conditions.add(new CoinCollectionVictoryCondition(this.player, DEFAULT_COIN_COLLECTION)); // Collect 10 coins
         conditions.add(new TimeLimitVictoryCondition(LEVEL_ONE_TIME_LIMIT)); // Win by surviving for 300 seconds
-        System.err.println("" + conditions.toString());
         return conditions.iterator();
     }
 
@@ -80,7 +79,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
      */
     @Override
     public Iterator<VictoryCondition> levelTwoConditions() {
-        List<VictoryCondition> conditions = new ArrayList<>();
+        final List<VictoryCondition> conditions = new ArrayList<>();
         conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
         return conditions.iterator();
     }
@@ -92,7 +91,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
      */
     @Override
     public Iterator<VictoryCondition> levelThreeConditions() {
-        List<VictoryCondition> conditions = new ArrayList<>();
+        final List<VictoryCondition> conditions = new ArrayList<>();
         conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
         conditions.add(new CoinCollectionVictoryCondition(this.player, DEFAULT_COIN_COLLECTION)); // Collect 15
                                                                                                   // coins
@@ -107,7 +106,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
      */
     @Override
     public Iterator<VictoryCondition> levelFourConditions() {
-        List<VictoryCondition> conditions = new ArrayList<>();
+        final List<VictoryCondition> conditions = new ArrayList<>();
         conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
         conditions.add(new TimeLimitVictoryCondition(LEVEL_FOUR_TIME_LIMIT)); // Survive for 400 seconds
         conditions.add(new TimeLimitVictoryCondition(LEVEL_FOUR_TIME_LIMIT)); // Survive for 400 seconds

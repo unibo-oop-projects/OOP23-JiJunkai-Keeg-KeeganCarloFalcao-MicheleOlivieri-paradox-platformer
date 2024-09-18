@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
 
 import java.util.Iterator;
 import java.util.List;
@@ -50,7 +50,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void onVictory() {
-        triggerEvent("Victory achieved!", ConditionType.WIN);
+        triggerEvent(ConditionType.WIN);
     }
 
     /**
@@ -69,7 +69,7 @@ public class EndGameManagerImpl implements EndGameManager {
      */
     @Override
     public void onDeath() {
-        triggerEvent("Death achieved!", ConditionType.LOSE);
+        triggerEvent(ConditionType.LOSE);
     }
 
     /**
@@ -96,16 +96,16 @@ public class EndGameManagerImpl implements EndGameManager {
     /**
      * General method to check a condition iterator, execute an action on success.
      *
-     * @param list The condition list.
+     * @param list      The condition list.
      * @param condition The condition to check.
      * @param onSuccess The action to execute on success.
-     * @param <T> type of condition.
+     * @param <T>       type of condition.
      * @return true if the condition was met, false otherwise.
      */
     private <T> boolean checkCondition(final List<T> list, final Predicate<T> condition,
             final Runnable onSuccess) {
 
-        boolean result = list.stream().anyMatch(condition);
+        final boolean result = list.stream().anyMatch(condition);
         if (result) {
             onSuccess.run();
         }
@@ -115,18 +115,17 @@ public class EndGameManagerImpl implements EndGameManager {
     /**
      * Triggers an event with a given message and navigates to the specified page.
      *
-     * @param message The message to print.
+     * @param message   The message to print.
      * @param condition The condition to trigger (WIN or LOSE).
      */
-    private void triggerEvent(final String message, final ConditionType condition) {
-//        System.out.println(message);
+    private void triggerEvent(final ConditionType condition) {
         if (condition != null) {
             EventManager.getInstance().publish(GameEventType.STOP_VIEW, null, null);
             if (condition.equals(ConditionType.WIN)) {
-//                System.out.println("GO TO NEXT LEVEL.");
+                // System.out.println("GO TO NEXT LEVEL.");
                 ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.nextLevel);
             } else {
-//                System.out.println("RESTART CURRENT LEVEL.");
+                // System.out.println("RESTART CURRENT LEVEL.");
                 ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.currentLevel);
             }
         }

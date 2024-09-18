@@ -36,7 +36,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
     /**
      * Constructs an {@code AbstractHorizontalObject} with the specified
      * limit and delta values.
-     * 
+     *
      * @param key   unique id of the object
      * @param limit the maximum magnitude of movement
      * @param delta the amount of magnitude change per movement
@@ -52,7 +52,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
 
     /**
      * Gets the base delta value used for adjusting movement speed.
-     * 
+     *
      * @return the base delta value
      */
     @Override
@@ -63,13 +63,13 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
     /**
      * Handles the movement behavior based on the specified direction and
      * magnitude sign.
-     * 
+     *
      * @param movingDir     the direction in which to move
      * @param magnitudeSign the sign of the magnitude for movement
      */
     private void moveBehaviour(final Direction movingDir, final double magnitudeSign) {
         this.currentDirection = movingDir;
-        if (movingDir.getStatus()) {
+        if (movingDir.isActive()) {
             this.magnitude = RESET_MAG;
         }
         this.magnitude = Math.min(this.magnitude + this.delta, this.limit);
@@ -108,7 +108,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
 
     /**
      * Gets the current direction of the object.
-     * 
+     *
      * @return the current direction
      */
     @Override
@@ -118,7 +118,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
 
     /**
      * Gets the current magnitude of horizontal movement.
-     * 
+     *
      * @return the magnitude of horizontal movement
      */
     public double getMagnitude() {
@@ -127,7 +127,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
 
     /**
      * Sets the magnitude of horizontal movement.
-     * 
+     *
      * @param magnitude the new magnitude of horizontal movement
      */
     public void setMagnitude(final double magnitude) {
@@ -136,7 +136,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
 
     /**
      * Gets the current horizontal speed vector of the object.
-     * 
+     *
      * @return the horizontal speed vector
      */
     public Vector2D getHorizontalSpeed() {
@@ -145,7 +145,7 @@ public abstract class AbstractHorizontalObject extends AbstractMutableObject imp
 
     /**
      * Sets the horizontal speed vector of the object.
-     * 
+     *
      * @param horizontalSpeed the new horizontal speed vector
      */
     public void setHorizontalSpeed(final Vector2D horizontalSpeed) {

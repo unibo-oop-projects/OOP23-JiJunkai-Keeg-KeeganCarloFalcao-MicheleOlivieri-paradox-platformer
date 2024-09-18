@@ -78,6 +78,7 @@ public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         // Add specific effects for level three
          handler.addCollisionEffectsForType(CollisionType.BUTTON, () -> new
          ChangeLevelEffect(Level.LEVEL_FOUR));
+         handler.addCollisionEffectsForType(CollisionType.WALLS, DeathEffect::new);
         return handler;
     }
 

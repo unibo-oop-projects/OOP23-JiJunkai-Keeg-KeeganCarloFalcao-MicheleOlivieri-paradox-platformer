@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.project.paradoxplatformer.controller.games.Level;
-import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.endgame.condition.DeathObstacleCollisionCondition;
 import com.project.paradoxplatformer.model.endgame.condition.FallenCondition;
 import com.project.paradoxplatformer.model.endgame.condition.TimeLimitDeathCondition;
+import com.project.paradoxplatformer.model.player.PlayerModel;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -102,6 +102,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
         final List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if health is below 0.
         conditions.add(new FallenCondition(this.player));
+        conditions.add(new DeathObstacleCollisionCondition());
         return conditions.iterator();
     }
 

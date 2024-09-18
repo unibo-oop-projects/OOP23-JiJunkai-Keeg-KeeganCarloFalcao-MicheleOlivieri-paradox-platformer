@@ -83,7 +83,7 @@ public class InputControllerTest {
      * control.
      * It is used in the unit tests to simulate key presses.
      */
-    private class KeyInputerImpl implements KeyInputer<String> {
+    private static final class KeyInputerImpl implements KeyInputer<String> {
 
         private final KeyAssetter<String> keyassetter;
 

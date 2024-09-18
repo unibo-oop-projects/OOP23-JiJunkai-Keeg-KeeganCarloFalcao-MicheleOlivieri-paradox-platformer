@@ -10,18 +10,29 @@ import org.junit.jupiter.api.Test;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests for the {@link TransportEffect} class.
+ */
 public class TransportEffectTest {
 
+    private static final Coord2D DESTINATION = new Coord2D(100, 200);
+    private static final int WIDTH = 50;
+    private static final int HEIGHT = 50;
+
+    /**
+     * Tests if the {@link TransportEffect} correctly updates the position of the
+     * target object.
+     */
     @Test
     public void testApplyUpdatesPosition() {
         // Arrange
-        Coord2D destination = new Coord2D(100, 200);
-        TransportEffect transportEffect = new TransportEffect(destination, false); // Apply to target
+        TransportEffect transportEffect = new TransportEffect(DESTINATION, false); // Apply to target
 
         // Create a TestGameObject
-        Button testGameObject = new Button(1, new Coord2D(0, 0), new Dimension(50, 50));
+        Button testGameObject = new Button(1, new Coord2D(0, 0), new Dimension(WIDTH, HEIGHT));
 
         // Act
         CompletableFuture<Void> future = transportEffect.apply(Optional.of(testGameObject), Optional.empty());
@@ -30,15 +41,18 @@ public class TransportEffectTest {
         future.join(); // Blocks until the CompletableFuture completes
 
         // Assert
-        assertNotEquals(destination, testGameObject.getPosition(),
-                "The position should not to be updated to the destination.");
+        assertNotEquals(DESTINATION, testGameObject.getPosition(),
+                "The position should not be updated to the destination.");
     }
 
+    /**
+     * Tests that {@link TransportEffect} does not update the position when there is
+     * no target.
+     */
     @Test
     public void testApplyDoesNotUpdatePositionWhenNoTarget() {
         // Arrange
-        Coord2D destination = new Coord2D(100, 200);
-        TransportEffect transportEffect = new TransportEffect(destination, false); // Apply to target
+        TransportEffect transportEffect = new TransportEffect(DESTINATION, false); // Apply to target
 
         // Act
         CompletableFuture<Void> future = transportEffect.apply(Optional.empty(), Optional.empty());
@@ -47,18 +61,20 @@ public class TransportEffectTest {
         future.join(); // Blocks until the CompletableFuture completes
 
         // Assert
-        // Ensure the CompletableFuture is completed
         assertTrue(future.isDone(), "The CompletableFuture should be completed even if there is no target.");
     }
 
+    /**
+     * Tests if the {@link TransportEffect} correctly updates the position of the
+     * self object.
+     */
     @Test
     public void testApplyToSelfUpdatesPosition() {
         // Arrange
-        Coord2D destination = new Coord2D(100, 200);
-        TransportEffect transportEffect = new TransportEffect(destination, true); // Apply to self
+        TransportEffect transportEffect = new TransportEffect(DESTINATION, true); // Apply to self
 
         // Create a TestGameObject
-        PlayerModel testGameObject = new PlayerModel(0, new Coord2D(0, 0), new Dimension(50, 50));
+        PlayerModel testGameObject = new PlayerModel(0, new Coord2D(0, 0), new Dimension(WIDTH, HEIGHT));
 
         // Act
         CompletableFuture<Void> future = transportEffect.apply(Optional.empty(), Optional.of(testGameObject));
@@ -67,7 +83,7 @@ public class TransportEffectTest {
         future.join(); // Blocks until the CompletableFuture completes
 
         // Assert
-        assertNotEquals(destination, testGameObject.getPosition(),
-                "The position should be not updated to the destination.");
+        assertNotEquals(DESTINATION, testGameObject.getPosition(),
+                "The position should not be updated to the destination.");
     }
 }

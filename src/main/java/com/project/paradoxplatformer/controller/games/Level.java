@@ -60,15 +60,12 @@ public enum Level {
      * @return the next level, wrapping around to LEVEL_ONE after the last level
      */
     public Level next() {
-        final Level[] levels = Level.values();
-        final int ordinal = this.ordinal();
-
         // Skip EMPTY_LEVEL and only consider valid levels
         if (this == EMPTY_LEVEL) {
             return LEVEL_ONE; // Start from LEVEL_ONE if currently EMPTY_LEVEL
         }
 
         // Return the next level, or wrap around to LEVEL_ONE if at the last level
-        return ordinal >= levels.length - 1 ? LEVEL_ONE : levels[ordinal + 1];
+        return this.ordinal() >= Level.values().length - 1 ? LEVEL_ONE : Level.values()[this.ordinal() + 1];
     }
 }

@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endgame;
+package com.project.paradoxplatformer.model.endgame;
 
 /**
  * Represents a condition that determines if a player is dead in the game.

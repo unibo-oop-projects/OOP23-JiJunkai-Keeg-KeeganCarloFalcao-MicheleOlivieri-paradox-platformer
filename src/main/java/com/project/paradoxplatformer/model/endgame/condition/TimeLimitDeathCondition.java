@@ -1,6 +1,6 @@
-package com.project.paradoxplatformer.utils.endgame.condition;
+package com.project.paradoxplatformer.model.endgame.condition;
 
-import com.project.paradoxplatformer.utils.endgame.DeathCondition;
+import com.project.paradoxplatformer.model.endgame.DeathCondition;
 
 /**
  * TimeLimitDeathCondition checks if the player has survived past a specific

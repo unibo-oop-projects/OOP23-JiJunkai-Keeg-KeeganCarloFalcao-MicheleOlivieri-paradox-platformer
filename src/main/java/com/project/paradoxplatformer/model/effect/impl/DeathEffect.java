@@ -4,7 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffect;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.utils.endgame.condition.DeathObstacleCollisionCondition;
+import com.project.paradoxplatformer.model.endgame.condition.DeathObstacleCollisionCondition;
 
 /**
  * An effect that causes the end of the game.

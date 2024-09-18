@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endgame;
+package com.project.paradoxplatformer.model.endgame;
 
 import java.util.Iterator;
 import java.util.List;

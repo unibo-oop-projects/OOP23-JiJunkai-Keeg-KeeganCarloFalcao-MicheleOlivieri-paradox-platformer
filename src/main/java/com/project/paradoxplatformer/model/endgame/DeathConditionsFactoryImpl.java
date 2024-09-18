@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endgame;
+package com.project.paradoxplatformer.model.endgame;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,9 +6,9 @@ import java.util.List;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.utils.endgame.condition.DeathObstacleCollisionCondition;
-import com.project.paradoxplatformer.utils.endgame.condition.FallenCondition;
-import com.project.paradoxplatformer.utils.endgame.condition.TimeLimitDeathCondition;
+import com.project.paradoxplatformer.model.endgame.condition.DeathObstacleCollisionCondition;
+import com.project.paradoxplatformer.model.endgame.condition.FallenCondition;
+import com.project.paradoxplatformer.model.endgame.condition.TimeLimitDeathCondition;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

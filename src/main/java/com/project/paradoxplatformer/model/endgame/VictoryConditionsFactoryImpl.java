@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endgame;
+package com.project.paradoxplatformer.model.endgame;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,10 +6,10 @@ import java.util.List;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.utils.endgame.condition.CoinCollectionVictoryCondition;
-import com.project.paradoxplatformer.utils.endgame.condition.CompositeVictoryCondition;
-import com.project.paradoxplatformer.utils.endgame.condition.ReachEndVictoryCondition;
-import com.project.paradoxplatformer.utils.endgame.condition.TimeLimitVictoryCondition;
+import com.project.paradoxplatformer.model.endgame.condition.CoinCollectionVictoryCondition;
+import com.project.paradoxplatformer.model.endgame.condition.CompositeVictoryCondition;
+import com.project.paradoxplatformer.model.endgame.condition.ReachEndVictoryCondition;
+import com.project.paradoxplatformer.model.endgame.condition.TimeLimitVictoryCondition;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

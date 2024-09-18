@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endgame;
+package com.project.paradoxplatformer.model.endgame;
 
 /**
  * Enum representing the types of conditions that can occur in the game.

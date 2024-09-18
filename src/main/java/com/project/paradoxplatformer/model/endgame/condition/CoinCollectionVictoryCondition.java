@@ -1,7 +1,7 @@
-package com.project.paradoxplatformer.utils.endgame.condition;
+package com.project.paradoxplatformer.model.endgame.condition;
 
 import com.project.paradoxplatformer.model.player.PlayerModel;
-import com.project.paradoxplatformer.utils.endgame.VictoryCondition;
+import com.project.paradoxplatformer.model.endgame.VictoryCondition;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

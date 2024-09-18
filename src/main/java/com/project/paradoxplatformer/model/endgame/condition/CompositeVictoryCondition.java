@@ -1,6 +1,6 @@
-package com.project.paradoxplatformer.utils.endgame.condition;
+package com.project.paradoxplatformer.model.endgame.condition;
 
-import com.project.paradoxplatformer.utils.endgame.VictoryCondition;
+import com.project.paradoxplatformer.model.endgame.VictoryCondition;
 
 /**
  * A composite victory condition that combines two conditions using a logical

@@ -2,6 +2,7 @@
 	"type": "flappy",
 	"height": 360,
 	"width": 640,
+	"backgroundFile": "level3Back.jpg",
 	"gameDTOs": [
 		{
 			"id": 0,

@@ -50,9 +50,9 @@ public final class GamePlatformView<C, K> implements GameView<C> {
      * Constructs a {@link GamePlatformView} with the specified level data, graphic
      * container, and view mapping factory.
      * 
-     * @param packedData the level data containing game information
-     * @param graphContainer          the graphic container to hold and manage graphics
-     * @param factory    the factory for mapping data to graphical components
+     * @param packedData     the level data containing game information
+     * @param graphContainer the graphic container to hold and manage graphics
+     * @param factory        the factory for mapping data to graphical components
      */
     public GamePlatformView(
             final LevelDTO packedData,
@@ -79,7 +79,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     public void init() {
         final Pair<DoubleProperty, DoubleProperty> dimScalingProperties = this.initializeProperties(this.container);
         this.container.setDimension(this.packedData.getWidth(), this.packedData.getHeight());
-        
+
         this.setComponents = Arrays.stream(this.packedData.getGameDTOs())
                 .collect(Collectors.teeing(
                         Collectors.filtering(g -> Objects.nonNull(g.getImage()),
@@ -139,8 +139,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     @Override
     public void updateControlState(
             final ReadOnlyMutableObjectWrapper mutEntity,
-            final ReadOnlyGraphicDecorator<C> graphicCompo
-        ) {
+            final ReadOnlyGraphicDecorator<C> graphicCompo) {
         retriveGraphic(graphicCompo).ifPresent(graph -> {
 
             final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());
@@ -194,7 +193,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     public void removeGraphic(final ReadOnlyGraphicDecorator<C> node) {
         retriveGraphic(node).ifPresent(this.setComponents::remove);
         this.container.delete(node);
-//        System.out.println("DELETED? ");
+        // System.out.println("DELETED? ");
     }
 
     /**

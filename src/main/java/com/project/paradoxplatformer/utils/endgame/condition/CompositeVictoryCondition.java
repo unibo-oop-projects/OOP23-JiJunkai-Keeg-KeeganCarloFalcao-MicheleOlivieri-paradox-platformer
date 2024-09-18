@@ -3,7 +3,8 @@ package com.project.paradoxplatformer.utils.endgame.condition;
 import com.project.paradoxplatformer.utils.endgame.VictoryCondition;
 
 /**
- * A composite victory condition that combines two conditions using a logical AND.
+ * A composite victory condition that combines two conditions using a logical
+ * AND.
  */
 public class CompositeVictoryCondition implements VictoryCondition {
 

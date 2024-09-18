@@ -6,7 +6,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import com.project.paradoxplatformer.utils.InvalidResourceException;
+import org.slf4j.Logger;
+import com.project.paradoxplatformer.utils.logging.GlobalLogger;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +17,8 @@ import java.util.concurrent.CompletableFuture;
  * Utility class for loading and playing sound files asynchronously.
  */
 public class SoundLoader {
+
+    private final Logger logger = GlobalLogger.getLogger(SoundLoader.class);
 
     /**
      * Loads and plays a sound from the provided URL.
@@ -34,11 +37,7 @@ public class SoundLoader {
                 // Wait for the clip to finish playing
                 clip.drain();
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                try {
-                    throw new InvalidResourceException(soundUrl.toString(), e);
-                } catch (InvalidResourceException e1) {
-                    e1.printStackTrace();
-                }
+                logger.error("Failed to load or play sound from URL: " + soundUrl, e);
             }
         });
     }

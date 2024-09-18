@@ -196,7 +196,8 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     @Override
     public void removeGraphic(final ReadOnlyGraphicDecorator<C> node) {
         retriveGraphic(node).ifPresent(this.setComponents::remove);
-        System.out.println("DELETED? " + this.container.get().delete(node));
+        this.container.get().delete(node);
+//        System.out.println("DELETED? ");
     }
 
     /**

@@ -18,7 +18,7 @@ public final class DeathEffect extends AbstractOneTimeEffect {
     @Override
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         return CompletableFuture.runAsync(() -> {
-            System.out.println(gameObject);
+//            System.out.println(gameObject);
             DeathObstacleCollisionCondition.setDeath(true);
         });
     }

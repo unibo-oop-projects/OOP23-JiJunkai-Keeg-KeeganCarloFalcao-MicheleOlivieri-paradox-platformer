@@ -91,7 +91,7 @@ public class CollisionObserver {
      */
     private void activateTriggerIfPresent(final CollidableGameObject object) {
         if (object instanceof Trigger) {
-            System.out.println(object + " is triggered from Collision Observer.");
+//            System.out.println(object + " is triggered from Collision Observer.");
             ((Trigger) object).activate();
         }
     }
@@ -105,7 +105,7 @@ public class CollisionObserver {
      */
     private void removeTriggerIfPresent(final CollidableGameObject object, final CollisionType collisionType) {
         if (object instanceof Trigger) {
-            System.out.println(object + " is removed from Collision Observer.");
+//            System.out.println(object + " is removed from Collision Observer.");
             EventManager.getInstance().publish(GameEventType.REMOVE_OBJECT, PageIdentifier.EMPTY, Optional.of(object));
         }
     }

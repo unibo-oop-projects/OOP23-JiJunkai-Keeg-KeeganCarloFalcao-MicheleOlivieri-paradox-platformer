@@ -146,8 +146,8 @@ public class JavaFxApp extends Application implements ViewManager {
     @Override
     public Page<Level> switchPage(final PageIdentifier id) {
         if (Platform.isFxApplicationThread()) {
-            System.out.println("In SWITCH PANE FUNCTION");
-            System.out.println("[CURRENT ID]: " + id);
+//            System.out.println("In SWITCH PANE FUNCTION");
+//            System.out.println("[CURRENT ID]: " + id);
 
             var entry = helper.mapper().apply(id);
             scene.setRoot(
@@ -155,7 +155,7 @@ public class JavaFxApp extends Application implements ViewManager {
                             .orElse(ViewFramework.javaFxFactory().blankPage()));
             stage.sizeToScene();
 
-            System.out.println("[PANE]: " + entry.map(Pair::getValue).orElse(Page.defaultPage()));
+//            System.out.println("[PANE]: " + entry.map(Pair::getValue).orElse(Page.defaultPage()));
             return entry.map(Pair::getValue).orElse(Page.defaultPage());
         }
         throw new IllegalStateException("Not in FX Thread");
@@ -246,7 +246,7 @@ public class JavaFxApp extends Application implements ViewManager {
         stage.sizeToScene();
         stage.setScene(scene);
 
-        System.out.println("Main View Size → " + new Dimension(scene.getWidth(), scene.getHeight()));
+//        System.out.println("Main View Size → " + new Dimension(scene.getWidth(), scene.getHeight()));
     }
 
     private void setDialoContent(final String content, final DialogPane p) throws ClassCastException {

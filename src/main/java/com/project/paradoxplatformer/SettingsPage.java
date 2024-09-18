@@ -27,13 +27,6 @@ public final class SettingsPage extends AbstractThreadedPage {
     private boolean soundEnabled = true; // Example state
 
     /**
-     * A non argument constructor with empty implementation, it used to reinitialize the fxml controls.
-     */
-    public SettingsPage() {
-
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -49,13 +42,13 @@ public final class SettingsPage extends AbstractThreadedPage {
     private void toggleSound() {
         soundEnabled = !soundEnabled;
         // Logic to enable/disable sound
-        System.out.println("Sound enabled: " + soundEnabled);
+//        System.out.println("Sound enabled: " + soundEnabled);
     }
 
     private void saveSettings() {
         double brightness = brightnessSlider.getValue();
         // Logic to save brightness settings
-        System.out.println("Brightness set to: " + brightness);
+//        System.out.println("Brightness set to: " + brightness);
     }
 
     /**
@@ -63,7 +56,7 @@ public final class SettingsPage extends AbstractThreadedPage {
      */
     @Override
     protected void runOnFXThread(final Level param) throws Exception {
-        System.out.println("[Main Settings Panel]"); // Debug output or placeholder for actual logic
+//        System.out.println("[Main Settings Panel]"); // Debug output or placeholder for actual logic
     }
 
 }

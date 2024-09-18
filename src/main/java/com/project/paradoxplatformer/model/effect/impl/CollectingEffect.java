@@ -31,7 +31,7 @@ public final class CollectingEffect extends AbstractRecreatableEffect {
     @Override
     protected CompletableFuture<Void> applyToTarget(final Optional<? extends CollidableGameObject> target) {
         return target.map(gameObject -> {
-            System.out.println("Target → " + target.get());
+//            System.out.println("Target → " + target.get());
             if (gameObject instanceof PlayerModel pl) {
                 this.player = Optional.of(pl);
             }
@@ -49,7 +49,7 @@ public final class CollectingEffect extends AbstractRecreatableEffect {
                     .filter(CollectableGameObject.class::isInstance)
                     .filter(g -> this.player.isPresent())
                     .map(CollectableGameObject.class::cast)
-                    .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " collected")))
+//                    .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " collected")))
                     .ifPresent(this.player.get()::collectItem);
         });
     }

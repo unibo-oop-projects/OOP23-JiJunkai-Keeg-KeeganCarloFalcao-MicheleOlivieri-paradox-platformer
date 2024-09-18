@@ -83,7 +83,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
 
         this.objectRemover = new ObjectRemover<>(model, view);
 
-        System.out.println("Current level: " + level);
+//        System.out.println("Current level: " + level);
     }
 
     /**
@@ -92,7 +92,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     @Override
     public void loadModel() {
         gameModel.init();
-        System.out.println("Game Model is loaded.");
+//        System.out.println("Game Model is loaded.");
     }
 
     /**
@@ -103,7 +103,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         gameView.init();
         this.sync();
 
-        System.out.println("Game View is loaded.");
+//        System.out.println("Game View is loaded.");
     }
 
     /**
@@ -252,7 +252,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     @Override
     public void restartGame() {
         this.gameManager.stop();
-        System.out.println("RESTART");
+//        System.out.println("RESTART");
 
         try {
             ViewFramework.javaFxFactory().mainAppManager().get().switchPage(PageIdentifier.GAME).create(currentLevel);
@@ -268,7 +268,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     @Override
     public void exitGame() {
         this.gameManager.stop();
-        System.out.println("EXITED");
+//        System.out.println("EXITED");
         ViewNavigator.getInstance().goToMenu();
     }
 
@@ -281,7 +281,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      */
     @Override
     public void handleStopView(final PageIdentifier id, final Level param) {
-        System.out.println("STOPPING VIEW BEFORE RECREATE IT.");
+//        System.out.println("STOPPING VIEW BEFORE RECREATE IT.");
         this.gameManager.stop();
     }
 
@@ -304,7 +304,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      */
     @Override
     public void handleTriggerEffect(final PageIdentifier id, final Obstacle param) {
-        System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
+//        System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
     }
 
     /**

@@ -73,7 +73,7 @@ public abstract class AbstractObstacle extends AbstractTransformableObject imple
      */
     @Override
     public void execute() {
-        System.out.println("GAME OBJECT TRIGGERED");
+//        System.out.println("GAME OBJECT TRIGGERED");
         setIdle(false);
     }
 }

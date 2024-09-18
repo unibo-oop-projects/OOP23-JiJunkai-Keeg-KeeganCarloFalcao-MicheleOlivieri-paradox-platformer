@@ -72,7 +72,7 @@ public final class SimpleController<N, P, K> implements Controller {
      * @param param the level parameter associated with the view
      */
     private void handleViewSwitch(final PageIdentifier id, final Level param) {
-        System.out.println("NOW RECREATE THE VIEW.");
+//        System.out.println("NOW RECREATE THE VIEW.");
         this.switchView(id, param);
     }
 

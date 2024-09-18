@@ -65,8 +65,8 @@ public final class GamePage extends AbstractThreadedPage {
     @FXML
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
-        pagePane.widthProperty().addListener((ob, old, n) -> System.out.println("Width: " + n));
-        pagePane.heightProperty().addListener((ob, old, n) -> System.out.println("Height: " + n));
+        pagePane.widthProperty();
+        pagePane.heightProperty();
     }
 
     /**

@@ -32,7 +32,7 @@ public interface Page<T> {
             @Override
             public void create(final Level param) throws Exception {
                 // Display a message indicating that the page was not found
-                System.out.println("Page not Found: showing a Blank Screen");
+//                System.out.println("Page not Found: showing a Blank Screen");
             }
 
             @Override

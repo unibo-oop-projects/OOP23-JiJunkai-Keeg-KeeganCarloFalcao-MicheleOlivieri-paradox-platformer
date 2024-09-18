@@ -37,10 +37,8 @@ public final class TransportEffect extends AbstractOneTimeEffect {
     @Override
     protected CompletableFuture<Void> applyToTarget(final Optional<? extends CollidableGameObject> target) {
         if (applyToTarget) {
-            return target.map(gameObject -> {
-                System.out.println("TransportEffect: Applying to " + gameObject + " to " + destination);
-                return applyToGameObject(gameObject);
-            }).orElseGet(() -> CompletableFuture.completedFuture(null));
+            //                System.out.println("TransportEffect: Applying to " + gameObject + " to " + destination);
+            return target.map(this::applyToGameObject).orElseGet(() -> CompletableFuture.completedFuture(null));
         }
         return CompletableFuture.completedFuture(null);
     }
@@ -54,10 +52,8 @@ public final class TransportEffect extends AbstractOneTimeEffect {
     @Override
     protected CompletableFuture<Void> applyToSelf(final Optional<? extends CollidableGameObject> self) {
         if (!applyToTarget) {
-            return self.map(gameObject -> {
-                System.out.println("TransportEffect: Applying to " + gameObject);
-                return applyToGameObject(gameObject);
-            }).orElseGet(() -> CompletableFuture.completedFuture(null));
+            //                System.out.println("TransportEffect: Applying to " + gameObject);
+            return self.map(this::applyToGameObject).orElseGet(() -> CompletableFuture.completedFuture(null));
         }
         return CompletableFuture.completedFuture(null);
     }

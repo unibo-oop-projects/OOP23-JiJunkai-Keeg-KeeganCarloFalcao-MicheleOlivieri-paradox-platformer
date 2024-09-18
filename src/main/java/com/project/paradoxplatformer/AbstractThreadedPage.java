@@ -24,13 +24,6 @@ import javafx.fxml.Initializable;
 public abstract class AbstractThreadedPage implements Page<Level>, Initializable {
 
     /**
-     * Constructs an {@code AbstractThreadedPage} instance.
-     */
-    public AbstractThreadedPage() {
-        // Default constructor
-    }
-
-    /**
      * Initializes the page with the given location and resources.
      * <p>
      * This method must be implemented by subclasses to provide initialization logic

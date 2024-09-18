@@ -60,7 +60,7 @@ public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
                                         w.getPosition().x() - this.player.get().getDimension().width() - TOLERANCE);
                             }
                         }
-                        System.out.println(this.player.get().toString());
+//                        System.out.println(this.player.get().toString());
                         this.player.get().stopFall();
                     });
         });

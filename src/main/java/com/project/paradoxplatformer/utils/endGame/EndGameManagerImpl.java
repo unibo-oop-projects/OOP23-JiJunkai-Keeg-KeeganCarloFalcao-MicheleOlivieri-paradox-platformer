@@ -119,14 +119,14 @@ public class EndGameManagerImpl implements EndGameManager {
      * @param condition The condition to trigger (WIN or LOSE).
      */
     private void triggerEvent(final String message, final ConditionType condition) {
-        System.out.println(message);
+//        System.out.println(message);
         if (condition != null) {
             EventManager.getInstance().publish(GameEventType.STOP_VIEW, null, null);
             if (condition.equals(ConditionType.WIN)) {
-                System.out.println("GO TO NEXT LEVEL.");
+//                System.out.println("GO TO NEXT LEVEL.");
                 ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.nextLevel);
             } else {
-                System.out.println("RESTART CURRENT LEVEL.");
+//                System.out.println("RESTART CURRENT LEVEL.");
                 ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.currentLevel);
             }
         }

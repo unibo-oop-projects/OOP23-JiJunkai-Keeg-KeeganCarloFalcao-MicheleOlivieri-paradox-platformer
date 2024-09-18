@@ -37,7 +37,8 @@ public class FXRectangleAdapter extends AbstractFXGraphicAdapter {
         this.blockComponent.setFill(fill);
         widthProperty = new SimpleDoubleProperty(dimension.width());
         heightProperty = new SimpleDoubleProperty(dimension.height());
-        this.setDimension(dimension.width(), dimension.height());
+        this.widthProperty.set(dimension.width());
+        this.heightProperty.set(dimension.height());
     }
 
     /**

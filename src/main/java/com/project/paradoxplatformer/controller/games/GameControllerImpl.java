@@ -257,13 +257,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     @Override
     public void restartGame() {
         this.gameManager.stop();
-        // System.out.println("RESTART");
-
-        try {
-            ViewNavigator.getInstance().openView(PageIdentifier.GAME, currentLevel);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ViewNavigator.getInstance().openView(PageIdentifier.GAME, currentLevel);
     }
 
     /**

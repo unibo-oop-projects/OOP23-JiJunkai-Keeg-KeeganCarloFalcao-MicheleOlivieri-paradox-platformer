@@ -138,17 +138,6 @@
       ]
     },
     {
-      "id": 8,
-      "type": "trigger",
-      "x": 500,
-      "y": 100,
-      "width": 20,
-      "height": 20,
-      "subtype": "Button",
-      "image": "button.png"
-    },
-
-    {
       "id": 9,
       "type": "obstacle",
       "x": 150,
@@ -324,7 +313,7 @@
       "x": 478,
       "y": 0,
       "width": 1,
-      "height": 99,
+      "height": 94,
       "subtype": "Wall",
       "color": {
         "blu": 56,

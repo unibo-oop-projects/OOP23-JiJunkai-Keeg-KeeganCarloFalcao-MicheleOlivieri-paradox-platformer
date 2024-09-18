@@ -78,7 +78,7 @@ public abstract class AbstractThreadedPage implements Page<Level>, Initializable
     private void safelyRunOnFXThread(final Level param) {
         try {
             this.runOnFXThread(param); // Run the given code on the JavaFX thread
-        } catch (Exception e) {
+        } catch (Exception e) { //NOPMD
             throw new IllegalStateException(e.getMessage(), e); // Wrap and rethrow exception
         }
     }

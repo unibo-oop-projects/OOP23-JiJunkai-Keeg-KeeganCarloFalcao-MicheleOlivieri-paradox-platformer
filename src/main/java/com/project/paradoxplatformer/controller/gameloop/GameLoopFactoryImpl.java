@@ -115,7 +115,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
             try {
                 loop.loop(dt);
                 GameLoopFactoryImpl.this.delay(dt);
-            } catch (Exception e) {
+            } catch (Exception e) { //NOPMD
                 this.stop();
                 // System.err.println(ExceptionUtils.advancedDisplay(e));
                 ViewFramework.javaFxFactory().mainAppManager().get().safeError();

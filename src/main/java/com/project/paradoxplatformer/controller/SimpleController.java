@@ -58,7 +58,7 @@ public final class SimpleController<N, P, K> implements Controller {
             new Thread(() -> viewManager.create(latch, title)).start();
             latch.await(); // waits on main thread that the application is started
             viewManager.runOnAppThread(this::initRoutine);
-        } catch (InterruptedException | RuntimeException e) {
+        } catch (InterruptedException | IllegalStateException e) {
             // System.err.println("\nErrors encountered within view creation:\n → " +
             // ExceptionUtils.simpleDisplay(e));
             viewManager.safeError();
@@ -87,7 +87,7 @@ public final class SimpleController<N, P, K> implements Controller {
     private void switchView(final PageIdentifier id, final Level param) {
         try {
             viewManager.switchPage(id).create(param);
-        } catch (Exception ex) {
+        } catch (Exception ex) {  //NOPMD
             viewManager.displayError(ExceptionUtils.advancedDisplay(ex));
             viewManager.safeError();
         }

@@ -1,19 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
-
 package com.project.paradoxplatformer.model.endgame;
 
+import java.util.Arrays;
 import java.util.Iterator;
-
-import org.junit.jupiter.api.Test;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.project.paradoxplatformer.controller.games.Level;
+import com.project.paradoxplatformer.model.endgame.condition.DeathObstacleCollisionCondition;
+import com.project.paradoxplatformer.model.endgame.condition.FallenCondition;
+import com.project.paradoxplatformer.model.endgame.condition.OutOfMapCondition;
+import com.project.paradoxplatformer.model.endgame.condition.TimeLimitDeathCondition;
 import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
  *
@@ -21,51 +24,36 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
  */
 public class DeathConditionsFactoryImplTest {
 
-    public DeathConditionsFactoryImplTest() {
+    private DeathConditionsFactoryImpl factory;
+    private PlayerModel player;
+
+    @BeforeEach
+    public void setUp() {
+        factory = new DeathConditionsFactoryImpl();
+        player = new PlayerModel(1, new Coord2D(0, 0), new Dimension(10, 20));
     }
 
-    /**
-     * Test of createConditionsForLevel method, of class DeathConditionsFactoryImpl.
-     */
     @Test
     public void testCreateConditionsForLevel() {
         System.out.println("createConditionsForLevel");
-        Level level = null;
-        PlayerModel player = null;
-        DeathConditionsFactoryImpl instance = new DeathConditionsFactoryImpl();
-        Iterator<DeathCondition> expResult = null;
-        Iterator<DeathCondition> result = instance.createConditionsForLevel(level, player);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Iterator<DeathCondition> result = factory.createConditionsForLevel(Level.LEVEL_ONE, player);
+        List<DeathCondition> expResult = Arrays.asList(new FallenCondition(player), new DeathObstacleCollisionCondition());
+        assertIteratorEquals(expResult.iterator(), result);
     }
 
-    /**
-     * Test of defaultConditions method, of class DeathConditionsFactoryImpl.
-     */
     @Test
     public void testDefaultConditions() {
         System.out.println("defaultConditions");
-        DeathConditionsFactoryImpl instance = new DeathConditionsFactoryImpl();
-        Iterator<DeathCondition> expResult = null;
-        Iterator<DeathCondition> result = instance.defaultConditions();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Iterator<DeathCondition> result = factory.defaultConditions();
+        assertFalse(result.hasNext(), "Default conditions should be empty.");
     }
 
-    /**
-     * Test of levelOneConditions method, of class DeathConditionsFactoryImpl.
-     */
     @Test
     public void testLevelOneConditions() {
         System.out.println("levelOneConditions");
-        DeathConditionsFactoryImpl instance = new DeathConditionsFactoryImpl();
-        Iterator<DeathCondition> expResult = null;
-        Iterator<DeathCondition> result = instance.levelOneConditions();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Iterator<DeathCondition> result = factory.levelOneConditions();
+        List<DeathCondition> expResult = Arrays.asList(new FallenCondition(player), new DeathObstacleCollisionCondition());
+        assertIteratorEquals(expResult.iterator(), result);
     }
 
     /**
@@ -74,39 +62,35 @@ public class DeathConditionsFactoryImplTest {
     @Test
     public void testLevelTwoConditions() {
         System.out.println("levelTwoConditions");
-        DeathConditionsFactoryImpl instance = new DeathConditionsFactoryImpl();
-        Iterator<DeathCondition> expResult = null;
-        Iterator<DeathCondition> result = instance.levelTwoConditions();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Iterator<DeathCondition> result = factory.levelTwoConditions();
+        List<DeathCondition> expResult = Arrays.asList(new TimeLimitDeathCondition(600));
+        assertIteratorEquals(expResult.iterator(), result);
     }
 
-    /**
-     * Test of levelThreeConditions method, of class DeathConditionsFactoryImpl.
-     */
     @Test
     public void testLevelThreeConditions() {
         System.out.println("levelThreeConditions");
-        DeathConditionsFactoryImpl instance = new DeathConditionsFactoryImpl();
-        Iterator<DeathCondition> expResult = null;
-        Iterator<DeathCondition> result = instance.levelThreeConditions();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Iterator<DeathCondition> result = factory.levelThreeConditions();
+        List<DeathCondition> expResult = Arrays.asList(new FallenCondition(player), new DeathObstacleCollisionCondition(), new OutOfMapCondition(player));
+        assertIteratorEquals(expResult.iterator(), result);
     }
 
-    /**
-     * Test of levelFourConditions method, of class DeathConditionsFactoryImpl.
-     */
     @Test
     public void testLevelFourConditions() {
         System.out.println("levelFourConditions");
-        DeathConditionsFactoryImpl instance = new DeathConditionsFactoryImpl();
-        Iterator<DeathCondition> expResult = null;
-        Iterator<DeathCondition> result = instance.levelFourConditions();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Iterator<DeathCondition> result = factory.levelFourConditions();
+        List<DeathCondition> expResult = Arrays.asList(new FallenCondition(player), new DeathObstacleCollisionCondition());
+        assertIteratorEquals(expResult.iterator(), result);
+    }
+
+    /**
+     * Helper method to compare two iterators.
+     */
+    private <T> void assertIteratorEquals(Iterator<T> expected, Iterator<T> actual) {
+        while (expected.hasNext() && actual.hasNext()) {
+            assertEquals(expected.next(), actual.next(), "Iterator elements differ.");
+        }
+        assertFalse(expected.hasNext(), "Expected iterator has more elements.");
+        assertFalse(actual.hasNext(), "Actual iterator has more elements.");
     }
 }

@@ -10,7 +10,7 @@ import com.project.paradoxplatformer.model.world.api.World;
  * model,
  * and perform actions on the world.
  */
-public interface GameModelData {
+public interface GameModel {
 
     /**
      * Initializes the game model. This method should set up any necessary

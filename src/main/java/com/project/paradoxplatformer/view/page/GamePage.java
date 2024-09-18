@@ -10,14 +10,14 @@ import com.project.paradoxplatformer.controller.games.GameControllerImpl;
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.controller.input.InputController;
-import com.project.paradoxplatformer.model.GameModelData;
+import com.project.paradoxplatformer.model.GameModel;
+import com.project.paradoxplatformer.model.GameModelImpl;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.model.innersetting.SimpleGameSettingsModel;
 import com.project.paradoxplatformer.model.inputmodel.InputMovesFactoryImpl;
-import com.project.paradoxplatformer.model.world.PlatfromModelData;
 import com.project.paradoxplatformer.utils.ImageLoader;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.view.GamePlatformView;
+import com.project.paradoxplatformer.view.GameViewImpl;
 import com.project.paradoxplatformer.view.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.legacy.ViewFramework;
@@ -77,11 +77,11 @@ public final class GamePage extends AbstractThreadedPage {
                                 .getComponentsFactory()
                                 .get();
 
-                final GameModelData gameModel = new PlatfromModelData(level);
+                final GameModel gameModel = new GameModelImpl(level);
                 final GraphicContainer<Node, KeyCode> gameGraphContainer = ViewFramework.javaFxFactory()
                                 .containerMapper()
                                 .apply(this.gamePane);
-                final GameView<Node> gameView = new GamePlatformView<>(level, gameGraphContainer, mappingFactory);
+                final GameView<Node> gameView = new GameViewImpl<>(level, gameGraphContainer, mappingFactory);
 
                 final GameController<Node> gameController = new GameControllerImpl<>(gameModel, gameView, param);
                 final InputController<ControllableObject> inputController = new InputController<>(

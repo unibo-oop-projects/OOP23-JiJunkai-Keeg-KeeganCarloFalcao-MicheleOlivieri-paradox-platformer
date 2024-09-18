@@ -38,7 +38,7 @@ import javafx.beans.property.SimpleDoubleProperty;
  * @param <C> the type of the graphics context
  * @param <K> the type of key used in the view mapping
  */
-public final class GamePlatformView<C, K> implements GameView<C> {
+public final class GameViewImpl<C, K> implements GameView<C> {
 
     private final LevelDTO packedData;
     private final GraphicContainer<C, ?> container;
@@ -48,14 +48,14 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     private boolean isFlipped;
 
     /**
-     * Constructs a {@link GamePlatformView} with the specified level data, graphic
+     * Constructs a {@link GameViewImpl} with the specified level data, graphic
      * container, and view mapping factory.
      * 
      * @param packedData     the level data containing game information
      * @param graphContainer the graphic container to hold and manage graphics
      * @param factory        the factory for mapping data to graphical components
      */
-    public GamePlatformView(
+    public GameViewImpl(
             final LevelDTO packedData,
             final GraphicContainer<C, ?> graphContainer,
             final ViewMappingFactory<C> factory) {

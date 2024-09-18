@@ -24,6 +24,7 @@ public final class InterpolatorFactoryImpl implements InterpolatorFactory {
     private static final double NULL_ALGEBRIC_VALUE = 0.d;
 
     /**
+     * Use of template method
      * Creates an interpolator using a base function and exponent for easing
      * calculations.
      * <p>

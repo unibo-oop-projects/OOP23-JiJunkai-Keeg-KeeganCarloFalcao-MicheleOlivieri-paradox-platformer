@@ -6,7 +6,6 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.paint.Color;
@@ -32,18 +31,13 @@ public class FXRectangleAdapter extends AbstractFXGraphicAdapter {
      * @throws IllegalArgumentException If the underlying UI component is not a
      *                                  {@code Rectangle}.
      */
-    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR", justification = "This method is checked before use.")
     protected FXRectangleAdapter(final int id, final Dimension dimension, final Coord2D position, final Color fill) {
-        super(id, new Rectangle(), dimension, position);
-        if (this.getUiComponent() instanceof Rectangle blockCopy) {
-            this.blockComponent = blockCopy;
-            this.blockComponent.setFill(fill);
-            widthProperty = new SimpleDoubleProperty(dimension.width());
-            heightProperty = new SimpleDoubleProperty(dimension.height());
-            this.setDimension(dimension.width(), dimension.height());
-        } else {
-            throw new IllegalArgumentException("Require rectangle");
-        }
+        super(id, new Rectangle(), dimension, position); 
+        this.blockComponent = (Rectangle) super.getUiComponent();
+        this.blockComponent.setFill(fill);
+        widthProperty = new SimpleDoubleProperty(dimension.width());
+        heightProperty = new SimpleDoubleProperty(dimension.height());
+        this.setDimension(dimension.width(), dimension.height());
     }
 
     /**

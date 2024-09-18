@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.utils.endgame;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 // import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
@@ -14,7 +16,7 @@ public class DeathObstacleCollisionCondition implements DeathCondition {
     /**
      * Constructor initializing the death state to false.
      */
-    // @SuppressFBWarnings(value = { "ST" }, justification = "For a simply call.")
+    @SuppressFBWarnings(value = { "ST" }, justification = "For a simply call.")
     public DeathObstacleCollisionCondition() {
         isDead = false;
     }

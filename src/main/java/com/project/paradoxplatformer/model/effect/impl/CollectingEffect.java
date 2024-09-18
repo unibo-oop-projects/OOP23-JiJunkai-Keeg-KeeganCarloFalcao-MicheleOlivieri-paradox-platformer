@@ -17,7 +17,7 @@ import com.project.paradoxplatformer.view.javafx.PageIdentifier;
  * Such effects permits the player to collect {@code CollectableGameObject} to update its inventory
  * and erase it from the (Model) world objects.
  * 
- * @see {@link com.project.paradoxplatformer.model.entity.CollectableGameObject}
+ * @see com.project.paradoxplatformer.model.entity.CollectableGameObject
  */
 public final class CollectingEffect extends AbstractRecreatableEffect {
 

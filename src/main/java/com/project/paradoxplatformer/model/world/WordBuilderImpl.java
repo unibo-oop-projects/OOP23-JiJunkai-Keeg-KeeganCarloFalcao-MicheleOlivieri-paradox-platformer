@@ -3,12 +3,12 @@ package com.project.paradoxplatformer.model.world;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.base.Optional;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
-import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 
 /**
@@ -23,7 +23,7 @@ public final class WordBuilderImpl implements WorldBuilder {
 
     private final List<Trigger> triggers;
     private final List<Obstacle> obstacles;
-    private SecureWrapper<PlayerModel> player;
+    private Optional<PlayerModel> player;
     private Dimension bounds;
     private boolean isBuild;
 
@@ -36,8 +36,7 @@ public final class WordBuilderImpl implements WorldBuilder {
         this.obstacles = new ArrayList<>();
         this.triggers = new ArrayList<>();
         this.isBuild = false;
-        this.player = null;
-        // SHOULD FIX CAUSE GAME CANNOT BUILD WITHOUT PLAYER
+        this.player = Optional.absent();
     }
 
     /**
@@ -50,7 +49,7 @@ public final class WordBuilderImpl implements WorldBuilder {
     @Override
     public WorldBuilder addPlayer(final PlayerModel playerModel) {
         buildCheck();
-        this.player = SecureWrapper.of(playerModel);
+        this.player = Optional.of(new PlayerModel(playerModel.getID(), playerModel.getPosition(), playerModel.getDimension()));
         return this;
     }
 
@@ -106,7 +105,7 @@ public final class WordBuilderImpl implements WorldBuilder {
     public World build() {
         buildCheck();
         this.isBuild = true;
-        return new WorldImpl(obstacles, triggers, player.get(), bounds);
+        return new WorldImpl(obstacles, triggers, player.orNull(), bounds);
     }
 
     /**

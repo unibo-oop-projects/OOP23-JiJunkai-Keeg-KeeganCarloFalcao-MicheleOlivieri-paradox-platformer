@@ -10,7 +10,6 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
@@ -40,25 +39,19 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
      * @param imageURL  the URL of the image to be loaded
      * @throws InvalidResourceException if the image resource is invalid
      */
-    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR", justification = "This method is checked before use.")
     protected FXImageAdapter(
             final int id,
             final Dimension dimension,
             final Coord2D position,
             final String imageURL) throws InvalidResourceException {
         super(id, new ImageView(), dimension, position);
-
-        if (this.getUiComponent() instanceof ImageView imgCopy) {
-            this.imgComponent = imgCopy;
-            // this.imgComponent.setPreserveRatio(true);
-            this.imgComponent.setSmooth(true);
-            widthProperty = new SimpleDoubleProperty(dimension.width());
-            heightProperty = new SimpleDoubleProperty(dimension.height());
-            imgComponent.setImage(ImageLoader.createFXImage(imageURL));
-            this.setDimension(dimension.width(), dimension.height());
-        } else {
-            throw new IllegalArgumentException("Requires ImageView");
-        }
+        this.imgComponent = (ImageView) super.getUiComponent();
+        // this.imgComponent.setPreserveRatio(true);
+        this.imgComponent.setSmooth(true);
+        widthProperty = new SimpleDoubleProperty(dimension.width());
+        heightProperty = new SimpleDoubleProperty(dimension.height());
+        imgComponent.setImage(ImageLoader.createFXImage(imageURL));
+        this.setDimension(dimension.width(), dimension.height());
     }
 
     /**

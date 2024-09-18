@@ -2,11 +2,11 @@ package com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts;
 
 import java.util.Optional;
 
-import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
@@ -107,9 +107,19 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
      *
      * @return the Node component managed by this adapter
      */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP", 
+        justification = 
+            "The sole purpose of this method is to retrieve the underlying node of the graphics adapter" 
+            + "to add it to the children of the container, so it is guaranteed that"
+            + "the caller will not perform rewrite actions on the current graphics component."
+            + "Furthermore the javafx nodes do not have an accessible deep copy method and"
+            + "therefore manually copying an external component is not preferable as it may cause"
+            + "unwanted behavior."
+    )
     @Override
     public Node unwrap() {
-        return SecureWrapper.of(this.uiComponent).get();
+        return this.uiComponent;
     }
 
     /**

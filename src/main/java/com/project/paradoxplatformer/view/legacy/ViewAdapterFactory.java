@@ -17,12 +17,12 @@ import com.project.paradoxplatformer.view.manager.ViewManager;
  * graphic containers.
  * </p>
  *
- * @param <V> the type of view component (e.g., JavaFX {@link Node}, Swing
- *            {@link JComponent})
+ * @param <V> the type of view component (e.g., JavaFX {@code Node}, Swing
+ *            {@code JComponent})
  * @param <P> the type of container used for the view components (e.g., JavaFX
- *            {@link Pane}, Swing {@link JPanel})
+ *            {@code Pane}, Swing {@code JPanel})
  * @param <K> the type of input event used for the view (e.g., JavaFX
- *            {@link KeyCode}, Swing {@link KeyEvent})
+ *            {@code KeyCode}, Swing {@code KeyEvent})
  */
 public interface ViewAdapterFactory<V, P, K> {
 

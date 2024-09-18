@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This is Data Transfer Object regarding a specific level implementation, most
  * used in platform games.
  * <p>
- * It is the analogue of the {@link #World} class. Dimensions and Color are
+ * It is the analogue of the {@link com.project.paradoxplatformer.model.world.api.World} class. Dimensions and Color are
  * specific for view segment.
  * </p>
  */

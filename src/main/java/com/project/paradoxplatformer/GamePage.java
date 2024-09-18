@@ -41,7 +41,7 @@ import javafx.scene.input.KeyCode;
  * Controller for the game's main page.
  * This class manages to initiate the model, view and controller for the
  * specified level of the game.
- * It runs on the JavaFX main thread son a console implementation should me
+ * It runs on the JavaFX main thread son a console implementation should not be
  * allowed to create it.
  */
 public final class GamePage extends AbstractThreadedPage {
@@ -61,8 +61,6 @@ public final class GamePage extends AbstractThreadedPage {
         @FXML
         @Override
         public void initialize(final URL location, final ResourceBundle resources) {
-                pagePane.widthProperty();
-                pagePane.heightProperty();
         }
 
         /**
@@ -74,16 +72,11 @@ public final class GamePage extends AbstractThreadedPage {
                 // HERE's WHERE MAGIC HAPPENS, looks very free needs to be coupled atleast
                 final LevelDTO level = this.getLevel(param);
 
+                this.setgameCointainerBackground(level.getBackgroundFile());
                 final var mappingFactory = ViewFramework.javaFxFactory()
                         .getComponentsFactory()
                         .get();
 
-                gamePane.setBackground(new Background(new BackgroundImage(
-                        ImageLoader.createFXImage(level.getBackgroundFile()),
-                        BackgroundRepeat.NO_REPEAT,
-                        BackgroundRepeat.NO_REPEAT,
-                        BackgroundPosition.CENTER,
-                        new BackgroundSize(100, 100, true, true, false, true))));
                 final GameModelData gameModel = new PlatfromModelData(level);
                 final GraphicContainer<Node, KeyCode> gameGraphContainer = ViewFramework.javaFxFactory()
                         .containerMapper()
@@ -93,7 +86,6 @@ public final class GamePage extends AbstractThreadedPage {
                 final GameController<Node> gameController = new GameControllerImpl<>(gameModel, gameView, param);
                 final InputController<ControllableObject> inputController = new InputController<>(
                         new InputMovesFactoryImpl().advancedModel());
-                // FOR BETTER CLARITY THIS COULD BE DONE SEPARATELY
 
                 this.initModelAndView(gameController);
                 gameGraphContainer.activateKeyInput(() -> Platform.runLater(gamePane::requestFocus));
@@ -110,6 +102,15 @@ public final class GamePage extends AbstractThreadedPage {
                         mappingFactory);
                 gameSettings.init();
 
+        }
+
+        private void setgameCointainerBackground(final String backgroundFile) throws InvalidResourceException {
+                gamePane.setBackground(new Background(new BackgroundImage(
+                        ImageLoader.createFXImage(backgroundFile),
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundRepeat.NO_REPEAT,
+                        BackgroundPosition.CENTER,
+                        new BackgroundSize(100, 100, true, true, false, true))));
         }
 
         private void initModelAndView(final GameController<Node> gc) throws InvalidResourceException {

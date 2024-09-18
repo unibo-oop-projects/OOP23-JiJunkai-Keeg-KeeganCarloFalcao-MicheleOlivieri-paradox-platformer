@@ -35,6 +35,9 @@ public final class PhysicsEngine implements Physics {
             final Interpolator<Vector2D> interpType,
             final long dt
         ) {
+        if (duration <= 0L || dt < 0L) {
+            throw new IllegalArgumentException("Duration and delta time must be positive");
+        }
         this.elapseTime += dt;
         final double y = elapseTime / (duration * MILLISECOND_IN_SEC);
 
@@ -52,6 +55,9 @@ public final class PhysicsEngine implements Physics {
         final Interpolator<Vector2D> interpType, 
         final long dt
         ) {
+        if (dt < 0L) {
+            throw new IllegalArgumentException("delta time must be positive");
+        }
         return interpType.lerp(start, end, dt / MILLISECOND_IN_SEC);
     }
 

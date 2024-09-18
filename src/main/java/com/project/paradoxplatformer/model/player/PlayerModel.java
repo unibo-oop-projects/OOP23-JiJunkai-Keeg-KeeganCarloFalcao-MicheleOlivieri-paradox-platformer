@@ -147,7 +147,26 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
     }
 
     /**
-     * {@inheritDoc}
+     * Updates the state of the player based on the elapsed time.
+     * <p>
+     * This method is responsible for updating the player's position and movement state by
+     * incorporating various types of movements: falling, horizontal, and vertical. The method
+     * first handles the falling logic, which may affect the player's vertical displacement due
+     * to gravity or other falling mechanisms. Next, it updates the player's horizontal movement
+     * based on the elapsed time and current speed. Then, it processes the vertical movement to
+     * update the player's position accurately. Finally, it updates the player's position in the
+     * game world and sets the falling state in the jump behavior to indicate that the player is
+     * currently falling.
+     * </p>
+     * 
+     * <p>
+     * This method should be called regularly, typically once per game loop iteration, to ensure
+     * smooth and accurate movement of the player character.
+     * </p>
+     *
+     * @param dt the elapsed time in milliseconds since the last update. This value is used to
+     *           calculate how far the player has moved horizontally and vertically during
+     *           the time interval.
      */
     @Override
     public void updateState(final long dt) {
@@ -157,6 +176,7 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
         this.setPosition(this.displacement.convert());
         getJumpBehavior().setFalling(true);
     }
+
 
     /**
      * {@inheritDoc}
@@ -194,6 +214,10 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
 
     /**
      * Handles the horizontal movement of the player based on the elapsed time.
+     * 
+     * <p>
+     * It a step movement as it works with user input so they are steps and not paths
+     * </p>
      *
      * @param dt The elapsed time since the last update.
      */

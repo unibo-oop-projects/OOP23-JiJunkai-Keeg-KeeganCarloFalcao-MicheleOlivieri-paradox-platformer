@@ -61,4 +61,11 @@ public interface GraphicContainer<T, K> extends KeyInputer<K> {
      * @return an observable property for the height
      */
     ObservableDoubleValue heightProperty();
+
+    /**
+     * Makes the class immutable by providing a defensive copy mechanism.
+     * 
+     * @return the current graphic container copy (indipendent from original)
+     */
+    GraphicContainer<T, K> defensiveCopy();
 }

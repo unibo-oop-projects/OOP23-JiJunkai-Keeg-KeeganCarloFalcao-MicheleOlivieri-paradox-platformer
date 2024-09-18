@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.view.manager.api;
 
+import com.project.paradoxplatformer.utils.ResourcesFinder;
+
 /**
  * Enum representing different FXML views in the application.
  * Each enum constant corresponds to an FXML file used for UI views.
@@ -8,17 +10,22 @@ public enum FXMLView {
     /**
      * Represents the FXML file for the main menu view.
      */
-    MENU("menu-view.fxml"),
+    MENU(ResourcesFinder.FXML_FOLDER + "menu-view.fxml"),
 
     /**
      * Represents the FXML file for the settings view.
      */
-    SETTINGS("setting-view.fxml"),
+    SETTINGS(ResourcesFinder.FXML_FOLDER + "setting-view.fxml"),
 
     /**
      * Represents the FXML file for the game view.
      */
-    GAME("game-view.fxml");
+    GAME(ResourcesFinder.FXML_FOLDER + "game-view.fxml"),
+
+    /**
+     * Error window.
+     */
+    ERROR_DIAG(ResourcesFinder.FXML_FOLDER + "diag-pane.fxml");
 
     private final String fileName; // The filename of the FXML view
 

@@ -32,7 +32,7 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
      */
     public FXButtonAdapter(final int id, final Dimension dimension, final Coord2D relativePos, final String text) {
         super(id, new Button(), dimension, relativePos);
-        if (this.getUiComponent() instanceof Button buttonCopy) {
+        if (super.getUiComponent() instanceof Button buttonCopy) {
             this.buttonCompo = buttonCopy;
             this.buttonCompo.setText(text);
         } else {

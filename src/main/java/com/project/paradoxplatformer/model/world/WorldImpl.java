@@ -11,8 +11,9 @@ import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
-import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Implementation of the World interface, representing the game world
@@ -24,7 +25,7 @@ public final class WorldImpl implements World {
 
     private final Set<Obstacle> obstacles;
     private final Set<Trigger> triggers;
-    private final SecureWrapper<PlayerModel> player;
+    private final PlayerModel player;
     private final Dimension bounds;
 
     /**
@@ -36,11 +37,15 @@ public final class WorldImpl implements World {
      * @param player    The player model representing the player in the world.
      * @param bounds    The dimensions (bounds) of the world.
      */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP", 
+        justification = "It does need the original player model as it is continuosly modified by the game loop"
+    )
     public WorldImpl(final Collection<Obstacle> obstacles, final Collection<Trigger> triggers, final PlayerModel player,
             final Dimension bounds) {
         this.obstacles = new LinkedHashSet<>(obstacles);
         this.triggers = new LinkedHashSet<>(triggers);
-        this.player = SecureWrapper.of(player);
+        this.player = player;
         this.bounds = bounds;
     }
 
@@ -72,9 +77,15 @@ public final class WorldImpl implements World {
      *
      * @return The player model.
      */
+    @SuppressFBWarnings(
+        value = "EI_EXPOSE_REP", 
+        justification = 
+            "It does need the original player model as it is continuously modified by the game loop."
+            + "Furthermore, all setters are accessed on the right place, preventing any ambiguos behaviours"
+    )
     @Override
     public PlayerModel player() {
-        return this.player.get();
+        return this.player;
     }
 
     @Override

@@ -46,7 +46,7 @@ public final class SettingsPage extends AbstractThreadedPage {
     }
 
     private void saveSettings() {
-        double brightness = brightnessSlider.getValue();
+        // double brightness = brightnessSlider.getValue();
         // Logic to save brightness settings
 //        System.out.println("Brightness set to: " + brightness);
     }

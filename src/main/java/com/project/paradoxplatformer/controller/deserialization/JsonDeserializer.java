@@ -19,8 +19,9 @@ import com.project.paradoxplatformer.utils.InvalidResourceException;
 public interface JsonDeserializer<T> {
 
     /**
-     * Deserializes a JSON file specified by its file path.
      * <p>
+     * Deserializes a JSON file specified by its file path.
+     * </p>
      * This method throws exceptions to handle various issues that may occur during
      * the deserialization process:
      * <ul>
@@ -29,7 +30,6 @@ public interface JsonDeserializer<T> {
      * <li>{@code InvalidResourceException} if the file path is invalid or the
      * file is not found.</li>
      * </ul>
-     * </p>
      *
      * @param json the path to the JSON file to be deserialized
      * @return the deserialized object of type {@code T}

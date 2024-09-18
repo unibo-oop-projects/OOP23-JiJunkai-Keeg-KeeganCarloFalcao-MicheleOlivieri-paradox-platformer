@@ -8,7 +8,7 @@ import java.util.stream.StreamSupport;
 
 /**
  * Utiliy class for stream-based operations.
- * Such operation are not essential but improve code readibility.
+ * Such operations are not essential but improves code readibility.
  */
 public final class StreamUtil {
 
@@ -32,17 +32,31 @@ public final class StreamUtil {
     }
 
     /**
-     * Applys the map operation and then the resulting predicate within the original predicate.
-     * So it basically maps the current stream element without performing a mapping operation throughout the stream.
+     * Applies a mapping function to elements of the stream and then filters the results 
+     * using a given predicate. This method combines the mapping and filtering operations into 
+     * a single predicate that can be used for stream filtering.
      * 
-     * <p> It enhance readibilty and is often used in the context of method refernce.</p>
-     * @param <M> the initial elememnt type of the stream
-     * @param <F> the mapped elememnt type of the stream
-     * @param mapping the mapping function
-     * @param pred the predicate to be applied to the mapping function
-     * @return the original predicate with test result based on drugged predicate
+     * <p>This method allows you to perform a mapping operation on each element of the stream, 
+     * followed by a filtering operation based on the result of the mapping. It enhances readability 
+     * and is often used in the context of method references to create more concise and expressive 
+     * stream processing code.</p>
+     * 
+     * <p>For example, if you have a stream of strings and want to filter those strings based on 
+     * their length, you can use this method to first map each string to its length and then filter 
+     * based on whether the length meets a certain condition.</p>
+     * 
+     * 
+     * @param <M> the type of the elements in the original stream
+     * @param <F> the type of the elements after the mapping operation
+     * @param mapping the function to map elements from type {@code M} to type {@code F}
+     * @param pred the predicate to test elements of type {@code F}
+     * @return a predicate that first maps each element of type {@code M} to type {@code F} using 
+     *         the {@code mapping} function, and then applies the {@code pred} predicate to the result.
+     * 
+     * @throws NullPointerException if {@code mapping} or {@code pred} is {@code null}
      */
     public static <M, F> Predicate<M> mapAndFilter(final Function<M, F> mapping, final Predicate<F> pred) {
         return m -> pred.test(mapping.apply(m));
     }
+
 }

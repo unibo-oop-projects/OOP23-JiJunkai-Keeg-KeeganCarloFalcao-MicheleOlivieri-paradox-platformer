@@ -11,14 +11,14 @@ import com.project.paradoxplatformer.view.legacy.ViewAdapterFactory;
 import com.project.paradoxplatformer.view.manager.ViewManager;
 
 /**
- * A simple implementation of the {@link Controller} interface that manages
+ * A simple implementation of the {@link GameController} interface that manages
  * the application's lifecycle, view switching, and initialization routines.
  * 
  * @param <N> the type of the main application view
  * @param <P> the type of the parameter passed to view creation
  * @param <K> the type of the view key
  */
-public final class SimpleController<N, P, K> implements Controller {
+public final class GameControllerImpl<N, P, K> implements GameController {
 
     private final CountDownLatch latch = new CountDownLatch(1);
     private final ViewManager viewManager;
@@ -26,13 +26,13 @@ public final class SimpleController<N, P, K> implements Controller {
     private final EventManager<GameEventType, PageIdentifier> eventManager;
 
     /**
-     * Constructs a {@link SimpleController} with the specified view adapter and
+     * Constructs a {@link GameControllerImpl} with the specified view adapter and
      * title.
      * 
      * @param adapter the view adapter factory used to initialize the view manager
      * @param title   the title of the application window
      */
-    public SimpleController(final ViewAdapterFactory<N, P, K> adapter, final String title) {
+    public GameControllerImpl(final ViewAdapterFactory<N, P, K> adapter, final String title) {
         this.viewManager = adapter.mainAppManager().get();
         this.title = title;
         this.eventManager = EventManager.getInstance();
@@ -87,7 +87,7 @@ public final class SimpleController<N, P, K> implements Controller {
     private void switchView(final PageIdentifier id, final Level param) {
         try {
             viewManager.switchPage(id).create(param);
-        } catch (Exception ex) {  //NOPMD
+        } catch (Exception ex) { // NOPMD
             viewManager.displayError(ExceptionUtils.advancedDisplay(ex));
             viewManager.safeError();
         }

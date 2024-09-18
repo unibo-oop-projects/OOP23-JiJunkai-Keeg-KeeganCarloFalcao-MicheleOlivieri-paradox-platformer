@@ -89,7 +89,7 @@ public final class InputMovesFactoryImpl implements InputMovesFactory {
     @Override
     public InputModel<ControllableObject> invertedModel(final InputModel<ControllableObject> ip) {
         return () -> {
-            var inverted = new EnumMap<>(ip.getModel());
+            final var inverted = new EnumMap<>(ip.getModel());
             inverted.entrySet().stream()
                     .filter(e -> this.oppositeMap.containsKey(e.getValue()))
                     .forEach(this::invert);

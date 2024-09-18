@@ -210,7 +210,7 @@ public final class PlayerModel extends AbstractControllableObject implements Inv
      * @param dt The elapsed time since the last update.
      */
     private void handleVerticalMovement(final long dt) {
-        var nextVerticalDisplace = physics.moveTo(this.displacement,
+        final var nextVerticalDisplace = physics.moveTo(this.displacement,
                 this.displacement.add(getVerticalSpeed()),
                 1,
                 interpFactory.easeIn(),

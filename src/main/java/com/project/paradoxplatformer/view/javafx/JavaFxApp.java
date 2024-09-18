@@ -142,7 +142,7 @@ public class JavaFxApp extends Application implements ViewManager {
             // System.out.println("In SWITCH PANE FUNCTION");
             // System.out.println("[CURRENT ID]: " + id);
 
-            var entry = helper.mapper().apply(id);
+            final var entry = helper.mapper().apply(id);
             scene.setRoot(
                     entry.map(Pair::getKey)
                             .orElse(ViewFramework.javaFxFactory().blankPage()));
@@ -177,7 +177,7 @@ public class JavaFxApp extends Application implements ViewManager {
      */
     @Override
     public void displayError(final String content) {
-        var al = new Alert(AlertType.ERROR, content);
+        final var al = new Alert(AlertType.ERROR, content);
         DialogPane errorPane;
         try {
             errorPane = new FXMLLoader(ResourcesFinder.getURL("diag-pane.fxml")).load();

@@ -65,7 +65,7 @@ public class SpriteAnimator<T> {
         }
 
         // Get the sprite list for the current status
-        var inf = mapSprite.get(current);
+        final var inf = mapSprite.get(current);
 
         // Apply the action on the selected sprite image
         imageAction.accept(inf.get(index % inf.size()));

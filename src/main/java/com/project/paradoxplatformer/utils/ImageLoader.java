@@ -43,8 +43,7 @@ public final class ImageLoader {
             throws IOException, InvalidResourceException {
         try {
             // Read the image from the resource URL
-            var image = ImageIO.read(ResourcesFinder.getURL(imagePath));
-            return image;
+            return ImageIO.read(ResourcesFinder.getURL(imagePath));
         } catch (IOException e) {
             // Wrap and rethrow the IOException with a descriptive message
             throw new IOException("Image could not be read by ImageIO", e);

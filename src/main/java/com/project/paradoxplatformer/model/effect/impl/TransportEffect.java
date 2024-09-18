@@ -65,6 +65,7 @@ public final class TransportEffect extends AbstractOneTimeEffect {
      * @param gameObject the game object to apply the effect to
      * @return a CompletableFuture that completes when the effect is applied
      */
+    @Override
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         return CompletableFuture.runAsync(() -> {
             if (gameObject instanceof PlayerModel) {

@@ -32,12 +32,6 @@ public final class ModelMappingFactoryImpl implements ModelMappingFactory {
     private static final String TRIGGER_TAG = "trigger";
 
     /**
-     * Non argument model constructor for the factory pattern although it could habe static methods.
-     */
-    public ModelMappingFactoryImpl() {
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override

@@ -60,7 +60,7 @@ public final class ObjectRemover<C> {
      */
     public void removeGameObjects(final Map<MutableObject, ReadOnlyGraphicDecorator<C>> gamePairs) {
         gamePairs.entrySet().removeIf(entry -> {
-            MutableObject key = entry.getKey();
+            final MutableObject key = entry.getKey();
             if (objects.contains(key)) {
                 // Remove the game object from the game world
                 gameModel.actionOnWorld(w -> w.removeGameObjects(key));

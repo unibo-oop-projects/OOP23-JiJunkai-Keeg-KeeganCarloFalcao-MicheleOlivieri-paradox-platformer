@@ -189,7 +189,7 @@ public final class ReadOnlyGraphicDecorator<C> implements GraphicAdapter<C> {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        ReadOnlyGraphicDecorator<?> that = (ReadOnlyGraphicDecorator<?>) obj;
+        final ReadOnlyGraphicDecorator<?> that = (ReadOnlyGraphicDecorator<?>) obj;
         return Objects.equals(graphicReader, that.graphicReader);
     }
 

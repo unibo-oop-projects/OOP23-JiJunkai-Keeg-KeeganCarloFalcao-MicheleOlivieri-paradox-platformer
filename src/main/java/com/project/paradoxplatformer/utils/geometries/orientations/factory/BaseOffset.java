@@ -14,6 +14,7 @@ public final class BaseOffset implements Offset {
      * direct instantiation from outside the package.
      */
     protected BaseOffset() {
+//        No params needed.
     }
 
     /**

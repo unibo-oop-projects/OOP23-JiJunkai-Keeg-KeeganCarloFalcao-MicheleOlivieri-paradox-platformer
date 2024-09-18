@@ -68,7 +68,7 @@ public final class PlatfromModelData implements GameModelData {
         .filter(not(Boolean::booleanValue))
         .orElseThrow(() -> new IllegalStateException("Can not map, attribute GameDTO is undefined"));
 
-        PlayerModel player = modelFactory.playerToModel()
+        final PlayerModel player = modelFactory.playerToModel()
             .map(
                 this.findGameDTOData("player")
                     .stream()
@@ -76,12 +76,12 @@ public final class PlatfromModelData implements GameModelData {
                     .orElseThrow()
             );
 
-        Obstacle[] obstacles = this.findGameDTOData("obstacle").stream()
+        final Obstacle[] obstacles = this.findGameDTOData("obstacle").stream()
             .map(modelFactory.obstacleToModel()::map)
             .toList()
             .toArray(new Obstacle[0]);
 
-        Trigger[] triggers = this.findGameDTOData("trigger").stream()
+        final Trigger[] triggers = this.findGameDTOData("trigger").stream()
             .map(modelFactory.triggerToModel()::map)
             .toList()
             .toArray(new Trigger[0]);

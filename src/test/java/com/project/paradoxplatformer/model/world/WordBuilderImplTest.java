@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * <li>Handling of worlds built without certain elements, such as a player.</li>
  * </ul>
  */
-public final class WordBuilderImplTest {
+class WordBuilderImplTest {
 
     private static final int PLAYER_WIDTH = 30;
     private static final int PLAYER_HEIGHT = 30;
@@ -46,28 +46,25 @@ public final class WordBuilderImplTest {
     private Obstacle sawTest;
     private Trigger floorTrigger;
     private Dimension worldBounds;
-    private Dimension mockDimension;
 
     @BeforeEach
     void setUp() {
         builder = new WordBuilderImpl();
 
         // Mock dependencies
-        this.playerTest = new PlayerModel();
-        this.mockDimension = new Dimension(PLAYER_WIDTH, PLAYER_HEIGHT);
-        this.sawTest = new Saw(SAW_ID, ORIGIN, mockDimension, null);
-        this.worldBounds = new Dimension(WORLD_WIDTH, WORLD_HEIGHT); // World dimensions
-        this.floorTrigger = new Floor(FLOOR_TRIGGER_ID, new Coord2D(2, 0), mockDimension, null);
+        playerTest = new PlayerModel();
+        final Dimension mockDimension = new Dimension(PLAYER_WIDTH, PLAYER_HEIGHT);
+        sawTest = new Saw(SAW_ID, ORIGIN, mockDimension, null);
+        worldBounds = new Dimension(WORLD_WIDTH, WORLD_HEIGHT); // World dimensions
+        floorTrigger = new Floor(FLOOR_TRIGGER_ID, new Coord2D(2, 0), mockDimension, null);
     }
 
     @Test
     void testAddPlayer() {
         builder.addPlayer(playerTest); // Add a player
 
-        // Attempt to build the world
-        World world = builder.build();
+        final World world = builder.build(); // Attempt to build the world
 
-        // Verify the player is included in the built world
         assertNotNull(world.player(), "Player should be present in the world.");
     }
 
@@ -75,10 +72,8 @@ public final class WordBuilderImplTest {
     void testAddObstacle() {
         builder.addObstacle(sawTest); // Add an obstacle
 
-        // Attempt to build the world
-        World world = builder.build();
+        final World world = builder.build(); // Attempt to build the world
 
-        // Verify the obstacle is included in the world
         assertTrue(world.obstacles().contains(sawTest), "Obstacle should be present in the world.");
     }
 
@@ -87,16 +82,14 @@ public final class WordBuilderImplTest {
         builder.addPlayer(playerTest).addBounds(worldBounds); // Add player and bounds
         builder.build(); // First build
 
-        // Try to add another element after the world is built
-        Exception exception = assertThrows(IllegalStateException.class, () -> {
+        final IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
             builder.addObstacle(sawTest); // Adding more elements should fail
         });
 
         assertEquals("World is already built, cannot rebuild!", exception.getMessage());
 
-        // Try to build the world again, which should also fail
         assertThrows(IllegalStateException.class, () -> {
-            builder.build();
+            builder.build(); // Try to build the world again, which should also fail
         });
     }
 
@@ -108,10 +101,8 @@ public final class WordBuilderImplTest {
                 .addTrigger(floorTrigger)
                 .addBounds(worldBounds);
 
-        // Build the world
-        World world = builder.build();
+        final World world = builder.build(); // Build the world
 
-        // Verify that all elements are present in the world
         assertEquals(playerTest.getID(), world.player().getID(), "Player should be set correctly.");
         assertTrue(world.obstacles().contains(sawTest), "Obstacle should be added to the world.");
         assertTrue(world.triggers().contains(floorTrigger), "Trigger should be added to the world.");
@@ -122,10 +113,8 @@ public final class WordBuilderImplTest {
     void testBuildWithoutPlayer() {
         builder.addBounds(worldBounds); // Add only bounds, no player
 
-        // Build the world
-        World world = builder.build();
+        final World world = builder.build(); // Build the world
 
-        // Verify the world is built without a player
         assertNull(world.player(), "Player should be null if not added.");
         assertEquals(worldBounds, world.bounds(), "World bounds should be set correctly.");
     }

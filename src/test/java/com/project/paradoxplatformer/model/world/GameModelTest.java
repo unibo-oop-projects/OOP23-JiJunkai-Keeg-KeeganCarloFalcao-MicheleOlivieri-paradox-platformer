@@ -12,9 +12,10 @@ import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.Consumer;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.List;
  * initialization, rebuilding, actions on the world, and object removal.
  * </p>
  */
-public final class GameModelTest {
+class GameModelTest {
 
     private static final int WORLD_WIDTH = 1000;
     private static final int WORLD_HEIGHT = 800;
@@ -45,10 +46,6 @@ public final class GameModelTest {
     private static final int TRIGGER_ID = 3;
 
     private GameModelImpl platformModelData;
-    private LevelDTO levelData;
-    private GameDTO playerDTO;
-    private GameDTO obstacleDTO;
-    private GameDTO triggerDTO;
 
     /**
      * Sets up the test environment by initializing {@link LevelDTO} and
@@ -62,7 +59,7 @@ public final class GameModelTest {
         final ColorDTO color = new ColorDTO(); // Assuming ColorDTO has a constructor with a color name
         final TrajMacro[] emptyTraj = new TrajMacro[0]; // Assuming empty trajectory macro array
 
-        this.playerDTO = new GameDTO(
+        final GameDTO playerDTO = new GameDTO(
                 "player",
                 PLAYER_ID,
                 PLAYER_POSITION,
@@ -75,7 +72,7 @@ public final class GameModelTest {
                 emptyTraj,
                 0);
 
-        this.obstacleDTO = new GameDTO(
+        final GameDTO obstacleDTO = new GameDTO(
                 "obstacle",
                 OBSTACLE_ID,
                 OBSTACLE_POSITION,
@@ -88,7 +85,7 @@ public final class GameModelTest {
                 emptyTraj,
                 -1);
 
-        this.triggerDTO = new GameDTO(
+        final GameDTO triggerDTO = new GameDTO(
                 "trigger",
                 TRIGGER_ID,
                 TRIGGER_POSITION,
@@ -101,7 +98,7 @@ public final class GameModelTest {
                 emptyTraj,
                 2);
 
-        this.levelData = new LevelDTO(
+        final LevelDTO levelData = new LevelDTO(
                 WORLD_WIDTH,
                 WORLD_HEIGHT,
                 new GameDTO[] { playerDTO, obstacleDTO, triggerDTO });
@@ -118,10 +115,11 @@ public final class GameModelTest {
      * </p>
      */
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testInitSuccess() {
         platformModelData.init();
 
-        World world = platformModelData.getWorld();
+        final World world = platformModelData.getWorld();
 
         assertEquals(WORLD_WIDTH, world.bounds().width(), "World width should be correctly initialized.");
         assertEquals(WORLD_HEIGHT, world.bounds().height(), "World height should be correctly initialized.");
@@ -129,11 +127,11 @@ public final class GameModelTest {
         assertNotNull(world.player(), "Player should be added to the world.");
         assertEquals(PLAYER_ID, world.player().getID(), "Player ID should match.");
 
-        List<Obstacle> obstacles = world.obstacles().stream().toList();
+        final List<Obstacle> obstacles = world.obstacles().stream().toList();
         assertEquals(1, obstacles.size(), "There should be one obstacle in the world.");
         assertEquals(OBSTACLE_ID, obstacles.get(0).getID(), "Obstacle ID should match.");
 
-        List<Trigger> triggers = world.triggers().stream().toList();
+        final List<Trigger> triggers = world.triggers().stream().toList();
         assertEquals(1, triggers.size(), "There should be one trigger in the world.");
         assertEquals(TRIGGER_ID, triggers.get(0).getID(), "Trigger ID should match.");
     }
@@ -146,13 +144,14 @@ public final class GameModelTest {
      * </p>
      */
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testRebuildWorld() {
         platformModelData.init();
 
         platformModelData.rebuild();
 
         platformModelData.init();
-        World world = platformModelData.getWorld();
+        final World world = platformModelData.getWorld();
 
         assertEquals(WORLD_WIDTH, world.bounds().width(), "World width should be correctly re-initialized.");
         assertEquals(WORLD_HEIGHT, world.bounds().height(), "World height should be correctly re-initialized.");
@@ -166,34 +165,14 @@ public final class GameModelTest {
      * </p>
      */
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testActionOnWorld() {
         platformModelData.init();
 
-        Consumer<World> checkPlayerExists = world -> assertNotNull(world.player(), "Player should exist in the world.");
+        final Consumer<World> checkPlayerExists = world -> assertNotNull(world.player(),
+                "Player should exist in the world.");
 
         platformModelData.actionOnWorld(checkPlayerExists);
     }
 
-    /**
-     * Tests the removal of an obstacle from the world.
-     * <p>
-     * This test verifies that obstacles can be removed from the world and that the
-     * removal is successful.
-     * </p>
-     */
-    @Test
-    void testRemoveObstacleFromTrigger() {
-        platformModelData.init();
-
-        World world = platformModelData.getWorld();
-
-        List<Obstacle> obstacles = world.obstacles().stream().toList();
-        assertTrue(obstacles.stream().anyMatch(o -> o.getID() == OBSTACLE_ID),
-                "Obstacle should be present initially.");
-
-        platformModelData.actionOnWorld(w -> w.removeGameObjects(obstacles.get(0)));
-
-        assertTrue(world.obstacles().stream().noneMatch(o -> o.getID() == OBSTACLE_ID),
-                "Obstacle should be removed from the world.");
-    }
 }

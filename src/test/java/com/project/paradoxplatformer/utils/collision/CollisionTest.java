@@ -21,7 +21,7 @@ import java.util.List;
  * effects.
  * Tests different game object collisions.
  */
-public class CollisionTest {
+class CollisionTest {
 
         private static final double PLAYER_INITIAL_X = 0;
         private static final double PLAYER_INITIAL_Y = 0;
@@ -35,19 +35,19 @@ public class CollisionTest {
          * and verifies that the correct objects are detected as colliding or not.
          */
         @Test
-        public void testCollisionDetectionAndEffectApplication() {
-                EffectHandler effectHandler = new EffectHandlerImpl();
-                CollisionManager collisionManager = new CollisionManager(effectHandler);
+        void testCollisionDetectionAndEffectApplication() {
+                final EffectHandler effectHandler = new EffectHandlerImpl();
+                final CollisionManager collisionManager = new CollisionManager(effectHandler);
 
-                PlayerModel player = new PlayerModel(0, new Coord2D(PLAYER_INITIAL_X, PLAYER_INITIAL_Y),
+                final PlayerModel player = new PlayerModel(0, new Coord2D(PLAYER_INITIAL_X, PLAYER_INITIAL_Y),
                                 new Dimension(PLAYER_DIMENSION, PLAYER_DIMENSION));
-                Button button = new Button(1, new Coord2D(PLAYER_INITIAL_X, PLAYER_INITIAL_Y),
+                final Button button = new Button(1, new Coord2D(PLAYER_INITIAL_X, PLAYER_INITIAL_Y),
                                 new Dimension(OBJECT_DIMENSION, OBJECT_DIMENSION));
-                Floor floor = new Floor(2, new Coord2D(INCORRECT_X, INCORRECT_Y),
+                final Floor floor = new Floor(2, new Coord2D(INCORRECT_X, INCORRECT_Y),
                                 new Dimension(OBJECT_DIMENSION, OBJECT_DIMENSION));
 
                 // Simulate a list of CollidableGameObjects
-                List<? extends CollidableGameObject> collidables = List.of(player, button, floor);
+                final List<? extends CollidableGameObject> collidables = List.of(player, button, floor);
 
                 // Simulate collision detection
                 collisionManager.handleCollisions(collidables, player);

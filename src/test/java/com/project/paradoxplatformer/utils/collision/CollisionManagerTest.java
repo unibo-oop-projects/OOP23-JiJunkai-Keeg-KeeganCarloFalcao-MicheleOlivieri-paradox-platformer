@@ -24,14 +24,14 @@ import java.util.Set;
 class CollisionManagerTest {
 
     private CollisionManager collisionManager;
-    private EffectHandler testEffectHandler;
 
     /**
-     * Sets up the CollisionManager and EffectHandler instances before each test.
+     * Sets up the CollisionManager instance before each test.
      */
     @BeforeEach
     void setUp() {
-        testEffectHandler = new EffectHandlerFactoryImpl().getEffectHandlerForLevel(Level.EMPTY_LEVEL);
+        final EffectHandler testEffectHandler = new EffectHandlerFactoryImpl()
+                .getEffectHandlerForLevel(Level.EMPTY_LEVEL);
         collisionManager = new CollisionManager(testEffectHandler);
     }
 
@@ -42,12 +42,12 @@ class CollisionManagerTest {
     @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testHandleCollisionsWithCollisions() {
         // Setup test objects
-        CollidableGameObject player = new PlayerModel();
-        CollidableGameObject object1 = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
+        final CollidableGameObject player = new PlayerModel();
+        final CollidableGameObject object1 = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
         object1.setPosition(new Coord2D(0, 0)); // Position overlaps with player
         player.setPosition(new Coord2D(0, 0)); // Position matches object1
 
-        Set<CollidableGameObject> collidableObjects = new HashSet<>();
+        final Set<CollidableGameObject> collidableObjects = new HashSet<>();
         collidableObjects.add(object1);
 
         // Test the method
@@ -61,12 +61,12 @@ class CollisionManagerTest {
     @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testHandleCollisionsWithoutCollisions() {
         // Setup test objects
-        CollidableGameObject player = new PlayerModel();
-        CollidableGameObject object1 = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
+        final CollidableGameObject player = new PlayerModel();
+        final CollidableGameObject object1 = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
         object1.setPosition(new Coord2D(10, 10)); // Position does not overlap with player
         player.setPosition(new Coord2D(0, 0)); // Position different from object1
 
-        Set<CollidableGameObject> collidableObjects = new HashSet<>();
+        final Set<CollidableGameObject> collidableObjects = new HashSet<>();
         collidableObjects.add(object1);
 
         // Test the method

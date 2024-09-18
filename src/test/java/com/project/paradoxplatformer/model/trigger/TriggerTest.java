@@ -18,7 +18,7 @@ import java.util.Optional;
  * These tests verify the behavior of methods related to activating triggers,
  * adding obstacles, and managing triggerable IDs.
  */
-public final class TriggerTest {
+class TriggerTest {
 
     private static final int TEST_ID = 123;
     private Button trigger;

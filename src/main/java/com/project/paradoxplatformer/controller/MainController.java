@@ -19,7 +19,7 @@ package com.project.paradoxplatformer.controller;
  * manages the lifecycle of associated threads or processes.
  * </p>
  */
-public interface GameController {
+public interface MainController {
 
     /**
      * Starts the controller.

@@ -16,7 +16,7 @@ public class CompositeVictoryCondition implements VictoryCondition {
      * @param condition1 the first condition
      * @param condition2 the second condition
      */
-    public CompositeVictoryCondition(VictoryCondition condition1, VictoryCondition condition2) {
+    public CompositeVictoryCondition(final VictoryCondition condition1, final VictoryCondition condition2) {
         this.condition1 = condition1;
         this.condition2 = condition2;
     }

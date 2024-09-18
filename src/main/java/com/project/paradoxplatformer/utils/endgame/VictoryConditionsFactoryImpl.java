@@ -59,7 +59,6 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     @Override
     public Iterator<VictoryCondition> defaultConditions() {
         final List<VictoryCondition> defaultList = new ArrayList<>();
-        defaultList.add(new ReachEndVictoryCondition(this.player));
         return defaultList.iterator();
     }
 

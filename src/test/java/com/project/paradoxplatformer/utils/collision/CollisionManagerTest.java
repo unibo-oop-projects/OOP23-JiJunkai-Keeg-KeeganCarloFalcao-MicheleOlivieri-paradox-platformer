@@ -8,24 +8,38 @@ import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Unit tests for the CollisionManager class, ensuring its functionality for
+ * handling collisions.
+ */
 class CollisionManagerTest {
 
     private CollisionManager collisionManager;
     private EffectHandler testEffectHandler;
 
+    /**
+     * Sets up the CollisionManager and EffectHandler instances before each test.
+     */
     @BeforeEach
     void setUp() {
         testEffectHandler = new EffectHandlerFactoryImpl().getEffectHandlerForLevel(Level.EMPTY_LEVEL);
         collisionManager = new CollisionManager(testEffectHandler);
     }
 
+    /**
+     * Tests handling collisions where objects are overlapping.
+     */
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testHandleCollisionsWithCollisions() {
         // Setup test objects
         CollidableGameObject player = new PlayerModel();
@@ -38,10 +52,13 @@ class CollisionManagerTest {
 
         // Test the method
         collisionManager.handleCollisions(collidableObjects, player);
-
     }
 
+    /**
+     * Tests handling collisions where objects are not overlapping.
+     */
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testHandleCollisionsWithoutCollisions() {
         // Setup test objects
         CollidableGameObject player = new PlayerModel();
@@ -54,7 +71,5 @@ class CollisionManagerTest {
 
         // Test the method
         collisionManager.handleCollisions(collidableObjects, player);
-
     }
-
 }

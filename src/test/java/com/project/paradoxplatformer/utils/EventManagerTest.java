@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import com.project.paradoxplatformer.controller.event.EventManager;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
@@ -39,6 +41,7 @@ class EventManagerTest {
      * when the event is published.
      */
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testSubscribeAndPublish() {
         // Setup
         BiConsumer<Integer, String> action = (param1, param2) -> System.out
@@ -75,6 +78,7 @@ class EventManagerTest {
      * Ensures that after unsubscribing, the event action is not triggered.
      */
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testUnsubscribe() {
         // Setup
         BiConsumer<Integer, String> action = (param1, param2) -> {

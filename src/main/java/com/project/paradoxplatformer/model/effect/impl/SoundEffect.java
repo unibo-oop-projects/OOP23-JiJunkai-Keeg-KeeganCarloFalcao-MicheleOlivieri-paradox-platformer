@@ -5,11 +5,14 @@ import com.project.paradoxplatformer.model.effect.api.RecreateableEffect;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
+import com.project.paradoxplatformer.utils.logging.GlobalLogger;
 import com.project.paradoxplatformer.utils.sound.SoundLoader;
 import com.project.paradoxplatformer.utils.sound.SoundType;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+
+import org.slf4j.Logger;
 
 /**
  * Represents an effect that plays a sound. The sound is played only once
@@ -17,6 +20,7 @@ import java.util.concurrent.CompletableFuture;
  */
 public final class SoundEffect extends AbstractRecreatableEffect {
 
+    private final Logger logger = GlobalLogger.getLogger(SoundEffect.class);
     private final SoundType soundType; // The type of sound to be played
     private final SoundLoader soundLoader; // Loader to handle sound playback
     private boolean hasPlayed; // Flag to track if the sound has already been played
@@ -47,7 +51,7 @@ public final class SoundEffect extends AbstractRecreatableEffect {
         try {
             return soundLoader.playSound(ResourcesFinder.getURL(soundType.getSoundName()));
         } catch (InvalidResourceException e) {
-            e.printStackTrace();
+            logger.error("Failed to play the sound.", e);
             return CompletableFuture.completedFuture(null);
         }
     }

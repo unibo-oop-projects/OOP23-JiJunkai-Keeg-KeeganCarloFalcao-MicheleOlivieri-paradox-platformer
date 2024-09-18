@@ -7,6 +7,7 @@ import java.util.List;
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.endgame.condition.DeathObstacleCollisionCondition;
 import com.project.paradoxplatformer.model.endgame.condition.FallenCondition;
+import com.project.paradoxplatformer.model.endgame.condition.OutOfMapCondition;
 import com.project.paradoxplatformer.model.endgame.condition.TimeLimitDeathCondition;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
@@ -103,6 +104,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
         // Player dies if health is below 0.
         conditions.add(new FallenCondition(this.player));
         conditions.add(new DeathObstacleCollisionCondition());
+        conditions.add(new OutOfMapCondition(this.player));
         return conditions.iterator();
     }
 

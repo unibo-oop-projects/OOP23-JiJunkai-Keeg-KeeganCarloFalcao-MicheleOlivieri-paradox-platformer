@@ -14,13 +14,20 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
- *
- * @author michele
+ * Test class for the CoinCollectionVictoryCondition.
+ * <p>
+ * Verifies the victory condition based on collecting a specific number of coins.
+ * 
+ * </p>
+ * * @author Michele Olivieri
  */
 public class CoinCollectionVictoryConditionTest {
 
     private final static int COIN = 5;
 
+    /**
+     * Default constructor for the test class.
+     */
     public CoinCollectionVictoryConditionTest() {
     }
 
@@ -30,11 +37,11 @@ public class CoinCollectionVictoryConditionTest {
     @Test
     public void testWin() {
         System.out.println("win");
-        PlayerModel player = new PlayerModel();
+        final PlayerModel player = new PlayerModel();
         player.collectItem(new Coin(COIN, new Coord2D(0,0), new Dimension(COIN, COIN)));
-        CoinCollectionVictoryCondition instance = new CoinCollectionVictoryCondition(player, CoinCollectionVictoryConditionTest.COIN);
-        boolean expResult = false;
-        boolean result = instance.win();
+        final CoinCollectionVictoryCondition instance = new CoinCollectionVictoryCondition(player, CoinCollectionVictoryConditionTest.COIN);
+        final boolean expResult = false;
+        final boolean result = instance.win();
         assertEquals(expResult, result);
     }
 }

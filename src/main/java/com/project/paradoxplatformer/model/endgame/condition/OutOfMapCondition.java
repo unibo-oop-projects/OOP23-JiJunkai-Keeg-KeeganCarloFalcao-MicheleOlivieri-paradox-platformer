@@ -31,7 +31,10 @@ public class OutOfMapCondition implements DeathCondition {
      */
     @Override
     public boolean death() {
-        return player.getPosition().y() <= 0 || player.getPosition().x() <= 0 || player.getPosition().y() >= OutOfMapCondition.HIGH || player.getPosition().x() >= OutOfMapCondition.WITH;
+        return player.getPosition().y() <= 0 
+            || player.getPosition().x() <= 0 
+            || player.getPosition().y() >= OutOfMapCondition.HIGH 
+            || player.getPosition().x() >= OutOfMapCondition.WITH;
     }
 
 }

@@ -14,7 +14,7 @@
 
 <BorderPane fx:id="pagePane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" styleClass="hbox" 
    stylesheets="@css/menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
-   fx:controller="com.project.paradoxplatformer.MenuPage">
+   fx:controller="com.project.paradoxplatformer.view.page.MenuPage">
    <center>
       <HBox alignment="CENTER" prefHeight="231.0" prefWidth="441.0" spacing="60.0" style="-fx-background-repeat: no-repeat;" stylesheets="@css/menu.css" BorderPane.alignment="CENTER">
          <children>

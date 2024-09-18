@@ -15,7 +15,7 @@ import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
-import com.project.paradoxplatformer.model.GameModelData;
+import com.project.paradoxplatformer.model.GameModel;
 import com.project.paradoxplatformer.model.effect.impl.EffectHandlerFactoryImpl;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
@@ -26,13 +26,13 @@ import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.utils.collision.CollisionManager;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.utils.endgame.DeathConditionsFactoryImpl;
-import com.project.paradoxplatformer.utils.endgame.EndGameManager;
-import com.project.paradoxplatformer.utils.endgame.EndGameManagerImpl;
-import com.project.paradoxplatformer.utils.endgame.VictoryConditionsFactoryImpl;
+import com.project.paradoxplatformer.model.endgame.DeathConditionsFactoryImpl;
+import com.project.paradoxplatformer.model.endgame.EndGameManager;
+import com.project.paradoxplatformer.model.endgame.EndGameManagerImpl;
+import com.project.paradoxplatformer.model.endgame.VictoryConditionsFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.game.GameView;
+import com.project.paradoxplatformer.view.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
@@ -51,7 +51,7 @@ import com.project.paradoxplatformer.view.manager.ViewNavigator;
  */
 public final class GameControllerImpl<C> implements GameController<C>, GameControllerEventListener {
 
-    private final GameModelData gameModel;
+    private final GameModel gameModel;
     private Map<MutableObject, ReadOnlyGraphicDecorator<C>> gamePairs;
     private final GameView<C> gameView;
     private final Function<GraphicAdapter<C>, Coord2D> position;
@@ -72,7 +72,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      * @param view  the game view used to render and interact with the game
      * @param level the current level being played in the game
      */
-    public GameControllerImpl(final GameModelData model, final GameView<C> view, final Level level) {
+    public GameControllerImpl(final GameModel model, final GameView<C> view, final Level level) {
         this.gameModel = model;
         this.gameView = Optional.of(view).orElseThrow(() -> new IllegalArgumentException("View cannot be null"));
         this.gamePairs = new HashMap<>();

@@ -7,6 +7,7 @@ import com.project.paradoxplatformer.controller.deserialization.dtos.ColorDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.controller.deserialization.dtos.TrajMacro;
+import com.project.paradoxplatformer.model.GameModelImpl;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
@@ -17,24 +18,27 @@ import java.util.function.Consumer;
 import java.util.List;
 
 /**
- * Unit tests for the {@link PlatfromModelData} class.
+ * Unit tests for the {@link GameModelImpl} class.
  * <p>
- * This class contains test cases to verify the functionality of the {@link PlatfromModelData} class, including
+ * This class contains test cases to verify the functionality of the
+ * {@link GameModelImpl} class, including
  * initialization, rebuilding, actions on the world, and object removal.
  * </p>
  */
 public final class PlatfromModelDataTest {
 
-    private PlatfromModelData platformModelData;
+    private GameModelImpl platformModelData;
     private LevelDTO levelData;
     private GameDTO playerDTO;
     private GameDTO obstacleDTO;
     private GameDTO triggerDTO;
 
     /**
-     * Sets up the test environment by initializing {@link LevelDTO} and {@link PlatfromModelData} instances.
-     * This method creates sample {@link GameDTO} instances for player, obstacle, and trigger, and uses them to
-     * initialize the {@link PlatfromModelData} instance.
+     * Sets up the test environment by initializing {@link LevelDTO} and
+     * {@link GameModelImpl} instances.
+     * This method creates sample {@link GameDTO} instances for player, obstacle,
+     * and trigger, and uses them to
+     * initialize the {@link GameModelImpl} instance.
      */
     @BeforeEach
     void setUp() {
@@ -44,60 +48,61 @@ public final class PlatfromModelDataTest {
 
         // Create GameDTO instances
         this.playerDTO = new GameDTO(
-                "player",      // Type
-                1,             // ID
-                0,             // x-coordinate
-                0,             // y-coordinate
-                30,            // Width
-                30,            // Height
-                null,          // Subtype (null or empty if not used)
-                null,          // Image (null if not used)
-                color,         // ColorDTO
-                emptyTraj,     // Trajectory macros
-                0              // Triggering ID
+                "player", // Type
+                1, // ID
+                0, // x-coordinate
+                0, // y-coordinate
+                30, // Width
+                30, // Height
+                null, // Subtype (null or empty if not used)
+                null, // Image (null if not used)
+                color, // ColorDTO
+                emptyTraj, // Trajectory macros
+                0 // Triggering ID
         );
 
         this.obstacleDTO = new GameDTO(
-                "obstacle",    // Type
-                2,             // ID
-                100,           // x-coordinate
-                100,           // y-coordinate
-                30,            // Width
-                30,            // Height
-                "Coin",          // Subtype
-                null,          // Image
-                color,         // ColorDTO
-                emptyTraj,     // Trajectory macros
-                -1              // Triggering ID
+                "obstacle", // Type
+                2, // ID
+                100, // x-coordinate
+                100, // y-coordinate
+                30, // Width
+                30, // Height
+                "Coin", // Subtype
+                null, // Image
+                color, // ColorDTO
+                emptyTraj, // Trajectory macros
+                -1 // Triggering ID
         );
 
         this.triggerDTO = new GameDTO(
-                "trigger",     // Type
-                3,             // ID
-                200,           // x-coordinate
-                200,           // y-coordinate
-                30,            // Width
-                30,            // Height
-                "Floor",          // Subtype
-                null,          // Image
-                color,         // ColorDTO
-                emptyTraj,     // Trajectory macros
-                2              // Triggering ID
+                "trigger", // Type
+                3, // ID
+                200, // x-coordinate
+                200, // y-coordinate
+                30, // Width
+                30, // Height
+                "Floor", // Subtype
+                null, // Image
+                color, // ColorDTO
+                emptyTraj, // Trajectory macros
+                2 // Triggering ID
         );
 
         this.levelData = new LevelDTO(
-                1000, 800,  // World bounds
-                new GameDTO[]{playerDTO, obstacleDTO, triggerDTO}  // Game DTOs (player, obstacle, trigger)
+                1000, 800, // World bounds
+                new GameDTO[] { playerDTO, obstacleDTO, triggerDTO } // Game DTOs (player, obstacle, trigger)
         );
 
         // Initialize PlatformModelData with the created LevelDTO
-        platformModelData = new PlatfromModelData(levelData);
+        platformModelData = new GameModelImpl(levelData);
     }
 
-     /**
+    /**
      * Tests the successful initialization of the game model.
      * <p>
-     * This test verifies that the world is correctly initialized with the dimensions, player, obstacle, and trigger
+     * This test verifies that the world is correctly initialized with the
+     * dimensions, player, obstacle, and trigger
      * specified in the {@link LevelDTO}.
      * </p>
      */
@@ -128,10 +133,11 @@ public final class PlatfromModelDataTest {
         assertEquals(triggerDTO.getID(), triggers.get(0).getID(), "Trigger ID should match.");
     }
 
-      /**
+    /**
      * Tests the rebuilding of the world.
      * <p>
-     * This test verifies that the world can be successfully rebuilt and re-initialized correctly.
+     * This test verifies that the world can be successfully rebuilt and
+     * re-initialized correctly.
      * </p>
      */
     @Test
@@ -151,10 +157,11 @@ public final class PlatfromModelDataTest {
         assertEquals(800, world.bounds().height(), "World height should be correctly re-initialized.");
     }
 
-     /**
+    /**
      * Tests the removal of an obstacle from the world.
      * <p>
-     * This test verifies that obstacles can be removed from the world and that the removal is successful.
+     * This test verifies that obstacles can be removed from the world and that the
+     * removal is successful.
      * </p>
      */
     @Test
@@ -169,10 +176,11 @@ public final class PlatfromModelDataTest {
         platformModelData.actionOnWorld(checkPlayerExists);
     }
 
-     /**
+    /**
      * Tests the removal of an obstacle from the world.
      * <p>
-     * This test verifies that obstacles can be removed from the world and that the removal is successful.
+     * This test verifies that obstacles can be removed from the world and that the
+     * removal is successful.
      * </p>
      */
     @Test
@@ -185,14 +193,13 @@ public final class PlatfromModelDataTest {
 
         // Check if the obstacle is present initially
         List<Obstacle> obstacles = world.obstacles().stream().toList();
-        assertTrue(obstacles.stream().anyMatch(o -> o.getID() == obstacleDTO.getID()), 
-                   "Obstacle should be present initially.");
+        assertTrue(obstacles.stream().anyMatch(o -> o.getID() == obstacleDTO.getID()),
+                "Obstacle should be present initially.");
 
         platformModelData.actionOnWorld(w -> w.removeGameObjects(obstacles.get(0)));
 
         // Verify obstacle is removed
-        assertTrue(world.obstacles().stream().anyMatch(o -> o.getID() == obstacleDTO.getID()), 
-                    "Obstacle should be removed from the world.");
+        assertTrue(world.obstacles().stream().anyMatch(o -> o.getID() == obstacleDTO.getID()),
+                "Obstacle should be removed from the world.");
     }
 }
-

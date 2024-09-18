@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.controller.games;
 
-import com.project.paradoxplatformer.model.GameModelData;
+import com.project.paradoxplatformer.model.GameModel;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.view.game.GameView;
+import com.project.paradoxplatformer.view.GameView;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
@@ -22,7 +22,7 @@ import java.util.Map;
  * @param <C> The type of graphics associated with the game view.
  */
 public final class ObjectRemover<C> {
-    private final GameModelData gameModel; // Model data for interacting with the game world
+    private final GameModel gameModel; // Model data for interacting with the game world
     private final GameView<C> gameView; // View component for rendering game graphics
     private final List<MutableObject> objects; // List of mutable objects to be removed
 
@@ -32,7 +32,7 @@ public final class ObjectRemover<C> {
      * @param gameModel The model containing game data and world state.
      * @param gameView  The view responsible for rendering graphics.
      */
-    public ObjectRemover(final GameModelData gameModel, final GameView<C> gameView) {
+    public ObjectRemover(final GameModel gameModel, final GameView<C> gameView) {
         this.gameModel = gameModel;
         this.gameView = Optional.of(gameView).get();
         this.objects = new ArrayList<>();

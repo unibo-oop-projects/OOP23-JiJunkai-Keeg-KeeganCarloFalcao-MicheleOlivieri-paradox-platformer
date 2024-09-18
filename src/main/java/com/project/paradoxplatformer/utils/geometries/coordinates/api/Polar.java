@@ -99,8 +99,8 @@ public final class Polar {
             return false;
         }
         final Polar other = (Polar) obj;
-        return Double.doubleToLongBits(angle) == Double.doubleToLongBits(other.angle) &&
-                Double.doubleToLongBits(magnitude) == Double.doubleToLongBits(other.magnitude);
+        return Double.doubleToLongBits(angle) == Double.doubleToLongBits(other.angle)
+                && Double.doubleToLongBits(magnitude) == Double.doubleToLongBits(other.magnitude);
     }
 
     @Override

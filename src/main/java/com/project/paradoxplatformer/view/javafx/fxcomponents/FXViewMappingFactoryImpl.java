@@ -5,13 +5,13 @@ import java.util.function.Function;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.GameDTO;
 import com.project.paradoxplatformer.controller.games.GameController;
-import com.project.paradoxplatformer.model.MenuItem;
+import com.project.paradoxplatformer.model.innersetting.MenuItem;
 import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.game.ViewMappingFactory;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
+import com.project.paradoxplatformer.view.javafx.ViewMappingFactory;
 
 import javafx.scene.Node;
 
@@ -72,10 +72,10 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
                     g.getImage(),
                     g.getSpriteMeta())
                     : new FXImageAdapter(
-                    g.getID(),
-                    new Dimension(g.getWidth(), g.getHeight()),
-                    new Coord2D(g.getX(), g.getY()),
-                    g.getImage());
+                            g.getID(),
+                            new Dimension(g.getWidth(), g.getHeight()),
+                            new Coord2D(g.getX(), g.getY()),
+                            g.getImage());
         } catch (InvalidResourceException e) {
             throw new IllegalStateException(e);
         }

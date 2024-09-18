@@ -2,6 +2,7 @@
   "type": "platformer",
   "height": 360,
   "width": 640,
+  "backgroundFile": "level4Back.jpg",
   "gameDTOs": [
     {
       "id": 0,
@@ -30,9 +31,9 @@
       "height": 100,
       "subtype": "Platform",
       "color": {
-        "blu": 42,
-        "red": 180,
-        "green": 77,
+        "blu": 45,
+        "red": 28,
+        "green": 84,
         "alpha": 1
       }
     },
@@ -45,9 +46,9 @@
       "height": 100,
       "subtype": "Platform",
       "color": {
-        "blu": 42,
-        "red": 180,
-        "green": 77,
+        "blu": 45,
+        "red": 28,
+        "green": 84,
         "alpha": 1
       },
       "traj": [
@@ -68,9 +69,9 @@
       "height": 100,
       "subtype": "Platform",
       "color": {
-        "blu": 42,
-        "red": 180,
-        "green": 77,
+        "blu": 45,
+        "red": 28,
+        "green": 84,
         "alpha": 1
       }
     },
@@ -83,9 +84,9 @@
       "height": 50,
       "subtype": "Platform",
       "color": {
-        "blu": 42,
-        "red": 180,
-        "green": 77,
+        "blu": 45,
+        "red": 28,
+        "green": 84,
         "alpha": 1
       }
     },

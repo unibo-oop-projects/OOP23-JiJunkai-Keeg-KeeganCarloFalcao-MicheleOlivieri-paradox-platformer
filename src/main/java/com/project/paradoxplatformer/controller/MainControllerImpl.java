@@ -11,14 +11,14 @@ import com.project.paradoxplatformer.view.legacy.ViewAdapterFactory;
 import com.project.paradoxplatformer.view.manager.ViewManager;
 
 /**
- * A simple implementation of the {@link GameController} interface that manages
+ * A simple implementation of the {@link MainController} interface that manages
  * the application's lifecycle, view switching, and initialization routines.
  * 
  * @param <N> the type of the main application view
  * @param <P> the type of the parameter passed to view creation
  * @param <K> the type of the view key
  */
-public final class GameControllerImpl<N, P, K> implements GameController {
+public final class MainControllerImpl<N, P, K> implements MainController {
 
     private final CountDownLatch latch = new CountDownLatch(1);
     private final ViewManager viewManager;
@@ -26,13 +26,13 @@ public final class GameControllerImpl<N, P, K> implements GameController {
     private final EventManager<GameEventType, PageIdentifier> eventManager;
 
     /**
-     * Constructs a {@link GameControllerImpl} with the specified view adapter and
+     * Constructs a {@link MainControllerImpl} with the specified view adapter and
      * title.
      * 
      * @param adapter the view adapter factory used to initialize the view manager
      * @param title   the title of the application window
      */
-    public GameControllerImpl(final ViewAdapterFactory<N, P, K> adapter, final String title) {
+    public MainControllerImpl(final ViewAdapterFactory<N, P, K> adapter, final String title) {
         this.viewManager = adapter.mainAppManager().get();
         this.title = title;
         this.eventManager = EventManager.getInstance();

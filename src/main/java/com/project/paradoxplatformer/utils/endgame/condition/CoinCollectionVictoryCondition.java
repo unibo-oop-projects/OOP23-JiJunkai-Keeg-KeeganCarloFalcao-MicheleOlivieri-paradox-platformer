@@ -1,8 +1,9 @@
-package com.project.paradoxplatformer.utils.endgame;
+package com.project.paradoxplatformer.utils.endgame.condition;
 
 import java.util.Optional;
 
 import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.utils.endgame.VictoryCondition;
 
 /**
  * The CoinCollectionVictoryCondition class represents a victory condition where
@@ -33,7 +34,6 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
      */
     @Override
     public boolean win() {
-        System.out.println("Coin " + player.getCollectedCoins());
         return player.getCollectedCoins() >= this.targetCoins;
     }
 

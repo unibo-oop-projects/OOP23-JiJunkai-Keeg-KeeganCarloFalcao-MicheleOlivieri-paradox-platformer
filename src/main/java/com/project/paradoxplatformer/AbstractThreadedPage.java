@@ -97,6 +97,6 @@ public abstract class AbstractThreadedPage implements Page<Level>, Initializable
      * @throws Exception if any error occurs while running the code on the JavaFX
      *                   thread
      */
-    protected abstract void runOnFXThread(Level param) throws Exception;
+    protected abstract void runOnFXThread(Level param) throws Exception; //NOPMD (it is necessary)
 
 }

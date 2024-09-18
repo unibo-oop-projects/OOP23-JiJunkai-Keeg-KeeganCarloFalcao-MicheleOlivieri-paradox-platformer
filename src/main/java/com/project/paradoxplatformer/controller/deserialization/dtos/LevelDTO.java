@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.controller.deserialization.dtos;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -24,16 +25,30 @@ public final class LevelDTO {
 
     private final GameDTO[] gameDTOs;
 
-    /**
-     * Non-argument Constructor for the purpose of having final fields.
+   /**
+     * Constructs a LevelDTO object with the specified parameters.
+     *
+     * @param type           the type of the level, indicating its category or purpose
+     * @param width          the width of the level in units (e.g., pixels, meters)
+     * @param height         the height of the level in units (e.g., pixels, meters)
+     * @param backgroundFile the file path or name of the background image for the level
+     * @param gameDTOs       an array of {@link GameDTO} objects representing the game elements in the level;
+     *                      if {@code null}, initializes with an empty array
      */
-    public LevelDTO(String type, double width, double height, String backgroundFile, GameDTO[] gameDTOs) {
+    @JsonCreator
+    public LevelDTO(
+            @JsonProperty("type") final String type,
+            @JsonProperty("height") final double height,
+            @JsonProperty("width") final double width,
+            @JsonProperty("backgroundFile") final String backgroundFile,
+            @JsonProperty("gameDTOs") final GameDTO[] gameDTOs) {
         this.type = type;
         this.width = width;
         this.height = height;
         this.backgroundFile = backgroundFile;
         this.gameDTOs = gameDTOs != null ? gameDTOs.clone() : new GameDTO[0];
     }
+
 
     /**
      * Gets the type of the game.

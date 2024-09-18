@@ -7,7 +7,8 @@ import com.project.paradoxplatformer.model.obstacles.Platform;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ import java.util.Optional;
  */
 public final class TriggerTest {
 
+    private static final int TEST_ID = 123;
     private Button trigger;
 
     /**
@@ -63,8 +65,8 @@ public final class TriggerTest {
      */
     @Test
     void testSetAndGetTriggerableID() {
-        trigger.setTriggerableID(Optional.of(123));
-        assertEquals(Optional.of(123), trigger.getTriggerableID(),
+        trigger.setTriggerableID(Optional.of(TEST_ID));
+        assertEquals(Optional.of(TEST_ID), trigger.getTriggerableID(),
                 "Triggerable ID should be set and retrieved correctly");
     }
 

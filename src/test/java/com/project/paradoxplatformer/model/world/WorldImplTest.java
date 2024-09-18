@@ -1,8 +1,7 @@
 package com.project.paradoxplatformer.model.world;
 
-import org.junit.jupiter.api.Test;
-
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.model.obstacles.DeathCoin;
@@ -23,17 +22,28 @@ import java.util.List;
 
 /**
  * Unit tests for the {@link WorldImpl} class, validating the management and
- * retrieval of world elements such as obstacles, triggers, and the player model.
+ * retrieval of world elements such as obstacles, triggers, and the player
+ * model.
  * <p>
  * Tests include:
  * <ul>
- *   <li>Validation of obstacle and trigger collections as unmodifiable.</li>
- *   <li>Ensuring proper access and removal of game objects.</li>
- *   <li>Verifying the retrieval of all world elements through gameObjects().</li>
- *   <li>Testing the correct retrieval of the player model.</li>
+ * <li>Validation of obstacle and trigger collections as unmodifiable.</li>
+ * <li>Ensuring proper access and removal of game objects.</li>
+ * <li>Verifying the retrieval of all world elements through gameObjects().</li>
+ * <li>Testing the correct retrieval of the player model.</li>
  * </ul>
  */
 public final class WorldImplTest {
+
+    private static final int PLAYER_WIDTH = 30;
+    private static final int PLAYER_HEIGHT = 30;
+    private static final int WORLD_WIDTH = 1000;
+    private static final int WORLD_HEIGHT = 800;
+    private static final int SAW_ID = 2;
+    private static final int FLOOR_TRIGGER_ID = 1;
+    private static final Coord2D ORIGIN = Coord2D.origin();
+    private static final int OTHER_OBJECT_X = 20;
+    private static final int OTHER_OBJECT_Y = 22;
 
     private WorldImpl world;
     private PlayerModel playeTest;
@@ -46,16 +56,15 @@ public final class WorldImplTest {
     void setUp() {
         // Mocking player, obstacle, trigger, and world dimension
         this.playeTest = new PlayerModel();
-        this.mockDimension = new Dimension(30, 30);
-        this.sawTest = new Saw(2, Coord2D.origin(), mockDimension, null);
-        this.worldBounds = new Dimension(1000, 800); // World dimensions
-        this.floorTrigger = new Floor(1, new Coord2D(2, 0), mockDimension, null);
-        
+        this.mockDimension = new Dimension(PLAYER_WIDTH, PLAYER_HEIGHT);
+        this.sawTest = new Saw(SAW_ID, ORIGIN, mockDimension, null);
+        this.worldBounds = new Dimension(WORLD_WIDTH, WORLD_HEIGHT); // World dimensions
+        this.floorTrigger = new Floor(FLOOR_TRIGGER_ID, new Coord2D(2, 0), mockDimension, null);
 
         // Initialize world with mocked objects
         world = new WorldImpl(
                 List.of(sawTest), // Single obstacle
-                List.of(floorTrigger),  // Single trigger
+                List.of(floorTrigger), // Single trigger
                 playeTest,
                 worldBounds);
     }
@@ -95,7 +104,8 @@ public final class WorldImplTest {
         assertFalse(world.triggers().contains(floorTrigger), "Trigger should be removed from the world.");
 
         // Test removing a non-existing object
-        MutableObject mockOtherObject = new DeathCoin(0, new Coord2D(20, 22), mockDimension, null);
+        MutableObject mockOtherObject = new DeathCoin(0, new Coord2D(OTHER_OBJECT_X, OTHER_OBJECT_Y), mockDimension,
+                null);
         assertFalse(world.removeGameObjects(mockOtherObject), "Removing a non-existing object should return false.");
     }
 

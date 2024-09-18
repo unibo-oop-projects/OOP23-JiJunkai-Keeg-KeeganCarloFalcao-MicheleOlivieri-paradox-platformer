@@ -46,10 +46,13 @@ public interface Inventory {
      */
     default Map<String, Long> getItemsCounts() {
         return Collections.unmodifiableMap(
-                this.getImmutableItems().stream()
-                        .collect(
-                                Collectors.groupingBy(
-                                        CollectableGameObject::getName,
-                                        Collectors.counting())));
+            this.getImmutableItems().stream()
+                .collect(
+                    Collectors.groupingBy(
+                        CollectableGameObject::getName,
+                        Collectors.counting()
+                    )
+                )
+            );
     }
 }

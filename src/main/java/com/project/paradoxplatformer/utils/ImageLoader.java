@@ -27,7 +27,7 @@ public final class ImageLoader {
      *                                  loaded
      */
     public static Image createFXImage(final String imagePath) throws InvalidResourceException {
-        return new Image(ResourcesFinder.getURL(imagePath).toExternalForm());
+        return new Image(ResourcesFinder.getURL(ResourcesFinder.IMAGES_FOLDER + imagePath).toExternalForm());
     }
 
     /**
@@ -43,7 +43,7 @@ public final class ImageLoader {
             throws IOException, InvalidResourceException {
         try {
             // Read the image from the resource URL
-            return ImageIO.read(ResourcesFinder.getURL(imagePath));
+            return ImageIO.read(ResourcesFinder.getURL(ResourcesFinder.IMAGES_FOLDER + imagePath));
         } catch (IOException e) {
             // Wrap and rethrow the IOException with a descriptive message
             throw new IOException("Image could not be read by ImageIO", e);

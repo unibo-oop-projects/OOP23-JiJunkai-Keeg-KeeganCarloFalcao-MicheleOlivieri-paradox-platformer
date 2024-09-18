@@ -36,13 +36,15 @@ import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
-import com.project.paradoxplatformer.view.legacy.ViewFramework;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
 
 /**
- * An implementation of a basic Game Controller.
+ * Provides an implementation of the {@code GameController} interface, managing the 
+ * interaction between the game model, view, and game loop. This class coordinates
+ * the gameplay by updating the game state, handling user input, and managing game
+ * events such as victory or game-over conditions.
  * 
- * @param <C> type of view component
+ * @param <C> the type of view component managed by this controller
  */
 public final class GameControllerImpl<C> implements GameController<C>, GameControllerEventListener {
 
@@ -61,16 +63,15 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     private final Level currentLevel;
 
     /**
-     * Constructs a new GameControllerImpl with the specified model, view, and
-     * level.
+     * Constructs a new {@code GameControllerImpl} instance with the specified model, view, and level.
      * 
-     * @param model the game model data
-     * @param view  the game view
-     * @param level the current level being played
+     * @param model the game model data used to manage the state of the game
+     * @param view  the game view used to render and interact with the game
+     * @param level the current level being played in the game
      */
     public GameControllerImpl(final GameModelData model, final GameView<C> view, final Level level) {
         this.gameModel = model;
-        this.gameView = Optional.of(view).get();
+        this.gameView = Optional.of(view).orElseThrow(() -> new IllegalArgumentException("View cannot be null"));
         this.gamePairs = new HashMap<>();
         this.position = GraphicAdapter::relativePosition;
         this.dimension = GraphicAdapter::dimension;
@@ -82,28 +83,23 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         this.eventSubscriber.subscribeToEvents();
 
         this.objectRemover = new ObjectRemover<>(model, view);
-
-        // System.out.println("Current level: " + level);
     }
 
     /**
-     * Loads the game model and initializes it.
+     * Initializes the game model, setting it up for gameplay.
      */
     @Override
     public void loadModel() {
         gameModel.init();
-        // System.out.println("Game Model is loaded.");
     }
 
     /**
-     * Synchronizes the view by initializing it and syncing the game state.
+     * Initializes and synchronizes the game view with the current game state.
      */
     @Override
     public void syncView() {
         gameView.init();
         this.sync();
-
-        // System.out.println("Game View is loaded.");
     }
 
     /**
@@ -116,9 +112,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Syncs the game view with the game model by pairing each graphic component
-     * with
-     * its corresponding mutable object in the world.
+     * Synchronizes the game view with the game model by pairing each graphic component
+     * with its corresponding mutable object in the world.
      */
     private void sync() {
         gamePairs = this.gameView.getUnmodifiableControls()
@@ -128,14 +123,12 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Joins the graphical component with the corresponding mutable object in the
-     * world.
+     * Joins a graphical component with its corresponding mutable object in the world.
      * 
      * @param g     the graphic component to join
      * @param world the game world containing the objects to pair with the graphic
-     * @return a Pair of the matched MutableObject and ReadOnlyGraphicDecorator
-     * @throws IllegalArgumentException if no matching object is found for the given
-     *                                  graphic
+     * @return a pair of the matched {@code MutableObject} and {@code ReadOnlyGraphicDecorator}
+     * @throws IllegalArgumentException if no matching object is found for the given graphic
      */
     private Pair<MutableObject, ReadOnlyGraphicDecorator<C>> join(
             final ReadOnlyGraphicDecorator<C> g,
@@ -153,8 +146,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Predicate for determining whether a mutable object and a graphic component
-     * should be joined.
+     * Determines whether a mutable object and a graphic component should be joined based on their IDs.
      * 
      * @param mutableObject the mutable object to test
      * @param gComponent    the graphic component to test
@@ -165,8 +157,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Starts the game, setting up the player's controls and initiating the game
-     * loop.
+     * Starts the game by setting up the player's controls and initiating the game loop.
      * 
      * @param <K>     the type of the key input
      * @param ic      the input controller for the player
@@ -174,26 +165,32 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      * @param type    the game mode type (e.g., "flappy" or "platform")
      */
     @Override
-    public <K> void startGame(final InputController<ControllableObject> ic, final KeyInputer<K> inputer,
-            final String type) {
+    public <K> void startGame(
+            final InputController<ControllableObject> ic, 
+            final KeyInputer<K> inputer,
+            final String type
+        ) {
         this.setupGameMode(gameModel.getWorld().player(), type);
         this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
                 .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
         this.endGameManager.setDeathHandler(new DeathConditionsFactoryImpl().createConditionsForLevel(this.currentLevel,
                 this.gameModel.getWorld().player()));
+
         this.gameManager = new GameLoopFactoryImpl(dt -> {
+            //main game loop
             ic.checkPool(
-                    inputer.getKeyAssetter(),
-                    gameModel.getWorld().player(),
-                    ControllableObject::stop);
+                inputer.getKeyAssetter(),
+                gameModel.getWorld().player(),
+                ControllableObject::stop
+            );
             this.update(dt);
         }).animationLoop();
+
         this.gameManager.start();
     }
 
     /**
-     * Sets up the game mode by configuring the player's jump behavior based on the
-     * provided type.
+     * Configures the game mode by setting the player's jump behavior based on the provided type.
      * 
      * @param player the controllable player object
      * @param type   the game mode type (e.g., "flappy" or "platform")
@@ -207,10 +204,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Updates the game state, handling object updates, collisions, and end-game
-     * conditions.
+     * Updates the game state by processing object updates, handling collisions, and checking end-game conditions.
      * 
-     * @param dt the time delta
+     * @param dt the time delta since the last update
      */
     public void update(final long dt) {
         if (Objects.nonNull(gamePairs)) {
@@ -252,10 +248,10 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     @Override
     public void restartGame() {
         this.gameManager.stop();
-        // System.out.println("RESTART");
+//        System.out.println("RESTART");
 
         try {
-            ViewFramework.javaFxFactory().mainAppManager().get().switchPage(PageIdentifier.GAME).create(currentLevel);
+            ViewNavigator.getInstance().openView(PageIdentifier.GAME, currentLevel);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -268,7 +264,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     @Override
     public void exitGame() {
         this.gameManager.stop();
-        // System.out.println("EXITED");
+//        System.out.println("EXITED");
         ViewNavigator.getInstance().goToMenu();
     }
 
@@ -281,7 +277,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      */
     @Override
     public void handleStopView(final PageIdentifier id, final Level param) {
-        // System.out.println("STOPPING VIEW BEFORE RECREATE IT.");
+//        System.out.println("STOPPING VIEW BEFORE RECREATE IT.");
         this.gameManager.stop();
     }
 
@@ -304,7 +300,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      */
     @Override
     public void handleTriggerEffect(final PageIdentifier id, final Obstacle param) {
-        // System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
+//        System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
     }
 
     /**

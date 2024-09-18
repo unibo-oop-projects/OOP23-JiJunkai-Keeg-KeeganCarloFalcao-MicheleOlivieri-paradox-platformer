@@ -13,7 +13,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.project.paradoxplatformer.controller.deserialization.dtos.LevelDTO;
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
-import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.orientations.GraphicOffsetCorrector;
@@ -41,7 +40,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 public final class GamePlatformView<C, K> implements GameView<C> {
 
     private final LevelDTO packedData;
-    private final SecureWrapper<GraphicContainer<C, ?>> container;
+    private final GraphicContainer<C, ?> container;
     private List<GraphicAdapter<C>> setComponents;
     private final ViewMappingFactory<C> viewMappingFactory;
     private OffsetCorrector offsetCorrector;
@@ -52,16 +51,16 @@ public final class GamePlatformView<C, K> implements GameView<C> {
      * container, and view mapping factory.
      * 
      * @param packedData the level data containing game information
-     * @param g          the graphic container to hold and manage graphics
+     * @param graphContainer          the graphic container to hold and manage graphics
      * @param factory    the factory for mapping data to graphical components
      */
     public GamePlatformView(
             final LevelDTO packedData,
-            final GraphicContainer<C, ?> g,
+            final GraphicContainer<C, ?> graphContainer,
             final ViewMappingFactory<C> factory) {
         this.packedData = packedData;
         this.viewMappingFactory = factory;
-        this.container = SecureWrapper.of(g); // TO FIX
+        this.container = graphContainer.defensiveCopy(); // TO FIX
         this.offsetCorrector = null;
         this.setComponents = new ArrayList<>();
         this.isFlipped = false;
@@ -78,12 +77,8 @@ public final class GamePlatformView<C, K> implements GameView<C> {
      */
     @Override
     public void init() {
-        // NEED TO FIX, MAKE A BINDING OR SOME
-        // CANT CHANGE CONTAINER DIMENSION HERE
-        // CHECK::DONE
-        final var gContainer = container.get();
-        final Pair<DoubleProperty, DoubleProperty> dimScalingProperties = this.initializeProperties(gContainer);
-        gContainer.setDimension(this.packedData.getWidth(), this.packedData.getHeight());
+        final Pair<DoubleProperty, DoubleProperty> dimScalingProperties = this.initializeProperties(this.container);
+        this.container.setDimension(this.packedData.getWidth(), this.packedData.getHeight());
 
         this.setComponents = Arrays.stream(this.packedData.getGameDTOs())
                 .collect(Collectors.teeing(
@@ -94,7 +89,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
                         (l1, l2) -> Stream.of(l1, l2).flatMap(List::stream).collect(Collectors.toList())));
 
         this.setComponents.stream()
-                .filter(this.container.get()::render)
+                .filter(this.container::render)
                 .forEach(o -> o.bindProperties(
                         dimScalingProperties.getKey().divide(this.packedData.getWidth()),
                         dimScalingProperties.getValue().divide(this.packedData.getHeight())));
@@ -196,7 +191,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     @Override
     public void removeGraphic(final ReadOnlyGraphicDecorator<C> node) {
         retriveGraphic(node).ifPresent(this.setComponents::remove);
-        this.container.get().delete(node);
+        this.container.delete(node);
 //        System.out.println("DELETED? ");
     }
 

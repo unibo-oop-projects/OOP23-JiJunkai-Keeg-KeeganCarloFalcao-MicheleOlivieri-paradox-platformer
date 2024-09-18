@@ -13,6 +13,7 @@ import com.project.paradoxplatformer.utils.ResourcesFinder;
 import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.legacy.ViewFramework;
 import com.project.paradoxplatformer.view.manager.ViewManager;
+import com.project.paradoxplatformer.view.manager.api.FXMLView;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.application.Application;
@@ -84,13 +85,22 @@ public class JavaFxApp extends Application implements ViewManager {
      * @throws IOException if there is an issue loading the FXML pages
      */
     @Override
-    @SuppressFBWarnings(value = { "ST" }, justification = "Made for a better structure.")
+    @SuppressFBWarnings(
+        value = { "ST" }, 
+        justification = "Although, static fields should not be overwritten, in such case is needed"
+            + "as this class follows the singleton pattern, but these fields are overwritten only once "
+            + "(during init) and no furthermore, so it is therefore secure from this side."
+            + "Since this class holds the state of all the javafx application it may be reinitialized"
+            + "a couple of times (only the constructor) (either via the static call and the LazyHolder inner class"
+            + "call) and important fields (e.g scene and stage) should not be redefined, "
+            + "hence the reason why they are static."
+    )
     public void start(final Stage primeStage) throws IOException {
         if (!created) {
             throw new IllegalStateException("Cannot create application, Security reasons");
         }
         stage = primeStage;
-        stage.setOnCloseRequest(e -> this.exit());
+        stage.setOnCloseRequest(e -> this.terminateAppThread());
         try {
             helper = new FXMLPageHelper<>();
         } catch (InvalidResourceException | RuntimeException ex) {
@@ -180,7 +190,7 @@ public class JavaFxApp extends Application implements ViewManager {
         final var al = new Alert(AlertType.ERROR, content);
         DialogPane errorPane;
         try {
-            errorPane = new FXMLLoader(ResourcesFinder.getURL("diag-pane.fxml")).load();
+            errorPane = new FXMLLoader(ResourcesFinder.getURL(FXMLView.ERROR_DIAG.getFileName())).load();
             al.setDialogPane(errorPane);
             this.setDialoContent(content, errorPane);
         } catch (IOException | InvalidResourceException | ClassCastException e) {
@@ -203,7 +213,7 @@ public class JavaFxApp extends Application implements ViewManager {
     public void closeWithMessage(final String header, final String closingContent) {
         final Alert alert = new Alert(AlertType.NONE);
         this.setAndShowAlert(alert, AlertType.CONFIRMATION, "CLOSING", header, closingContent);
-        alert.showAndWait().ifPresent(b -> this.exit());
+        alert.showAndWait().ifPresent(b -> this.terminateAppThread());
     }
 
     /**
@@ -212,7 +222,7 @@ public class JavaFxApp extends Application implements ViewManager {
      */
     @Override
     public void safeError() {
-        this.exit();
+        this.terminateAppThread();
         Runtime.getRuntime().exit(0);
     }
 
@@ -220,7 +230,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * Exits the application by calling Platform.exit().
      */
     @Override
-    public void exit() {
+    public void terminateAppThread() {
         Platform.exit();
     }
 

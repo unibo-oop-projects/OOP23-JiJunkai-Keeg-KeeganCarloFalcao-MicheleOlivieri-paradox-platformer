@@ -12,9 +12,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="pagePane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" styleClass="hbox" stylesheets="@menu.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.paradoxplatformer.MenuPage">
+<BorderPane fx:id="pagePane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" styleClass="hbox" 
+   stylesheets="@css/menu.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+   fx:controller="com.project.paradoxplatformer.MenuPage">
    <center>
-      <HBox alignment="CENTER" prefHeight="231.0" prefWidth="441.0" spacing="60.0" style="-fx-background-repeat: no-repeat;" stylesheets="@menu.css" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="231.0" prefWidth="441.0" spacing="60.0" style="-fx-background-repeat: no-repeat;" stylesheets="@css/menu.css" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="levelOneButton" mnemonicParsing="false" styleClass="menu-button" text="1" />
             <Button fx:id="levelTwoButton" mnemonicParsing="false" styleClass="menu-button" text="2" />
@@ -50,7 +52,7 @@
                <children>
                   <ImageView fx:id="insegna" fitHeight="147.0" fitWidth="284.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@insegna.png" />
+                        <Image url="@menu-images/insegna.png" />
                      </image>
                      <styleClass>
                         <String fx:value="header" />
@@ -59,7 +61,7 @@
                   </ImageView>
                   <ImageView fx:id="circlesEffects" fitHeight="125.0" fitWidth="291.0" pickOnBounds="true" preserveRatio="true" styleClass="inner-image">
                      <image>
-                        <Image url="@eyes.png" />
+                        <Image url="@menu-images/eyes.png" />
                      </image>
                   </ImageView>
                </children>

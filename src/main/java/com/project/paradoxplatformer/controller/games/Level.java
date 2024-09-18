@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.controller.games;
 
+import com.project.paradoxplatformer.utils.ResourcesFinder;
+
 /**
  * Enum representing different game levels.
  * Each level is associated with a resource file used to load level data.
@@ -13,22 +15,22 @@ public enum Level {
     /**
      * Represents the first level, using "level1.json" for its data.
      */
-    LEVEL_ONE("level1.json"),
+    LEVEL_ONE(ResourcesFinder.JSON_FOLDER + "level1.json"),
 
     /**
      * Represents the second level, using "level2.json" for its data.
      */
-    LEVEL_TWO("level2.json"),
+    LEVEL_TWO(ResourcesFinder.JSON_FOLDER + "level2.json"),
 
     /**
      * Represents the third level, using "level3.json" for its data.
      */
-    LEVEL_THREE("level3.json"),
+    LEVEL_THREE(ResourcesFinder.JSON_FOLDER + "level3.json"),
 
     /**
      * Represents the fourth level, using "level4.json" for its data.
      */
-    LEVEL_FOUR("level4.json");
+    LEVEL_FOUR(ResourcesFinder.JSON_FOLDER + "level4.json");
 
     private final String resourceFile; // The file name of the resource associated with the level
 

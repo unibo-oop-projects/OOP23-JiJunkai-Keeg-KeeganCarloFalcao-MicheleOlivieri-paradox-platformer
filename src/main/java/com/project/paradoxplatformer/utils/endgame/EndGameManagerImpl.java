@@ -115,7 +115,6 @@ public class EndGameManagerImpl implements EndGameManager {
     /**
      * Triggers an event with a given message and navigates to the specified page.
      *
-     * @param message   The message to print.
      * @param condition The condition to trigger (WIN or LOSE).
      */
     private void triggerEvent(final ConditionType condition) {

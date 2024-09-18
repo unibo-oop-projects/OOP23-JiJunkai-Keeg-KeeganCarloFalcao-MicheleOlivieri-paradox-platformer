@@ -54,7 +54,7 @@ public final class GameDTO {
      * Gets a game object color. Such method must be called in view segment
      * Usually blocks, such as platforms, walls, ecc are only colored.
      * <p> Note: It is paired with a rectangle view component meaning that a gameDTO which has a (non-null) 
-     * color must not be an image nor an button ecc...<p>
+     * color must not be an image nor an button ecc...</p>
      * @return relative DTO color
      */
     public ColorDTO getColor() {
@@ -65,7 +65,7 @@ public final class GameDTO {
      * Gets a game object image. Such method must be called in view segment
      * Usually player, special obstacles, triggers and exit doors have an image.
      * <p> Note: It is paired with a image view component meaning that such component must be able to
-     * retrive an image interface based on the path<p>
+     * retrive an image interface based on the path</p>
      * @return the image file path, can be either .png, .jpeg. Note that such method does not provide a restriction upon file
      * extention, such responsabilty must be handled whoever creates an image based on file path
      */

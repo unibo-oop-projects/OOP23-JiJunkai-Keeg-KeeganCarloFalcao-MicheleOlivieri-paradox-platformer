@@ -17,7 +17,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 /**
  * An abstract class representing an object that can be transformed, including
- * position and dimension adjustments.
+    position and dimension adjustments.
  * <p>
  * This class extends {@link AbstractPositionableObject} to add functionality
  * for managing dimensions and transformation vectors. It provides methods to
@@ -26,7 +26,6 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
  * </p>
  */
 public abstract class AbstractTransformableObject extends AbstractPositionableObject {
-
     private static final double BASE_DELTA = 0.0;
     private Dimension dimension;
     private Vector2D heightVector;

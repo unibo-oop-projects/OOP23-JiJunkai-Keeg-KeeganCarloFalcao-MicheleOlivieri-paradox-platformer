@@ -14,6 +14,21 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public final class ResourcesFinder {
 
+    /**
+     * Json folder path.
+     */
+    public static final String JSON_FOLDER = "jsons/";
+
+    /**
+     * images folder path.
+     */
+    public static final String IMAGES_FOLDER = "images/";
+
+    /**
+     * fxml related folder path.
+     */
+    public static final String FXML_FOLDER = "fxmls/";
+
     // Private constructor to prevent instantiation
     private ResourcesFinder() {
         throw new UnsupportedOperationException("Utility class should not be instantiated.");
@@ -38,9 +53,12 @@ public final class ResourcesFinder {
      * @return an input stream for the resource
      * @throws InvalidResourceException if the resource cannot be found
      */
-    @SuppressFBWarnings(value = "OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE", justification = "This needs to be managed by User. "
+    @SuppressFBWarnings(
+            value = "OBL_UNSATISFIED_OBLIGATION_EXCEPTION_EDGE", 
+            justification = "This needs to be managed by User. "
             + "It is the caller's responsibility to close the stream. "
-            + "The method itself only provides access to the stream and does not handle its lifecycle.")
+            + "The method itself only provides access to the stream and does not handle its lifecycle."
+        )
     public static InputStream getInputStream(final String filePath) throws InvalidResourceException {
         return Optional.ofNullable(App.class.getResourceAsStream(filePath))
                 .orElseThrow(() -> new InvalidResourceException(filePath));

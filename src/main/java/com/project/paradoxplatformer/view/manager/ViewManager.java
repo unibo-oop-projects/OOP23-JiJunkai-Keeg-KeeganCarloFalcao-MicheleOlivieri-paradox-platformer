@@ -70,7 +70,7 @@ public interface ViewManager {
     /**
      * Exits the application.
      */
-    void exit();
+    void terminateAppThread();
 
     /**
      * Safely handles errors, potentially logging them or displaying them to the

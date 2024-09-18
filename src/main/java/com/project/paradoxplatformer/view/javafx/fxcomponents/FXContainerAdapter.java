@@ -36,7 +36,8 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
      *                  components
      */
     public FXContainerAdapter(final Pane container) {
-        this.uiContainer = Optional.of(container).get();
+        this.uiContainer = Optional.ofNullable(container)
+            .orElseThrow(() -> new IllegalArgumentException("Cannot add an unknow pane as a container"));
         this.keyAssetter = new KeyAssetterImpl<>(this);
     }
 
@@ -160,5 +161,13 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
         this.uiContainer.addEventFilter(
                 eventType,
                 e -> this.decoupleAction(e.getCode(), action));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GraphicContainer<Node, KeyCode> defensiveCopy() {
+        return new FXContainerAdapter(this.uiContainer);
     }
 }

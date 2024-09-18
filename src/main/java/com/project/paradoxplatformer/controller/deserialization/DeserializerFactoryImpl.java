@@ -8,7 +8,7 @@ import com.project.paradoxplatformer.utils.ResourcesFinder;
 /**
  * a basic jackson deserializer factory implementation.
  * 
- * @see {@link DeserializerFactory}
+ * @see DeserializerFactory
  */
 public class DeserializerFactoryImpl implements DeserializerFactory {
 

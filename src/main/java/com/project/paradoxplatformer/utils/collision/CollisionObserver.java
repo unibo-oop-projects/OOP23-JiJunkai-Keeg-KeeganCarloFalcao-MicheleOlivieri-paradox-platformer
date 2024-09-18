@@ -44,8 +44,10 @@ public class CollisionObserver {
     public void observeCollisions(final Set<CollidableGameObject> collidingObjects, final CollidableGameObject player) {
 
         // Define actions for when a collision starts and ends
-        final BiConsumerWithAndThen<CollidableGameObject, CollidableGameObject> onCollideStart = createCollisionTriggerHandlerStart();
-        final BiConsumerWithAndThen<CollidableGameObject, CollisionType> onCollideEnd = createCollisionTriggerHandlerEnd();
+        final BiConsumerWithAndThen<CollidableGameObject, CollidableGameObject> onCollideStart = 
+            createCollisionTriggerHandlerStart();
+        final BiConsumerWithAndThen<CollidableGameObject, CollisionType> onCollideEnd = 
+            createCollisionTriggerHandlerEnd();
 
         // Apply effects for every collision between the player and other objects
         collidingObjects.forEach(obj -> onCollideStart.andThen(effectHandler::applyEffects).accept(player, obj));

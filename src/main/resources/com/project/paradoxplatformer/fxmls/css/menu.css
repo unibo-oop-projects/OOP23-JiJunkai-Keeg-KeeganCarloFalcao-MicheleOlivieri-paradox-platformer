@@ -1,5 +1,5 @@
 .menu-button {
-    -fx-background-image: url('circleDEA.png');
+    -fx-background-image: url('../menu-images/circleDEA.png');
     -fx-background-repeat: no-repeat;
     -fx-background-size: contain, auto;
     -fx-min-width: 100px;
@@ -14,14 +14,14 @@
     -fx-min-width: 101px;
     -fx-min-height: 101px;
     -fx-font-size: 33px;
-    -fx-background-image: url('circle.png');
+    -fx-background-image: url('../menu-images/circle.png');
 }
 
 .menu-button:focused {
     -fx-min-width: 101px;
     -fx-min-height: 101px;
     -fx-font-size: 33px;
-    -fx-background-image: url('circle.png');
+    -fx-background-image: url('../menu-images/circle.png');
 }
 
 .button:hover{
@@ -32,7 +32,7 @@
 .hbox {
     -fx-background-size: cover;
     -fx-background-repeat: no-repeat;
-    -fx-background-image: url('sparks.png')
+    -fx-background-image: url('../menu-images/sparks.png')
 }
 
 .text {

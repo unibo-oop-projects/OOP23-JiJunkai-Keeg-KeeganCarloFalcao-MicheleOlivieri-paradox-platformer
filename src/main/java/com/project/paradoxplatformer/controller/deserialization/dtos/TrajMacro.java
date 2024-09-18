@@ -62,7 +62,7 @@ public final class TrajMacro {
      * same as the x or y position
      * 
      * @return TrasfType string enum analogue, it must be equal to the enum costant
-     * @see {@link com.project.paradoxplatformer.model.entity.TrajectoryInfo}
+     * @see com.project.paradoxplatformer.model.entity.TrajectoryInfo
      */
     public String getVector() {
         return vector;

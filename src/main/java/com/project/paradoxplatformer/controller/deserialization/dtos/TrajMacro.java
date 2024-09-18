@@ -17,16 +17,23 @@ public final class TrajMacro {
     private final String vector;
 
     /**
-     * Non argument constructor for making final fields, used by the json
-     * deserializer.
+     * Constructs a new {@link TrajMacro} instance with default values.
+     * <p>
+     * This constructor initializes the trajectory macro with the following default values:
+     * <ul>
+     *     <li>x-coordinate: 0</li>
+     *     <li>y-coordinate: 0</li>
+     *     <li>Duration: 0</li>
+     *     <li>Vector: "DISPLACEMENT"</li>
+     * </ul>
+     * </p>
      */
-    private TrajMacro() {
+    public TrajMacro() {
         this.x = 0;
         this.y = 0;
         this.duration = 0;
-        this.vector = "";
+        this.vector = "DISPLACEMENT";
     }
-
     /**
      * Coordinate for the destination position.
      * 

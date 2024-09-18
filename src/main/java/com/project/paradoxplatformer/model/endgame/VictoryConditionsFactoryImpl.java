@@ -8,6 +8,7 @@ import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.endgame.condition.CoinCollectionVictoryCondition;
 import com.project.paradoxplatformer.model.endgame.condition.CompositeVictoryCondition;
 import com.project.paradoxplatformer.model.endgame.condition.ReachEndVictoryCondition;
+import com.project.paradoxplatformer.model.endgame.condition.ReachStartVictoryCondition;
 import com.project.paradoxplatformer.model.endgame.condition.TimeLimitVictoryCondition;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
@@ -86,7 +87,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     @Override
     public Iterator<VictoryCondition> levelTwoConditions() {
         final List<VictoryCondition> conditions = new ArrayList<>();
-        conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
+        conditions.add(new ReachStartVictoryCondition(this.player)); // Reach specific end game level
         return conditions.iterator();
     }
 
@@ -98,7 +99,8 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     @Override
     public Iterator<VictoryCondition> levelThreeConditions() {
         final List<VictoryCondition> conditions = new ArrayList<>();
-        // conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
+        // conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific
+        // end game level
         conditions.add(new CoinCollectionVictoryCondition(this.player, DEFAULT_COIN_COLLECTION)); // Collect 15
                                                                                                   // coins
         conditions.add(new TimeLimitVictoryCondition(LEVEL_THREE_TIME_LIMIT)); // Win by surviving for 300 seconds

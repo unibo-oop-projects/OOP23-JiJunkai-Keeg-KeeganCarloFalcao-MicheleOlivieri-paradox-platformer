@@ -11,8 +11,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class OutOfMapCondition implements DeathCondition {
 
     private final PlayerModel player;
-    private final static int HIGH = 360;
-    private final static int WITH = 640;
+    private static final int HIGH = 360;
+    private static final int WITH = 640;
 
     /**
      * Constructs a FallenCondition with the specified player model.
@@ -31,10 +31,10 @@ public class OutOfMapCondition implements DeathCondition {
      */
     @Override
     public boolean death() {
-        return player.getPosition().y() <= 0 
-            || player.getPosition().x() <= 0 
-            || player.getPosition().y() >= OutOfMapCondition.HIGH 
-            || player.getPosition().x() >= OutOfMapCondition.WITH;
+        return player.getPosition().y() <= 0
+                || player.getPosition().x() <= 0
+                || player.getPosition().y() >= OutOfMapCondition.HIGH
+                || player.getPosition().x() >= OutOfMapCondition.WITH;
     }
 
 }

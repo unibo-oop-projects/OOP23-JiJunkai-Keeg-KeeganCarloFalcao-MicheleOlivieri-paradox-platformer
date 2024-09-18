@@ -31,11 +31,11 @@
 	
 	\chapter{Analisi}
 	
-	Il gioco preso in analisi è un platform game 2D chiamato *Paradox Platformer*. Il giocatore controlla un personaggio attraverso l'uso delle frecce direzionali, con l'obiettivo di raggiungere la fine della mappa, per passare al livello successivo. Tuttavia, il gioco introduce una serie di sfide controintuitive: oggetti che sembrano innocui possono rivelarsi letali, e viceversa. Ad esempio, alcuni oggetti come le monete e i *deathCoin* appaiono identici, ma uno può essere raccolto senza conseguenze mentre l'altro uccide il giocatore. Pertanto la caratteristica distintiva del gioco è che molti degli ostacoli e degli elementi della mappa si modificano in risposta a specifici trigger attivati dal giocatore, i quali possono trasformare anche le condizioni di vittoria e sconfitta. Il gioco sfida le aspettative del giocatore, richiedendo attenzione non solo agli ostacoli evidenti ma anche a quelli che cambiano dinamicamente.
+	Il gioco preso in analisi è un platform game 2D chiamato \textbf{Paradox Platformer}. Il giocatore controlla un personaggio attraverso l'uso delle frecce direzionali, con l'obiettivo di raggiungere la fine della mappa, per passare al livello successivo. Tuttavia, il gioco introduce una serie di sfide controintuitive: oggetti che sembrano innocui possono rivelarsi letali, e viceversa. Ad esempio, alcuni oggetti come le monete e i \textbf{deathCoin} appaiono identici, ma uno può essere raccolto senza conseguenze mentre l'altro uccide il giocatore. Pertanto la caratteristica distintiva del gioco è che molti degli ostacoli e degli elementi della mappa si modificano in risposta a specifici trigger attivati dal giocatore, i quali possono trasformare anche le condizioni di vittoria e sconfitta. Il gioco sfida le aspettative del giocatore, richiedendo attenzione non solo agli ostacoli evidenti ma anche a quelli che cambiano dinamicamente.
 	
 	\section{Descrizione}
 	
-	Il software mira alla creazione di un platform game: *Paradox Platformer*, in cui il giocatore esplora una serie di mappe superando ostacoli e attivando meccanismi che modificano l’ambiente di gioco. Il giocatore, controllato tramite le frecce direzionali, deve muoversi con attenzione, poiché molti elementi apparentemente innocui possono trasformarsi in pericoli letali. Le monete raccolte possono contribuire al progresso o, in alcuni casi, causare la sconfitta. Gli ostacoli nel gioco possono variare la loro natura e comportamento, creando una sfida costante e spingendo il giocatore a prestare attenzione sia agli oggetti visibili che ai trigger nascosti che potrebbero attivarsi durante il percorso.
+	Il software mira alla creazione di un platform game: \textbf{Paradox Platformer}, in cui il giocatore esplora una serie di mappe superando ostacoli e attivando meccanismi che modificano l’ambiente di gioco. Il giocatore, controllato tramite le frecce direzionali, deve muoversi con attenzione, poiché molti elementi apparentemente innocui possono trasformarsi in pericoli letali. Le monete raccolte possono contribuire al progresso o, in alcuni casi, causare la sconfitta. Gli ostacoli nel gioco possono variare la loro natura e comportamento, creando una sfida costante e spingendo il giocatore a prestare attenzione sia agli oggetti visibili che ai trigger nascosti che potrebbero attivarsi durante il percorso.
 	
 	\section{Modello del Dominio}
 	
@@ -127,25 +127,7 @@
 	\subsection{Estendibilità e Scalabilità}
 	
 	L'architettura di \textit{Paradox Platformer} è progettata per garantire estensibilità e scalabilità. L’uso di factory per le condizioni di vittoria e sconfitta consente di adattare facilmente il gioco a nuovi livelli e meccaniche senza modificare la logica principale. Inoltre, il pattern Singleton per la gestione degli eventi e la struttura modulare di input, logica e visualizzazione facilitano l'aggiunta di nuove funzionalità e miglioramenti nel tempo.
-	
-	\subsection*{Elementi positivi}
-	\begin{itemize}
-		\item Si mostrano pochi, mirati schemi UML dai quali si deduce con chiarezza quali sono le parti principali del software e come interagiscono fra loro.
-		\item Si mette in evidenza se e come il pattern architetturale model-view-controller è stato applicato, anche con l'uso di un UML che mostri le interfacce principali ed i rapporti fra loro.
-		\item Si discute se sia semplice o meno, con l'architettura scelta, sostituire in blocco la view: in un MVC ben fatto, controller e modello non dovrebbero in alcun modo cambiare se si transitasse da una libreria grafica ad un'altra (ad esempio, da Swing a JavaFX, o viceversa).
-	\end{itemize}
-	
-	\subsection*{Elementi negativi}
-	\begin{itemize}
-		\item L'architettura è fatta in modo che sia impossibile riusare il modello per un software diverso che affronta lo stesso problema.
-		\item L'architettura è tale che l'aggiunta di una funzionalità sul controller impatta pesantemente su view e/o modello.
-		\item L'architettura è tale che la sostituzione in blocco della view impatta sul controller o, peggio ancora, sul modello.
-		\item Si presentano UML caotici, difficili da leggere.
-		\item Si presentano UML in cui sono mostrati elementi di dettaglio non appartenenti all'architettura, ad esempio includenti campi o con metodi che non interessano la parte di interazione fra le componenti principali del software.
-		\item Si presentano schemi UML con classi (nel senso UML del termine) che ``galleggiano'' nello schema, non connesse, ossia senza relazioni con il resto degli elementi inseriti.
-		\item Si presentano elementi di design di dettaglio, ad esempio tutte le classi e interfacce del modello o della view.
-		\item Si discutono aspetti implementativi, ad esempio eventuali librerie usate oppure dettagli di codice.
-	\end{itemize}
+
 	
 	\section{Design Dettagliato}
 	
@@ -507,47 +489,20 @@ l testing automatico delle classi sviluppate è stato realizzato utilizzando \te
 
 \subsubsection{Utilizzo di \texttt{Generic} e \texttt{Custom Biconsumer}}
 Utilizzata in vari punti.
-Un esempio è \url{https://github.com/AlchemistSimulator/Alchemist/blob/5c17f8b76920c78d955d478864ac1f11508ed9ad/alchemist-swingui/src/main/java/it/unibo/alchemist/boundary/swingui/effect/impl/EffectBuilder.java#L49}
+Un esempio è 
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/main/src/main/java/com/project/paradoxplatformer/controller/event/EventManager.java}
 
 \subsubsection{Utilizzo di \texttt{Stream} e lambda expressions}
 Utilizzata in vari punti.
 Un esempio è 
-\url{https://github.com/AlchemistSimulator/Alchemist/blob/5c17f8b76920c78d955d478864ac1f11508ed9ad/alchemist-swingui/src/main/java/it/unibo/alchemist/boundary/swingui/effect/impl/EffectBuilder.java#L49}
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/main/src/main/java/com/project/paradoxplatformer/model/effect/managers/TypeEffectsManager.java}
 
 \subsubsection{Utilizzo di \texttt{Reflection}}
 Un esempio è 
-\url{https://github.com/AlchemistSimulator/Alchemist/blob/5c17f8b76920c78d955d478864ac1f11508ed9ad/alchemist-swingui/src/main/java/it/unibo/alchemist/boundary/swingui/effect/impl/EffectBuilder.java#L49}
-
-
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/main/src/main/java/com/project/paradoxplatformer/model/effect/impl/EffectHandlerImpl.java}
 
 	
-
-
-	
-	\subsubsection{Utilizzo della libreria SLF4J}
-	
-	Utilizzata in vari punti.
-	Un esempio è \url{https://github.com/AlchemistSimulator/Alchemist/blob/5c17f8b76920c78d955d478864ac1f11508ed9ad/alchemist-swingui/src/main/java/it/unibo/alchemist/boundary/swingui/effect/impl/EffectBuilder.java#L49}
-	
-	\subsubsection{Utilizzo di \texttt{LoadingCache} dalla libreria Google Guava}
-	
-	Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/protelis/AlchemistExecutionContext.java#L141-L143}
-	
-	\subsubsection{Utilizzo di \texttt{Stream} e lambda expressions}
-	
-	Usate pervasivamente. Il seguente è un singolo esempio.
-	Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/model/ProtelisIncarnation.java#L98-L120}
-	
-	\subsubsection{Scrittura di metodo generico con parametri contravarianti}
-	
-	Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/protelis/AlchemistExecutionContext.java#L141-L143}
-	
-	\subsubsection{Protezione da corse critiche usando \texttt{Semaphore}}
-	
-	Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/model/ProtelisIncarnation.java#L388-L440}
-	
-	
-	\chapter{Commenti finali}
+\chapter{Commenti finali}
 
 \section{Autovalutazione e lavori futuri}
 

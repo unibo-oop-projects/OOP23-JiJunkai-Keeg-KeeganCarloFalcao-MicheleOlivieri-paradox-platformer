@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view;
+package com.project.paradoxplatformer.view.renders;
 
 import javafx.scene.control.Button;
 
@@ -17,10 +17,10 @@ public final class EventBinder {
      * Binds an event handler to a Button.
      * The provided action is executed when the Button is clicked.
      *
-     * @param settingsButton  The Button to bind the handler to.
+     * @param button          The Button to bind the handler to.
      * @param onSettingsClick The action to perform when the Button is clicked.
      */
-    public static void bindButtons(final Button settingsButton, final Runnable onSettingsClick) {
-        settingsButton.setOnAction(event -> onSettingsClick.run()); // Binds the click event to the provided action
+    public static void bindButtons(final Button button, final Runnable onSettingsClick) {
+        button.setOnAction(event -> onSettingsClick.run()); // Binds the click event to the provided action
     }
 }

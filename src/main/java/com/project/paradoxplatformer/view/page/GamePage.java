@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer;
+package com.project.paradoxplatformer.view.page;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,18 +11,18 @@ import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.controller.input.InputController;
 import com.project.paradoxplatformer.model.GameModelData;
-import com.project.paradoxplatformer.model.SimpleGameSettingsModel;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
+import com.project.paradoxplatformer.model.innersetting.SimpleGameSettingsModel;
 import com.project.paradoxplatformer.model.inputmodel.InputMovesFactoryImpl;
 import com.project.paradoxplatformer.model.world.PlatfromModelData;
 import com.project.paradoxplatformer.utils.ImageLoader;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.view.game.GamePlatformView;
-import com.project.paradoxplatformer.view.game.GameView;
-import com.project.paradoxplatformer.view.game.settings.GameSettings;
-import com.project.paradoxplatformer.view.game.settings.SimpleGameSettings;
+import com.project.paradoxplatformer.view.GamePlatformView;
+import com.project.paradoxplatformer.view.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.legacy.ViewFramework;
+import com.project.paradoxplatformer.view.settings.GameSettings;
+import com.project.paradoxplatformer.view.settings.SimpleGameSettings;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

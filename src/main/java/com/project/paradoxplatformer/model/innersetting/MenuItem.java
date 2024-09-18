@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model;
+package com.project.paradoxplatformer.model.innersetting;
 
 import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.model.inputmodel.commands.Command;

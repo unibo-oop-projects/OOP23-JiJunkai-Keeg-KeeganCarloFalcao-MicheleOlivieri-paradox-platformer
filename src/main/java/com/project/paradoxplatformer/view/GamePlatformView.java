@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.game;
+package com.project.paradoxplatformer.view;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +24,7 @@ import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.graphics.sprites.SpriteStatus;
+import com.project.paradoxplatformer.view.javafx.ViewMappingFactory;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.FXSpriteAdapter;
 
 import javafx.beans.property.DoubleProperty;

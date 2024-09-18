@@ -1,14 +1,14 @@
-package com.project.paradoxplatformer.view.game.settings;
+package com.project.paradoxplatformer.view.settings;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.games.GameController;
-import com.project.paradoxplatformer.model.GameSettingsModel;
-import com.project.paradoxplatformer.view.game.ViewMappingFactory;
+import com.project.paradoxplatformer.model.innersetting.GameSettingsModel;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.GraphicContainer;
+import com.project.paradoxplatformer.view.javafx.ViewMappingFactory;
 
 /**
  * Implementation of {@link GameSettings} that manages game settings

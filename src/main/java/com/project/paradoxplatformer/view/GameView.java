@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.game;
+package com.project.paradoxplatformer.view;
 
 import com.project.paradoxplatformer.model.entity.ReadOnlyMutableObjectWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;

@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model;
+package com.project.paradoxplatformer.model.innersetting;
 
 import com.project.paradoxplatformer.controller.gameloop.LoopManager;
 import com.project.paradoxplatformer.model.inputmodel.InputModel;

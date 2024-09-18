@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.model;
+package com.project.paradoxplatformer.model.innersetting;
 
 import java.util.Collections;
 import java.util.EnumMap;

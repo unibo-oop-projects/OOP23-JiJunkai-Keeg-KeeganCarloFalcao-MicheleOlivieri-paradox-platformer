@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer;
+package com.project.paradoxplatformer.view.page;
 
 import java.io.IOException;
 import java.net.URL;
@@ -6,7 +6,6 @@ import java.util.ResourceBundle;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.legacy.ViewFramework;
 
 import javafx.application.Platform;
@@ -80,7 +79,7 @@ public abstract class AbstractThreadedPage implements Page<Level>, Initializable
     private void safelyRunOnFXThread(final Level param) {
         try {
             this.runOnFXThread(param); // Run the given code on the JavaFX thread
-        } catch (Exception e) { //NOPMD
+        } catch (Exception e) { // NOPMD
             throw new IllegalStateException(e.getMessage(), e); // Wrap and rethrow exception
         }
     }
@@ -97,6 +96,6 @@ public abstract class AbstractThreadedPage implements Page<Level>, Initializable
      * @throws Exception if any error occurs while running the code on the JavaFX
      *                   thread
      */
-    protected abstract void runOnFXThread(Level param) throws Exception; //NOPMD (it is necessary)
+    protected abstract void runOnFXThread(Level param) throws Exception; // NOPMD (it is necessary)
 
 }

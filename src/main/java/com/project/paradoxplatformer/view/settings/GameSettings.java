@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view.game.settings;
+package com.project.paradoxplatformer.view.settings;
 
 import java.util.List;
 

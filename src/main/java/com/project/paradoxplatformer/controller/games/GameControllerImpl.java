@@ -32,7 +32,7 @@ import com.project.paradoxplatformer.utils.endgame.EndGameManagerImpl;
 import com.project.paradoxplatformer.utils.endgame.VictoryConditionsFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.view.game.GameView;
+import com.project.paradoxplatformer.view.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;

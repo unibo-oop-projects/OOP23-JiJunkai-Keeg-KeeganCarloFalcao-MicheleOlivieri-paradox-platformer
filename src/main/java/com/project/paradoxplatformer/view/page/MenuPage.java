@@ -1,13 +1,13 @@
-package com.project.paradoxplatformer;
+package com.project.paradoxplatformer.view.page;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
-import com.project.paradoxplatformer.view.EventBinder;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
 import com.project.paradoxplatformer.view.manager.api.NavigationAction;
+import com.project.paradoxplatformer.view.renders.EventBinder;
 
 import javafx.animation.Transition;
 import javafx.fxml.FXML;

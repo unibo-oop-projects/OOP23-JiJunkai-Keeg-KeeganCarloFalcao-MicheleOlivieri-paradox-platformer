@@ -1,9 +1,9 @@
-package com.project.paradoxplatformer.view.game;
+package com.project.paradoxplatformer.view.javafx;
 
 import java.util.function.Function;
 
 import com.project.paradoxplatformer.controller.games.GameController;
-import com.project.paradoxplatformer.model.MenuItem;
+import com.project.paradoxplatformer.model.innersetting.MenuItem;
 import com.project.paradoxplatformer.model.mappings.EntityDataMapper;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 

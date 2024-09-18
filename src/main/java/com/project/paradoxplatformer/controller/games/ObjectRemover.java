@@ -3,7 +3,7 @@ package com.project.paradoxplatformer.controller.games;
 import com.project.paradoxplatformer.model.GameModelData;
 import com.project.paradoxplatformer.model.entity.MutableObject;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.view.game.GameView;
+import com.project.paradoxplatformer.view.GameView;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 

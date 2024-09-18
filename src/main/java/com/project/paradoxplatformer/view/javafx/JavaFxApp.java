@@ -10,10 +10,10 @@ import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
-import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.legacy.ViewFramework;
 import com.project.paradoxplatformer.view.manager.ViewManager;
 import com.project.paradoxplatformer.view.manager.api.FXMLView;
+import com.project.paradoxplatformer.view.page.Page;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.application.Application;
@@ -259,6 +259,7 @@ public class JavaFxApp extends Application implements ViewManager {
     private void setInitialScene() {
         final double resolution = 720;
         scene = new Scene(ViewFramework.javaFxFactory().loadingPage(), resolution * ASPECT_RATIO, resolution);
+        stage.setResizable(false);
         stage.sizeToScene();
         stage.setScene(scene);
 

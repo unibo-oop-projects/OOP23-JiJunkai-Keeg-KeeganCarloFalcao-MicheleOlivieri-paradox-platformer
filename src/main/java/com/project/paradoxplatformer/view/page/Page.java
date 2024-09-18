@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.view;
+package com.project.paradoxplatformer.view.page;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public interface Page<T> {
      * @throws Exception if an error occurs during the creation or initialization of
      *                   the page
      */
-    void create(T param) throws Exception; //NOPMD ("it is necessary as it catches all type of exception")
+    void create(T param) throws Exception; // NOPMD ("it is necessary as it catches all type of exception")
 
     /**
      * Returns a default implementation of the Page interface.

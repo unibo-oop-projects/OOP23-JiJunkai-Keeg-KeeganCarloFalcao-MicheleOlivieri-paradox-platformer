@@ -216,46 +216,16 @@
 	\paragraph{Soluzione:} Una soluzione ad occhio e croce sarebbe quella di implementare la gestione della view in un unico metodo, o attverso la costruzione in un' elaborata gerarchia di classi in modo da avere a disposizione tutte le istanze legate all'applicazione pronte per essere accedute. Tale soluzione venne subito scartata in quanto, oltre ad essere troppo corposa, molti metodi differenti dovevano richiedere 
 	l'accesso alla vista (magari per cambiarla) e non potevano raggiungerla a causa di una mancata centralizzazione di essa. Il pattern {Singleton} risponde esattamente ai mancati adempimenti della precedente soluzione, in quanto ogni classe ha l'accesso alla classe centralizzata {ViewManager} e tali operazioni restano sicure in quanto essa viene inizilizzata durante la creazione dell'applicazione e quindi prima di ogni eventuale modifca del gioco.
 
- \subsection{Junkai Ji}
-\subsubsection{EffectHandler}
-\paragraph{Problema:} La gestione degli effetti applicati durante le collisioni tra il giocatore e gli oggetti di gioco può diventare complessa, specialmente quando si tratta di avere sequenze di effetti di lunghezza variabile e diversi livelli. È fondamentale garantire che gli effetti vengano applicati correttamente e che le risorse siano gestite in modo efficiente.
 
-\paragraph{Soluzione Proposta:} La classe \texttt{EffectHandlerImpl} gestisce l’applicazione e la gestione degli effetti nel gioco. Utilizza \texttt{TypeEffectsManager} e \texttt{ObjectEffectsManager} per separare e gestire gli effetti basati sui tipi di collisione e sugli oggetti specifici. Gli effetti possono essere sia generali (per tipo di collisione) sia specifici (per oggetti), e la classe è in grado di applicare e resettare questi effetti in modo coerente. Inoltre, è capace di ricreare gli effetti se necessario, utilizzando la riflessione per verificare e invocare il metodo \texttt{recreate} degli effetti.
 
-\paragraph{Vantaggi e Svantaggi:}
-Il principale vantaggio è che gli effetti sono completamente estratti dagli oggetti di gioco, eliminando la necessità di una relazione diretta tra effetti e oggetti. Questo approccio, centralizzato attraverso l’\texttt{EffectHandlerImpl}, migliora la struttura del codice e facilita la gestione degli effetti a livello globale. Tuttavia, l’uso di questa classe può introdurre problemi di performance a causa della ricreazione e eliminazione degli effetti.
-
-\subsubsection{CollisionManager}
-
-\paragraph{Problema:} La gestione delle collisioni comporta una sequenza di passaggi complessi e ordinati. È necessario gestire non solo l’applicazione degli effetti, ma anche considerare le priorità tra le varie operazioni, come l’attivazione degli eventi di trigger prima dell’applicazione degli effetti e le operazioni di pulizia successivamente. 
-
-\paragraph{Soluzione Proposta:}  CollisionManager e CollisionObserver utilizzano un design modulare per affrontare questa complessità. CollisionManager si occupa della rilevazione delle collisioni, mentre CollisionObserver gestisce l’applicazione e il reset degli effetti. Utilizzando BiConsumerWithAndThen, è possibile creare una lista ordinata di BiConsumer, ciascuno rappresentante un passaggio specifico nel processo di gestione delle collisioni. Questo approccio permette di definire chiaramente le priorità tra le operazioni: prima vengono attivati gli eventi di trigger, poi applicati gli effetti, e infine eseguite le operazioni di pulizia e reset. La possibilità di concatenare questi BiConsumer in modo chiaro e modulare consente un codice pulito e facilmente manutenibile.
-
-\paragraph{Vantaggi e Svantaggi:}
-Il design modulare e l’uso di BiConsumerWithAndThen permettono una gestione ordinata e flessibile delle collisioni e degli effetti, rispettando le priorità tra le operazioni. Questo approccio migliora la modularità e la manutenzione del codice. Tuttavia, l’introduzione di passaggi aggiuntivi e la gestione delle priorità possono aumentare la complessità e richiedere un’attenta pianificazione per evitare conflitti tra le operazioni.
+\subsection{Junkai Ji}
 
 \subsubsection{Effect}
-
 \paragraph{Problema:} Con una struttura molto frammentata, comprendere come e a chi applicare gli effetti può diventare complesso. Ogni effetto deve sapere sia chi è il destinatario dell’effetto (target) che chi lo applica (self). Questa complessità aumenta quando gli effetti possono essere applicati non solo tra il giocatore e un oggetto, ma tra qualsiasi coppia di oggetti di gioco. La gestione di tali effetti richiede una chiara comprensione delle relazioni e delle priorità per garantire che gli effetti siano applicati e rimossi correttamente.
 \paragraph{Soluzione Proposta:} L’interfaccia Effect è progettata per gestire esplicitamente i dettagli dell’applicazione degli effetti. Il metodo apply consente di specificare sia l’oggetto destinatario dell’effetto (target) che l’oggetto che applica l’effetto (self), permettendo una gestione chiara e flessibile delle interazioni. Questo approccio è sufficientemente generico da supportare effetti tra qualsiasi coppia di oggetti di gioco, non limitandosi solo al giocatore e agli oggetti con cui interagisce.
-
 \paragraph{Vantaggi e Svantaggi:}
 Il design proposto consente una gestione chiara e versatile degli effetti, facilitando l’applicazione di effetti tra qualsiasi coppia di oggetti di gioco. La struttura generica e la capacità di gestire effetti asincroni tramite CompletableFuture migliorano l’efficienza e la flessibilità del sistema. Tuttavia, la generica natura degli effetti richiede una gestione accurata per evitare confusione e garantire che gli effetti siano applicati e rimossi correttamente.
 
-\subsubsection{EventManager}
-
-\paragraph{Problema:} La comunicazione tra classi diverse può diventare complessa, specialmente in un’applicazione con molteplici componenti e moduli. Passare istanze tra le classi può creare un forte accoppiamento e rendere il codice meno manutenibile. È necessario un meccanismo che permetta la comunicazione tra classi senza creare dipendenze dirette tra di esse.
-
-\paragraph{Soluzione Proposta:} Il EventManager utilizza un design centralizzato per gestire gli eventi e le azioni correlate. Implementa il pattern Singleton per assicurare che solo una istanza gestisca tutti gli eventi, migliorando la coerenza e facilitando l’accesso globale. Gli eventi e le loro azioni sono gestiti tramite una mappa (eventMap) che associa i tipi di eventi (eventType) a gestori di eventi (BiConsumerWithAndThen). Questo approccio permette di:
-
-\begin{itemize}
- \item Isolare la Comunicazione: Le classi possono comunicare tra loro attraverso eventi senza riferimenti diretti.
- \item Flessibilità: È possibile passare qualsiasi tipo di oggetto come parametro agli eventi, rendendo il EventManager altamente generico.
- \item Gestione degli Eventi: Gli eventi vengono pubblicati e gestiti centralmente, semplificando la gestione e la manutenzione del codice.
-\end{itemize}
-
-\paragraph{Vantaggi e Svantaggi:}
-Il EventManager offre un design flessibile e centralizzato per la comunicazione tra classi, migliorando la manutenibilità e riducendo il forte accoppiamento. Tuttavia, questa flessibilità può essere pericolosa, poiché chi pubblica un evento deve garantire che i sottoscrittori abbiano metodi compatibili con i parametri dell’evento pubblicato. È essenziale che chi utilizza il EventManager sia consapevole delle specifiche degli eventi e dei parametri per evitare errori di runtime e garantire che le azioni siano eseguite correttamente.
 
 \subsubsection{Trigger}
 \paragraph{Problema:} In un gioco, è comune che gli effetti debbano essere attivati non solo in risposta a collisioni tra il giocatore e gli ostacoli, ma anche in base ad altre condizioni o eventi nel gioco. Questo richiede un meccanismo che possa attivare effetti anche in assenza di collisioni dirette, modificando dinamicamente la mappa del gioco.
@@ -263,10 +233,35 @@ Il EventManager offre un design flessibile e centralizzato per la comunicazione 
 \paragraph{Vantaggi e Svantaggi:}
 L’uso dei trigger consente di attivare effetti senza dipendere esclusivamente dalle collisioni. Questo approccio arricchisce il gameplay e la complessità del gioco. Tuttavia, uno svantaggio significativo è che i trigger devono essere configurati e associati correttamente prima del loro utilizzo
 
+
+\subsubsection{EffectHandler}
+\paragraph{Problema:} La gestione degli effetti applicati durante le collisioni tra il giocatore e gli oggetti di gioco può diventare complessa, specialmente quando si tratta di avere sequenze di effetti di lunghezza variabile e diversi livelli. È fondamentale garantire che gli effetti vengano applicati correttamente e che le risorse siano gestite in modo efficiente.
+\paragraph{Soluzione Proposta:} La classe \texttt{EffectHandlerImpl} gestisce l’applicazione e la gestione degli effetti nel gioco. Utilizza \texttt{TypeEffectsManager} e \texttt{ObjectEffectsManager} per separare e gestire gli effetti basati sui tipi di collisione e sugli oggetti specifici. Gli effetti possono essere sia generali (per tipo di collisione) sia specifici (per oggetti), e la classe è in grado di applicare e resettare questi effetti in modo coerente. Inoltre, è capace di ricreare gli effetti se necessario, utilizzando la riflessione per verificare e invocare il metodo \texttt{recreate} degli effetti.
+\paragraph{Vantaggi e Svantaggi:}
+Il principale vantaggio è che gli effetti sono completamente estratti dagli oggetti di gioco, eliminando la necessità di una relazione diretta tra effetti e oggetti. Questo approccio, centralizzato attraverso l’\texttt{EffectHandlerImpl}, migliora la struttura del codice e facilita la gestione degli effetti a livello globale. Tuttavia, l’uso di questa classe può introdurre problemi di performance a causa della ricreazione e eliminazione degli effetti.
+
+\subsubsection{CollisionManager}
+\paragraph{Problema:} La gestione delle collisioni comporta una sequenza di passaggi complessi e ordinati. È necessario gestire non solo l’applicazione degli effetti, ma anche considerare le priorità tra le varie operazioni, come l’attivazione degli eventi di trigger prima dell’applicazione degli effetti e le operazioni di pulizia successivamente. 
+\paragraph{Soluzione Proposta:}  CollisionManager e CollisionObserver utilizzano un design modulare per affrontare questa complessità. CollisionManager si occupa della rilevazione delle collisioni, mentre CollisionObserver gestisce l’applicazione e il reset degli effetti. Utilizzando BiConsumerWithAndThen, è possibile creare una lista ordinata di BiConsumer, ciascuno rappresentante un passaggio specifico nel processo di gestione delle collisioni. Questo approccio permette di definire chiaramente le priorità tra le operazioni: prima vengono attivati gli eventi di trigger, poi applicati gli effetti, e infine eseguite le operazioni di pulizia e reset. La possibilità di concatenare questi BiConsumer in modo chiaro e modulare consente un codice pulito e facilmente manutenibile.
+\paragraph{Vantaggi e Svantaggi:} Il design modulare e l’uso di BiConsumerWithAndThen permettono una gestione ordinata e flessibile delle collisioni e degli effetti, rispettando le priorità tra le operazioni. Questo approccio migliora la modularità e la manutenzione del codice. Tuttavia, l’introduzione di passaggi aggiuntivi e la gestione delle priorità possono aumentare la complessità e richiedere un’attenta pianificazione per evitare conflitti tra le operazioni.
+
+
+\subsubsection{EventManager}
+\paragraph{Problema:} La comunicazione tra classi diverse può diventare complessa, specialmente in un’applicazione con molteplici componenti e moduli. Passare istanze tra le classi può creare un forte accoppiamento e rendere il codice meno manutenibile. È necessario un meccanismo che permetta la comunicazione tra classi senza creare dipendenze dirette tra di esse.
+\paragraph{Soluzione Proposta:} Il EventManager utilizza un design centralizzato per gestire gli eventi e le azioni correlate. Implementa il pattern Singleton per assicurare che solo una istanza gestisca tutti gli eventi, migliorando la coerenza e facilitando l’accesso globale. Gli eventi e le loro azioni sono gestiti tramite una mappa (eventMap) che associa i tipi di eventi (eventType) a gestori di eventi (BiConsumerWithAndThen). Questo approccio permette di:
+\begin{itemize}
+ \item Isolare la Comunicazione: Le classi possono comunicare tra loro attraverso eventi senza riferimenti diretti.
+ \item Flessibilità: È possibile passare qualsiasi tipo di oggetto come parametro agli eventi, rendendo il EventManager altamente generico.
+ \item Gestione degli Eventi: Gli eventi vengono pubblicati e gestiti centralmente, semplificando la gestione e la manutenzione del codice.
+\end{itemize}
+\paragraph{Vantaggi e Svantaggi:}
+Il EventManager offre un design flessibile e centralizzato per la comunicazione tra classi, migliorando la manutenibilità e riducendo il forte accoppiamento. Tuttavia, questa flessibilità può essere pericolosa, poiché chi pubblica un evento deve garantire che i sottoscrittori abbiano metodi compatibili con i parametri dell’evento pubblicato. È essenziale che chi utilizza il EventManager sia consapevole delle specifiche degli eventi e dei parametri per evitare errori di runtime e garantire che le azioni siano eseguite correttamente.
+
 	
-	\section{Conclusioni}
+
+\section{Conclusioni}
 	
-	Il design di \textit{Paradox Platformer} è stato progettato per garantire estensibilità, chiarezza e modularità. L'uso dei pattern di design come \textit{Strategy}, \textit{Factory} e \textit{Observer} ha permesso di creare un'architettura modulare e flessibile, facilitando l'aggiunta di nuove funzionalità e la manutenzione del codice. Tuttavia, è importante monitorare la complessità introdotta dai pattern e bilanciare la flessibilità con la semplicità per evitare problemi di gestione e performance.
+Il design di \textit{Paradox Platformer} è stato progettato per garantire estensibilità, chiarezza e modularità. L'uso dei pattern di design come \textit{Strategy}, \textit{Factory} e \textit{Observer} ha permesso di creare un'architettura modulare e flessibile, facilitando l'aggiunta di nuove funzionalità e la manutenzione del codice. Tuttavia, è importante monitorare la complessità introdotta dai pattern e bilanciare la flessibilità con la semplicità per evitare problemi di gestione e performance.
 	
 	
 \chapter{Sviluppo}
@@ -274,7 +269,7 @@ L’uso dei trigger consente di attivare effetti senza dipendere esclusivamente 
 
 l testing automatico delle classi sviluppate è stato realizzato utilizzando \textbf{JUnit}. Ogni membro del gruppo è stato incaricato di creare test per le proprie classi.
 
-\subsection{Junkai Ji}
+\subsection*{Junkai Ji}
 \begin{itemize}
 \item \textbf{TriggerTest}: verifica che il trigger attivi correttamente gli effetti associati e testa che il trigger possa attivare gli effetti degli ostacoli associati come previsto.
 
@@ -287,10 +282,21 @@ l testing automatico delle classi sviluppate è stato realizzato utilizzando \te
 \item \textbf{EventManagerTest}: testa che l’EventManager gestisca correttamente l’iscrizione e la notifica degli eventi.
 \end{itemize}
 
+\subsection*{Keegan Carlo Falcao}
+
+\begin{itemize}
+	\item \textbf{InputControllerTest}: gestione di molteplici input (simulati) e la costruzione di un game loop semplice. Tale test è esente dalla vista.
+	
+	\item \textbf{SimpleInventoryTest}: testa la correttezza del contenuto dell'inventario, come ad esempio la raccolta della stessa moneta.
+	
+	\item \textbf{GameModelTest}: testa la correttezza di inizilizzare il modello di gioco e la eventuale gestione dei casi specifici.
+	
+	\item \textbf{WorldBuilderTest}: controllo dell'effettiva costruzione del mondo.
+	
+	\item \textbf{WorldTest}: verifica la corretta creazione di un mondo presentando diverse problematiche per casi specifici
+	\end{itemize}
 
 \section{Note di sviluppo}
-
-\subsection{Junkai Ji}
 
 \subsubsection{Utilizzo di \texttt{Generic} e \texttt{Custom Biconsumer}}
 Utilizzata in vari punti.
@@ -306,7 +312,44 @@ Un esempio è
 Un esempio è 
 \url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/main/src/main/java/com/project/paradoxplatformer/model/effect/impl/EffectHandlerImpl.java}
 
+
+\subsubsection{Utilizzo di \texttt{Generic}}
+Utilizzata in vari punti.
+Un esempio è
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/aa3a3632b5f52afbd8fd600a9a28f06283fda177/src/main/java/com/project/paradoxplatformer/controller/input/InputController.java#L21}
+
+\subsubsection{Utilizzo di \texttt{Stream} e lambda expressions e \texttt{Collectors}}
+Utilizzata in vari punti.
+Un esempio è
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/c38556bb255d05a7f1e0d3def90e5e85b7abedbf/src/main/java/com/project/paradoxplatformer/view/GameViewImpl.java#L85}
+
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/9840a583905bdab26639a7a675e05b6c16bd4a6c/src/main/java/com/project/paradoxplatformer/model/player/Inventory.java#L49}
+
+\subsubsection{Utilizzo di \texttt{Reflection}}
+Un esempio è
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/aa3a3632b5f52afbd8fd600a9a28f06283fda177/src/main/java/com/project/paradoxplatformer/model/mappings/model/ModelMappingFactoryImpl.java#L80}
+
+\subsubsection{Utilizzo di \texttt{Jackson Deserializaton}}
+Un esempio è
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/aa3a3632b5f52afbd8fd600a9a28f06283fda177/src/main/java/com/project/paradoxplatformer/controller/deserialization/DeserializerFactoryImpl.java#L24}
+
+\subsubsection{Utilizzo di \texttt{Pair} di guava}
+Un esempio è
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/aa3a3632b5f52afbd8fd600a9a28f06283fda177/src/main/java/com/project/paradoxplatformer/utils/geometries/physic/api/Physics.java#L44}
+
+\subsubsection{Utilizzo di \texttt{Function}}
+Un esempio è
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/aa3a3632b5f52afbd8fd600a9a28f06283fda177/src/main/java/com/project/paradoxplatformer/view/legacy/ViewAdapterFactory.java#L82}
+
+\subsubsection{Utilizzo di \texttt{Optional}}
+Un esempio è
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/aa3a3632b5f52afbd8fd600a9a28f06283fda177/src/main/java/com/project/paradoxplatformer/controller/input/api/InputType.java#L95}
+
+\subsubsection{Utilizzo di \texttt{@FunctionalInterface}}
+Un esempio è
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/aa3a3632b5f52afbd8fd600a9a28f06283fda177/src/main/java/com/project/paradoxplatformer/utils/geometries/interpolations/Interpolator.java#L12}
 	
+
 \chapter{Commenti finali}
 
 \section{Autovalutazione e lavori futuri}
@@ -316,6 +359,11 @@ Nel corso di questo progetto, sono abbastanza soddisfatto del lavoro che ho svol
 \subsection{Michele Olivieri}
 Nel complesso, condivido pienamente le riflessioni dei miei collegi su questo progetto. Nonostante le difficoltà e le limitazioni incontrate, come la gestione del tempo e la mancanza di una collaborazione più coordinata, sono soddisfatto del risultato finale. Mi dispiace, tuttavia, non essere riuscito a raggiungere alcuni degli obiettivi che mi ero prefissato, specialmente per quanto riguarda la struttura del mio lavoro. Guardando indietro, penso che avrei potuto fare meglio in alcune aree. C'è stata forse una certa mancanza di coesione nella divisione dei compiti e nella definizione di una struttura comune, ma devo riconoscere l'alta competenza dei miei colleghi, che ci ha permesso di trovare una soluzione e combinare con successo i nostri contributi per ottenere un applicativo funzionante.
 \subsection{Keegan Carlo Falcao}
+Il progetto ha presentato sfide significative su molteplici fronti. Sul piano personale, questa esperienza di lavoro di gruppo mi ha reso profondamente consapevole dell'inestimabile valore della collaborazione e dell'impegno collettivo, elementi essenziali per condurre a buon fine un progetto accuratamente concepito e pianificato. Le difficoltà incontrate, mai affrontate prima nella mia carriera accademica, si sono rivelate tutt'altro che agevoli, ma mi considero fortunato per aver avuto l'opportunità di misurarmi con tali ostacoli e di superarli con successo.
+
+Dal punto di vista progettuale, l'attività è stata portata avanti con dedizione, persino in seguito alla separazione di un membro del team, evento che ha reso la distribuzione dei compiti più complessa e nebulosa.
+
+Ritengo, tuttavia, che avremmo dovuto dedicare maggiore attenzione a un'analisi più profonda della progettazione e a una strategia di comunicazione più efficace, poiché sono emerse evidenti carenze in queste aree. Una cura più rigorosa avrebbe certamente contribuito a un esito progettuale più fluido e armonioso.
 	
 	\appendix
 	\chapter{Guida utente}

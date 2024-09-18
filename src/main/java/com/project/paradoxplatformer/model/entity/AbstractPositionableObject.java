@@ -19,18 +19,18 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
  */
 public abstract class AbstractPositionableObject extends AbstractMutableObject {
 
-    protected Vector2D displacement;
-
+    private Vector2D displacement;
     private Coord2D position;
 
     /**
      * Constructs an {@code AbstractPositionableObject} with the specified initial
      * position.
-     * @param key the unique id of the positional game object
+     * 
+     * @param key      the unique id of the positional game object
      * @param position the initial position of the object as a {@link Coord2D}
      *                 object
      */
-     protected AbstractPositionableObject(final int key, final Coord2D position) {
+    protected AbstractPositionableObject(final int key, final Coord2D position) {
         super(key);
         this.displacement = new Simple2DVector(position.x(), position.y());
         this.position = position;
@@ -104,7 +104,35 @@ public abstract class AbstractPositionableObject extends AbstractMutableObject {
     @Override
     public abstract void updateState(long dt);
 
+    /**
+     * Returns the current displacement of this object.
+     * <p>
+     * This method can be overridden by subclasses to provide specific logic for how
+     * the displacement is calculated or retrieved. Subclasses should ensure that
+     * any changes to the displacement maintain the consistency of the object's
+     * movement logic.
+     * </p>
+     * 
+     * @return the displacement as a {@link Vector2D} object
+     */
     protected Vector2D getDisplacement() {
         return displacement;
     }
+
+    /**
+     * Sets the displacement of this object.
+     * <p>
+     * This method can be overridden by subclasses to modify how displacement is
+     * set,
+     * if necessary. Subclasses should ensure that any changes to the displacement
+     * maintain the consistency of the object's movement logic and do not violate
+     * game physics or object state.
+     * </p>
+     * 
+     * @param displacement the new displacement to set as a {@link Vector2D} object
+     */
+    protected void setDisplacement(final Vector2D displacement) {
+        this.displacement = displacement;
+    }
+
 }

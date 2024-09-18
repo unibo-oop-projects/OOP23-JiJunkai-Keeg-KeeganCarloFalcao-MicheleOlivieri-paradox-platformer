@@ -10,11 +10,11 @@ import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.InvalidResourceException;
 import com.project.paradoxplatformer.utils.ResourcesFinder;
-import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.view.Page;
 import com.project.paradoxplatformer.view.legacy.ViewFramework;
 import com.project.paradoxplatformer.view.manager.ViewManager;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -65,12 +65,6 @@ public class JavaFxApp extends Application implements ViewManager {
     }
 
     /**
-     * Default constructor.
-     */
-    public JavaFxApp() {
-    }
-
-    /**
      * Initializes the application.
      * 
      * <p>
@@ -90,6 +84,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @throws IOException if there is an issue loading the FXML pages
      */
     @Override
+    @SuppressFBWarnings(value = { "ST" }, justification = "Made for a better structure.")
     public void start(final Stage primeStage) throws IOException {
         if (!created) {
             throw new IllegalStateException("Cannot create application, Security reasons");
@@ -114,6 +109,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param appTitle the title of the application window
      */
     @Override
+    @SuppressFBWarnings(value = { "ST" }, justification = "Made for a better structure.")
     public void create(final String appTitle) {
         staticTitle = appTitle;
         JavaFxApp.launch();
@@ -127,6 +123,7 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param appTitle     the title of the application window
      */
     @Override
+    @SuppressFBWarnings(value = { "ST" }, justification = "Made for a better structure.")
     public void create(final CountDownLatch referedLatch, final String appTitle) {
         latch = referedLatch;
         this.create(appTitle);
@@ -142,16 +139,17 @@ public class JavaFxApp extends Application implements ViewManager {
     @Override
     public Page<Level> switchPage(final PageIdentifier id) {
         if (Platform.isFxApplicationThread()) {
-            System.out.println("In SWITCH PANE FUNCTION");
-            System.out.println("[CURRENT ID]: " + id);
+            // System.out.println("In SWITCH PANE FUNCTION");
+            // System.out.println("[CURRENT ID]: " + id);
 
-            var entry = helper.mapper().apply(id);
+            final var entry = helper.mapper().apply(id);
             scene.setRoot(
                     entry.map(Pair::getKey)
                             .orElse(ViewFramework.javaFxFactory().blankPage()));
             stage.sizeToScene();
 
-            System.out.println("[PANE]: " + entry.map(Pair::getValue).orElse(Page.defaultPage()));
+            // System.out.println("[PANE]: " +
+            // entry.map(Pair::getValue).orElse(Page.defaultPage()));
             return entry.map(Pair::getValue).orElse(Page.defaultPage());
         }
         throw new IllegalStateException("Not in FX Thread");
@@ -179,7 +177,7 @@ public class JavaFxApp extends Application implements ViewManager {
      */
     @Override
     public void displayError(final String content) {
-        var al = new Alert(AlertType.ERROR, content);
+        final var al = new Alert(AlertType.ERROR, content);
         DialogPane errorPane;
         try {
             errorPane = new FXMLLoader(ResourcesFinder.getURL("diag-pane.fxml")).load();
@@ -215,7 +213,7 @@ public class JavaFxApp extends Application implements ViewManager {
     @Override
     public void safeError() {
         this.exit();
-        System.exit(-1);
+        Runtime.getRuntime().exit(0);
     }
 
     /**
@@ -242,7 +240,8 @@ public class JavaFxApp extends Application implements ViewManager {
         stage.sizeToScene();
         stage.setScene(scene);
 
-        System.out.println("Main View Size → " + new Dimension(scene.getWidth(), scene.getHeight()));
+        // System.out.println("Main View Size → " + new Dimension(scene.getWidth(),
+        // scene.getHeight()));
     }
 
     private void setDialoContent(final String content, final DialogPane p) throws ClassCastException {

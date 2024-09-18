@@ -26,15 +26,9 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
     private static final int DEFAULT_ID = 0;
 
     /**
-     * Constructs an {@link FXViewMappingFactoryImpl}.
-     */
-    public FXViewMappingFactoryImpl() {
-    }
-
-    /**
      * Maps game entities of type image to their corresponding
      * {@link GraphicAdapter}.
-     * 
+     *
      * @return an {@link EntityDataMapper} that maps images to
      *         {@link GraphicAdapter<Node>} instances
      */
@@ -46,24 +40,23 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
     /**
      * Maps game entities of type block to their corresponding
      * {@link GraphicAdapter}.
-     * 
+     *
      * @return an {@link EntityDataMapper} that maps blocks to
      *         {@link FXRectangleAdapter} instances
      */
     @Override
     public EntityDataMapper<GraphicAdapter<Node>> blockToView() {
         return g -> new FXRectangleAdapter(
-            g.getID(),
-            new Dimension(g.getWidth(), g.getHeight()),
-            new Coord2D(g.getX(), g.getY()),
-            g.getColor().toFXColor()
-        );
+                g.getID(),
+                new Dimension(g.getWidth(), g.getHeight()),
+                new Coord2D(g.getX(), g.getY()),
+                g.getColor().toFXColor());
     }
 
     /**
      * Creates a {@link GraphicAdapter} from a {@link GameDTO} object representing a
      * sprite or image.
-     * 
+     *
      * @param g the {@link GameDTO} containing sprite or image data
      * @return a {@link GraphicAdapter<Node>} corresponding to the provided
      *         {@link GameDTO}
@@ -76,16 +69,13 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
                     g.getID(),
                     new Dimension(g.getWidth(), g.getHeight()),
                     new Coord2D(g.getX(), g.getY()),
-                    g.getImage(), 
-                    g.getSpriteMeta()
-                ) 
-                :
-                new FXImageAdapter(
+                    g.getImage(),
+                    g.getSpriteMeta())
+                    : new FXImageAdapter(
                     g.getID(),
                     new Dimension(g.getWidth(), g.getHeight()),
                     new Coord2D(g.getX(), g.getY()),
-                    g.getImage()
-                ); 
+                    g.getImage());
         } catch (InvalidResourceException e) {
             throw new IllegalStateException(e);
         }
@@ -94,7 +84,7 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
     /**
      * Maps {@link MenuItem} objects to their corresponding {@link GraphicAdapter}
      * for buttons.
-     * 
+     *
      * @param gameController the {@link GameController} to be associated with the
      *                       menu item actions
      * @return a {@link Function} that maps {@link MenuItem} to
@@ -103,7 +93,7 @@ public class FXViewMappingFactoryImpl implements ViewMappingFactory<Node> {
     @Override
     public Function<MenuItem, GraphicAdapter<Node>> menuItemToView(final GameController<Node> gameController) {
         return m -> {
-            var button = new FXButtonAdapter(DEFAULT_ID, m.name());
+            final var button = new FXButtonAdapter(DEFAULT_ID, m.name());
             button.onAction(m.action(), gameController);
             return button;
         };

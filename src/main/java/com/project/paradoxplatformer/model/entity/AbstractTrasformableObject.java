@@ -153,16 +153,16 @@ public abstract class AbstractTrasformableObject extends AbstractPositionableObj
             final TrajectoryInfo currentTransf = trasformationStats.peek();
             switch (currentTransf.transfType()) {
                 case DISPLACEMENT:
-                    this.displacement = this.trasform(this.displacement, currentTransf, dt).getKey();
+                    this.setDisplacement(this.trasform(this.getDisplacement(), currentTransf, dt).getKey());
                     break;
                 case HEIGHT:    
-                    this.displacement = this.mover.moveTo(
-                        this.displacement, 
+                    this.setDisplacement(this.mover.moveTo(
+                        this.getDisplacement(), 
                         currentTransf.endpoint().sub(new Simple2DVector(0.d, (anchorHeight - anchorY))),
                         currentTransf.duration(),
                         interFactory.easeIn(),
                         dt
-                    ).getKey();
+                    ).getKey());
                     this.heightVector = this.trasform(this.heightVector, currentTransf, dt).getKey();
                     break;
                 case WIDTH:

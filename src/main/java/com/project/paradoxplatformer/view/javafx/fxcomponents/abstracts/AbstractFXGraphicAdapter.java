@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts;
 
+import java.util.Optional;
+
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
@@ -23,17 +25,19 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
     private final DoubleProperty xProperty;
     private final DoubleProperty yProperty;
     private final Coord2D bindedPosition;
-    private int key;
+    private final int key;
 
     /**
      * Constructs an AbstractFXGraphicAdapter with the specified component,
      * dimension, and position.
-     * @param id the unique id of the button
+     *
+     * @param id          the unique id of the button
      * @param component   The Node component to be managed.
      * @param dimension   The dimension of the graphical component.
      * @param relativePos The relative position of the graphical component.
      */
-    protected AbstractFXGraphicAdapter(final int id, final Node component, final Dimension dimension, final Coord2D relativePos) {
+    protected AbstractFXGraphicAdapter(final int id, final Node component, final Dimension dimension,
+                                       final Coord2D relativePos) {
         this.key = id;
         this.uiComponent = component;
         this.dimension = dimension;
@@ -166,11 +170,11 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
 
     /**
      * Gets the node component.
-     * 
+     *
      * @return an {@link Node} component associated.
      */
-    public Node getUiComponent() {
-        return uiComponent;
+    protected Node getUiComponent() {
+        return Optional.of(uiComponent).get();
     }
 
     /**
@@ -188,7 +192,7 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        AbstractFXGraphicAdapter other = (AbstractFXGraphicAdapter) obj;
+        final AbstractFXGraphicAdapter other = (AbstractFXGraphicAdapter) obj;
         return key == other.key
                 && dimension.equals(other.dimension)
                 && xProperty.get() == other.xProperty.get()

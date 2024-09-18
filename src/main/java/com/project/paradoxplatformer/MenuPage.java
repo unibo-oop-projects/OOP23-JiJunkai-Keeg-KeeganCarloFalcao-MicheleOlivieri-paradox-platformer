@@ -164,8 +164,7 @@ public final class MenuPage extends AbstractThreadedPage {
         try {
             animation.stop(); // Stop the current animation before navigating
             action.navigate(); // Execute the navigation action (e.g., change views)
-        } catch (InvalidResourceException e) {
-            e.printStackTrace(); // Print error stack trace if navigation fails due to an invalid resource
+        } catch (InvalidResourceException ignored) {
         }
     }
 
@@ -180,7 +179,7 @@ public final class MenuPage extends AbstractThreadedPage {
     @Override
     protected void runOnFXThread(final Level param) {
         animation.play(); // Start playing the animation
-        System.out.println("[Main Menu Panel]"); // Log a message for debugging purposes
+//        System.out.println("[Main Menu Panel]"); // Log a message for debugging purposes
     }
 
     /**

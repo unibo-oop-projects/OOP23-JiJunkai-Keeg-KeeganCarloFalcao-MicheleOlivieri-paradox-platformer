@@ -1,5 +1,8 @@
 package com.project.paradoxplatformer.model.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.trigger.Trigger;
@@ -7,9 +10,6 @@ import com.project.paradoxplatformer.model.world.api.World;
 import com.project.paradoxplatformer.model.world.api.WorldBuilder;
 import com.project.paradoxplatformer.utils.SecureWrapper;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Implementation of the {@link WorldBuilder} interface that constructs
@@ -37,7 +37,7 @@ public final class WordBuilderImpl implements WorldBuilder {
         this.triggers = new ArrayList<>();
         this.isBuild = false;
         this.player = null;
-        // SHOULD FIX CAUSE GAME CANNOt builD WITHOUT PLAYER
+        // SHOULD FIX CAUSE GAME CANNOT BUILD WITHOUT PLAYER
     }
 
     /**

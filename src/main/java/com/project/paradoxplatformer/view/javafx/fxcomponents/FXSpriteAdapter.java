@@ -17,12 +17,13 @@ import javafx.scene.image.Image;
  */
 public final class FXSpriteAdapter extends FXImageAdapter implements Spriteable<SpriteStatus> {
 
-    private SpriteAnimator<Image> spriteAnimator;
-    private boolean isSpecial;
+    private final SpriteAnimator<Image> spriteAnimator;
+    private final boolean isSpecial;
 
     /**
      * Constructs a new {@code FXSpriteAdapter} with the given parameters.
-     * @param id the unique id of the button
+     *
+     * @param id         the unique id of the button
      * @param dimension  The {@code Dimension} of the sprite.
      * @param position   The {@code Coord2D} position of the sprite.
      * @param imageURL   The URL of the image to use for the sprite.
@@ -31,12 +32,11 @@ public final class FXSpriteAdapter extends FXImageAdapter implements Spriteable<
      * @throws InvalidResourceException If the provided image URL is invalid or if
      *                                  there are issues with loading the image.
      */
-    protected FXSpriteAdapter(final int id, 
-        final Dimension dimension, 
-        final Coord2D position, 
-        final String imageURL, 
-        final SpriteDTO spriteMeta
-    ) throws InvalidResourceException {
+    protected FXSpriteAdapter(final int id,
+                              final Dimension dimension,
+                              final Coord2D position,
+                              final String imageURL,
+                              final SpriteDTO spriteMeta) throws InvalidResourceException {
         super(id, dimension, position, imageURL);
         this.spriteAnimator = new SpriteAnimator<>(
                 new FXSpriterSetter(

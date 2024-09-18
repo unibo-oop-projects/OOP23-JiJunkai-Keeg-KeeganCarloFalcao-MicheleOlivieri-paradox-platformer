@@ -1,7 +1,7 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
 
 /**
- * Represents a condition that determines if a player is death in the game.
+ * Represents a condition that determines if a player is dead in the game.
  * Classes implementing this interface define specific death conditions.
  */
 public interface DeathCondition {
@@ -12,5 +12,4 @@ public interface DeathCondition {
      * @return true if the condition has been met, false otherwise.
      */
     boolean death();
-
 }

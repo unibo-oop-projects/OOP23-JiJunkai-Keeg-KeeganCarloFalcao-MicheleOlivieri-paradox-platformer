@@ -54,7 +54,7 @@ public final class FXButtonAdapter extends AbstractFXGraphicAdapter implements A
 
     @Override
     public void setDimension(final double width, final double height) {
-        System.out.println(width);
+//        System.out.println(width);
         this.buttonCompo.setPrefHeight(height);
         this.buttonCompo.setPrefWidth(width);
     }

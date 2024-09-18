@@ -1,4 +1,6 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
+
+import java.util.Optional;
 
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
@@ -10,7 +12,7 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
  */
 public class ReachEndVictoryCondition implements VictoryCondition {
 
-    private final static int END_WORLD = 600; // TO FIX With real value
+    private static final int END_WORLD = 600; // TO FIX With real value
     private final PlayerModel player;
 
     /**
@@ -20,7 +22,7 @@ public class ReachEndVictoryCondition implements VictoryCondition {
      * @param player The player model used to track the player's position.
      */
     public ReachEndVictoryCondition(final PlayerModel player) {
-        this.player = player;
+        this.player = Optional.of(player).get();
     }
 
     /**
@@ -31,7 +33,7 @@ public class ReachEndVictoryCondition implements VictoryCondition {
      * @return true if the player has reached the end of the world, false otherwise.
      */
     @Override
-    public boolean Win() {
+    public boolean win() {
         return this.player.getPosition().x() > ReachEndVictoryCondition.END_WORLD;
     }
 

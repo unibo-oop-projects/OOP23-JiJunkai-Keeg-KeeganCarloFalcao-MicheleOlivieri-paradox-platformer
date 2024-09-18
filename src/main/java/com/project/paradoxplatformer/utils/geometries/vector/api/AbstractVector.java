@@ -1,5 +1,7 @@
 package com.project.paradoxplatformer.utils.geometries.vector.api;
 
+import java.util.Optional;
+
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.coordinates.api.Cartesian;
 
@@ -84,6 +86,7 @@ public abstract sealed class AbstractVector implements Vector2D permits Simple2D
      * @param vector the {@link Vector2D} to add to this vector
      * @return a new {@link Vector2D} that is the result of the addition
      */
+    @Override
     public abstract Vector2D add(Vector2D vector);
 
     /**
@@ -96,6 +99,7 @@ public abstract sealed class AbstractVector implements Vector2D permits Simple2D
      * @param scalar the scalar value to multiply this vector by
      * @return a new {@link Vector2D} that is the result of the scaling
      */
+    @Override
     public abstract Vector2D scale(double scalar);
 
     /**
@@ -107,6 +111,7 @@ public abstract sealed class AbstractVector implements Vector2D permits Simple2D
      *
      * @return the y component of this vector
      */
+    @Override
     public abstract double yComponent();
 
     /**
@@ -118,6 +123,7 @@ public abstract sealed class AbstractVector implements Vector2D permits Simple2D
      *
      * @return the x component of this vector
      */
+    @Override
     public abstract double xComponent();
 
     /**
@@ -144,7 +150,7 @@ public abstract sealed class AbstractVector implements Vector2D permits Simple2D
      * @return a {@link Cartesian} instance representing the Cartesian coordinates
      */
     public Cartesian getCartesian() {
-        return cartesian;
+        return Optional.of(cartesian).get();
     }
 
 }

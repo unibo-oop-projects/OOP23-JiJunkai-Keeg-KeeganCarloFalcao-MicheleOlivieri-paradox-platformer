@@ -101,7 +101,7 @@ public final class OffsetFactoryImpl implements OffsetFactory {
          * @return a {@link BoxOffset} instance that adjusts based on the provided
          *         dimension
          */
-        return boxDim -> OffsetFactoryImpl.this.new TemplateOffset(
+        return boxDim -> new TemplateOffset(
                 (x, y) -> new Coord2D(0, y + boxDim.height())).anchor(new BaseOffset());
     }
 
@@ -113,7 +113,7 @@ public final class OffsetFactoryImpl implements OffsetFactory {
      * function and an anchor.
      * </p>
      */
-    private final class TemplateOffset implements Offset {
+    private static final class TemplateOffset implements Offset {
         private Coord2D combined;
         private final BiFunction<Double, Double, Coord2D> poleMapper;
 

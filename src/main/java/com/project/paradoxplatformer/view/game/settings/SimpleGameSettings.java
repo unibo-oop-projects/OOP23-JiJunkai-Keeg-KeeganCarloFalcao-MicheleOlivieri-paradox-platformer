@@ -2,6 +2,7 @@ package com.project.paradoxplatformer.view.game.settings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.games.GameController;
 import com.project.paradoxplatformer.model.GameSettingsModel;
@@ -48,7 +49,7 @@ public class SimpleGameSettings<C> implements GameSettings<C> {
         this.viewMappingFactory = factory;
         this.listComponents = new ArrayList<>();
         this.model = model;
-        this.graphiContainer = g;
+        this.graphiContainer = Optional.of(g).get();
         this.gameController = gameController;
     }
 
@@ -81,6 +82,6 @@ public class SimpleGameSettings<C> implements GameSettings<C> {
      */
     @Override
     public List<GraphicAdapter<C>> getUnmodifiableControls() {
-        return this.listComponents;
+        return List.copyOf(this.listComponents);
     }
 }

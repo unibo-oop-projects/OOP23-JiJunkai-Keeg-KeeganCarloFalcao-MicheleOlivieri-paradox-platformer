@@ -10,6 +10,7 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
@@ -29,22 +30,22 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
     private final DoubleProperty widthProperty;
     private final DoubleProperty heightProperty;
 
-
     /**
      * Constructs an {@code FXImageAdapter} with specified dimensions, position, and
      * image URL.
-     * @param id the unique id of the button
+     * 
+     * @param id        the unique id of the button
      * @param dimension the dimension of the image
      * @param position  the position of the image
      * @param imageURL  the URL of the image to be loaded
      * @throws InvalidResourceException if the image resource is invalid
      */
+    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR", justification = "This method is checked before use.")
     protected FXImageAdapter(
-        final int id, 
-        final Dimension dimension,
-        final Coord2D position,
-        final String imageURL
-    ) throws InvalidResourceException {
+            final int id,
+            final Dimension dimension,
+            final Coord2D position,
+            final String imageURL) throws InvalidResourceException {
         super(id, new ImageView(), dimension, position);
 
         if (this.getUiComponent() instanceof ImageView imgCopy) {
@@ -105,6 +106,7 @@ public class FXImageAdapter extends AbstractFXGraphicAdapter {
      * @return the {@link ImageView} component
      */
     public ImageView getImageView() {
-        return imgComponent;
+        return Optional.of(imgComponent).get();
     }
+
 }

@@ -36,7 +36,7 @@ public class FXContainerAdapter implements GraphicContainer<Node, KeyCode>, Inpu
      *                  components
      */
     public FXContainerAdapter(final Pane container) {
-        this.uiContainer = container;
+        this.uiContainer = Optional.of(container).get();
         this.keyAssetter = new KeyAssetterImpl<>(this);
     }
 

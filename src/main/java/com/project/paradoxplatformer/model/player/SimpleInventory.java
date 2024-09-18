@@ -7,22 +7,24 @@ import java.util.Set;
 import com.project.paradoxplatformer.model.entity.CollectableGameObject;
 
 /**
- * A simple inventory implementation with basic add and remove actions (it a storage)
+ * A simple inventory implementation with basic add and remove actions.
+ * It serves as a storage for collectable game objects.
  */
 public final class SimpleInventory implements Inventory {
 
     private final Set<CollectableGameObject> items;
 
     /**
-     * A non-argument contructor for initializing the inventory
+     * A no-argument constructor for initializing the inventory.
      */
     public SimpleInventory() {
         this.items = new LinkedHashSet<>();
     }
 
     /**
-     * A contructor used for immutable operations
-     * @param defensive copy to be reinitialized making a fully immutable class
+     * A constructor used for immutable operations.
+     * 
+     * @param defensive A defensive copy to be reinitialized, making the class fully immutable.
      */
     public SimpleInventory(final Set<CollectableGameObject> defensive) {
         this.items = new LinkedHashSet<>(defensive);
@@ -51,5 +53,4 @@ public final class SimpleInventory implements Inventory {
     public Set<CollectableGameObject> getImmutableItems() {
         return Collections.unmodifiableSet(this.items);
     }
-    
 }

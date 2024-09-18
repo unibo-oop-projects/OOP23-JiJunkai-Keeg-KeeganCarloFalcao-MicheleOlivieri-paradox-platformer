@@ -6,7 +6,6 @@ plugins {
     id 'org.beryx.jlink' version '2.25.0'
     id("org.danilopianini.gradle-java-qa") version "0.40.0"
     id 'com.github.johnrengelman.shadow' version '8.1.1'
-
 }
 
 group 'com.project'
@@ -64,6 +63,9 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.12.0")
     // https://mvnrepository.com/artifact/com.google.guava/guava
     implementation 'com.google.guava:guava:11.0.2'
+
+    compileOnly("com.github.spotbugs:spotbugs-annotations:4.7.3")
+
 
 }
 

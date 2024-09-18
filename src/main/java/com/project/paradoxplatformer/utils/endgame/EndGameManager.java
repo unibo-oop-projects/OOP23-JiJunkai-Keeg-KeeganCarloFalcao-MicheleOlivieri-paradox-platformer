@@ -1,16 +1,17 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
 
 import java.util.Iterator;
 
 /**
- * Manages the end game through 
+ * Manages the end game through
  * a collection of victory conditions and determines if any have been met
  * a collection of end conditions and determines if any have been met.
  */
 public interface EndGameManager {
 
     /**
-     * Checks all registered victory conditions to determine if a victory has been achieved.
+     * Checks all registered victory conditions to determine if a victory has been
+     * achieved.
      *
      * @return true if any victory condition has been met, false otherwise.
      */
@@ -29,7 +30,8 @@ public interface EndGameManager {
     void setVictoryHandler(Iterator<VictoryCondition> newList);
 
     /**
-     * Checks all registered death conditions to determine if a victory has been achieved.
+     * Checks all registered death conditions to determine if a victory has been
+     * achieved.
      *
      * @return true if any death condition has been met, false otherwise.
      */

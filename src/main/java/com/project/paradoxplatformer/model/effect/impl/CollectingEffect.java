@@ -13,8 +13,6 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
-import static com.project.paradoxplatformer.utils.OptionalUtils.peek;
-
 /**
  * Such effects permits the player to collect {@code CollectableGameObject} to update its inventory
  * and erase it from the (Model) world objects.
@@ -31,7 +29,6 @@ public final class CollectingEffect extends AbstractRecreatableEffect {
     @Override
     protected CompletableFuture<Void> applyToTarget(final Optional<? extends CollidableGameObject> target) {
         return target.map(gameObject -> {
-            System.out.println("Target → " + target.get());
             if (gameObject instanceof PlayerModel pl) {
                 this.player = Optional.of(pl);
             }
@@ -49,7 +46,6 @@ public final class CollectingEffect extends AbstractRecreatableEffect {
                     .filter(CollectableGameObject.class::isInstance)
                     .filter(g -> this.player.isPresent())
                     .map(CollectableGameObject.class::cast)
-                    .map(peek(c -> System.out.println(c.getClass().getSimpleName() + " collected")))
                     .ifPresent(this.player.get()::collectItem);
         });
     }

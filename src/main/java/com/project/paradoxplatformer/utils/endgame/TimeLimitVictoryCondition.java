@@ -1,4 +1,4 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
 
 /**
  * The TimeLimitVictoryCondition class represents a victory condition where the
@@ -20,15 +20,16 @@ public class TimeLimitVictoryCondition implements VictoryCondition {
     }
 
     /**
-     * Checks if the player has won by verifying if the time limit has not been exceeded.
+     * Checks if the player has won by verifying if the time limit has not been
+     * exceeded.
      *
      * @return true if the player has won within the time limit, false otherwise.
      */
     @Override
-    public boolean Win() {
-        long currentTime = System.currentTimeMillis();
+    public boolean win() {
+        final long currentTime = System.currentTimeMillis();
         // Check if the elapsed time is within the time limit
         return (currentTime + startTime) / 1000 < timeLimitSeconds;
     }
-    
+
 }

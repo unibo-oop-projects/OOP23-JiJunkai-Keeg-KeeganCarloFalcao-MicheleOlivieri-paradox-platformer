@@ -24,7 +24,7 @@ public final class NoOpEffect extends AbstractOneTimeEffect {
      */
     @Override
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
-        System.out.println("Nothing Happened.");
+//        System.out.println("Nothing Happened.");
         return CompletableFuture.completedFuture(null);
     }
 }

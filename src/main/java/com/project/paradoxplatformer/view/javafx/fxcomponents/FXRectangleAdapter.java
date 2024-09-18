@@ -6,6 +6,7 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.view.javafx.fxcomponents.abstracts.AbstractFXGraphicAdapter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.paint.Color;
@@ -24,13 +25,14 @@ public class FXRectangleAdapter extends AbstractFXGraphicAdapter {
     /**
      * Constructs a new {@code FXRectangleAdapter} with the specified parameters.
      *
-     * @param id the unique id of the button
+     * @param id        the unique id of the button
      * @param dimension The {@code Dimension} of the rectangle.
      * @param position  The {@code Coord2D} position of the rectangle.
      * @param fill      The {@code Color} to fill the rectangle.
      * @throws IllegalArgumentException If the underlying UI component is not a
      *                                  {@code Rectangle}.
      */
+    @SuppressFBWarnings(value = "MC_OVERRIDABLE_METHOD_CALL_IN_CONSTRUCTOR", justification = "This method is checked before use.")
     protected FXRectangleAdapter(final int id, final Dimension dimension, final Coord2D position, final Color fill) {
         super(id, new Rectangle(), dimension, position);
         if (this.getUiComponent() instanceof Rectangle blockCopy) {

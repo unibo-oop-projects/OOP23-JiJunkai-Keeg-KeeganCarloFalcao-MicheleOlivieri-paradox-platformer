@@ -1,8 +1,9 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
@@ -18,6 +19,7 @@ import com.project.paradoxplatformer.model.player.PlayerModel;
  */
 public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondition> {
 
+    private static final int TIME_LIMIT = 600; // Constant for time limit in seconds
     private PlayerModel player;
 
     /**
@@ -29,8 +31,11 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      * @return an iterator over death conditions specific to the level.
      */
     @Override
-    public Iterator<DeathCondition> createConditionsForLevel(Level level, PlayerModel player) {
-        this.player = player;
+    public Iterator<DeathCondition> createConditionsForLevel(final Level level, final PlayerModel player) {
+        if (player == null) {
+            return defaultConditions();
+        }
+        this.player = Optional.of(player).get();
         return switch (level) {
             case LEVEL_ONE -> levelOneConditions();
             case LEVEL_TWO -> levelTwoConditions();
@@ -49,9 +54,9 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      */
     @Override
     public Iterator<DeathCondition> defaultConditions() {
-        List<DeathCondition> defaultList = new ArrayList<>();
+        final List<DeathCondition> defaultList = new ArrayList<>();
         // Default condition: Player dies if health is below 0.
-        defaultList.add(new FallenCondition(this.player));
+        // defaultList.add(new FallenCondition(this.player));
         return defaultList.iterator();
     }
 
@@ -62,7 +67,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      */
     @Override
     public Iterator<DeathCondition> levelOneConditions() {
-        List<DeathCondition> conditions = new ArrayList<>();
+        final List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if health is below 0.
         conditions.add(new FallenCondition(this.player));
         return conditions.iterator();
@@ -75,9 +80,9 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      */
     @Override
     public Iterator<DeathCondition> levelTwoConditions() {
-        List<DeathCondition> conditions = new ArrayList<>();
+        final List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if they exceed the time limit of 600 seconds.
-        conditions.add(new TimeLimitDeathCondition(600));
+        conditions.add(new TimeLimitDeathCondition(TIME_LIMIT));
         return conditions.iterator();
     }
 
@@ -88,7 +93,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      */
     @Override
     public Iterator<DeathCondition> levelThreeConditions() {
-        List<DeathCondition> conditions = new ArrayList<>();
+        final List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if health is below 0.
         conditions.add(new FallenCondition(this.player));
         return conditions.iterator();
@@ -101,12 +106,10 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      */
     @Override
     public Iterator<DeathCondition> levelFourConditions() {
-        List<DeathCondition> conditions = new ArrayList<>();
+        final List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if health is below 0.
         conditions.add(new FallenCondition(this.player));
         conditions.add(new DeathObstacleCollisionCondition());
         return conditions.iterator();
-
     }
-
 }

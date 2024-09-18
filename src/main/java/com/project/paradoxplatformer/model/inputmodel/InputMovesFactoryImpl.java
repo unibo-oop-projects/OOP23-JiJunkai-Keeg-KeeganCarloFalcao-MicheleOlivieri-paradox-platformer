@@ -89,7 +89,7 @@ public final class InputMovesFactoryImpl implements InputMovesFactory {
     @Override
     public InputModel<ControllableObject> invertedModel(final InputModel<ControllableObject> ip) {
         return () -> {
-            var inverted = new EnumMap<>(ip.getModel());
+            final var inverted = new EnumMap<>(ip.getModel());
             inverted.entrySet().stream()
                     .filter(e -> this.oppositeMap.containsKey(e.getValue()))
                     .forEach(this::invert);
@@ -114,11 +114,12 @@ public final class InputMovesFactoryImpl implements InputMovesFactory {
     }
 
     /**
-     * Decorator class for enhancing the WASD input model with additional controls
+     * Static decorator class for enhancing the WASD input model with additional
+     * controls
      * from the
      * standard model.
      */
-    private final class StdModelDecorator implements InputModel<ControllableObject> {
+    private static final class StdModelDecorator implements InputModel<ControllableObject> {
         private final InputModel<ControllableObject> toDecorate;
         private final Map<InputType, Command<ControllableObject>> modifMapModel;
 
@@ -130,7 +131,7 @@ public final class InputMovesFactoryImpl implements InputMovesFactory {
         private StdModelDecorator(final InputModel<ControllableObject> toDecorate) {
             this.toDecorate = toDecorate;
             this.modifMapModel = new HashMap<>(this.toDecorate.getModel());
-            this.modifMapModel.putAll(InputMovesFactoryImpl.this.standardModel().getModel());
+            this.modifMapModel.putAll(new InputMovesFactoryImpl().standardModel().getModel());
         }
 
         /**

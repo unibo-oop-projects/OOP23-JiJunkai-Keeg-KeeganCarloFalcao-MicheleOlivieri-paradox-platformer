@@ -14,10 +14,16 @@ public enum TriggerType {
     BUTTON,
 
     /**
-     * Represents a invisible trigger collision type.
+     * Represents an invisible trigger collision type.
      * Used for objects that trigger events or actions when the player interacts
      * with them.
      */
     FLOOR,
 
+    /**
+     * Represents an warp trigger collision type.
+     * Used for objects that trigger transport actions when the player interacts
+     * with them.
+     */
+    WARP,
 }

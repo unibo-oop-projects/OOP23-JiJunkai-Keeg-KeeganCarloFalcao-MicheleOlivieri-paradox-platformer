@@ -30,7 +30,7 @@ public class CollisionObserver {
      *                      resetting effects.
      */
     public CollisionObserver(final EffectHandler effectHandler) {
-        this.effectHandler = effectHandler;
+        this.effectHandler = Optional.of(effectHandler).get();
     }
 
     /**
@@ -44,8 +44,8 @@ public class CollisionObserver {
     public void observeCollisions(final Set<CollidableGameObject> collidingObjects, final CollidableGameObject player) {
 
         // Define actions for when a collision starts and ends
-        BiConsumerWithAndThen<CollidableGameObject, CollidableGameObject> onCollideStart = createCollisionTriggerHandlerStart();
-        BiConsumerWithAndThen<CollidableGameObject, CollisionType> onCollideEnd = createCollisionTriggerHandlerEnd();
+        final BiConsumerWithAndThen<CollidableGameObject, CollidableGameObject> onCollideStart = createCollisionTriggerHandlerStart();
+        final BiConsumerWithAndThen<CollidableGameObject, CollisionType> onCollideEnd = createCollisionTriggerHandlerEnd();
 
         // Apply effects for every collision between the player and other objects
         collidingObjects.forEach(obj -> onCollideStart.andThen(effectHandler::applyEffects).accept(player, obj));
@@ -79,9 +79,7 @@ public class CollisionObserver {
      *         removal.
      */
     private BiConsumerWithAndThen<CollidableGameObject, CollisionType> createCollisionTriggerHandlerEnd() {
-        return (object, collisionType) -> {
-            removeTriggerIfPresent(object, collisionType);
-        };
+        return this::removeTriggerIfPresent;
     }
 
     /**
@@ -91,7 +89,7 @@ public class CollisionObserver {
      */
     private void activateTriggerIfPresent(final CollidableGameObject object) {
         if (object instanceof Trigger) {
-            System.out.println(object + " is triggered from Collision Observer.");
+            // System.out.println(object + " is triggered from Collision Observer.");
             ((Trigger) object).activate();
         }
     }
@@ -104,8 +102,8 @@ public class CollisionObserver {
      * @param collisionType the collision type associated with the object.
      */
     private void removeTriggerIfPresent(final CollidableGameObject object, final CollisionType collisionType) {
-        if (object instanceof Trigger) {
-            System.out.println(object + " is removed from Collision Observer.");
+        if (object instanceof Trigger && object.getCollisionType() == collisionType) {
+            // System.out.println(object + " is removed from Collision Observer.");
             EventManager.getInstance().publish(GameEventType.REMOVE_OBJECT, PageIdentifier.EMPTY, Optional.of(object));
         }
     }

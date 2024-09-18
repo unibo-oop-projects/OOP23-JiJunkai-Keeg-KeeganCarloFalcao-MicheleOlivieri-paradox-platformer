@@ -1,7 +1,8 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
 
 /**
- * TimeLimitDeathCondition checks if the player has survived past a specific time limit.
+ * TimeLimitDeathCondition checks if the player has survived past a specific
+ * time limit.
  */
 public class TimeLimitDeathCondition implements DeathCondition {
 
@@ -25,7 +26,7 @@ public class TimeLimitDeathCondition implements DeathCondition {
      */
     @Override
     public boolean death() {
-        long elapsedTime = System.currentTimeMillis() - startTime;
+        final long elapsedTime = System.currentTimeMillis() - startTime;
         return elapsedTime > timeLimit;
     }
 

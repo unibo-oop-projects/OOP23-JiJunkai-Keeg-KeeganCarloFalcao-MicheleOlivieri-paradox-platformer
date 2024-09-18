@@ -34,7 +34,7 @@ public final class ObjectRemover<C> {
      */
     public ObjectRemover(final GameModelData gameModel, final GameView<C> gameView) {
         this.gameModel = gameModel;
-        this.gameView = gameView;
+        this.gameView = Optional.of(gameView).get();
         this.objects = new ArrayList<>();
     }
 
@@ -47,8 +47,7 @@ public final class ObjectRemover<C> {
     public void handleRemoveObject(final PageIdentifier id, final Optional<? extends CollidableGameObject> self) {
         self.filter(MutableObject.class::isInstance)
                 .map(MutableObject.class::cast)
-                .ifPresentOrElse(this.objects::add,
-                        () -> System.out.println("Cannot remove object. It is not a MutableGameObject."));
+                .ifPresent(this.objects::add);
     }
 
     /**
@@ -61,15 +60,24 @@ public final class ObjectRemover<C> {
      */
     public void removeGameObjects(final Map<MutableObject, ReadOnlyGraphicDecorator<C>> gamePairs) {
         gamePairs.entrySet().removeIf(entry -> {
-            MutableObject key = entry.getKey();
+            final MutableObject key = entry.getKey();
             if (objects.contains(key)) {
                 // Remove the game object from the game world
                 gameModel.actionOnWorld(w -> w.removeGameObjects(key));
                 // Remove the associated graphic from the view
-                gameView.removeGraphic(entry.getValue());
+                removeGraphic(entry.getValue());
                 return true; // Indicate that the object was removed
             }
             return false; // Indicate that the object was not removed
         });
+    }
+
+    /**
+     * Removes a graphic from the view.
+     *
+     * @param graphicDecorator The graphic decorator to be removed.
+     */
+    private void removeGraphic(final ReadOnlyGraphicDecorator<C> graphicDecorator) {
+        gameView.removeGraphic(graphicDecorator);
     }
 }

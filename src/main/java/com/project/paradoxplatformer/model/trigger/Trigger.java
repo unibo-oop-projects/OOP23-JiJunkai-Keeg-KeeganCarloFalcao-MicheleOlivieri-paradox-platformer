@@ -7,12 +7,10 @@ import com.project.paradoxplatformer.model.entity.MutableObject;
 /**
  * The Trigger interface represents an entity that can activate certain actions
  * or events when specific conditions are met.
- * 
  * <p>
  * Triggers are associated with obstacles and are responsible for activating
  * them when necessary. This interface also extends {@link MutableObject},
- * allowing
- * for additional properties or behaviors related to the game's mutable
+ * allowing for additional properties or behaviors related to the game's mutable
  * entities.
  * </p>
  */
@@ -31,21 +29,21 @@ public interface Trigger extends MutableObject {
      * Associates an obstacle with this trigger, allowing it to activate the
      * obstacle's effects when triggered.
      * 
-     * @param obstacle the triggerable objects to associate with this trigger
+     * @param obstacle The triggerable objects to associate with this trigger.
      */
     void addObstacle(Triggerable obstacle);
 
     /**
-     * Sets the trigger associated obstacle/triggerable object its Id.
+     * Sets the ID for the triggerable object associated with this trigger.
      * 
-     * @param id an id the trigger is eligible to trigger it
+     * @param id An optional ID for the triggerable object.
      */
     void setTriggerableID(Optional<Integer> id);
 
-     /**
-     * Gets the trigger associated obstacle/triggerable object its Id.
+    /**
+     * Gets the ID for the triggerable object associated with this trigger.
      * 
-     * @return the id associated to the triggerable object
+     * @return An optional ID associated with the triggerable object.
      */
     Optional<Integer> getTriggerableID();
 }

@@ -9,16 +9,18 @@ import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
 /**
- * When a player stumble upon it he performs a powerful jump (the effects is defined in {@link com.project.paradoxplatformer.model.effect.impl.SpringEffect})
+ * Represents a spring that performs a powerful jump when a player encounters it.
+ * The effect is defined in {@link com.project.paradoxplatformer.model.effect.impl.SpringEffect}.
  */
 public final class Spring extends AbstractObstacle {
 
     /**
-     * Constructs a spring based on id, position, dimension and queue of trajectories (upon activation).
-     * @param key of spring
-     * @param position of a spring
-     * @param dimension of a spring
-     * @param trajectoryQueue of a spring
+     * Constructs a spring with the specified parameters.
+     *
+     * @param key             The unique identifier for the spring.
+     * @param position        The position of the spring.
+     * @param dimension       The dimension of the spring.
+     * @param trajectoryQueue The queue of trajectories associated with the spring upon activation.
      */
     public Spring(
         final int key,
@@ -36,5 +38,4 @@ public final class Spring extends AbstractObstacle {
     public CollisionType getCollisionType() {
         return CollisionType.SPRINGS;
     }
-    
 }

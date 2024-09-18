@@ -35,8 +35,8 @@ public abstract class AbstractEffect implements Effect {
     public CompletableFuture<Void> apply(final Optional<? extends CollidableGameObject> target,
             final Optional<? extends CollidableGameObject> self) {
         // Apply effect to both the target and self concurrently
-        CompletableFuture<Void> targetFuture = applyToTarget(target);
-        CompletableFuture<Void> selfFuture = applyToSelf(self);
+        final CompletableFuture<Void> targetFuture = applyToTarget(target);
+        final CompletableFuture<Void> selfFuture = applyToSelf(self);
 
         // Wait for both applications (target and self) to complete
         return CompletableFuture.allOf(targetFuture, selfFuture);

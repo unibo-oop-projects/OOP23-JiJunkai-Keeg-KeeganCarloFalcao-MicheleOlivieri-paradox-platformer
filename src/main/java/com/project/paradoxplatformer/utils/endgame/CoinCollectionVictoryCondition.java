@@ -1,4 +1,6 @@
-package com.project.paradoxplatformer.utils.endGame;
+package com.project.paradoxplatformer.utils.endgame;
+
+import java.util.Optional;
 
 import com.project.paradoxplatformer.model.player.PlayerModel;
 
@@ -14,21 +16,23 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
     /**
      * Constructs a CoinCollectionVictoryCondition.
      *
-     * @param player      The player model, used to track the number of coins collected.
+     * @param player      The player model, used to track the number of coins
+     *                    collected.
      * @param targetCoins The number of coins the player must collect to win.
      */
     public CoinCollectionVictoryCondition(final PlayerModel player, final int targetCoins) {
-        this.player = player;
+        this.player = Optional.of(player).get();
         this.targetCoins = targetCoins;
     }
 
     /**
      * Checks if the player has won by collecting the required number of coins.
      *
-     * @return true if the player has collected at least the target number of coins, false otherwise.
+     * @return true if the player has collected at least the target number of coins,
+     *         false otherwise.
      */
     @Override
-    public boolean Win() {
+    public boolean win() {
         return player.getCollectedCoins() >= this.targetCoins;
     }
 

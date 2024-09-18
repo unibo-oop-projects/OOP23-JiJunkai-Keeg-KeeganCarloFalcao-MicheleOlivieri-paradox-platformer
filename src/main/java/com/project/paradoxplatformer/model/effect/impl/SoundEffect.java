@@ -66,7 +66,7 @@ public final class SoundEffect extends AbstractRecreatableEffect {
      */
     @Override
     public RecreateableEffect recreate() {
-        System.out.println("Sound Effect gets recreated");
+//        System.out.println("Sound Effect gets recreated");
         return new SoundEffect(soundType);
     }
 

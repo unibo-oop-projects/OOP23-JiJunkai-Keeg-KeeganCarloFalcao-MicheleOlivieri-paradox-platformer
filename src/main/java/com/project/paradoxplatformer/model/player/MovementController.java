@@ -10,6 +10,9 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Polar2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
+/**
+ * Manages the movement of an entity including horizontal and vertical speed.
+ */
 public class MovementController {
 
     private Vector2D horizontalSpeed;
@@ -18,7 +21,13 @@ public class MovementController {
     private final PhysicsEngine physics;
     private final InterpolatorFactory interpolatorFactory;
 
-    public MovementController(Coord2D startPosition, PhysicsEngine physicsEngine) {
+    /**
+     * Constructs a MovementController with the given initial position and physics engine.
+     *
+     * @param startPosition The initial position of the entity.
+     * @param physicsEngine The physics engine used for movement calculations.
+     */
+    public MovementController(final Coord2D startPosition, final PhysicsEngine physicsEngine) {
         this.position = startPosition;
         this.physics = physicsEngine;
         this.interpolatorFactory = new InterpolatorFactoryImpl();
@@ -26,7 +35,13 @@ public class MovementController {
         this.verticalSpeed = Polar2DVector.nullVector(); // Inizializzazione della velocità verticale
     }
 
-    public Coord2D updateMovement(long dt) {
+    /**
+     * Updates the position based on the movement and elapsed time.
+     *
+     * @param dt The elapsed time in milliseconds since the last update.
+     * @return The updated position.
+     */
+    public Coord2D updateMovement(final long dt) {
         // Interpolazione del movimento orizzontale
         Vector2D newDisplacement = physics.step(this.toVector2D(position),
                 this.toVector2D(position).add(horizontalSpeed),
@@ -42,21 +57,39 @@ public class MovementController {
         return this.position;
     }
 
-    public void setSpeed(Vector2D speed) {
+    /**
+     * Sets the horizontal speed of the entity.
+     *
+     * @param speed The new horizontal speed.
+     */
+    public void setSpeed(final Vector2D speed) {
         this.horizontalSpeed = speed;
     }
 
+    /**
+     * Gets the current horizontal speed of the entity.
+     *
+     * @return The current horizontal speed.
+     */
     public Vector2D getSpeed() {
         return this.horizontalSpeed;
     }
 
+    /**
+     * Stops the movement by setting both horizontal and vertical speeds to zero.
+     */
     public void stopMovement() {
         this.horizontalSpeed = physics.stop();
         this.verticalSpeed = physics.stop();
     }
 
-    private Vector2D toVector2D(Coord2D position) {
+    /**
+     * Converts a Coord2D position to a Vector2D.
+     *
+     * @param position The position to convert.
+     * @return The converted Vector2D.
+     */
+    private Vector2D toVector2D(final Coord2D position) {
         return new Simple2DVector(position.x(), position.y());
     }
-
 }

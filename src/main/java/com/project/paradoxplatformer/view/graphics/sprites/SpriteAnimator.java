@@ -15,10 +15,10 @@ import java.util.function.Consumer;
  */
 public class SpriteAnimator<T> {
 
-    private EnumMap<SpriteStatus, List<T>> mapSprite;
+    private final EnumMap<SpriteStatus, List<T>> mapSprite;
+    private final int minFrames;
     private SpriteStatus prev;
     private int index, frames;
-    private int minFrames;
 
     /**
      * Constructs a new {@code SpriteAnimator} with the given {@code Spriter} and
@@ -65,7 +65,7 @@ public class SpriteAnimator<T> {
         }
 
         // Get the sprite list for the current status
-        var inf = mapSprite.get(current);
+        final var inf = mapSprite.get(current);
 
         // Apply the action on the selected sprite image
         imageAction.accept(inf.get(index % inf.size()));

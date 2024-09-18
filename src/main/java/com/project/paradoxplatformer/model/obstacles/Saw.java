@@ -1,47 +1,36 @@
 package com.project.paradoxplatformer.model.obstacles;
 
-import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
-import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
-import com.project.paradoxplatformer.utils.geometries.Dimension;
-import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractDeathObstacle;
-
-import java.util.Optional;
 import java.util.Queue;
 
+import com.project.paradoxplatformer.model.entity.TrajectoryInfo;
+import com.project.paradoxplatformer.model.obstacles.abstracts.AbstractObstacle;
+import com.project.paradoxplatformer.utils.collision.api.CollisionType;
+import com.project.paradoxplatformer.utils.geometries.Dimension;
+import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+
 /**
- * A Saw is an harmful obstacle upon which the player may get damage
+ * A Saw is a harmful obstacle upon which the player may get damaged.
  */
-public final class Saw extends AbstractDeathObstacle {
+public final class Saw extends AbstractObstacle {
 
     /**
-     * {@inheritDoc}
+     * Constructs a Saw object with the specified parameters.
+     *
+     * @param key             The unique identifier for the saw.
+     * @param position        The position of the saw.
+     * @param dimension       The dimension of the saw.
+     * @param trajectoryQueue The queue of trajectories associated with the saw upon activation.
      */
     public Saw(
-        final int key,
-        final Coord2D position,
-        final Dimension dimension,
-        final Queue<TrajectoryInfo> trajectoryQueue
-    ) {
+            final int key,
+            final Coord2D position,
+            final Dimension dimension,
+            final Queue<TrajectoryInfo> trajectoryQueue) {
         super(key, position, dimension, trajectoryQueue);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    protected void triggerExplosion() {
-        // Implementazione specifica per Saws
-        System.out.println("Saw triggered!");
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void onCollision(Optional<ControllableObject> ob) {
-        super.onCollision(ob);
-        // Eventuali comportamenti aggiuntivi specifici per Saws
-        System.out.println("Saw effect applied.");
+    public CollisionType getCollisionType() {
+        return CollisionType.SAW;
     }
 }

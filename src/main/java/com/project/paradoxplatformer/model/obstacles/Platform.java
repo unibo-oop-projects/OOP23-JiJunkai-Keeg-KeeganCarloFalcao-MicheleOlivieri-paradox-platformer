@@ -11,7 +11,7 @@ import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 /**
  * A platform is type of game object where the player can ground on.
  */
-public final class Platform extends AbstractObstacle{
+public final class Platform extends AbstractObstacle {
 
     /**
      * Constructs a platform based on id, position, dimension and queue of trajectories (upon activation).

@@ -2,6 +2,7 @@ package com.project.paradoxplatformer.view.graphics;
 
 import java.util.Objects;
 
+import com.google.common.base.Optional;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
@@ -33,7 +34,7 @@ public final class ReadOnlyGraphicDecorator<C> implements GraphicAdapter<C> {
      */
     public ReadOnlyGraphicDecorator(final GraphicAdapter<C> copyGraphic) {
         Objects.requireNonNull(copyGraphic, "Graphic adapter cannot be null");
-        this.graphicReader = copyGraphic;
+        this.graphicReader = Optional.of(copyGraphic).get();
     }
 
     /**
@@ -188,9 +189,10 @@ public final class ReadOnlyGraphicDecorator<C> implements GraphicAdapter<C> {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        ReadOnlyGraphicDecorator<?> that = (ReadOnlyGraphicDecorator<?>) obj;
+        final ReadOnlyGraphicDecorator<?> that = (ReadOnlyGraphicDecorator<?>) obj;
         return Objects.equals(graphicReader, that.graphicReader);
     }
+
     /**
      * {@inheritDoc}
      */

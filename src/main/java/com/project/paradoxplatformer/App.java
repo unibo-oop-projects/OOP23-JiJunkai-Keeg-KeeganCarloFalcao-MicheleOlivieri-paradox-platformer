@@ -8,7 +8,7 @@ import com.project.paradoxplatformer.view.legacy.ViewFramework;
  * <p>
  * This class contains the main method which initializes and starts the
  * application.
- * It creates an instance of {@link GameControllerImpl} with a
+ * It creates an instance of {@link MainControllerImpl} with a
  * {@link ViewFramework}
  * factory
  * for JavaFX and the application name "Paradox Platformer". The controller is
@@ -26,7 +26,7 @@ public final class App {
     /**
      * The main method that serves as the entry point of the application.
      * <p>
-     * This method creates an instance of {@link GameControllerImpl} with the view
+     * This method creates an instance of {@link MainControllerImpl} with the view
      * factory from {@link ViewFramework} and the application title "Paradox
      * Platformer".
      * It then starts the controller to begin the application's execution.

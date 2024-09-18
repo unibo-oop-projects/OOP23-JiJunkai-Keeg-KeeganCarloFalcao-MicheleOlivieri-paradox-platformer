@@ -39,7 +39,7 @@ class NoOpEffectTest {
     @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     @Test
     void testApplyToGameObject() {
-        CompletableFuture<Void> future = noOpEffect.apply(Optional.of(mockGameObject), Optional.empty());
+        final CompletableFuture<Void> future = noOpEffect.apply(Optional.of(mockGameObject), Optional.empty());
         assertTrue(future.isDone(), "The NoOpEffect should complete immediately.");
     }
 

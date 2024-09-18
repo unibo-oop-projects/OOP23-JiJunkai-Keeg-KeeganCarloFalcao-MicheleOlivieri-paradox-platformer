@@ -30,7 +30,7 @@ class EffectTest {
     @Test
     @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testApply() {
-        CompletableFuture<Void> future = mockEffect.apply(Optional.of(mockGameObject), Optional.empty());
+        final CompletableFuture<Void> future = mockEffect.apply(Optional.of(mockGameObject), Optional.empty());
         assertTrue(future != null, "The apply method should return a non-null CompletableFuture.");
     }
 

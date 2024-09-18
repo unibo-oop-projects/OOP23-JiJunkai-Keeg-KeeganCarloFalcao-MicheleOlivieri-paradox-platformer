@@ -1,5 +1,6 @@
 package com.project.paradoxplatformer.controller.input;
 
+import com.google.common.base.Objects;
 import com.project.paradoxplatformer.controller.input.api.InputType;
 import com.project.paradoxplatformer.controller.input.api.KeyAssetter;
 import com.project.paradoxplatformer.controller.input.api.KeyInputer;
@@ -21,7 +22,7 @@ import org.junit.jupiter.api.Test;
  * This class contains unit tests to verify multi-key input handling for
  * controlling the player in the game.
  */
-public class InputControllerTest {
+class InputControllerTest {
 
     private static final int PLAYER_DIMENSION = 30;
     private static final int UPDATE_STATE_INTERVAL = 15;
@@ -35,15 +36,15 @@ public class InputControllerTest {
      */
     @Test
     void testMultiKey() {
+        final var factory = new InputMovesFactoryImpl();
+        final var inputController = new InputController<>(factory.wasdModel());
 
-        var factory = new InputMovesFactoryImpl();
-        var inputController = new InputController<>(factory.wasdModel());
-
-        PlayerModel player = new PlayerModel(0, new Coord2D(0, 0), new Dimension(PLAYER_DIMENSION, PLAYER_DIMENSION));
+        final PlayerModel player = new PlayerModel(0, new Coord2D(0, 0),
+                new Dimension(PLAYER_DIMENSION, PLAYER_DIMENSION));
         player.setJumpBehavior(Optional.of(new PlatformJump()));
 
         // Simulate a jump and movement to the right
-        KeyInputerImpl keyInput = new KeyInputerImpl();
+        final KeyInputerImpl keyInput = new KeyInputerImpl();
         keyInput.simulateKeyAdd("D");
         keyInput.simulateKeyAdd("W");
 
@@ -52,7 +53,7 @@ public class InputControllerTest {
         player.updateState(UPDATE_STATE_INTERVAL);
 
         // Register the position after movement and jumping
-        var prevPos = registerPosition(player);
+        final var prevPos = registerPosition(player);
         assertTrue(prevPos.x() > 0. && prevPos.y() > 0, "Player should have moved to the right and jumped.");
 
         // Remove the keys to simulate the stopping of movement
@@ -64,8 +65,8 @@ public class InputControllerTest {
         player.updateState(UPDATE_STATE_INTERVAL);
 
         // Verify that the player stopped moving horizontally but is still jumping
-        var stoppingPos = registerPosition(player);
-        assertTrue(prevPos.x() == stoppingPos.x(), "Player should stop horizontal movement.");
+        final var stoppingPos = registerPosition(player);
+        assertTrue(Objects.equal(prevPos.x(), stoppingPos.x()), "Player should stop horizontal movement.");
     }
 
     /**
@@ -90,7 +91,6 @@ public class InputControllerTest {
         /**
          * Constructor that initializes the KeyAssetter.
          */
-
         KeyInputerImpl() {
             this.keyassetter = new KeyAssetterImpl<>(InputType::getString);
         }
@@ -100,7 +100,7 @@ public class InputControllerTest {
          * 
          * @param key the key to add
          */
-        public void simulateKeyAdd(final String key) {
+        void simulateKeyAdd(final String key) {
             this.keyassetter.add(key);
         }
 
@@ -109,7 +109,7 @@ public class InputControllerTest {
          * 
          * @param key the key to remove
          */
-        public void simulateKeyRemove(final String key) {
+        void simulateKeyRemove(final String key) {
             this.keyassetter.remove(key);
         }
 

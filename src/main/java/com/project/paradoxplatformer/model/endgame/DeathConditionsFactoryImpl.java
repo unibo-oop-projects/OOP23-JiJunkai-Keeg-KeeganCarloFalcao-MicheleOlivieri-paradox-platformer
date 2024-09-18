@@ -88,6 +88,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
     @Override
     public Iterator<DeathCondition> levelTwoConditions() {
         final List<DeathCondition> conditions = new ArrayList<>();
+        conditions.add(new DeathObstacleCollisionCondition());
         // Player dies if they exceed the time limit of 600 seconds.
         conditions.add(new TimeLimitDeathCondition(TIME_LIMIT));
         return conditions.iterator();

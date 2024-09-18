@@ -2,7 +2,6 @@
   "type": "platformer",
   "height": 360,
   "width": 640,
-  "backgroundFile": "level4Back.jpg",
   "gameDTOs": [
     {
       "id": 0,

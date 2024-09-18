@@ -13,12 +13,6 @@ import com.project.paradoxplatformer.utils.ResourcesFinder;
 public class DeserializerFactoryImpl implements DeserializerFactory {
 
     /**
-     * an empty constructor.
-     */
-    public DeserializerFactoryImpl() {
-    }
-
-    /**
      * Template method to deserialize using a jackson deserializer based on a class
      * name.
      * 

@@ -17,12 +17,6 @@ import com.project.paradoxplatformer.model.inputmodel.commands.Command;
 public final class CommandActionFactoryImpl implements CommandActionFactory {
 
     /**
-     * Constructs a new {@code CommandActionFactoryImpl}.
-     */
-    public CommandActionFactoryImpl() {
-    }
-
-    /**
      * Creates a command to move the {@link ControllableObject} to the left.
      * 
      * @return a {@link Command} that moves the {@code ControllableObject} to the

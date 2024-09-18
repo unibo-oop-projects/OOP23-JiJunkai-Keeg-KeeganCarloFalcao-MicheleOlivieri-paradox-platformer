@@ -61,7 +61,7 @@ public enum Level {
      */
     public Level next() {
         final Level[] levels = Level.values();
-        int ordinal = this.ordinal();
+        final int ordinal = this.ordinal();
 
         // Skip EMPTY_LEVEL and only consider valid levels
         if (this == EMPTY_LEVEL) {

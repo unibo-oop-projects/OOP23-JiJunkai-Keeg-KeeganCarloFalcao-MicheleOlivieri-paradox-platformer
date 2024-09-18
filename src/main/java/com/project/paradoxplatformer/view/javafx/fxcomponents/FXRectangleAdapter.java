@@ -32,7 +32,7 @@ public class FXRectangleAdapter extends AbstractFXGraphicAdapter {
      *                                  {@code Rectangle}.
      */
     protected FXRectangleAdapter(final int id, final Dimension dimension, final Coord2D position, final Color fill) {
-        super(id, new Rectangle(), dimension, position); 
+        super(id, new Rectangle(), dimension, position);
         this.blockComponent = (Rectangle) super.getUiComponent();
         this.blockComponent.setFill(fill);
         widthProperty = new SimpleDoubleProperty(dimension.width());

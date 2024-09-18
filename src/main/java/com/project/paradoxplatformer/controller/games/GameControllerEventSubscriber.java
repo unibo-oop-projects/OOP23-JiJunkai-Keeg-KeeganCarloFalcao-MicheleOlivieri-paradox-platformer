@@ -26,12 +26,13 @@ public final class GameControllerEventSubscriber {
     public GameControllerEventSubscriber(final GameControllerEventListener gameEventListener) {
         this.gameEventListener = gameEventListener;
         this.eventManager = EventManager.getInstance();
+        this.subscribeToEvents();
     }
 
     /**
      * Subscribes to various game events and associates them with their handlers.
      */
-    public void subscribeToEvents() {
+    private void subscribeToEvents() {
         eventManager.subscribe(GameEventType.STOP_VIEW, this::handleStopView);
         eventManager.subscribe(GameEventType.REMOVE_OBJECT, this::handleRemoveObject);
         eventManager.subscribe(GameEventType.TRIGGER_EFFECT, this::handleTriggerEffect);
@@ -75,6 +76,6 @@ public final class GameControllerEventSubscriber {
      * @param level the level associated with the victory
      */
     private void handleVictory(final PageIdentifier id, final Level level) {
-        gameEventListener.handleVictory(id);
+        gameEventListener.handleVictory(id, level);
     }
 }

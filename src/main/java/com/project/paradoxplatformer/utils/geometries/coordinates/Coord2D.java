@@ -11,7 +11,7 @@ package com.project.paradoxplatformer.utils.geometries.coordinates;
  * 
  * @param y The Y coordinate.
  */
-public final record Coord2D(double x, double y) {
+public record Coord2D(double x, double y) {
 
     /**
      * Returns the origin point (0, 0) in a 2D coordinate system.

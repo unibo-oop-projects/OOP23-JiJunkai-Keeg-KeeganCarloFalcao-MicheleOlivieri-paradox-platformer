@@ -8,7 +8,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * This is Data Transfer Object regarding a specific level implementation, most
  * used in platform games.
  * <p>
- * It is the analogue of the {@link com.project.paradoxplatformer.model.world.api.World} class. Dimensions and Color are
+ * It is the analogue of the
+ * {@link com.project.paradoxplatformer.model.world.api.World} class. Dimensions
+ * and Color are
  * specific for view segment.
  * </p>
  */
@@ -25,11 +27,12 @@ public final class LevelDTO {
     /**
      * Non-argument Constructor for the purpose of having final fields.
      */
-    private LevelDTO() {
-        this.gameDTOs = new GameDTO[0];
-        this.width = 0;
-        this.height = 0;
-        this.backgroundFile = "";
+    public LevelDTO(String type, double width, double height, String backgroundFile, GameDTO[] gameDTOs) {
+        this.type = type;
+        this.width = width;
+        this.height = height;
+        this.backgroundFile = backgroundFile;
+        this.gameDTOs = gameDTOs != null ? gameDTOs.clone() : new GameDTO[0];
     }
 
     /**
@@ -66,7 +69,7 @@ public final class LevelDTO {
      *         triggers, and more)
      */
     public GameDTO[] getGameDTOs() {
-        return this.gameDTOs;
+        return this.gameDTOs.clone();
     }
 
     /**

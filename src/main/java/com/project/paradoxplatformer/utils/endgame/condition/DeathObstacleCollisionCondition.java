@@ -4,8 +4,6 @@ import com.project.paradoxplatformer.utils.endgame.DeathCondition;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-// import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * A static implementation of the DeathCondition interface that tracks
  * if a player is dead based on collision with a death obstacle.

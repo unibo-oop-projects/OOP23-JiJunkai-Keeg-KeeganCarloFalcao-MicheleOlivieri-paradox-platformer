@@ -85,16 +85,14 @@ public class JavaFxApp extends Application implements ViewManager {
      * @throws IOException if there is an issue loading the FXML pages
      */
     @Override
-    @SuppressFBWarnings(
-        value = { "ST" }, 
-        justification = "Although, static fields should not be overwritten, in such case is needed"
-            + "as this class follows the singleton pattern, but these fields are overwritten only once "
-            + "(during init) and no furthermore, so it is therefore secure from this side."
-            + "Since this class holds the state of all the javafx application it may be reinitialized"
-            + "a couple of times (only the constructor) (either via the static call and the LazyHolder inner class"
-            + "call) and important fields (e.g scene and stage) should not be redefined, "
-            + "hence the reason why they are static."
-    )
+    @SuppressFBWarnings(value = {
+            "ST" }, justification = "Although, static fields should not be overwritten, in such case is needed"
+                    + "as this class follows the singleton pattern, but these fields are overwritten only once "
+                    + "(during init) and no furthermore, so it is therefore secure from this side."
+                    + "Since this class holds the state of all the javafx application it may be reinitialized"
+                    + "a couple of times (only the constructor) (either via the static call and the LazyHolder inner class"
+                    + "call) and important fields (e.g scene and stage) should not be redefined, "
+                    + "hence the reason why they are static.")
     public void start(final Stage primeStage) throws IOException {
         if (!created) {
             throw new IllegalStateException("Cannot create application, Security reasons");
@@ -119,7 +117,14 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param appTitle the title of the application window
      */
     @Override
-    @SuppressFBWarnings(value = { "ST" }, justification = "Made for a better structure.")
+    @SuppressFBWarnings(value = {
+            "ST" }, justification = "Although, static fields should not be overwritten, in such case is needed"
+                    + "as this class follows the singleton pattern, but these fields are overwritten only once "
+                    + "(during init) and no furthermore, so it is therefore secure from this side."
+                    + "Since this class holds the state of all the javafx application it may be reinitialized"
+                    + "a couple of times (only the constructor) (either via the static call and the LazyHolder inner class"
+                    + "call) and important fields (e.g scene and stage) should not be redefined, "
+                    + "hence the reason why they are static.")
     public void create(final String appTitle) {
         staticTitle = appTitle;
         JavaFxApp.launch();
@@ -133,7 +138,14 @@ public class JavaFxApp extends Application implements ViewManager {
      * @param appTitle     the title of the application window
      */
     @Override
-    @SuppressFBWarnings(value = { "ST" }, justification = "Made for a better structure.")
+    @SuppressFBWarnings(value = {
+            "ST" }, justification = "Although, static fields should not be overwritten, in such case is needed"
+                    + "as this class follows the singleton pattern, but these fields are overwritten only once "
+                    + "(during init) and no furthermore, so it is therefore secure from this side."
+                    + "Since this class holds the state of all the javafx application it may be reinitialized"
+                    + "a couple of times (only the constructor) (either via the static call and the LazyHolder inner class"
+                    + "call) and important fields (e.g scene and stage) should not be redefined, "
+                    + "hence the reason why they are static.")
     public void create(final CountDownLatch referedLatch, final String appTitle) {
         latch = referedLatch;
         this.create(appTitle);

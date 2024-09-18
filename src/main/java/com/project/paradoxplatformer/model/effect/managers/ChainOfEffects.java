@@ -78,7 +78,7 @@ public class ChainOfEffects {
      * @return a ChainOfEffects instance containing the created effects
      */
     public static ChainOfEffects create(final List<Supplier<Effect>> effectSuppliers) {
-        List<Effect> effects = effectSuppliers.stream()
+        final List<Effect> effects = effectSuppliers.stream()
                 .map(Supplier::get)
                 .toList();
         return new ChainOfEffects(effects);

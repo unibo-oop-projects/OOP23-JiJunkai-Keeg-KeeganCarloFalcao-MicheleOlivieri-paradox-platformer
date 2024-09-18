@@ -43,5 +43,5 @@ public interface GameControllerEventListener {
      *
      * @param id the identifier of the page
      */
-    void handleVictory(PageIdentifier id);
+    void handleVictory(PageIdentifier id, Level level);
 }

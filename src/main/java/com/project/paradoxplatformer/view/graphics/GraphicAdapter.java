@@ -80,15 +80,4 @@ public interface GraphicAdapter<C> extends ViewComponent<C> {
      */
     int getID();
 
-    /**
-     * Checks if the given graphical adapter is equal to this one based on their
-     * dimensions and relative positions.
-     *
-     * @param other The other graphical adapter to compare to.
-     * @return {@code true} if the dimensions and relative positions are equal,
-     *         {@code false} otherwise.
-     */
-    default boolean equals(GraphicAdapter<C> other) {
-        return other.dimension().equals(this.dimension()) && other.relativePosition().equals(this.relativePosition());
-    }
 }

@@ -66,6 +66,7 @@ public abstract class AbstractObstacle extends AbstractTransformableObject imple
      * 
      * @return The collision type.
      */
+    @Override
     public abstract CollisionType getCollisionType();
 
     /**

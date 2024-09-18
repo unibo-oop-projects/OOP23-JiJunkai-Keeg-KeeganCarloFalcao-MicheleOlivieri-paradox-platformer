@@ -22,7 +22,8 @@ public class MovementController {
     private final InterpolatorFactory interpolatorFactory;
 
     /**
-     * Constructs a MovementController with the given initial position and physics engine.
+     * Constructs a MovementController with the given initial position and physics
+     * engine.
      *
      * @param startPosition The initial position of the entity.
      * @param physicsEngine The physics engine used for movement calculations.
@@ -43,13 +44,13 @@ public class MovementController {
      */
     public Coord2D updateMovement(final long dt) {
         // Interpolazione del movimento orizzontale
-        Vector2D newDisplacement = physics.step(this.toVector2D(position),
+        final Vector2D newDisplacement = physics.step(this.toVector2D(position),
                 this.toVector2D(position).add(horizontalSpeed),
                 interpolatorFactory.linear(),
                 dt);
 
         // Movimento verticale (es. salto o caduta)
-        Pair<Vector2D, Double> verticalMovement = physics.moveTo(newDisplacement,
+        final Pair<Vector2D, Double> verticalMovement = physics.moveTo(newDisplacement,
                 newDisplacement.add(verticalSpeed), 1, interpolatorFactory.easeIn(), dt);
 
         // Aggiorna la posizione del giocatore

@@ -121,10 +121,8 @@ public class EndGameManagerImpl implements EndGameManager {
         if (condition != null) {
             EventManager.getInstance().publish(GameEventType.STOP_VIEW, null, null);
             if (condition.equals(ConditionType.WIN)) {
-                // System.out.println("GO TO NEXT LEVEL.");
                 ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.nextLevel);
             } else {
-                // System.out.println("RESTART CURRENT LEVEL.");
                 ViewNavigator.getInstance().openView(PageIdentifier.GAME, this.currentLevel);
             }
         }

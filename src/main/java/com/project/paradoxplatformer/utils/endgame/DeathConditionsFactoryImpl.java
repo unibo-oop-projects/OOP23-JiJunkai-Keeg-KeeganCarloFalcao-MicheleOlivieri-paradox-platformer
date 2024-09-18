@@ -3,13 +3,14 @@ package com.project.paradoxplatformer.utils.endgame;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.endgame.condition.DeathObstacleCollisionCondition;
 import com.project.paradoxplatformer.utils.endgame.condition.FallenCondition;
 import com.project.paradoxplatformer.utils.endgame.condition.TimeLimitDeathCondition;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * DeathConditionsFactoryImpl generates different death conditions based on the
@@ -34,11 +35,12 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      * @return an iterator over death conditions specific to the level.
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This method needs exactly the original player.")
     public Iterator<DeathCondition> createConditionsForLevel(final Level level, final PlayerModel player) {
         if (player == null) {
             return defaultConditions();
         }
-        this.player = Optional.of(player).get();
+        this.player = player;
         return switch (level) {
             case LEVEL_ONE -> levelOneConditions();
             case LEVEL_TWO -> levelTwoConditions();

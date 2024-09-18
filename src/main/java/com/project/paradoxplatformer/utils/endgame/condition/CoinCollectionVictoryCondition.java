@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.utils.endgame.condition;
 
-import java.util.Optional;
-
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.endgame.VictoryCondition;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * The CoinCollectionVictoryCondition class represents a victory condition where
@@ -21,8 +21,9 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
      *                    collected.
      * @param targetCoins The number of coins the player must collect to win.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This method needs exactly the original player.")
     public CoinCollectionVictoryCondition(final PlayerModel player, final int targetCoins) {
-        this.player = Optional.of(player).get();
+        this.player = player;
         this.targetCoins = targetCoins;
     }
 

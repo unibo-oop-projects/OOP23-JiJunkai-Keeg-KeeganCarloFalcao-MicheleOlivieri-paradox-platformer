@@ -75,6 +75,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
         final List<DeathCondition> conditions = new ArrayList<>();
         // Player dies if health is below 0.
         conditions.add(new FallenCondition(this.player));
+        conditions.add(new DeathObstacleCollisionCondition());
         return conditions.iterator();
     }
 

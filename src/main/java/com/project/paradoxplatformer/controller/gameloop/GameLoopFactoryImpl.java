@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import com.project.paradoxplatformer.utils.ExceptionUtils;
 import com.project.paradoxplatformer.utils.geometries.observer.Observer;
 import com.project.paradoxplatformer.view.legacy.ViewFramework;
 
@@ -50,7 +49,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
                 this.isRunning = true;
                 new Thread(() -> {
                     while (true) {
-                        var now = System.currentTimeMillis();
+                        final var now = System.currentTimeMillis();
                         var residuo = System.currentTimeMillis() - now;
                         loop.loop(PERIOD + residuo);
                         residuo = System.currentTimeMillis() - now;
@@ -97,11 +96,12 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
     private class LoopManagerTimer extends AnimationTimer implements ObservableLoopManager {
 
         private boolean isRunning;
-        private long lastFrame = 0;
+        private long lastFrame;
         private final Set<Observer> observers;
 
         LoopManagerTimer() {
             this.isRunning = false;
+            this.lastFrame = 0;
             this.observers = new HashSet<>();
         }
 
@@ -117,7 +117,7 @@ public class GameLoopFactoryImpl implements TaskLoopFactory {
                 GameLoopFactoryImpl.this.delay(dt);
             } catch (Exception e) {
                 this.stop();
-                System.err.println(ExceptionUtils.advancedDisplay(e));
+                // System.err.println(ExceptionUtils.advancedDisplay(e));
                 ViewFramework.javaFxFactory().mainAppManager().get().safeError();
             }
         }

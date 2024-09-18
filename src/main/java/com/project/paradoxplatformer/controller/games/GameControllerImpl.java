@@ -39,9 +39,12 @@ import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.view.manager.ViewNavigator;
 
 /**
- * Provides an implementation of the {@code GameController} interface, managing the 
- * interaction between the game model, view, and game loop. This class coordinates
- * the gameplay by updating the game state, handling user input, and managing game
+ * Provides an implementation of the {@code GameController} interface, managing
+ * the
+ * interaction between the game model, view, and game loop. This class
+ * coordinates
+ * the gameplay by updating the game state, handling user input, and managing
+ * game
  * events such as victory or game-over conditions.
  * 
  * @param <C> the type of view component managed by this controller
@@ -57,13 +60,13 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     private final CollisionManager collisionManager;
     private final ObjectRemover<C> objectRemover;
     private final EndGameManager endGameManager;
-    private final GameControllerEventSubscriber eventSubscriber;
 
     private ObservableLoopManager gameManager;
     private final Level currentLevel;
 
     /**
-     * Constructs a new {@code GameControllerImpl} instance with the specified model, view, and level.
+     * Constructs a new {@code GameControllerImpl} instance with the specified
+     * model, view, and level.
      * 
      * @param model the game model data used to manage the state of the game
      * @param view  the game view used to render and interact with the game
@@ -79,8 +82,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         this.currentLevel = level;
         this.endGameManager = new EndGameManagerImpl(this.currentLevel);
 
-        this.eventSubscriber = new GameControllerEventSubscriber(this);
-        this.eventSubscriber.subscribeToEvents();
+        new GameControllerEventSubscriber(this);
 
         this.objectRemover = new ObjectRemover<>(model, view);
     }
@@ -112,7 +114,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Synchronizes the game view with the game model by pairing each graphic component
+     * Synchronizes the game view with the game model by pairing each graphic
+     * component
      * with its corresponding mutable object in the world.
      */
     private void sync() {
@@ -123,12 +126,15 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Joins a graphical component with its corresponding mutable object in the world.
+     * Joins a graphical component with its corresponding mutable object in the
+     * world.
      * 
      * @param g     the graphic component to join
      * @param world the game world containing the objects to pair with the graphic
-     * @return a pair of the matched {@code MutableObject} and {@code ReadOnlyGraphicDecorator}
-     * @throws IllegalArgumentException if no matching object is found for the given graphic
+     * @return a pair of the matched {@code MutableObject} and
+     *         {@code ReadOnlyGraphicDecorator}
+     * @throws IllegalArgumentException if no matching object is found for the given
+     *                                  graphic
      */
     private Pair<MutableObject, ReadOnlyGraphicDecorator<C>> join(
             final ReadOnlyGraphicDecorator<C> g,
@@ -146,7 +152,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Determines whether a mutable object and a graphic component should be joined based on their IDs.
+     * Determines whether a mutable object and a graphic component should be joined
+     * based on their IDs.
      * 
      * @param mutableObject the mutable object to test
      * @param gComponent    the graphic component to test
@@ -157,7 +164,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Starts the game by setting up the player's controls and initiating the game loop.
+     * Starts the game by setting up the player's controls and initiating the game
+     * loop.
      * 
      * @param <K>     the type of the key input
      * @param ic      the input controller for the player
@@ -166,10 +174,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      */
     @Override
     public <K> void startGame(
-            final InputController<ControllableObject> ic, 
+            final InputController<ControllableObject> ic,
             final KeyInputer<K> inputer,
-            final String type
-        ) {
+            final String type) {
         this.setupGameMode(gameModel.getWorld().player(), type);
         this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
                 .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
@@ -177,12 +184,11 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
                 this.gameModel.getWorld().player()));
 
         this.gameManager = new GameLoopFactoryImpl(dt -> {
-            //main game loop
+            // main game loop
             ic.checkPool(
-                inputer.getKeyAssetter(),
-                gameModel.getWorld().player(),
-                ControllableObject::stop
-            );
+                    inputer.getKeyAssetter(),
+                    gameModel.getWorld().player(),
+                    ControllableObject::stop);
             this.update(dt);
         }).animationLoop();
 
@@ -190,7 +196,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Configures the game mode by setting the player's jump behavior based on the provided type.
+     * Configures the game mode by setting the player's jump behavior based on the
+     * provided type.
      * 
      * @param player the controllable player object
      * @param type   the game mode type (e.g., "flappy" or "platform")
@@ -204,14 +211,16 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     }
 
     /**
-     * Updates the game state by processing object updates, handling collisions, and checking end-game conditions.
+     * Updates the game state by processing object updates, handling collisions, and
+     * checking end-game conditions.
      * 
      * @param dt the time delta since the last update
      */
     public void update(final long dt) {
         if (Objects.nonNull(gamePairs)) {
+            final CollidableGameObject player = this.gameModel.getWorld().player();
+
             gamePairs.forEach((m, g) -> m.updateState(dt));
-            CollidableGameObject player = this.gameModel.getWorld().player();
 
             this.collisionManager.handleCollisions(gamePairs.keySet(), player);
 
@@ -248,7 +257,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     @Override
     public void restartGame() {
         this.gameManager.stop();
-//        System.out.println("RESTART");
+        // System.out.println("RESTART");
 
         try {
             ViewNavigator.getInstance().openView(PageIdentifier.GAME, currentLevel);
@@ -264,7 +273,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
     @Override
     public void exitGame() {
         this.gameManager.stop();
-//        System.out.println("EXITED");
+        // System.out.println("EXITED");
         ViewNavigator.getInstance().goToMenu();
     }
 
@@ -277,7 +286,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      */
     @Override
     public void handleStopView(final PageIdentifier id, final Level param) {
-//        System.out.println("STOPPING VIEW BEFORE RECREATE IT.");
+        // System.out.println("STOPPING VIEW BEFORE RECREATE IT.");
         this.gameManager.stop();
     }
 
@@ -300,7 +309,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      */
     @Override
     public void handleTriggerEffect(final PageIdentifier id, final Obstacle param) {
-//        System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
+        // System.out.println(param + " TRIGGERED FROM GAME CONTROLLER.");
     }
 
     /**
@@ -310,9 +319,9 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
      * @param id the page identifier
      */
     @Override
-    public void handleVictory(final PageIdentifier id) {
+    public void handleVictory(final PageIdentifier id, final Level level) {
         this.endGameManager.setVictoryHandler(new VictoryConditionsFactoryImpl()
-                .createConditionsForLevel(this.currentLevel, this.gameModel.getWorld().player()));
+                .createConditionsForLevel(level, this.gameModel.getWorld().player()));
     }
 
 }

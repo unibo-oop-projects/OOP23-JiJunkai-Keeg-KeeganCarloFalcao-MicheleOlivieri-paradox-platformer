@@ -7,6 +7,9 @@ import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.utils.endgame.condition.DeathObstacleCollisionCondition;
+import com.project.paradoxplatformer.utils.endgame.condition.FallenCondition;
+import com.project.paradoxplatformer.utils.endgame.condition.TimeLimitDeathCondition;
 
 /**
  * DeathConditionsFactoryImpl generates different death conditions based on the

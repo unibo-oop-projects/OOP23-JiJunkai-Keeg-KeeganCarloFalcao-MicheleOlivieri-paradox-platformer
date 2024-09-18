@@ -88,20 +88,12 @@ public final class Cartesian {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        Cartesian other = (Cartesian) obj;
-        if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x)) {
-            return false;
-        }
-        return true;
+        final Cartesian other = (Cartesian) obj;
+        return Double.doubleToLongBits(y) == Double.doubleToLongBits(other.y) &&
+                Double.doubleToLongBits(x) == Double.doubleToLongBits(other.x);
     }
 
     @Override

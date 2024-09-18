@@ -15,7 +15,6 @@ import java.util.function.BiConsumer;
  */
 public final class EventManager<T, U> {
 
-    private static volatile EventManager<?, ?> instance; // Singleton instance of the EventManager
     private final Map<T, BiConsumer<U, ?>> eventMap = new HashMap<>(); // Map to store event handlers
 
     // Private constructor to prevent direct instantiation
@@ -29,16 +28,10 @@ public final class EventManager<T, U> {
      * @param <U> The type of the first parameter for event handlers.
      * @return The singleton instance of the EventManager.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // Suppressing unchecked cast warning because the type is managed by the
+                                   // consumer
     public static <T, U> EventManager<T, U> getInstance() {
-        if (instance == null) {
-            synchronized (EventManager.class) {
-                if (instance == null) {
-                    instance = new EventManager<>();
-                }
-            }
-        }
-        return (EventManager<T, U>) instance;
+        return (EventManager<T, U>) Holder.INSTANCE;
     }
 
     /**
@@ -60,13 +53,13 @@ public final class EventManager<T, U> {
      * @param param2    The second parameter to pass to event handlers.
      * @param <V>       The type of the second parameter for event handlers.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // Suppressing unchecked cast warning because the type is managed by the
+                                   // consumer
     public <V> void publish(final T eventType, final U param1, final V param2) {
         Optional.of(eventType)
                 .filter(eventMap::containsKey)
                 .map(eventMap::get)
-                .ifPresent(
-                        f -> ((BiConsumer<U, V>) f).accept(param1, param2));
+                .ifPresent(f -> ((BiConsumer<U, V>) f).accept(param1, param2));
     }
 
     /**
@@ -76,5 +69,10 @@ public final class EventManager<T, U> {
      */
     public void unsubscribe(final T eventType) {
         this.eventMap.remove(eventType);
+    }
+
+    // Static inner class responsible for holding the Singleton instance
+    private static class Holder {
+        private static final EventManager<?, ?> INSTANCE = new EventManager<>();
     }
 }

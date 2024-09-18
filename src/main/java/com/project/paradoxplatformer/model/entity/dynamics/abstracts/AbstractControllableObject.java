@@ -39,7 +39,7 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
      * @param stats            the horizontal statistics to be used, encapsulated in
      *                         a {@link HorizontalStats} object
      */
-    protected AbstractControllableObject(final int id, final Vector2D initDisplacement, final HorizontalStats stats) {
+    protected AbstractControllableObject(final int id, final HorizontalStats stats) {
         super(id, stats.limit(), stats.delta());
         this.verticalSpeed = new Simple2DVector(0.0, 0.0);
         this.isJumping = false;

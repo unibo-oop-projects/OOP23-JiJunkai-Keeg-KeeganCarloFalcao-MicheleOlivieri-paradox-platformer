@@ -7,6 +7,10 @@ import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.utils.endgame.condition.CoinCollectionVictoryCondition;
+import com.project.paradoxplatformer.utils.endgame.condition.CompositeVictoryCondition;
+import com.project.paradoxplatformer.utils.endgame.condition.ReachEndVictoryCondition;
+import com.project.paradoxplatformer.utils.endgame.condition.TimeLimitVictoryCondition;
 
 /**
  * VictoryConditionsFactoryImpl generates different victory conditions for each
@@ -107,10 +111,10 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     @Override
     public Iterator<VictoryCondition> levelFourConditions() {
         final List<VictoryCondition> conditions = new ArrayList<>();
-        conditions.add(new ReachEndVictoryCondition(this.player)); // Reach specific end game level
-        conditions.add(new CoinCollectionVictoryCondition(this.player,4));
+        conditions.add(new CompositeVictoryCondition(
+                new ReachEndVictoryCondition(this.player), 
+                new CoinCollectionVictoryCondition(this.player,DEFAULT_COIN_COLLECTION)));
         conditions.add(new TimeLimitVictoryCondition(LEVEL_FOUR_TIME_LIMIT)); // Survive for 400 seconds
         return conditions.iterator();
     }
-
 }

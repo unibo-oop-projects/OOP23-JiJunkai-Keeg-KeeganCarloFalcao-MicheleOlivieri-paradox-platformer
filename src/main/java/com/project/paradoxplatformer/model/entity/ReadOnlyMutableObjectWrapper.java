@@ -109,6 +109,7 @@ public final class ReadOnlyMutableObjectWrapper implements MutableObject {
      *
      * @return the speed as a {@link Vector2D}
      */
+    @Override
     public Vector2D getSpeed() {
         return this.wrapped.getSpeed();
     }

@@ -31,7 +31,7 @@ public interface BiConsumerWithAndThen<T, U> {
      *         operation followed by the {@code after} operation
      * @throws NullPointerException if the {@code after} consumer is null
      */
-    default BiConsumerWithAndThen<T, U> andThen(BiConsumerWithAndThen<? super T, ? super U> after) {
+    default BiConsumerWithAndThen<T, U> andThen(final BiConsumerWithAndThen<? super T, ? super U> after) {
         // Ensure the 'after' consumer is not null to prevent null pointer exceptions
         Objects.requireNonNull(after);
 

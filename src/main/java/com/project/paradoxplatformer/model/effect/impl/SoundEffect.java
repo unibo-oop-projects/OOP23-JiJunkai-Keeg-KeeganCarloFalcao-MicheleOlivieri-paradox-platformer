@@ -19,7 +19,7 @@ public final class SoundEffect extends AbstractRecreatableEffect {
 
     private final SoundType soundType; // The type of sound to be played
     private final SoundLoader soundLoader; // Loader to handle sound playback
-    private boolean hasPlayed = false; // Flag to track if the sound has already been played
+    private boolean hasPlayed; // Flag to track if the sound has already been played
 
     /**
      * Creates a new SoundEffect.
@@ -66,7 +66,7 @@ public final class SoundEffect extends AbstractRecreatableEffect {
      */
     @Override
     public RecreateableEffect recreate() {
-//        System.out.println("Sound Effect gets recreated");
+        // System.out.println("Sound Effect gets recreated");
         return new SoundEffect(soundType);
     }
 

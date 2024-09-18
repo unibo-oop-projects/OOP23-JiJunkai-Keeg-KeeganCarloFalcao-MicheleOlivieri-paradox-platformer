@@ -1,8 +1,9 @@
-package com.project.paradoxplatformer.utils.endgame;
+package com.project.paradoxplatformer.utils.endgame.condition;
 
 import java.util.Optional;
 
 import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.utils.endgame.VictoryCondition;
 
 /**
  * A victory condition that is met when the player reaches the end of the game

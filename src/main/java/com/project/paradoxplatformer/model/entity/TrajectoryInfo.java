@@ -15,6 +15,6 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
  * @param transfType The type of transformation applied to the trajectory as a
  *                   {@link TrasformType}.
  */
-public final record TrajectoryInfo(Vector2D endpoint, long duration, TrasformType transfType) {
+public record TrajectoryInfo(Vector2D endpoint, long duration, TrasformType transfType) {
 
 }

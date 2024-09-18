@@ -8,15 +8,9 @@ import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 
 /**
- * Represents an effect that jumps a player automatically. 
+ * Represents an effect that jumps a player automatically.
  */
 public final class SpringEffect extends AbstractRecreatableEffect {
-
-    /**
-     * Non argument constructor.
-     */
-    public SpringEffect() {
-    }
 
     /**
      * {@inheritDoc}

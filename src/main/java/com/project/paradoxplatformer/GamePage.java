@@ -67,25 +67,25 @@ public final class GamePage extends AbstractThreadedPage {
          * {@inheritDoc}
          */
         @Override
-        protected void runOnFXThread(final Level param) throws Exception {
+        protected void runOnFXThread(final Level param) throws IOException, InvalidResourceException {
                 // this.pausePane.setVisible(true);
                 // HERE's WHERE MAGIC HAPPENS, looks very free needs to be coupled atleast
                 final LevelDTO level = this.getLevel(param);
 
                 this.setgameCointainerBackground(level.getBackgroundFile());
                 final var mappingFactory = ViewFramework.javaFxFactory()
-                        .getComponentsFactory()
-                        .get();
+                                .getComponentsFactory()
+                                .get();
 
                 final GameModelData gameModel = new PlatfromModelData(level);
                 final GraphicContainer<Node, KeyCode> gameGraphContainer = ViewFramework.javaFxFactory()
-                        .containerMapper()
-                        .apply(this.gamePane);
+                                .containerMapper()
+                                .apply(this.gamePane);
                 final GameView<Node> gameView = new GamePlatformView<>(level, gameGraphContainer, mappingFactory);
 
                 final GameController<Node> gameController = new GameControllerImpl<>(gameModel, gameView, param);
                 final InputController<ControllableObject> inputController = new InputController<>(
-                        new InputMovesFactoryImpl().advancedModel());
+                                new InputMovesFactoryImpl().advancedModel());
 
                 this.initModelAndView(gameController);
                 gameGraphContainer.activateKeyInput(() -> Platform.runLater(gamePane::requestFocus));
@@ -93,24 +93,24 @@ public final class GamePage extends AbstractThreadedPage {
                 gameController.startGame(inputController, gameGraphContainer, level.getType());
 
                 final GraphicContainer<Node, KeyCode> gameSettingsContainer = ViewFramework.javaFxFactory()
-                        .containerMapper()
-                        .apply(this.pauseBox);
+                                .containerMapper()
+                                .apply(this.pauseBox);
                 final GameSettings<Node> gameSettings = new SimpleGameSettings<>(
-                        new SimpleGameSettingsModel(SimpleGameSettingsModel.basicSettings()),
-                        gameController,
-                        gameSettingsContainer,
-                        mappingFactory);
+                                new SimpleGameSettingsModel(SimpleGameSettingsModel.basicSettings()),
+                                gameController,
+                                gameSettingsContainer,
+                                mappingFactory);
                 gameSettings.init();
 
         }
 
         private void setgameCointainerBackground(final String backgroundFile) throws InvalidResourceException {
                 gamePane.setBackground(new Background(new BackgroundImage(
-                        ImageLoader.createFXImage(backgroundFile),
-                        BackgroundRepeat.NO_REPEAT,
-                        BackgroundRepeat.NO_REPEAT,
-                        BackgroundPosition.CENTER,
-                        new BackgroundSize(100, 100, true, true, false, true))));
+                                ImageLoader.createFXImage(backgroundFile),
+                                BackgroundRepeat.NO_REPEAT,
+                                BackgroundRepeat.NO_REPEAT,
+                                BackgroundPosition.CENTER,
+                                new BackgroundSize(100, 100, true, true, false, true))));
         }
 
         private void initModelAndView(final GameController<Node> gc) throws InvalidResourceException {
@@ -120,8 +120,8 @@ public final class GamePage extends AbstractThreadedPage {
 
         private LevelDTO getLevel(final Level level) throws IOException, InvalidResourceException {
                 return new DeserializerFactoryImpl()
-                        .levelDeserialzer()
-                        .deserialize(level.getResourceFile());
+                                .levelDeserialzer()
+                                .deserialize(level.getResourceFile());
         }
 
         /**

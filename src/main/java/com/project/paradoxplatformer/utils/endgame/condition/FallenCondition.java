@@ -1,8 +1,9 @@
-package com.project.paradoxplatformer.utils.endgame;
+package com.project.paradoxplatformer.utils.endgame.condition;
 
 import java.util.Optional;
 
 import com.project.paradoxplatformer.model.player.PlayerModel;
+import com.project.paradoxplatformer.utils.endgame.DeathCondition;
 
 /**
  * FallenCondition checks if the player's height has fallen below zero.

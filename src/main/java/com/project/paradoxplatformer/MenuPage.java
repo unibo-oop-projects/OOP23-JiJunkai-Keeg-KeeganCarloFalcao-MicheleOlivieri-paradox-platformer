@@ -74,7 +74,7 @@ public final class MenuPage extends AbstractThreadedPage {
      */
     private void applyEffects() {
         // Creates a color adjustment effect (used for contrast changes)
-        ColorAdjust colorAdj = new ColorAdjust();
+        final ColorAdjust colorAdj = new ColorAdjust();
         pagePane.setEffect(colorAdj); // Apply the color adjustment to the entire page
 
         // Store the initial size of the `circlesEffects` ImageView
@@ -179,7 +179,8 @@ public final class MenuPage extends AbstractThreadedPage {
     @Override
     protected void runOnFXThread(final Level param) {
         animation.play(); // Start playing the animation
-//        System.out.println("[Main Menu Panel]"); // Log a message for debugging purposes
+        // System.out.println("[Main Menu Panel]"); // Log a message for debugging
+        // purposes
     }
 
     /**

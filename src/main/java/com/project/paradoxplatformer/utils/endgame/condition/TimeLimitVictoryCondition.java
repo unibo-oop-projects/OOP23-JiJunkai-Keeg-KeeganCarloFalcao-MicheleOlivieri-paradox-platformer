@@ -1,4 +1,6 @@
-package com.project.paradoxplatformer.utils.endgame;
+package com.project.paradoxplatformer.utils.endgame.condition;
+
+import com.project.paradoxplatformer.utils.endgame.VictoryCondition;
 
 /**
  * The TimeLimitVictoryCondition class represents a victory condition where the

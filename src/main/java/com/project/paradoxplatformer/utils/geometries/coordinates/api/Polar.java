@@ -95,20 +95,12 @@ public final class Polar {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
         final Polar other = (Polar) obj;
-        if (Double.doubleToLongBits(angle) != Double.doubleToLongBits(other.angle)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(magnitude) != Double.doubleToLongBits(other.magnitude)) {
-            return false;
-        }
-        return true;
+        return Double.doubleToLongBits(angle) == Double.doubleToLongBits(other.angle) &&
+                Double.doubleToLongBits(magnitude) == Double.doubleToLongBits(other.magnitude);
     }
 
     @Override

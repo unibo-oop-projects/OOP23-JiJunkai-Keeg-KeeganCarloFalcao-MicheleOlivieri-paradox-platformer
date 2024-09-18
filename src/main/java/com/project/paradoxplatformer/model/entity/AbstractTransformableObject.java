@@ -17,7 +17,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 /**
  * An abstract class representing an object that can be transformed, including
-    position and dimension adjustments.
+ * position and dimension adjustments.
  * <p>
  * This class extends {@link AbstractPositionableObject} to add functionality
  * for managing dimensions and transformation vectors. It provides methods to
@@ -161,7 +161,7 @@ public abstract class AbstractTransformableObject extends AbstractPositionableOb
                 case HEIGHT:
                     setDisplacement(this.mover.moveTo(
                             getDisplacement(),
-                            currentTransf.endpoint().sub(new Simple2DVector(0.0, (anchorHeight - anchorY))),
+                            currentTransf.endpoint().sub(new Simple2DVector(0.0, anchorHeight - anchorY)),
                             currentTransf.duration(),
                             interpolatorFactory.easeIn(),
                             dt).getKey());

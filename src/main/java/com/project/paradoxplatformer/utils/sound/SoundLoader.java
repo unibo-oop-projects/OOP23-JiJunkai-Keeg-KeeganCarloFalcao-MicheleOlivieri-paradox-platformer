@@ -6,6 +6,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import com.project.paradoxplatformer.utils.InvalidResourceException;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
@@ -32,7 +34,11 @@ public class SoundLoader {
                 // Wait for the clip to finish playing
                 clip.drain();
             } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-                throw new RuntimeException("Error playing sound", e);
+                try {
+                    throw new InvalidResourceException(soundUrl.toString(), e);
+                } catch (InvalidResourceException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
     }

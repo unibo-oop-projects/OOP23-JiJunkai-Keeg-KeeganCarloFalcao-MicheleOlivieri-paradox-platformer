@@ -18,578 +18,329 @@
 
 
 \begin{document}
-
-\maketitle
-
-\tableofcontents
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\linewidth]{StartingScreen.png}
-    \caption{Figura 1: Starting Screen}
-\end{figure}
-
-\chapter{Analisi}
-
-Il gioco preso in analisi è un platform game 2D chiamato *Paradox Platformer*. Il giocatore controlla un personaggio attraverso l'uso delle frecce direzionali, con l'obiettivo di raggiungere la fine della mappa, per passare al livello successivo. Tuttavia, il gioco introduce una serie di sfide controintuitive: oggetti che sembrano innocui possono rivelarsi letali, e viceversa. Ad esempio, alcuni oggetti come le monete e i *deathCoin* appaiono identici, ma uno può essere raccolto senza conseguenze mentre l'altro uccide il giocatore. Pertanto la caratteristica distintiva del gioco è che molti degli ostacoli e degli elementi della mappa si modificano in risposta a specifici trigger attivati dal giocatore, i quali possono trasformare anche le condizioni di vittoria e sconfitta. Il gioco sfida le aspettative del giocatore, richiedendo attenzione non solo agli ostacoli evidenti ma anche a quelli che cambiano dinamicamente.
-
-\section{Descrizione}
-
-Il software mira alla creazione di un platform game: *Paradox Platformer*, in cui il giocatore esplora una serie di mappe superando ostacoli e attivando meccanismi che modificano l’ambiente di gioco. Il giocatore, controllato tramite le frecce direzionali, deve muoversi con attenzione, poiché molti elementi apparentemente innocui possono trasformarsi in pericoli letali. Le monete raccolte possono contribuire al progresso o, in alcuni casi, causare la sconfitta. Gli ostacoli nel gioco possono variare la loro natura e comportamento, creando una sfida costante e spingendo il giocatore a prestare attenzione sia agli oggetti visibili che ai trigger nascosti che potrebbero attivarsi durante il percorso.
-
-\section{Modello del Dominio}
-
-\textbf{Paradox Platformer} prevede un \textbf{giocatore} che si muove all'interno di diversi \textbf{livelli}. Ogni livello è composto da una serie di \textbf{ostacoli} e \textbf{trigger}. Gli ostacoli possono essere di varia natura, come \textbf{ostacoli letali} (es. deathObstacle) o \textbf{non letali}, e possono modificare il comportamento del giocatore in modi controintuitivi. I trigger attivano degli \textbf{effetti} specifici al verificarsi di determinati eventi, come collisioni o il raggiungimento di un certo punto del livello.
-
-Le \textbf{entità principali} in gioco includono:
-
-• Il \textbf{giocatore}, che interagisce con l'ambiente di gioco tramite input da tastiera.
-
-• I \textbf{livelli}, ciascuno dei quali contiene una serie di ostacoli e trigger.
-
-• Gli \textbf{ostacoli}, che possono essere letali o non letali e possono comportarsi in modo inaspettato.
-
-• I \textbf{trigger}, associati agli ostacoli, che attivano effetti in risposta a eventi specifici.
-
-• Gli \textbf{effetti}, che determinano le conseguenze delle interazioni tra il giocatore e l'ambiente.
-
-\begin{figure}[H]
-	\centering{}
-	\includegraphics{img/analysis.pdf}
-	\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
-	\label{img:analysis}
-\end{figure}
-
-\section{Requisiti}
-
-\subsubsection{Requisiti funzionali}
-\begin{itemize}
-\item Il gioco, \textbf{Paradox Platformer}, sarà un platform 2D in cui il giocatore dovrà esplorare una serie di livelli caratterizzati da sfide controintuitive e ostacoli unici. L’obiettivo principale sarà superare ostacoli e raggiungere la porta di uscita di ogni livello per passare al successivo.
-\item Ogni livello conterrà una combinazione di ostacoli letali e non letali. Gli ostacoli letali causeranno la sconfitta immediata del giocatore, mentre quelli non letali modificheranno temporaneamente le sue abilità o l’ambiente di gioco.
-\item I trigger saranno associati a determinati ostacoli e si attiveranno quando il giocatore li colpirà o soddisferà certe condizioni. Questi trigger potranno attivare effetti come cambiamenti nell’ambiente di gioco o nella fisica del personaggio.
-\item Ogni ostacolo presenterà una meccanica che sfida le aspettative del giocatore, creando un’esperienza di gioco complessa e imprevedibile.
-\item Il gioco sarà strutturato su livelli progressivamente più difficili, con nuove meccaniche introdotte in ogni fase.
-\item Sarà presente un sistema di progressione, che permetterà ai giocatori di sbloccare livelli successivi man mano che completano quelli precedenti. Il gioco salverà automaticamente i progressi.
-\item Il sistema di fine gioco varierà a seconda delle azioni del giocatore, come la raccolta di monete per passare al livello successivo. La raccolta di un certo numero di monete potrebbe sbloccare l'accesso ai livelli successivi.
-\item Verrà implementato un sistema di punteggi che registrerà i tentativi falliti e i successi, rendendo visibili i progressi del giocatore attraverso un’interfaccia grafica.
-\end{itemize}
-
-\subsubsection{Requisiti non funzionali}
-\begin{itemize}
-\item Il gioco dovrà funzionare in modo fluido su diversi dispositivi, garantendo un framerate costante e tempi di risposta rapidi anche con livelli complessi e numerosi effetti attivi.
-\item Il sistema dovrà essere facilmente estensibile, consentendo l’aggiunta di nuovi livelli e meccaniche senza la necessità di rifattorizzare grandi porzioni di codice esistente.
-\item Il consumo di risorse del gioco dovrà essere ottimizzato, specialmente nelle piattaforme con risorse limitate, per garantire performance ottimali su un’ampia gamma di dispositivi.
-\item Il sistema dovrà essere portabile su diversi sistemi operativi, assicurando che la logica di gioco e le meccaniche funzionino correttamente su piattaforme sia desktop che mobile.
-\item Il gioco dovrà essere dotato di sicurezza nei salvataggi, garantendo che i dati del progresso del giocatore non siano corrotti o persi.
-\end{itemize}
-
-\chapter{Design}
-
-In questo capitolo vengono illustrate le strategie adottate per soddisfare i requisiti identificati durante la progettazione di Paradox Platformer. Si inizia con una visione architetturale ad alto livello per chiarire come le componenti principali del gioco, come il controller, il modello e la vista, interagiscono e si coordinano tra loro. Successivamente, si approfondiscono i principali aspetti del design, mettendo in luce come le scelte architetturali e le implementazioni specifiche contribuiscono a garantire un'applicazione modulare e scalabile, adatta a gestire le complessità del gameplay e dell'interazione utente.
-
-\section{Architettura}
-
-L'architettura di \textit{Paradox Platformer} adotta il pattern architetturale \textbf{Model-View-Controller} (MVC) per separare le responsabilità e garantire una struttura modulare e flessibile. Questo approccio facilita la gestione e l'evoluzione del sistema, evitando accoppiamenti stretti tra le componenti principali. Di seguito vengono descritti i ruoli e le interazioni dei principali componenti architetturali del progetto.
-
-\subsection{Controller}
-
-Il \textbf{Controller} è il cuore della logica di controllo del gioco e si occupa di orchestrare le interazioni tra il \textbf{Model} e la \textbf{View}. La separazione delle responsabilità all'interno del controller è fondamentale per mantenere la logica del gioco chiara e scalabile. I principali componenti del controller sono:
-
-\begin{itemize} \item \textbf{GameControllerImpl}: gestisce il ciclo di vita del gioco, la sincronizzazione tra eventi, input dell’utente e visualizzazione. Coordina anche le verifiche delle condizioni di vittoria e sconfitta tramite l'EndGameManager e le condizioni specifiche di fine gioco. \item \textbf{InputController}: si occupa della gestione degli input del giocatore, catturando gli eventi di tastiera e aggiornando lo stato del personaggio e del mondo di gioco di conseguenza. \item \textbf{EventManager}: segue il pattern Singleton e gestisce gli eventi asincroni tra le componenti del sistema, assicurando che il GameController, il Model e la View comunichino efficacemente tra loro. \item \textbf{EndGameManager}: verifica le condizioni di vittoria e sconfitta. Controlla se il giocatore ha completato il livello o subito una sconfitta e delega la gestione di ciascuno stato alle componenti appropriate. \end{itemize}
-
-\subsection{Model}
-
-Il \textbf{Model} rappresenta la logica centrale del gioco, comprendente gli elementi che costituiscono il mondo di gioco e le regole che ne determinano il comportamento. I principali componenti del modello sono:
-
-\begin{itemize} \item \textbf{GameWorld}: contiene la rappresentazione dell’intera mappa di gioco, compresi gli oggetti, gli ostacoli e i trigger. Gestisce il posizionamento e lo stato di ogni elemento nel livello attuale. \item \textbf{Player}: rappresenta il personaggio controllato dal giocatore, con attributi come posizione, salute e velocità. Il movimento del giocatore viene aggiornato in base all’input ricevuto dall’InputController. \item \textbf{Obstacles}: include gli ostacoli letali e non letali che interagiscono con il giocatore. Gli ostacoli letali come il \textit{DeathObstacle} causano la sconfitta immediata, mentre quelli non letali possono modificare temporaneamente le abilità del giocatore o l’ambiente circostante. \item  \end{itemize}
-
-\subsection{View}
-
-La \textbf{View} si occupa della rappresentazione grafica del gioco e della visualizzazione dello stato attuale del modello. È progettata per separare la logica di rendering dalle meccaniche di gioco, garantendo un gioco reattivo e fluido. I principali componenti della vista sono:
-
-\begin{itemize} \item \textbf{GamePanel}: l’area di rendering principale, responsabile del disegno della mappa, del personaggio, degli ostacoli e degli altri elementi di gioco. Viene aggiornata in tempo reale in base alle informazioni fornite dal GameController. \item \textbf{HUD (Head-Up Display)}: l’interfaccia utente che mostra informazioni rilevanti durante il gioco, come il punteggio, il numero di monete raccolte e il progresso del giocatore nel livello. \end{itemize}
-
-\subsection{Comunicazione tra i Componenti}
-
-La comunicazione tra i vari componenti del sistema è gestita principalmente dall'EventManager. Questo consente al Controller di coordinarsi con il Model e la View senza che queste siano direttamente collegate tra loro. Ad esempio, quando il giocatore raccoglie una moneta o attiva un trigger, l'EventManager notifica il GameController, che aggiorna lo stato del gioco e lo comunica alla View per il rendering.
-
-\subsection{Estendibilità e Scalabilità}
-
-L'architettura di \textit{Paradox Platformer} è progettata per garantire estensibilità e scalabilità. L’uso di factory per le condizioni di vittoria e sconfitta consente di adattare facilmente il gioco a nuovi livelli e meccaniche senza modificare la logica principale. Inoltre, il pattern Singleton per la gestione degli eventi e la struttura modulare di input, logica e visualizzazione facilitano l'aggiunta di nuove funzionalità e miglioramenti nel tempo.
-
-\subsection*{Elementi positivi}
-\begin{itemize}
- \item Si mostrano pochi, mirati schemi UML dai quali si deduce con chiarezza quali sono le parti principali del software e come interagiscono fra loro.
- \item Si mette in evidenza se e come il pattern architetturale model-view-controller è stato applicato, anche con l'uso di un UML che mostri le interfacce principali ed i rapporti fra loro.
- \item Si discute se sia semplice o meno, con l'architettura scelta, sostituire in blocco la view: in un MVC ben fatto, controller e modello non dovrebbero in alcun modo cambiare se si transitasse da una libreria grafica ad un'altra (ad esempio, da Swing a JavaFX, o viceversa).
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item L'architettura è fatta in modo che sia impossibile riusare il modello per un software diverso che affronta lo stesso problema.
- \item L'architettura è tale che l'aggiunta di una funzionalità sul controller impatta pesantemente su view e/o modello.
- \item L'architettura è tale che la sostituzione in blocco della view impatta sul controller o, peggio ancora, sul modello.
- \item Si presentano UML caotici, difficili da leggere.
- \item Si presentano UML in cui sono mostrati elementi di dettaglio non appartenenti all'architettura, ad esempio includenti campi o con metodi che non interessano la parte di interazione fra le componenti principali del software.
- \item Si presentano schemi UML con classi (nel senso UML del termine) che ``galleggiano'' nello schema, non connesse, ossia senza relazioni con il resto degli elementi inseriti.
- \item Si presentano elementi di design di dettaglio, ad esempio tutte le classi e interfacce del modello o della view.
- \item Si discutono aspetti implementativi, ad esempio eventuali librerie usate oppure dettagli di codice.
-\end{itemize}
-
-\section{Design Dettagliato}
-
-In questa sezione, esploreremo in dettaglio gli aspetti chiave del design del nostro gioco \textit{Paradox Platformer}. Cominceremo con una panoramica delle classi \texttt{SimpleController} e \texttt{GameControllerImpl}, che forniscono la struttura generale del gioco. Successivamente, ci concentreremo sui componenti specifici: \texttt{PlayerModel}, \texttt{EndGameManager} e \texttt{JumpBehavior}, approfondendo le soluzioni adottate, i vantaggi, i possibili svantaggi e i pattern di design utilizzati.
-
-\subsection{Panoramica Generale}
-
-\subsubsection{SimpleController}
-
-\texttt{SimpleController} è responsabile della gestione del ciclo di vita dell'applicazione, del passaggio tra le diverse viste e delle routine di inizializzazione. Questa classe funge da coordinatore principale, facilitando l'interazione tra le viste e i vari componenti del modello.
-
-\paragraph{Problema:} La gestione del ciclo di vita dell'applicazione e delle viste può diventare complessa man mano che il progetto cresce. È necessario garantire che le transizioni tra le diverse parti del gioco siano fluide e che tutte le risorse siano inizializzate correttamente.
-
-\paragraph{Soluzione Proposta:} \texttt{SimpleController} utilizza un design centralizzato per gestire le transizioni e l'inizializzazione. Implementa il pattern \textit{Singleton} per garantire che esista una sola istanza del controller durante l'intera esecuzione del gioco, assicurando coerenza e facilità di accesso ai servizi globali.
-
-\paragraph{Vantaggi e Svantaggi:} 
-Il pattern \textit{Singleton} offre il vantaggio di una gestione centralizzata delle risorse e della configurazione dell'applicazione. Tuttavia, un uso eccessivo di Singleton può portare a problemi di testabilità e di accoppiamento stretto. È importante utilizzare questo pattern con attenzione per evitare che il controller diventi un punto di accoppiamento rigido.
-
-\subsubsection{GameControllerImpl}
-
-\texttt{GameControllerImpl} gestisce il modello del gioco, la sincronizzazione della vista, le collisioni e le condizioni di vittoria/sconfitta. È il cuore della logica di gioco, responsabile della coerenza tra la logica del gioco e la sua rappresentazione visiva.
-
-\paragraph{Problema:} La gestione della logica di gioco e la sincronizzazione tra il modello e la vista possono diventare complesse. È fondamentale assicurare che il modello del gioco e la vista rimangano sincronizzati e che le condizioni di vittoria e sconfitta siano controllate correttamente.
-
-\paragraph{Soluzione Proposta:} \texttt{GameControllerImpl} adotta il pattern \textit{Observer} per gestire la sincronizzazione tra il modello e la vista. Gli oggetti che rappresentano il modello del gioco notificano le modifiche agli osservatori (come la vista) quando lo stato del gioco cambia. Inoltre, utilizza il pattern \textit{Strategy} per le condizioni di vittoria e sconfitta, permettendo di definire e verificare diverse condizioni senza modificare il codice del controller.
-
-\paragraph{Vantaggi e Svantaggi:} 
-L'uso del pattern \textit{Observer} facilita la sincronizzazione tra il modello e la vista, rendendo il sistema più modulare e facile da mantenere. Tuttavia, un numero elevato di osservatori può portare a un aumento della complessità e dei costi di gestione delle notifiche. È importante bilanciare l'uso di questo pattern con considerazioni sulla performance e sulla semplicità del design.
-
-\subsection{Componenti Specifici}
-
-\subsubsection{PlayerModel}
-
-\paragraph{Problema:} Il modello del giocatore deve rappresentare e gestire lo stato del personaggio, comprese la posizione, la velocità e il comportamento di salto. Deve inoltre interagire con gli ostacoli e gli oggetti del livello. È fondamentale che il modello del giocatore possa comunicare efficacemente con il resto del sistema di gioco per riflettere i cambiamenti di stato e interagire con altri componenti.
-
-\paragraph{Soluzione Proposta:} \texttt{PlayerModel} incapsula lo stato e le azioni del giocatore. Utilizza il pattern \textit{Strategy} per gestire il comportamento di salto, permettendo di cambiare dinamicamente le strategie di salto in base alle esigenze del gioco. Questo approccio consente una gestione flessibile e modulare del comportamento del giocatore, facilitando l'integrazione con il resto del sistema di gioco.
-
-\paragraph{Vantaggi e Svantaggi:} 
-Il pattern \textit{Strategy} per il comportamento di salto offre grande flessibilità e facilità di estensione, permettendo di aggiungere nuovi tipi di salto senza modificare il modello del giocatore. Tuttavia, questo può aumentare la complessità del codice, richiedendo una gestione accurata delle strategie e delle loro interazioni. Inoltre, è importante garantire che il \texttt{PlayerModel} comunichi efficacemente con altri componenti come il \texttt{GameControllerImpl} per garantire una sincronizzazione accurata dello stato del gioco.
-
-\subsubsection{EndGameManager}
-
-\paragraph{Problema:} La gestione della fine del gioco deve determinare se il giocatore ha soddisfatto le condizioni di vittoria o di sconfitta. Questo richiede un sistema modulare che possa gestire diverse condizioni e reagire di conseguenza. Inoltre, è essenziale che il gestore delle vittorie e delle sconfitte possa comunicare efficacemente con il resto del sistema di gioco per garantire una transizione fluida tra i livelli e una corretta gestione degli stati finali.
-
-\paragraph{Soluzione Proposta:} Il \texttt{EndGameManager} utilizza un design basato sui pattern \textit{Factory} e \textit{Strategy} per gestire le condizioni di vittoria e sconfitta. La factory è responsabile della creazione delle condizioni di vittoria e sconfitta appropriate per il livello corrente, mentre le strategie concrete verificano se le condizioni sono soddisfatte. Questo approccio consente una gestione modulare e flessibile delle condizioni di fine gioco, facilitando l'aggiunta di nuove condizioni senza modificare il gestore principale.
-
-\paragraph{Vantaggi e Svantaggi:} 
-L'uso del pattern \textit{Factory} facilita l'estensione del sistema di condizioni di vittoria e sconfitta, permettendo di aggiungere nuove condizioni senza modificare il \texttt{EndGameManager}. Il pattern \textit{Strategy} consente una verifica modulare e flessibile delle condizioni. Tuttavia, la complessità del sistema aumenta con l'aggiunta di nuove condizioni, e la gestione di molteplici strategie può richiedere una maggiore attenzione. Inoltre, è cruciale garantire che il \texttt{EndGameManager} interagisca correttamente con il \texttt{GameControllerImpl} e altri componenti del sistema per una gestione fluida degli stati finali e delle transizioni tra i livelli.
-
-\subsubsection{JumpBehavior}
-
-\paragraph{Problema:} Il comportamento di salto del personaggio deve essere gestito in modo flessibile, supportando diversi stili di salto. La soluzione deve essere estensibile e facilmente modificabile per adattarsi alle esigenze del gioco.
-
-\paragraph{Soluzione Proposta:} Il comportamento di salto è implementato utilizzando il pattern \textit{Strategy}. L'interfaccia \texttt{JumpBehavior} definisce il contratto per le strategie di salto, mentre le classi concrete come \texttt{PlatformJump} e \texttt{FlappyJump} forniscono implementazioni specifiche. Questo approccio consente di cambiare dinamicamente il comportamento di salto senza modificare il codice esistente.
-
-\paragraph{Vantaggi e Svantaggi:} 
-Il pattern \textit{Strategy} per il comportamento di salto offre grande flessibilità e facilità di estensione, permettendo di aggiungere nuovi tipi di salto senza modificare il codice esistente. Tuttavia, questo può introdurre una maggiore complessità nella gestione delle diverse strategie e richiedere un'attenta progettazione per evitare la proliferazione di classi.
-
-\section{Conclusioni}
-
-Il design di \textit{Paradox Platformer} è stato progettato per garantire estensibilità, chiarezza e modularità. L'uso dei pattern di design come \textit{Strategy}, \textit{Factory} e \textit{Observer} ha permesso di creare un'architettura modulare e flessibile, facilitando l'aggiunta di nuove funzionalità e la manutenzione del codice. Tuttavia, è importante monitorare la complessità introdotta dai pattern e bilanciare la flessibilità con la semplicità per evitare problemi di gestione e performance.
-
-
-
-\subsection*{Esempio}
-
-L'architettura di GLaDOS segue il pattern architetturale MVC.
-%
-Più nello specifico, a livello architetturale, si è scelto di utilizzare MVC in forma ``ECB'', ossia ``entity-control-boundary''\footnote{
-Si fa presente che il pattern ECB effettivamente esiste in letteratura come ``istanza'' di MVC, e chi volesse può utilizzarlo come reificazione di MVC.
-}.
-%
-GLaDOS implementa l'interfaccia AI, ed è il controller del sistema.
-Essendo una intelligenza artificiale, è una classe attiva.
-%
-GLaDOS accetta la registrazione di Input ed Output, che fanno parte della ``view'' di MVC, e sono il ``boundary'' di ECB.
-Gli Input rappresentano delle nuove informazioni che vengono fornite all'IA, ad esempio delle modifiche nel valore di un sensore, oppure un comando da parte dell'operatore.
-Questi input infatti forniscono eventi.
-Ottenere un evento è un'operazione bloccante: chi la esegue resta in attesa di un effettivo evento.
-Di fatto, quindi, GLaDOS si configura come entità \textit{reattiva}.
-Ogni volta che c'è un cambio alla situazione del soggetto, GLaDOS notifica i suoi Output,
-informandoli su quale sia la situazione corrente.
-%
-Conseguentemente, GLaDOS è un ``observable'' per Output.
-
-\begin{figure}[h]
-\centering{}
-\includegraphics[width=\textwidth]{img/arch}
-\caption{Schema UML architetturale di GLaDOS. L'interfaccia \texttt{GLaDOS} è il controller del sistema, mentre \texttt{Input} ed \texttt{Output} sono le interfacce che mappano la view (o, più correttamente in questo specifico esempio, il boundary). Un'eventuale interfaccia grafica interattiva dovrà implementarle entrambe.}
-\label{img:goodarch}
-\end{figure}
-
-Con questa architettura, possono essere aggiunti un numero arbitrario di input ed output
-all'intelligenza artificiale.
-%
-Ovviamente, mentre l'aggiunta di output è semplice e non richiede alcuna modifica all'IA, la
-presenza di nuovi tipi di evento richiede invece in potenza aggiunte o rifiniture a GLaDOS.
-%
-Questo è dovuto al fatto che nuovi Input rappresentano di fatto nuovi elementi della business
-logic, la cui alterazione od espansione inevitabilmente impatta il controller del progetto.
-
-In \Cref{img:goodarch} è esemplificato il diagramma UML architetturale.
-
-
-\section{Design dettagliato}
-
-In questa sezione si possono approfondire alcuni elementi del design con maggior dettaglio.
-%
-Mentre ci attendiamo principalmente (o solo) interfacce negli schemi UML delle sezioni precedenti,
-in questa sezione è necessario scendere in maggior dettaglio presentando la struttura di alcune sottoparti rilevanti dell'applicazione.
-%
-È molto importante che, descrivendo la soluzione ad un problema, quando possibile si mostri che non si è re-inventata la ruota ma si è applicato un design pattern noto.
-%
-Che si sia utilizzato (o riconosciuto) o meno un pattern noto, è comunque bene definire qual è il problema che si è affrontato, qual è la soluzione messa in campo, e quali motivazioni l'hanno spinta.
-%
-È assolutamente inutile, ed è anzi controproducente, descrivere classe-per-classe (o peggio ancora metodo-per-metodo) com'è fatto il vostro software: è un livello di dettaglio proprio della documentazione dell'API (deducibile dalla Javadoc).
-
-\textbf{È necessario che ciascun membro del gruppo abbia una propria sezione di design dettagliato,
-di cui sarà il solo responsabile}.
-%
-Ciascun autore dovrà spiegare in modo corretto e giustamente approfondito (non troppo in dettaglio, non superficialmente) il proprio contributo.
-%
-È importante focalizzarsi sulle scelte che hanno un impatto positivo sul riuso, sull'estensibilità, e sulla chiarezza dell'applicazione.
-%
-Esattamente come nessun ingegnere meccanico presenta un solo foglio con l'intero progetto di una vettura di Formula 1, ma molteplici fogli di progetto che mostrano a livelli di dettaglio differenti le varie parti della vettura e le modalità di connessione fra le parti, così ci aspettiamo che voi, futuri ingegneri informatici, ci presentiate prima una visione globale del progetto, e via via siate in grado di dettagliare le singole parti, scartando i componenti che non interessano quella in esame.
-%
-Per continuare il parallelo con la vettura di Formula 1, se nei fogli di progetto che mostrano il
-design delle sospensioni anteriori appaiono pezzi che appartengono al volante o al turbo, c'è una
-chiara indicazione di qualche problema di design.
-
-Si divida la sezione in sottosezioni, e per ogni aspetto di design che si vuole approfondire, si presenti:
-\begin{enumerate}
-    \item: una breve descrizione in linguaggio naturale del problema che si vuole risolvere, se necessario ci si può aiutare con schemi o immagini;
-    \item: una descrizione della soluzione proposta, analizzando eventuali alternative che sono state prese in considerazione, e che descriva pro e contro della scelta fatta;
-    \item: uno schema UML che aiuti a comprendere la soluzione sopra descritta;
-    \item: se la soluzione è stata realizzata utilizzando uno o più pattern noti, si spieghi come questi sono reificati nel progetto
-    (ad esempio: nel caso di Template Method, qual è il metodo template;
-    nel caso di Strategy, quale interfaccia del progetto rappresenta la strategia, e quali sono le sue implementazioni;
-    nel caso di Decorator, qual è la classe astratta che fa da Decorator e quali sono le sue implementazioni concrete; eccetera);
-\end{enumerate}
-%
-La presenza di pattern di progettazione \emph{correttamente utilizzati} è valutata molto positivamente.
-%
-L'uso inappropriato è invece valutato negativamente: a tal proposito, si raccomanda di porre particolare attenzione all'abuso di Singleton, che, se usato in modo inappropriato, è di fatto un anti-pattern.
-
-\subsection*{Elementi positivi}
+	
+	\maketitle
+	
+	\tableofcontents
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=\linewidth]{StartingScreen.png}
+		\caption{Figura 1: Starting Screen}
+	\end{figure}
+	
+	\chapter{Analisi}
+	
+	Il gioco preso in analisi è un platform game 2D chiamato \textbf{Paradox Platformer}. Il giocatore controlla un personaggio attraverso l'uso delle frecce direzionali, con l'obiettivo di raggiungere la fine della mappa, per passare al livello successivo. Tuttavia, il gioco introduce una serie di sfide controintuitive: oggetti che sembrano innocui possono rivelarsi letali, e viceversa. Ad esempio, alcuni oggetti come le monete e i \textbf{deathCoin} appaiono identici, ma uno può essere raccolto senza conseguenze mentre l'altro uccide il giocatore. Pertanto la caratteristica distintiva del gioco è che molti degli ostacoli e degli elementi della mappa si modificano in risposta a specifici trigger attivati dal giocatore, i quali possono trasformare anche le condizioni di vittoria e sconfitta. Il gioco sfida le aspettative del giocatore, richiedendo attenzione non solo agli ostacoli evidenti ma anche a quelli che cambiano dinamicamente.
+	
+	\section{Descrizione}
+	
+	Il software mira alla creazione di un platform game: \textbf{Paradox Platformer}, in cui il giocatore esplora una serie di mappe superando ostacoli e attivando meccanismi che modificano l’ambiente di gioco. Il giocatore, controllato tramite le frecce direzionali, deve muoversi con attenzione, poiché molti elementi apparentemente innocui possono trasformarsi in pericoli letali. Le monete raccolte possono contribuire al progresso o, in alcuni casi, causare la sconfitta. Gli ostacoli nel gioco possono variare la loro natura e comportamento, creando una sfida costante e spingendo il giocatore a prestare attenzione sia agli oggetti visibili che ai trigger nascosti che potrebbero attivarsi durante il percorso.
+	
+	\section{Modello del Dominio}
+	
+	\textbf{Paradox Platformer} prevede un \textbf{giocatore} che si muove all'interno di diversi \textbf{livelli}. Ogni livello è composto da una serie di \textbf{ostacoli} e \textbf{trigger}. Gli ostacoli possono essere di varia natura, come \textbf{ostacoli letali} (es. deathObstacle) o \textbf{non letali}, e possono modificare il comportamento del giocatore in modi controintuitivi. I trigger attivano degli \textbf{effetti} specifici al verificarsi di determinati eventi, come collisioni o il raggiungimento di un certo punto del livello.
+	
+	Le \textbf{entità principali} in gioco includono:
+	
+	• Il \textbf{giocatore}, che interagisce con l'ambiente di gioco tramite input da tastiera.
+	
+	• I \textbf{livelli}, ciascuno dei quali contiene una serie di ostacoli e trigger.
+	
+	• Gli \textbf{ostacoli}, che possono essere letali o non letali e possono comportarsi in modo inaspettato.
+	
+	• I \textbf{trigger}, associati agli ostacoli, che attivano effetti in risposta a eventi specifici.
+	
+	• Gli \textbf{effetti}, che determinano le conseguenze delle interazioni tra il giocatore e l'ambiente.
+	
+	\begin{figure}[H]
+		\centering{}
+		\includegraphics{img/analysis.pdf}
+		\caption{Schema UML dell'analisi del problema, con rappresentate le entità principali ed i rapporti fra loro}
+		\label{img:analysis}
+	\end{figure}
+	
+	\section{Requisiti}
+	
+	\subsubsection{Requisiti funzionali}
+	\begin{itemize}
+		\item Il gioco, \textbf{Paradox Platformer}, sarà un platform 2D in cui il giocatore dovrà esplorare una serie di livelli caratterizzati da sfide controintuitive e ostacoli unici. L’obiettivo principale sarà superare ostacoli e raggiungere la porta di uscita di ogni livello per passare al successivo.
+		\item Ogni livello conterrà una combinazione di ostacoli letali e non letali. Gli ostacoli letali causeranno la sconfitta immediata del giocatore, mentre quelli non letali modificheranno temporaneamente le sue abilità o l’ambiente di gioco.
+		\item I trigger saranno associati a determinati ostacoli e si attiveranno quando il giocatore li colpirà o soddisferà certe condizioni. Questi trigger potranno attivare effetti come cambiamenti nell’ambiente di gioco o nella fisica del personaggio.
+		\item Ogni ostacolo presenterà una meccanica che sfida le aspettative del giocatore, creando un’esperienza di gioco complessa e imprevedibile.
+		\item Il gioco sarà strutturato su livelli progressivamente più difficili, con nuove meccaniche introdotte in ogni fase.
+		\item Sarà presente un sistema di progressione, che permetterà ai giocatori di sbloccare livelli successivi man mano che completano quelli precedenti. Il gioco salverà automaticamente i progressi.
+		\item Il sistema di fine gioco varierà a seconda delle azioni del giocatore, come la raccolta di monete per passare al livello successivo. La raccolta di un certo numero di monete potrebbe sbloccare l'accesso ai livelli successivi.
+		\item Verrà implementato un sistema di punteggi che registrerà i tentativi falliti e i successi, rendendo visibili i progressi del giocatore attraverso un’interfaccia grafica.
+	\end{itemize}
+	
+	\subsubsection{Requisiti non funzionali}
+	\begin{itemize}
+		\item Il gioco dovrà funzionare in modo fluido su diversi dispositivi, garantendo un framerate costante e tempi di risposta rapidi anche con livelli complessi e numerosi effetti attivi.
+		\item Il sistema dovrà essere facilmente estensibile, consentendo l’aggiunta di nuovi livelli e meccaniche senza la necessità di rifattorizzare grandi porzioni di codice esistente.
+		\item Il consumo di risorse del gioco dovrà essere ottimizzato, specialmente nelle piattaforme con risorse limitate, per garantire performance ottimali su un’ampia gamma di dispositivi.
+		\item Il sistema dovrà essere portabile su diversi sistemi operativi, assicurando che la logica di gioco e le meccaniche funzionino correttamente su piattaforme sia desktop che mobile.
+		\item Il gioco dovrà essere dotato di sicurezza nei salvataggi, garantendo che i dati del progresso del giocatore non siano corrotti o persi.
+	\end{itemize}
+	
+	\chapter{Design}
+	
+	In questo capitolo vengono illustrate le strategie adottate per soddisfare i requisiti identificati durante la progettazione di Paradox Platformer. Si inizia con una visione architetturale ad alto livello per chiarire come le componenti principali del gioco, come il controller, il modello e la vista, interagiscono e si coordinano tra loro. Successivamente, si approfondiscono i principali aspetti del design, mettendo in luce come le scelte architetturali e le implementazioni specifiche contribuiscono a garantire un'applicazione modulare e scalabile, adatta a gestire le complessità del gameplay e dell'interazione utente.
+	
+	\section{Architettura}
+	
+	L'architettura di \textit{Paradox Platformer} adotta il pattern architetturale \textbf{Model-View-Controller} (MVC) per separare le responsabilità e garantire una struttura modulare e flessibile. Questo approccio facilita la gestione e l'evoluzione del sistema, evitando accoppiamenti stretti tra le componenti principali. Di seguito vengono descritti i ruoli e le interazioni dei principali componenti architetturali del progetto.
+	
+	\subsection{Controller}
+	
+	Il \textbf{Controller} è il cuore della logica di controllo del gioco e si occupa di orchestrare le interazioni tra il \textbf{Model} e la \textbf{View}. La separazione delle responsabilità all'interno del controller è fondamentale per mantenere la logica del gioco chiara e scalabile. I principali componenti del controller sono:
+	
+	\begin{itemize} \item \textbf{GameControllerImpl}: gestisce il ciclo di vita del gioco, la sincronizzazione tra eventi, input dell’utente e visualizzazione. Coordina anche le verifiche delle condizioni di vittoria e sconfitta tramite l'EndGameManager e le condizioni specifiche di fine gioco. \item \textbf{InputController}: si occupa della gestione degli input del giocatore, catturando gli eventi di tastiera e aggiornando lo stato del personaggio e del mondo di gioco di conseguenza. \item \textbf{EventManager}: segue il pattern Singleton e gestisce gli eventi asincroni tra le componenti del sistema, assicurando che il GameController, il Model e la View comunichino efficacemente tra loro. \item \textbf{EndGameManager}: verifica le condizioni di vittoria e sconfitta. Controlla se il giocatore ha completato il livello o subito una sconfitta e delega la gestione di ciascuno stato alle componenti appropriate. \end{itemize}
+	
+	\subsection{Model}
+	
+	Il \textbf{Model} rappresenta la logica centrale del gioco, comprendente gli elementi che costituiscono il mondo di gioco e le regole che ne determinano il comportamento. I principali componenti del modello sono:
+	
+	\begin{itemize} \item \textbf{Game World}: contiene la rappresentazione dell’intera mappa di gioco, compresi gli oggetti, gli ostacoli e i trigger. Gestisce il posizionamento e lo stato di ogni elemento nel livello attuale. 
+		
+		\item \textbf{Player}: rappresenta il personaggio controllato dal giocatore, con attributi come posizione, salute e velocità. Il movimento del giocatore viene aggiornato in base all’input ricevuto dall’InputController. 
+		
+		\item \textbf{Ostacoli}: include gli ostacoli letali e non letali che interagiscono con il giocatore. Gli ostacoli letali come il \textit{DeathObstacle} causano la sconfitta immediata, mentre quelli non letali possono modificare temporaneamente le abilità del giocatore o l’ambiente circostante. \item  \end{itemize}
+	
+	\subsection{View}
+	
+	La \textbf{View} si occupa della rappresentazione grafica del gioco e della visualizzazione dello stato attuale del modello. È progettata per separare la logica di rendering dalle meccaniche di gioco, garantendo un gioco reattivo e fluido. La divisione di responsabilitò della view dal modello permette la costruzione di un gioco indipendente dal modello adoperato, diffatti il gioco può funzionare anche se il framework dell'applicazione è differente (e.g Swing, JavaFX o Console). Tale funzionalità è presente in questo progetto, in quanto ogni componente della vista è sviluppata secondo due componenti comuni per tutte le viste (i nodi e gli identificatori dei tasti).
+	I principali componenti della vista sono:
+	
+	\begin{itemize} \item \textbf{Vista del Gioco}: l’area di rendering principale, responsabile del disegno della mappa, del personaggio, degli ostacoli e degli altri elementi di gioco. Viene aggiornata in tempo reale in base alle informazioni fornite dal GameController. 
+		
+		\item \textbf{Gestione della Vista}: detiene lo stato dell'applicazione, funge da esecutore per qualsiasi azione compiuta dall'utente nei confronti dell'applicazione. 
+		
+		\item \textbf{Libertà d'uso del Framework}: permette una scelta ampia del framework che si andrà ad adottare, senza andare a compromettere lo scheletro del gioco, ossia la costruzione delle componenti grafiche di esso. In pratica sostituendo il framework la vista funziona ugualmente.
+		
+	\end{itemize}
+	
+	\subsection{Comunicazione tra i Componenti}
+	
+	La comunicazione tra i vari componenti del sistema è gestita principalmente dall'EventManager. Questo consente al Controller di coordinarsi con il Model e la View senza che queste siano direttamente collegate tra loro. Ad esempio, quando il giocatore raccoglie una moneta o attiva un trigger, l'EventManager notifica il GameController, che aggiorna lo stato del gioco e lo comunica alla View per il rendering.
+	
+	\subsection{Estendibilità e Scalabilità}
+	
+	L'architettura di \textit{Paradox Platformer} è progettata per garantire estensibilità e scalabilità. L’uso di factory per le condizioni di vittoria e sconfitta consente di adattare facilmente il gioco a nuovi livelli e meccaniche senza modificare la logica principale. Inoltre, il pattern Singleton per la gestione degli eventi e la struttura modulare di input, logica e visualizzazione facilitano l'aggiunta di nuove funzionalità e miglioramenti nel tempo.
+
+	
+	\section{Design Dettagliato}
+	
+	In questa sezione, esploreremo in dettaglio gli aspetti chiave del design del nostro gioco \textit{Paradox Platformer}. Cominceremo con una panoramica delle classi \texttt{ViewManager} e \texttt{GameControllerImpl}, che forniscono la struttura generale del gioco. Successivamente, ci concentreremo sui componenti specifici: \texttt{PlayerModel}, \texttt{EndGameManager} e \texttt{JumpBehavior}, approfondendo le soluzioni adottate, i vantaggi, i possibili svantaggi e i pattern di design utilizzati.
+	
+	\subsection{Panoramica Generale}
+	
+	\subsubsection{SimpleController}
+	
+	\texttt{ViewManager} è responsabile della gestione del ciclo di vita dell'applicazione, del passaggio tra le diverse viste e delle routine di inizializzazione. Questa classe funge da coordinatore principale, facilitando l'interazione tra le viste e i vari componenti del modello.
+	
+	\paragraph{Problema:} La gestione del ciclo di vita dell'applicazione e delle viste può diventare complessa man mano che il progetto cresce. È necessario garantire che le transizioni tra le diverse parti del gioco siano fluide e che tutte le risorse siano inizializzate correttamente.
+	
+	\paragraph{Soluzione Proposta:} \texttt{ViewManager} utilizza un design centralizzato per gestire le transizioni e l'inizializzazione della view. Implementa il pattern \textit{Singleton} per garantire che esista una sola istanza del controller durante l'intera esecuzione del gioco, assicurando coerenza e facilità di accesso ai servizi globali.
+	
+	\paragraph{Vantaggi e Svantaggi:} 
+	Il pattern \textit{Singleton} offre il vantaggio di una gestione centralizzata delle risorse e della configurazione dell'applicazione. Tuttavia, un uso eccessivo di Singleton può portare a problemi di testabilità e di accoppiamento stretto. È importante utilizzare questo pattern con attenzione per evitare che il controller diventi un punto di accoppiamento rigido.
+	
+	\subsubsection{GameControllerImpl}
+	
+	\texttt{GameControllerImpl} gestisce il modello del gioco, la sincronizzazione della vista, le collisioni e le condizioni di vittoria/sconfitta. È il cuore della logica di gioco, responsabile della coerenza tra la logica del gioco e la sua rappresentazione visiva.
+	
+	\paragraph{Problema:} La gestione della logica di gioco e la sincronizzazione tra il modello e la vista possono diventare complesse. È fondamentale assicurare che il modello del gioco e la vista rimangano sincronizzati e che le condizioni di vittoria e sconfitta siano controllate correttamente.
+	
+	\paragraph{Soluzione Proposta:} \texttt{GameControllerImpl} adotta il pattern \textit{Observer} per gestire la sincronizzazione tra il modello e la vista. Gli oggetti che rappresentano il modello del gioco notificano le modifiche agli osservatori (come la vista) quando lo stato del gioco cambia. Inoltre, utilizza il pattern \textit{Strategy} per le condizioni di vittoria e sconfitta, permettendo di definire e verificare diverse condizioni senza modificare il codice del controller.
+	
+	\paragraph{Vantaggi e Svantaggi:} 
+	L'uso del pattern \textit{Observer} facilita la sincronizzazione tra il modello e la vista, rendendo il sistema più modulare e facile da mantenere. Tuttavia, un numero elevato di osservatori può portare a un aumento della complessità e dei costi di gestione delle notifiche. È importante bilanciare l'uso di questo pattern con considerazioni sulla performance e sulla semplicità del design.
+	
+	\subsection{Componenti Specifici}
+	
+	\subsection{Olivieri MIchele}
+	
+	\subsubsection{PlayerModel}
+	
+	\paragraph{Problema:} Il modello del giocatore deve rappresentare e gestire lo stato del personaggio, comprese la posizione, la velocità e il comportamento di salto. Deve inoltre interagire con gli ostacoli e gli oggetti del livello. È fondamentale che il modello del giocatore possa comunicare efficacemente con il resto del sistema di gioco per riflettere i cambiamenti di stato e interagire con altri componenti.
+	
+	\paragraph{Soluzione Proposta:} \texttt{PlayerModel} incapsula lo stato e le azioni del giocatore. Utilizza il pattern \textit{Strategy} per gestire il comportamento di salto, permettendo di cambiare dinamicamente le strategie di salto in base alle esigenze del gioco. Questo approccio consente una gestione flessibile e modulare del comportamento del giocatore, facilitando l'integrazione con il resto del sistema di gioco.
+	
+	\paragraph{Vantaggi e Svantaggi:} 
+	Il pattern \textit{Strategy} per il comportamento di salto offre grande flessibilità e facilità di estensione, permettendo di aggiungere nuovi tipi di salto senza modificare il modello del giocatore. Tuttavia, questo può aumentare la complessità del codice, richiedendo una gestione accurata delle strategie e delle loro interazioni. Inoltre, è importante garantire che il \texttt{PlayerModel} comunichi efficacemente con altri componenti come il \texttt{GameControllerImpl} per garantire una sincronizzazione accurata dello stato del gioco.
+	
+	\subsubsection{EndGameManager}
+	
+	\paragraph{Problema:} La gestione della fine del gioco deve determinare se il giocatore ha soddisfatto le condizioni di vittoria o di sconfitta. Questo richiede un sistema modulare che possa gestire diverse condizioni e reagire di conseguenza. Inoltre, è essenziale che il gestore delle vittorie e delle sconfitte possa comunicare efficacemente con il resto del sistema di gioco per garantire una transizione fluida tra i livelli e una corretta gestione degli stati finali.
+	
+	\paragraph{Soluzione Proposta:} Il \texttt{EndGameManager} utilizza un design basato sui pattern \textit{Factory} e \textit{Strategy} per gestire le condizioni di vittoria e sconfitta. La factory è responsabile della creazione delle condizioni di vittoria e sconfitta appropriate per il livello corrente, mentre le strategie concrete verificano se le condizioni sono soddisfatte. Questo approccio consente una gestione modulare e flessibile delle condizioni di fine gioco, facilitando l'aggiunta di nuove condizioni senza modificare il gestore principale.
+	
+	\paragraph{Vantaggi e Svantaggi:} 
+	L'uso del pattern \textit{Factory} facilita l'estensione del sistema di condizioni di vittoria e sconfitta, permettendo di aggiungere nuove condizioni senza modificare il \texttt{EndGameManager}. Il pattern \textit{Strategy} consente una verifica modulare e flessibile delle condizioni. Tuttavia, la complessità del sistema aumenta con l'aggiunta di nuove condizioni, e la gestione di molteplici strategie può richiedere una maggiore attenzione. Inoltre, è cruciale garantire che il \texttt{EndGameManager} interagisca correttamente con il \texttt{GameControllerImpl} e altri componenti del sistema per una gestione fluida degli stati finali e delle transizioni tra i livelli.
+	
+	\subsubsection{JumpBehavior}
+	
+	\paragraph{Problema:} Il comportamento di salto del personaggio deve essere gestito in modo flessibile, supportando diversi stili di salto. La soluzione deve essere estensibile e facilmente modificabile per adattarsi alle esigenze del gioco.
+	
+	\paragraph{Soluzione Proposta:} Il comportamento di salto è implementato utilizzando il pattern \textit{Strategy}. L'interfaccia \texttt{JumpBehavior} definisce il contratto per le strategie di salto, mentre le classi concrete come \texttt{PlatformJump} e \texttt{FlappyJump} forniscono implementazioni specifiche. Questo approccio consente di cambiare dinamicamente il comportamento di salto senza modificare il codice esistente.
+	
+	\paragraph{Vantaggi e Svantaggi:} 
+	Il pattern \textit{Strategy} per il comportamento di salto offre grande flessibilità e facilità di estensione, permettendo di aggiungere nuovi tipi di salto senza modificare il codice esistente. Tuttavia, questo può introdurre una maggiore complessità nella gestione delle diverse strategie e richiedere un'attenta progettazione per evitare la proliferazione di classi.
+	
+	\subsection{Keegan Carlo Falcao}
+	
+	\subsubsection{Componente Grafica}
+	
+	\paragraph{Problema:} La maggior parte di noi avrebbe usato solo i controlli di un framework specifico e l'intera vista sarebbe ruotata attorno ad essa, rendendola prestabilita. Dunque si presentava il problema di utilizzare un componente grafico comune che adottasse diverse specifiche richieste dai diversi framework.
+	
+	\paragraph{Soluzione:}A fronte del problema si è scelto di usare il pattern {Adapter} che funge da intermediario tra il componente grafico comune e i diversi framework. L'Adapter traduce le richieste specifiche di ciascun framework (come il settaggio della dimensione e della posizione) in comandi compatibili con il componente grafico comune. Inoltre è stato sfruttato il pattern \textit{Template Method} per creare diversi tipi di controlli avente certe funzionalità in comune.
+	
+	\subsubsection{Modello dei Movimenti}
+	
+	\paragraph{Problema:} All'Utente deve essere garantita la possibiltà di poter usare differenti configurazioni di comandi per i movimenti del giocatore. Inoltre, certe configurazioni richiedono una combinazione di quelli basilari quali 'arrow keys' o 'wasd'.
+	
+	\paragraph{Soluzione:} \textit{Factory} risulta il pattern di composizione più ragionevole nel creare diverse confiugrazioni ciascuna avente diversi input per gestire il movimento del giocatore, mentre \textit{Decorator} è utile per creare una combinazione delle due: si crea un configurazione complessa mediante l'aggiunta degli input del decoratore specializzato 'arrow keys' con quello da decorare.
+	
+	\subsubsection{Costruzione di World}
+	
+	\paragraph{Problema:} Per poter implementare correttamente un contenitore delle entità di gioco è necessario costruirlo in modo sicuro e privo di comportamenti indesiderati come l'aggiunta di un'entità in posti non idonei (specialmente dopo aver cominciato il game loop).
+	
+	\paragraph{Soluzione:} Il pattern \textit{Builder} soddisfa a pieno tale richieste in quanto permette la costruzione del mondo delle entità una sola volta, in fase di inizializzazione per esempio, inoltre, oltre a rendere il codice maggiormente leggibile, facilita la possibiltà di modellare un      \texttt{World} secondo una precisa configurazione di oggetti.
+	
+	
+	\subsubsection{Coordinamento della View}
+	
+	\paragraph{Problema:} Non è stata semplice la gestione della view, in quanto molte classi utilzzate dipendono dal framework utilizzato e non è possibile gestirle tutte in maniera dislocata, specie per il cambio della vista, la quale richede l'accesso a diverse istanze legate all'applicazione.
+	
+	\paragraph{Soluzione:} Una soluzione ad occhio e croce sarebbe quella di implementare la gestione della view in un unico metodo, o attverso la costruzione in un' elaborata gerarchia di classi in modo da avere a disposizione tutte le istanze legate all'applicazione pronte per essere accedute. Tale soluzione venne subito scartata in quanto, oltre ad essere troppo corposa, molti metodi differenti dovevano richiedere 
+	l'accesso alla vista (magari per cambiarla) e non potevano raggiungerla a causa di una mancata centralizzazione di essa. Il pattern {Singleton} risponde esattamente ai mancati adempimenti della precedente soluzione, in quanto ogni classe ha l'accesso alla classe centralizzata {ViewManager} e tali operazioni restano sicure in quanto essa viene inizilizzata durante la creazione dell'applicazione e quindi prima di ogni eventuale modifca del gioco.
+
+ \subsection{Junkai Ji}
+\subsubsection{EffectHandler}
+\paragraph{Problema:} La gestione degli effetti applicati durante le collisioni tra il giocatore e gli oggetti di gioco può diventare complessa, specialmente quando si tratta di avere sequenze di effetti di lunghezza variabile e diversi livelli. È fondamentale garantire che gli effetti vengano applicati correttamente e che le risorse siano gestite in modo efficiente.
+
+\paragraph{Soluzione Proposta:} La classe \texttt{EffectHandlerImpl} gestisce l’applicazione e la gestione degli effetti nel gioco. Utilizza \texttt{TypeEffectsManager} e \texttt{ObjectEffectsManager} per separare e gestire gli effetti basati sui tipi di collisione e sugli oggetti specifici. Gli effetti possono essere sia generali (per tipo di collisione) sia specifici (per oggetti), e la classe è in grado di applicare e resettare questi effetti in modo coerente. Inoltre, è capace di ricreare gli effetti se necessario, utilizzando la riflessione per verificare e invocare il metodo \texttt{recreate} degli effetti.
+
+\paragraph{Vantaggi e Svantaggi:}
+Il principale vantaggio è che gli effetti sono completamente estratti dagli oggetti di gioco, eliminando la necessità di una relazione diretta tra effetti e oggetti. Questo approccio, centralizzato attraverso l’\texttt{EffectHandlerImpl}, migliora la struttura del codice e facilita la gestione degli effetti a livello globale. Tuttavia, l’uso di questa classe può introdurre problemi di performance a causa della ricreazione e eliminazione degli effetti.
+
+\subsubsection{CollisionManager}
+
+\paragraph{Problema:} La gestione delle collisioni comporta una sequenza di passaggi complessi e ordinati. È necessario gestire non solo l’applicazione degli effetti, ma anche considerare le priorità tra le varie operazioni, come l’attivazione degli eventi di trigger prima dell’applicazione degli effetti e le operazioni di pulizia successivamente. 
+
+\paragraph{Soluzione Proposta:}  CollisionManager e CollisionObserver utilizzano un design modulare per affrontare questa complessità. CollisionManager si occupa della rilevazione delle collisioni, mentre CollisionObserver gestisce l’applicazione e il reset degli effetti. Utilizzando BiConsumerWithAndThen, è possibile creare una lista ordinata di BiConsumer, ciascuno rappresentante un passaggio specifico nel processo di gestione delle collisioni. Questo approccio permette di definire chiaramente le priorità tra le operazioni: prima vengono attivati gli eventi di trigger, poi applicati gli effetti, e infine eseguite le operazioni di pulizia e reset. La possibilità di concatenare questi BiConsumer in modo chiaro e modulare consente un codice pulito e facilmente manutenibile.
+
+\paragraph{Vantaggi e Svantaggi:}
+Il design modulare e l’uso di BiConsumerWithAndThen permettono una gestione ordinata e flessibile delle collisioni e degli effetti, rispettando le priorità tra le operazioni. Questo approccio migliora la modularità e la manutenzione del codice. Tuttavia, l’introduzione di passaggi aggiuntivi e la gestione delle priorità possono aumentare la complessità e richiedere un’attenta pianificazione per evitare conflitti tra le operazioni.
+
+\subsubsection{Effect}
+
+\paragraph{Problema:} Con una struttura molto frammentata, comprendere come e a chi applicare gli effetti può diventare complesso. Ogni effetto deve sapere sia chi è il destinatario dell’effetto (target) che chi lo applica (self). Questa complessità aumenta quando gli effetti possono essere applicati non solo tra il giocatore e un oggetto, ma tra qualsiasi coppia di oggetti di gioco. La gestione di tali effetti richiede una chiara comprensione delle relazioni e delle priorità per garantire che gli effetti siano applicati e rimossi correttamente.
+\paragraph{Soluzione Proposta:} L’interfaccia Effect è progettata per gestire esplicitamente i dettagli dell’applicazione degli effetti. Il metodo apply consente di specificare sia l’oggetto destinatario dell’effetto (target) che l’oggetto che applica l’effetto (self), permettendo una gestione chiara e flessibile delle interazioni. Questo approccio è sufficientemente generico da supportare effetti tra qualsiasi coppia di oggetti di gioco, non limitandosi solo al giocatore e agli oggetti con cui interagisce.
+
+\paragraph{Vantaggi e Svantaggi:}
+Il design proposto consente una gestione chiara e versatile degli effetti, facilitando l’applicazione di effetti tra qualsiasi coppia di oggetti di gioco. La struttura generica e la capacità di gestire effetti asincroni tramite CompletableFuture migliorano l’efficienza e la flessibilità del sistema. Tuttavia, la generica natura degli effetti richiede una gestione accurata per evitare confusione e garantire che gli effetti siano applicati e rimossi correttamente.
+
+\subsubsection{EventManager}
+
+\paragraph{Problema:} La comunicazione tra classi diverse può diventare complessa, specialmente in un’applicazione con molteplici componenti e moduli. Passare istanze tra le classi può creare un forte accoppiamento e rendere il codice meno manutenibile. È necessario un meccanismo che permetta la comunicazione tra classi senza creare dipendenze dirette tra di esse.
+
+\paragraph{Soluzione Proposta:} Il EventManager utilizza un design centralizzato per gestire gli eventi e le azioni correlate. Implementa il pattern Singleton per assicurare che solo una istanza gestisca tutti gli eventi, migliorando la coerenza e facilitando l’accesso globale. Gli eventi e le loro azioni sono gestiti tramite una mappa (eventMap) che associa i tipi di eventi (eventType) a gestori di eventi (BiConsumerWithAndThen). Questo approccio permette di:
 
 \begin{itemize}
-	\item Ogni membro del gruppo discute le proprie decisioni di progettazione, ed in particolare le azioni volte ad anticipare possibili cambiamenti futuri (ad esempio l'aggiunta di una nuova funzionalità, o il miglioramento di una esistente).
-	\item Si mostrano le principali interazioni fra le varie componenti che collaborano alla soluzione di un determinato problema.
-	\item Si identificano, utilizzano \textit{appropriatamente}, e descrivono diversi design pattern.
-	\item Ogni membro del gruppo identifica i pattern utilizzati nella sua sottoparte.
-	\item Si mostrano gli aspetti di design più rilevanti dell'applicazione, mettendo in luce la maniera in cui si è costruita la soluzione ai problemi descritti nell'analisi.
-	\item Si tralasciano aspetti strettamente implementativi e quelli non rilevanti, non mostrandoli negli schemi UML (ad esempio, campi privati) e non descrivendoli.
-	\item Ciascun elemento di design identificato presenta una piccola descrizione del problema calato
-nell'applicazione, uno schema UML che ne mostra la concretizzazione nelle classi del progetto, ed
-una breve descrizione della motivazione per cui tale soluzione è stata scelta, specialmente se è stato utilizzato un pattern noto. Ad esempio, se si
-dichiara di aver usato Observer, è necessario specificare chi sia l'observable e chi l'observer; se
-si usa Template Method, è necessario indicare quale sia il metodo template; se si usa Strategy, è
-necessario identificare l'interfaccia che rappresenta la strategia; e via dicendo.
+ \item Isolare la Comunicazione: Le classi possono comunicare tra loro attraverso eventi senza riferimenti diretti.
+ \item Flessibilità: È possibile passare qualsiasi tipo di oggetto come parametro agli eventi, rendendo il EventManager altamente generico.
+ \item Gestione degli Eventi: Gli eventi vengono pubblicati e gestiti centralmente, semplificando la gestione e la manutenzione del codice.
 \end{itemize}
 
-\subsection*{Elementi negativi}
-\begin{itemize}
-	\item Il design del modello risulta scorrelato dal problema descritto in analisi.
-	\item Si tratta in modo prolisso, classe per classe, il software realizzato, o comunque si riduce la sezione ad un mero elenco di quanto fatto.
-	\item Non si presentano schemi UML esemplificativi.
-	\item Non si individuano design pattern, o si individuano in modo errato (si spaccia per design pattern qualcosa che non lo è).
-	\item Si utilizzano design pattern in modo inopportuno. Un esempio classico è l'abuso di
-Singleton per entità che possono essere univoche ma non devono necessariamente esserlo. Si rammenta
-che Singleton ha senso nel secondo caso (ad esempio \texttt{System} e \texttt{Runtime} sono
-singleton), mentre rischia di essere un problema nel secondo. Ad esempio, se si rendesse singleton
-il motore di un videogioco, sarebbe impossibile riusarlo per costruire un server per partite online
-(dove, presumibilmente, si gestiscono parallelamente più partite).
-	\item Si producono schemi UML caotici e difficili da leggere, che comprendono inutili elementi di dettaglio.
-	\item Si presentano schemi UML con classi (nel senso UML del termine) che ``galleggiano'' nello schema, non connesse, ossia senza relazioni con il resto degli elementi inseriti.
-	\item Si tratta in modo inutilmente prolisso la divisione in package, elencando ad esempio le classi una per una.
-\end{itemize}
+\paragraph{Vantaggi e Svantaggi:}
+Il EventManager offre un design flessibile e centralizzato per la comunicazione tra classi, migliorando la manutenibilità e riducendo il forte accoppiamento. Tuttavia, questa flessibilità può essere pericolosa, poiché chi pubblica un evento deve garantire che i sottoscrittori abbiano metodi compatibili con i parametri dell’evento pubblicato. È essenziale che chi utilizza il EventManager sia consapevole delle specifiche degli eventi e dei parametri per evitare errori di runtime e garantire che le azioni siano eseguite correttamente.
 
-\subsection*{Esempio minimale (e quindi parziale) di sezione di progetto con UML ben realizzati}
+\subsubsection{Trigger}
+\paragraph{Problema:} In un gioco, è comune che gli effetti debbano essere attivati non solo in risposta a collisioni tra il giocatore e gli ostacoli, ma anche in base ad altre condizioni o eventi nel gioco. Questo richiede un meccanismo che possa attivare effetti anche in assenza di collisioni dirette, modificando dinamicamente la mappa del gioco.
+\paragraph{Soluzione Proposta:} L’interfaccia Trigger estende MutableObject e introduce metodi specifici per gestire l’attivazione di azioni o eventi associati a una collezione di ostacoli. 
+\paragraph{Vantaggi e Svantaggi:}
+L’uso dei trigger consente di attivare effetti senza dipendere esclusivamente dalle collisioni. Questo approccio arricchisce il gameplay e la complessità del gioco. Tuttavia, uno svantaggio significativo è che i trigger devono essere configurati e associati correttamente prima del loro utilizzo
 
-\subsubsection{Personalità intercambiabili}
-
-\begin{figure}[H]
-\centering{}
-\includegraphics[width=\textwidth]{img/strategy}
-\caption{Rappresentazione UML del pattern Strategy per la personalità di GLaDOS}
-\label{img:strategy}
-\end{figure}
-
-\paragraph{Problema} GLaDOS ha più personalità intercambiabili, la cui presenza deve essere trasparente al client.
-
-\paragraph{Soluzione} Il sistema per la gestione della personalità utilizza il \textit{pattern Strategy}, come da
-\Cref{img:strategy}: le implementazioni di \texttt{Personality} possono essere modificate, e la
-modifica impatta direttamente sul comportamento di GLaDOS.
-
-\subsubsection{Riuso del codice delle personalità}
-
-\begin{figure}[H]
-\centering{}
-\includegraphics[width=\textwidth]{img/template}
-\caption{Rappresentazione UML dell'applicazione del pattern Template Method alla gerarchia delle Personalità}
-\label{img:template}
-\end{figure}
-
-\paragraph{Problema} In fase di sviluppo, sono state sviluppate due personalità, una buona ed una cattiva.
-Quella buona restituisce sempre una torta vera, mentre quella cattiva restituisce sempre la
-promessa di una torta che verrà in realtà disattesa.
-Ci si è accorti che diverse personalità condividevano molto del comportamento,
-portando a classi molto simili e a duplicazione.
-
-\paragraph{Soluzione} Dato che le due personalità differiscono solo per il comportamento da effettuarsi in caso di percorso completato con successo,
-è stato utilizzato il \textit{pattern template method} per massimizzare il riuso, come da \Cref{img:template}.
-Il metodo template è \texttt{onSuccess()}, che chiama un metodo astratto e protetto
-\texttt{makeCake()}.
-
-\subsubsection{Gestione di output multipli}
-
-\begin{figure}[H]
-\centering{}
-\includegraphics[width=.7\textwidth]{img/observer}
-\caption{Il pattern Observer è usato per consentire a GLaDOS di informare tutti i sistemi di output in ascolto}
-\label{img:observer}
-\end{figure}
-
-\paragraph{Problema} Il sistema deve supportare output multipli. In particolare, si richiede che vi sia un logger che stampa a terminale o su file,
-e un'interfaccia grafica che mostri una rappresentazione grafica del sistema.
-
-\paragraph{Soluzione} Dato che i due sistemi di reporting utilizzano le medesime informazioni, si è deciso di raggrupparli dietro l'interfaccia \texttt{Output}.
-A questo punto, le due possibilità erano quelle di far sì che \texttt{GLaDOS} potesse pilotarle entrambe.
-Invece di fare un sistema in cui questi output sono obbligatori e connessi, si è deciso di usare maggior flessibilità (anche in vista di future estensioni)
-e di adottare una comunicazione uno-a-molti fra \texttt{GLaDOS} ed i sistemi di output.
-La scelta è quindi ricaduta sul \textit{pattern Observer}: \texttt{GLaDOS} è observable, e le istanze di \texttt{Output} sono observer.
-%
-Il suo utilizzo è esemplificato in \Cref{img:observer}
-
-
-\subsection*{Contro-esempio: pessimo diagramma UML}
-
-In \Cref{img:badarch} è mostrato il modo \textbf{sbagliato} di fare le cose.
-%
-Questo schema è fatto male perché:
-\begin{itemize}
-	\item È caotico.
-	\item È difficile da leggere e capire.
-	\item Vi sono troppe classi, e non si capisce bene quali siano i rapporti che intercorrono fra loro.
-	\item Si mostrano elementi implementativi irrilevanti, come i campi e i metodi privati nella classe \texttt{AbstractEnvironment}.
-	\item Se l'intenzione era quella di costruire un diagramma architetturale, allora lo schema è ancora più sbagliato, perché mostra pezzi di implementazione.
-	\item Una delle classi, in alto al centro, galleggia nello schema, non connessa a nessuna altra classe, e di fatto costituisce da sola un secondo schema UML scorrelato al resto
-	\item Le interfacce presentano tutti i metodi e non una selezione che aiuti il lettore a capire quale parte del sistema si vuol mostrare.
-\end{itemize}
-
-
-\begin{figure}[h]
-\centering{}
-\includegraphics[width=\textwidth]{img/badarch}
-\caption{Schema UML mal fatto e con una pessima descrizione, che non aiuta a capire. Don't try this at home.}
-\label{img:badarch}
-\end{figure}
-
-
+	
+	\section{Conclusioni}
+	
+	Il design di \textit{Paradox Platformer} è stato progettato per garantire estensibilità, chiarezza e modularità. L'uso dei pattern di design come \textit{Strategy}, \textit{Factory} e \textit{Observer} ha permesso di creare un'architettura modulare e flessibile, facilitando l'aggiunta di nuove funzionalità e la manutenzione del codice. Tuttavia, è importante monitorare la complessità introdotta dai pattern e bilanciare la flessibilità con la semplicità per evitare problemi di gestione e performance.
+	
+	
 \chapter{Sviluppo}
 \section{Testing automatizzato}
 
-Il testing automatizzato è un requisito di qualunque progetto software che si rispetti, e consente di verificare che non vi siano regressioni nelle funzionalità a fronte di aggiornamenti.
-%
-Per quanto riguarda questo progetto è considerato sufficiente un test minimale, a patto che sia completamente automatico.
-%
-Test che richiedono l'intervento da parte dell'utente sono considerati \textit{negativamente} nel computo del punteggio finale.
+l testing automatico delle classi sviluppate è stato realizzato utilizzando \textbf{JUnit}. Ogni membro del gruppo è stato incaricato di creare test per le proprie classi.
 
-\subsection*{Elementi positivi}
-
+\subsection{Junkai Ji}
 \begin{itemize}
- \item Si descrivono molto brevemente i componenti che si è deciso di sottoporre a test automatizzato.
- \item Si utilizzano suite specifiche (e.g. JUnit) per il testing automatico.
+\item \textbf{TriggerTest}: verifica che il trigger attivi correttamente gli effetti associati e testa che il trigger possa attivare gli effetti degli ostacoli associati come previsto.
+
+\item \textbf{EffectTest}: controlla che gli effetti vengano applicati correttamente al giocatore.
+
+\item \textbf{EffectHandlerTest}: testa la gestione degli effetti da parte dell’EffectHandler, verificando che gli effetti vengano aggiunti, rimossi e applicati correttamente.
+
+\item \textbf{CollisionTest}: verifica che il CollisionManager rilevi e gestisca correttamente le collisioni tra il giocatore e gli ostacoli.
+
+\item \textbf{EventManagerTest}: testa che l’EventManager gestisca correttamente l’iscrizione e la notifica degli eventi.
 \end{itemize}
 
-\subsection*{Elementi negativi}
-\begin{itemize}
- \item Non si realizza alcun test automatico.
- \item La non presenza di testing viene aggravata dall'adduzione di motivazioni non valide. Ad esempio, si scrive che l'interfaccia grafica non è testata automaticamente perché è \emph{impossibile} farlo\footnote{Testare in modo automatico le interfacce grafiche è possibile (si veda, come esempio, \url{https://github.com/TestFX/TestFX}), semplicemente nel corso non c'è modo e tempo di introdurvi questo livello di complessità. Il fatto che non vi sia stato insegnato come farlo non implica che sia impossibile!}.
- \item Si descrive un testing di tipo manuale in maniera prolissa.
- \item Si descrivono test effettuati manualmente che sarebbero potuti essere automatizzati, ad esempio scrivendo che si è usata l'applicazione manualmente.
- \item Si descrivono test non presenti nei sorgenti del progetto.
- \item I test, quando eseguiti, falliscono.
-\end{itemize}
 
 \section{Note di sviluppo}
 
-Questa sezione, come quella riguardante il design dettagliato va svolta \textbf{singolarmente da ogni membro del gruppo}.
-%
-Nella prima parte, ciascuno dovrà mostrare degli esempi di codice particolarmente ben realizzati,
-che dimostrino proefficienza con funzionalità avanzate del linguaggio e capacità di spingersi oltre le librerie mostrate a lezione.
+\subsection{Junkai Ji}
 
-\begin{itemize}
-	\item \textbf{Elencare} (fare un semplice elenco per punti, non un testo!) le feature \textit{avanzate} del linguaggio e dell'ecosistema Java che sono state
-utilizzate. Le feature di interesse sono:
-	\begin{itemize}
-		\item Progettazione con generici, ad esempio costruzione di nuovi tipi generici, e uso di generici bounded.
-		L'uso di classi generiche di libreria non è considerato avanzato.
-		\item Uso di lambda expressions
-		\item Uso di \texttt{Stream}, di \texttt{Optional} o di altri costrutti funzionali
-		\item Uso di reflection
-		\item Definizione ed uso di nuove annotazioni
-		\item Uso del Java Platform Module System
-		\item Uso di parti della libreria JDK non spiegate a lezione (networking, compressione, parsing XML, eccetera...)
-		\item Uso di librerie di terze parti (incluso JavaFX): Google Guava, Apache Commons...
-	\end{itemize}
-	\item Si faccia molta attenzione a non scrivere banalità, elencando qui features di tipo ``core'', come le eccezioni, le enumerazioni, o le inner class: nessuna di queste è considerata avanzata.
-	\item Per ogni feature avanzata, mostrata, includere:
-	\begin{itemize}
-		\item Nome della feature
-		\item Permalink GitHub al punto nel codice in cui è stata utilizzata
-	\end{itemize}
-\end{itemize}
-
-In questa sezione, \textit{dopo l'elenco},
-vanno menzionati ed attributi con precisione eventuali pezzi di codice ``riadattati'' (o scopiazzati...) da Internet o da altri progetti,
-pratica che tolleriamo ma che non raccomandiamo.
-%
-Si rammenta agli studenti che non è consentito partire da progetti esistenti e procedere per modifiche successive.
-%
-Si ricorda anche che i docenti hanno in mano strumenti antiplagio piuttosto raffinati e che ``capiscono'' il codice e la storia delle modifiche del progetto,
-per cui tecniche banali come cambiare nomi (di classi, metodi, campi, parametri, o variabili locali),
-aggiungere o togliere commenti,
-oppure riordinare i membri di una classe vengono individuate senza problemi.
-%
-Le regole del progetto spiegano in dettaglio l'approccio dei docenti verso atti gravi come il plagiarismo.
-
-I pattern di design \textbf{non} vanno messi qui.
-%
-L'uso di pattern di design (come suggerisce il nome) è un aspetto avanzato di design, non di implementazione,
-e non va in questa sezione.
-
-\subsection*{Elementi positivi}
-
-\begin{itemize}
-	\item Si elencano gli aspetti avanzati di linguaggio che sono stati impiegati
-	\item Si elencano le librerie che sono state utilizzate
-	\item Per ciascun elemento, si fornisce un permalink
-	\item Ogni permalink fa riferimento ad uno snippet di codice scritto dall'autore della sezione (i docenti verificheranno usando \texttt{git blame})
-	\item Se si è utilizzato un particolare algoritmo, se ne cita la fonte originale.
-	Ad esempio, se si è usato Mersenne Twister per la generazione di numeri pseudo-random, si cita \cite{mersenne}.
-	\item Si identificano parti di codice prese da altri progetti, dal web, o comunque scritte in forma originale da altre persone.
-	In tal senso, si ricorda che agli ingegneri non è richiesto di re-inventare la ruota continuamente:
-	se si cita debitamente la sorgente è tollerato fare uso di di snippet di codice open source per risolvere velocemente problemi non banali.
-	Nel caso in cui si usino snippet di codice di qualità discutibile,
-	oltre a menzionarne l'autore originale si invitano gli studenti ad adeguare tali parti di codice agli standard e allo stile del progetto.
-	Contestualmente, si fa presente che è largamente meglio fare uso di una libreria che copiarsi pezzi di codice:
-	qualora vi sia scelta (e tipicamente c'è), si preferisca la prima via.
-\end{itemize}
-
-\subsection*{Elementi negativi}
-\begin{itemize}
-	\item Si elencano feature core del linguaggio invece di quelle segnalate. Esempi di feature core da non menzionare sono:
-    \begin{itemize}
-        \item eccezioni;
-        \item classi innestate;
-        \item enumerazioni;
-        \item interfacce.
-    \end{itemize}
-	\item Si elencano applicazioni di terze parti (peggio se per usarle occorre licenza, e lo studente ne è sprovvisto) che non c'entrano nulla con lo sviluppo, ad esempio:
-    \begin{itemize}
-        \item Editor di grafica vettoriale come Inkscape o Adobe Illustrator;
-        \item Editor di grafica scalare come GIMP o Adobe Photoshop;
-        \item Editor di audio come Audacity;
-        \item Strumenti di design dell'interfaccia grafica come SceneBuilder: il codice è in ogni caso inteso come sviluppato da voi.
-    \end{itemize}
-	\item Si descrivono aspetti di scarsa rilevanza, o si scende in dettagli inutili.
-	\item Sono presenti parti di codice sviluppate originalmente da altri che non vengono debitamente segnalate.
-	In tal senso, si ricorda agli studenti che i docenti hanno accesso a tutti i progetti degli anni passati,
-	a Stack Overflow,
-	ai principali blog di sviluppatori ed esperti Java,
-	ai blog dedicati allo sviluppo di soluzioni e applicazioni
-	(inclusi blog dedicati ad Android e allo sviluppo di videogame),
-	nonché ai vari GitHub, GitLab, e Bitbucket.
-	Conseguentemente, è \emph{molto} conveniente \emph{citare} una fonte ed usarla invece di tentare di spacciare per proprio il lavoro di altri.
-	\item Si elencano design pattern
-\end{itemize}
-
-\subsection{Esempio}
-
-\subsubsection{Utilizzo della libreria SLF4J}
-
+\subsubsection{Utilizzo di \texttt{Generic} e \texttt{Custom Biconsumer}}
 Utilizzata in vari punti.
-Un esempio è \url{https://github.com/AlchemistSimulator/Alchemist/blob/5c17f8b76920c78d955d478864ac1f11508ed9ad/alchemist-swingui/src/main/java/it/unibo/alchemist/boundary/swingui/effect/impl/EffectBuilder.java#L49}
-
-\subsubsection{Utilizzo di \texttt{LoadingCache} dalla libreria Google Guava}
-
-Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/protelis/AlchemistExecutionContext.java#L141-L143}
+Un esempio è 
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/main/src/main/java/com/project/paradoxplatformer/controller/event/EventManager.java}
 
 \subsubsection{Utilizzo di \texttt{Stream} e lambda expressions}
+Utilizzata in vari punti.
+Un esempio è 
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/main/src/main/java/com/project/paradoxplatformer/model/effect/managers/TypeEffectsManager.java}
 
-Usate pervasivamente. Il seguente è un singolo esempio.
-Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/model/ProtelisIncarnation.java#L98-L120}
+\subsubsection{Utilizzo di \texttt{Reflection}}
+Un esempio è 
+\url{https://github.com/OlivieriMichele/OOP23-paradox-platformer/blob/main/src/main/java/com/project/paradoxplatformer/model/effect/impl/EffectHandlerImpl.java}
 
-\subsubsection{Scrittura di metodo generico con parametri contravarianti}
-
-Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/protelis/AlchemistExecutionContext.java#L141-L143}
-
-\subsubsection{Protezione da corse critiche usando \texttt{Semaphore}}
-
-Permalink: \url{https://github.com/AlchemistSimulator/Alchemist/blob/d8a1799027d7d685569e15316a32e6394632ce71/alchemist-incarnation-protelis/src/main/java/it/unibo/alchemist/model/ProtelisIncarnation.java#L388-L440}
-
-
+	
 \chapter{Commenti finali}
-
-In quest'ultimo capitolo si tirano le somme del lavoro svolto e si delineano eventuali sviluppi
-futuri.
-
-\textit{Nessuna delle informazioni incluse in questo capitolo verrà utilizzata per formulare la valutazione finale}, a meno che non sia assente o manchino delle sezioni obbligatorie.
-%
-Al fine di evitare pregiudizi involontari, l'intero capitolo verrà letto dai docenti solo dopo aver formulato la valutazione.
 
 \section{Autovalutazione e lavori futuri}
 
-\textbf{È richiesta una sezione per ciascun membro del gruppo, obbligatoriamente}.
-%
-Ciascuno dovrà autovalutare il proprio lavoro, elencando i punti di forza e di debolezza in quanto prodotto.
-Si dovrà anche cercare di descrivere \emph{in modo quanto più obiettivo possibile} il proprio ruolo all'interno del gruppo.
-Si ricorda, a tal proposito, che ciascuno studente è responsabile solo della propria sezione: non è un problema se ci sono opinioni contrastanti, a patto che rispecchino effettivamente l'opinione di chi le scrive.
-Nel caso in cui si pensasse di portare avanti il progetto, ad esempio perché effettivamente impiegato, o perché sufficientemente ben riuscito da poter esser usato come dimostrazione di esser capaci progettisti, si descriva brevemente verso che direzione portarlo.
-
-\section{Difficoltà incontrate e commenti per i docenti}
-
-Questa sezione, \textbf{opzionale}, può essere utilizzata per segnalare ai docenti eventuali problemi o difficoltà incontrate nel corso o nello svolgimento del progetto, può essere vista come una seconda possibilità di valutare il corso (dopo quella offerta dalle rilevazioni della didattica) avendo anche conoscenza delle modalità e delle difficoltà collegate all'esame, cosa impossibile da fare usando le valutazioni in aula per ovvie ragioni.
-%
-È possibile che alcuni dei commenti forniti vengano utilizzati per migliorare il corso in futuro: sebbene non andrà a vostro beneficio, potreste fare un favore ai vostri futuri colleghi.
-%
-Ovviamente \textit{il contenuto della sezione non impatterà il voto finale}.
-
-\appendix
-\chapter{Guida utente}
-
-Questa guida illustra come utilizzare l’applicazione \textit{Paradox Platformer} e fornisce istruzioni chiare per iniziare a giocare. Anche se il gioco è intuitivo, è utile spiegare alcune funzionalità fondamentali per i nuovi utenti.
-
-\section{Avvio del gioco}
-
-\begin{enumerate}
-    \item Quando si avvia il gioco, verrà visualizzato un menu principale contenente l’elenco dei livelli disponibili.
-    \item Il giocatore può selezionare uno dei 4 livelli cliccando sul nome del livello desiderato. Il livello selezionato verrà caricato immediatamente, e il giocatore potrà iniziare a giocare.
-\end{enumerate}
-
-\section{Controlli di gioco}
-
-Per muovere il personaggio nel mondo di \textit{Paradox Platformer}, il giocatore può utilizzare i seguenti tasti:
-
-\begin{itemize}
-    \item \textbf{W} o \textbf{Freccia Su}: Salto
-    \item \textbf{A} o \textbf{Freccia Sinistra}: Movimento verso sinistra
-    \item \textbf{D} o \textbf{Freccia Destra}: Movimento verso destra
-    \item \textbf{S} o \textbf{Freccia Giù}: Accovacciarsi (se supportato)
-\end{itemize}
-
-\bibliographystyle{alpha}
-\bibliography{13-template}
-
+\subsection{Junkai Ji}
+Nel corso di questo progetto, sono abbastanza soddisfatto del lavoro che ho svolto, nonostante le sfide e le limitazioni che abbiamo affrontato. La nostra squadra ha dovuto gestire diversi problemi e vincoli di tempo, il che ha impedito una collaborazione coordinata tra i membri. Tuttavia, sono contento di essere riuscito a portare avanti le nostre parti singolarmente per poi combinare il nostro lavoro per ottenere un applicativo finale funzionante. La gestione del tempo è stata una sfida, e alcuni aspetti del lavoro sono stati affrettati a causa delle scadenze. Questo ha influito sulla qualità di alcune sezioni e ha limitato il tempo dedicato ai test e alla struttura del progetto.
+\subsection{Michele Olivieri}
+Nel complesso, condivido pienamente le riflessioni dei miei collegi su questo progetto. Nonostante le difficoltà e le limitazioni incontrate, come la gestione del tempo e la mancanza di una collaborazione più coordinata, sono soddisfatto del risultato finale. Mi dispiace, tuttavia, non essere riuscito a raggiungere alcuni degli obiettivi che mi ero prefissato, specialmente per quanto riguarda la struttura del mio lavoro. Guardando indietro, penso che avrei potuto fare meglio in alcune aree. C'è stata forse una certa mancanza di coesione nella divisione dei compiti e nella definizione di una struttura comune, ma devo riconoscere l'alta competenza dei miei colleghi, che ci ha permesso di trovare una soluzione e combinare con successo i nostri contributi per ottenere un applicativo funzionante.
+\subsection{Keegan Carlo Falcao}
+	
+	\appendix
+	\chapter{Guida utente}
+	
+	Questa guida illustra come utilizzare l’applicazione \textit{Paradox Platformer} e fornisce istruzioni chiare per iniziare a giocare. Anche se il gioco è intuitivo, è utile spiegare alcune funzionalità fondamentali per i nuovi utenti.
+	
+	\section{Avvio del gioco}
+	
+	\begin{enumerate}
+		\item Quando si avvia il gioco, verrà visualizzato un menu principale contenente l’elenco dei livelli disponibili.
+		\item Il giocatore può selezionare uno dei 4 livelli cliccando sul nome del livello desiderato. Il livello selezionato verrà caricato immediatamente, e il giocatore potrà iniziare a giocare.
+	\end{enumerate}
+	
+	\section{Controlli di gioco}
+	
+	Per muovere il personaggio nel mondo di \textit{Paradox Platformer}, il giocatore può utilizzare i seguenti tasti:
+	
+	\begin{itemize}
+		\item \textbf{W} o \textbf{Freccia Su}: Salto
+		\item \textbf{A} o \textbf{Freccia Sinistra}: Movimento verso sinistra
+		\item \textbf{D} o \textbf{Freccia Destra}: Movimento verso destra
+		\item \textbf{S} o \textbf{Freccia Giù}: Accovacciarsi (se supportato)
+	\end{itemize}
+	
+	\bibliographystyle{alpha}
+	\bibliography{13-template}
+	
 \end{document}

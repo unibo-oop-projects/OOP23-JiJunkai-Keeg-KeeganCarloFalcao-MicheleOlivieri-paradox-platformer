@@ -1,6 +1,9 @@
 package com.project.paradoxplatformer.view;
 
+import java.io.IOException;
+
 import com.project.paradoxplatformer.controller.games.Level;
+import com.project.paradoxplatformer.utils.InvalidResourceException;
 
 /**
  * Interface representing a page in the application.
@@ -17,7 +20,7 @@ public interface Page<T> {
      * @throws Exception if an error occurs during the creation or initialization of
      *                   the page
      */
-    void create(T param) throws Exception;
+    void create(T param) throws IOException, InvalidResourceException;
 
     /**
      * Returns a default implementation of the Page interface.
@@ -30,9 +33,9 @@ public interface Page<T> {
         return new Page<Level>() {
 
             @Override
-            public void create(final Level param) throws Exception {
+            public void create(final Level param) throws IOException, InvalidResourceException {
                 // Display a message indicating that the page was not found
-//                System.out.println("Page not Found: showing a Blank Screen");
+                // System.out.println("Page not Found: showing a Blank Screen");
             }
 
             @Override

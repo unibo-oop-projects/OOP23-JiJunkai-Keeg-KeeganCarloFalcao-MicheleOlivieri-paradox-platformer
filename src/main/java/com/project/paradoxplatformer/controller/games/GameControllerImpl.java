@@ -10,6 +10,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
 
 import com.project.paradoxplatformer.controller.gameloop.GameLoopFactoryImpl;
 import com.project.paradoxplatformer.controller.gameloop.ObservableLoopManager;
@@ -32,6 +33,7 @@ import com.project.paradoxplatformer.utils.endgame.EndGameManagerImpl;
 import com.project.paradoxplatformer.utils.endgame.VictoryConditionsFactoryImpl;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.logging.GlobalLogger;
 import com.project.paradoxplatformer.view.game.GameView;
 import com.project.paradoxplatformer.view.graphics.GraphicAdapter;
 import com.project.paradoxplatformer.view.graphics.ReadOnlyGraphicDecorator;
@@ -63,6 +65,8 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
 
     private ObservableLoopManager gameManager;
     private final Level currentLevel;
+
+    private final Logger logger = GlobalLogger.getLogger(GameControllerImpl.class);
 
     /**
      * Constructs a new {@code GameControllerImpl} instance with the specified
@@ -262,7 +266,7 @@ public final class GameControllerImpl<C> implements GameController<C>, GameContr
         try {
             ViewNavigator.getInstance().openView(PageIdentifier.GAME, currentLevel);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Failed to restart the game.", e);
         }
     }
 

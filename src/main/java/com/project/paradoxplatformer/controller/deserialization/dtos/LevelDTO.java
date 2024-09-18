@@ -48,29 +48,30 @@ public final class LevelDTO {
         this.type = type;
         this.width = width;
         this.height = height;
-        this.backgroundFile = backgroundFile == null ? "": backgroundFile;
+        this.backgroundFile = backgroundFile == null ? "" : backgroundFile;
         this.gameDTOs = gameDTOs != null ? gameDTOs.clone() : new GameDTO[0];
     }
 
     /**
-     * Constructs a {@link LevelDTO} with the specified width, height, and game data transfer objects (DTOs).
+     * Constructs a {@link LevelDTO} with the specified width, height, and game data
+     * transfer objects (DTOs).
      * <p>
-     * This constructor initializes a level with the given dimensions and a list of game DTOs. The background file
+     * This constructor initializes a level with the given dimensions and a list of
+     * game DTOs. The background file
      * is set to an empty string by default.
      * </p>
      * 
-     * @param width      the width of the level
-     * @param height     the height of the level
-     * @param gameDTOs   an array of {@link GameDTO} objects representing the game elements in the level
+     * @param width    the width of the level
+     * @param height   the height of the level
+     * @param gameDTOs an array of {@link GameDTO} objects representing the game
+     *                 elements in the level
      */
     public LevelDTO(final int width, final int height, final GameDTO[] gameDTOs) {
         this.width = width;
         this.height = height;
-        this.gameDTOs = gameDTOs;
+        this.gameDTOs = gameDTOs.clone();
         this.backgroundFile = "";
     }
-
-
 
     /**
      * Gets the type of the game.

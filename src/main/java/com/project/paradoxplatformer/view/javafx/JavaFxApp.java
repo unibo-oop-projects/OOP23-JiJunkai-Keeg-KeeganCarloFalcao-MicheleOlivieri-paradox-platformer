@@ -266,7 +266,7 @@ public class JavaFxApp extends Application implements ViewManager {
         // scene.getHeight()));
     }
 
-    private void setDialoContent(final String content, final DialogPane p) throws ClassCastException {
+    private void setDialoContent(final String content, final DialogPane p) {
         p.getChildren().stream()
                 .filter(VBox.class::isInstance)
                 .map(VBox.class::cast)

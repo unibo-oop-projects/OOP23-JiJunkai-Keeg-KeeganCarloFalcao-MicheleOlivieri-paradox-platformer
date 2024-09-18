@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.utils.endgame;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
@@ -40,7 +39,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
         if (player == null) {
             return defaultConditions();
         }
-        this.player = Optional.of(player).get();
+        this.player = player;
         return switch (level) {
             case LEVEL_ONE -> levelOneConditions();
             case LEVEL_TWO -> levelTwoConditions();
@@ -112,8 +111,8 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
     public Iterator<VictoryCondition> levelFourConditions() {
         final List<VictoryCondition> conditions = new ArrayList<>();
         conditions.add(new CompositeVictoryCondition(
-                new ReachEndVictoryCondition(this.player), 
-                new CoinCollectionVictoryCondition(this.player,DEFAULT_COIN_COLLECTION)));
+                new ReachEndVictoryCondition(this.player),
+                new CoinCollectionVictoryCondition(this.player, DEFAULT_COIN_COLLECTION)));
         conditions.add(new TimeLimitVictoryCondition(LEVEL_FOUR_TIME_LIMIT)); // Survive for 400 seconds
         return conditions.iterator();
     }

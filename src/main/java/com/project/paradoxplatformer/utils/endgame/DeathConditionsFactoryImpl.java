@@ -3,7 +3,6 @@ package com.project.paradoxplatformer.utils.endgame;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.player.PlayerModel;
@@ -38,7 +37,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
         if (player == null) {
             return defaultConditions();
         }
-        this.player = Optional.of(player).get();
+        this.player = player;
         return switch (level) {
             case LEVEL_ONE -> levelOneConditions();
             case LEVEL_TWO -> levelTwoConditions();

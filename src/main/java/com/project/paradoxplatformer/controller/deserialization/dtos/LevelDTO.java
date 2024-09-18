@@ -25,15 +25,18 @@ public final class LevelDTO {
 
     private final GameDTO[] gameDTOs;
 
-   /**
+    /**
      * Constructs a LevelDTO object with the specified parameters.
      *
-     * @param type           the type of the level, indicating its category or purpose
+     * @param type           the type of the level, indicating its category or
+     *                       purpose
      * @param width          the width of the level in units (e.g., pixels, meters)
      * @param height         the height of the level in units (e.g., pixels, meters)
-     * @param backgroundFile the file path or name of the background image for the level
-     * @param gameDTOs       an array of {@link GameDTO} objects representing the game elements in the level;
-     *                      if {@code null}, initializes with an empty array
+     * @param backgroundFile the file path or name of the background image for the
+     *                       level
+     * @param gameDTOs       an array of {@link GameDTO} objects representing the
+     *                       game elements in the level;
+     *                       if {@code null}, initializes with an empty array
      */
     @JsonCreator
     public LevelDTO(
@@ -45,10 +48,9 @@ public final class LevelDTO {
         this.type = type;
         this.width = width;
         this.height = height;
-        this.backgroundFile = backgroundFile == "" ? "": "";
+        this.backgroundFile = backgroundFile == "" ? "" : "";
         this.gameDTOs = gameDTOs != null ? gameDTOs.clone() : new GameDTO[0];
     }
-
 
     /**
      * Gets the type of the game.

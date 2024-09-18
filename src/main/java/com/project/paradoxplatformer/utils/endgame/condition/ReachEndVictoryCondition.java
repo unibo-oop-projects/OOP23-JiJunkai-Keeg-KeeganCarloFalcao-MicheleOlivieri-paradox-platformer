@@ -1,7 +1,5 @@
 package com.project.paradoxplatformer.utils.endgame.condition;
 
-import java.util.Optional;
-
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.endgame.VictoryCondition;
 
@@ -23,7 +21,7 @@ public class ReachEndVictoryCondition implements VictoryCondition {
      * @param player The player model used to track the player's position.
      */
     public ReachEndVictoryCondition(final PlayerModel player) {
-        this.player = Optional.of(player).get();
+        this.player = player;
     }
 
     /**

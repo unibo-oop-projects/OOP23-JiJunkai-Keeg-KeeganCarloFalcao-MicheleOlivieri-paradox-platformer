@@ -36,6 +36,49 @@ public final class GameDTO {
     }
 
     /**
+     * Constructs a LevelDTO object with the specified parameters.
+     * <p>
+     * This constructor is not used by Jackson for deserialization.
+     * </p>
+     *
+     * @param type          the type of the level
+     * @param id            the unique identifier for the level
+     * @param x             the x-coordinate position of the level
+     * @param y             the y-coordinate position of the level
+     * @param width         the width of the level
+     * @param height        the height of the level
+     * @param subtype       the subtype of the level
+     * @param image         the image associated with the level
+     * @param color         the color configuration of the level
+     * @param traj          an array of {@link TrajMacro} objects representing trajectory macros
+     * @param triggeringId  the ID of the trigger associated with the level
+     */
+    public GameDTO(
+            final String type,
+            final int id,
+            final double x,
+            final double y,
+            final double width,
+            final double height,
+            final String subtype,
+            final String image,
+            final ColorDTO color,
+            final TrajMacro[] traj,
+            final int triggeringId) {
+        this.type = type;
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.subtype = subtype;
+        this.image = image;
+        this.color = color;
+        this.traj = traj != null ? traj.clone() : new TrajMacro[0];
+        this.triggeringId = triggeringId;
+    }
+
+    /**
      * An unique id to identify the gameObject.
      * Very useful for join predicates and to reckon the game object in find
      * operations.

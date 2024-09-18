@@ -10,6 +10,8 @@ import com.project.paradoxplatformer.utils.endgame.condition.DeathObstacleCollis
 import com.project.paradoxplatformer.utils.endgame.condition.FallenCondition;
 import com.project.paradoxplatformer.utils.endgame.condition.TimeLimitDeathCondition;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * DeathConditionsFactoryImpl generates different death conditions based on the
  * game level
@@ -33,6 +35,7 @@ public class DeathConditionsFactoryImpl implements ConditionsFactory<DeathCondit
      * @return an iterator over death conditions specific to the level.
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This method needs exactly the original player.")
     public Iterator<DeathCondition> createConditionsForLevel(final Level level, final PlayerModel player) {
         if (player == null) {
             return defaultConditions();

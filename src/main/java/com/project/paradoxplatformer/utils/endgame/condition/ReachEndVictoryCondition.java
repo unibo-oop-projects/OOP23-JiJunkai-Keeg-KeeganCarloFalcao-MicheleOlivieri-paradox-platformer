@@ -3,6 +3,8 @@ package com.project.paradoxplatformer.utils.endgame.condition;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.endgame.VictoryCondition;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A victory condition that is met when the player reaches the end of the game
  * world.
@@ -20,6 +22,7 @@ public class ReachEndVictoryCondition implements VictoryCondition {
      *
      * @param player The player model used to track the player's position.
      */
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This method needs exactly the original player.")
     public ReachEndVictoryCondition(final PlayerModel player) {
         this.player = player;
     }

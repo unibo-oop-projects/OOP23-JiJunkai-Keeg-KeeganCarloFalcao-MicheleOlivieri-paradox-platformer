@@ -11,6 +11,8 @@ import com.project.paradoxplatformer.utils.endgame.condition.CompositeVictoryCon
 import com.project.paradoxplatformer.utils.endgame.condition.ReachEndVictoryCondition;
 import com.project.paradoxplatformer.utils.endgame.condition.TimeLimitVictoryCondition;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * VictoryConditionsFactoryImpl generates different victory conditions for each
  * level. It allows the dynamic creation of conditions based on the level and
@@ -35,6 +37,7 @@ public class VictoryConditionsFactoryImpl implements ConditionsFactory<VictoryCo
      * @return an iterator over victory conditions specific to the level.
      */
     @Override
+    @SuppressFBWarnings(value = "EI_EXPOSE_REP", justification = "This method needs exactly the original player.")
     public Iterator<VictoryCondition> createConditionsForLevel(final Level level, final PlayerModel player) {
         if (player == null) {
             return defaultConditions();

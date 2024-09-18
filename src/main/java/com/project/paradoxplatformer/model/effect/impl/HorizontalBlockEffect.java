@@ -28,22 +28,15 @@ public final class HorizontalBlockEffect extends AbstractPlayerEffect {
                     .filter(g -> getPlayer().isPresent())
                     .map(Wall.class::cast)
                     .ifPresent(w -> {
-                        if (getPlayer().get().getPosition().y() >= w.getPosition().y() + w.getDimension().height()) {
+                        if (getPlayer().get().direction() == Direction.LEFT) {
                             getPlayer().get().setDisplacement(
-                                    new Coord2D(
-                                            getPlayer().get().getPosition().x(),
-                                            w.getPosition().y() + w.getDimension().height()));
-                        } else {
-                            if (getPlayer().get().direction() == Direction.LEFT) {
-                                getPlayer().get().setDisplacement(
-                                        w.getPosition().x() + w.getDimension().width() + TOLERANCE);
-                            } else if (getPlayer().get().direction() == Direction.RIGHT) {
-                                getPlayer().get().setDisplacement(
-                                        w.getPosition().x() - getPlayer().get().getDimension().width() - TOLERANCE);
-                            }
+                                    w.getPosition().x() + w.getDimension().width() + TOLERANCE);
+                        } else if (getPlayer().get().direction() == Direction.RIGHT) {
+                            getPlayer().get().setDisplacement(
+                                    w.getPosition().x() - getPlayer().get().getDimension().width() - TOLERANCE);
                         }
                         // System.out.println(getPlayer().get().toString());
-                        getPlayer().get().stopFall();
+                        // getPlayer().get().stopFall();
                     });
         });
     }

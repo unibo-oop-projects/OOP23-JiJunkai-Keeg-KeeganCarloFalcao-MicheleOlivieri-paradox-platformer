@@ -92,8 +92,8 @@ public final class Cartesian {
             return false;
         }
         final Cartesian other = (Cartesian) obj;
-        return Double.doubleToLongBits(y) == Double.doubleToLongBits(other.y) &&
-                Double.doubleToLongBits(x) == Double.doubleToLongBits(other.x);
+        return Double.doubleToLongBits(y) == Double.doubleToLongBits(other.y)
+                && Double.doubleToLongBits(x) == Double.doubleToLongBits(other.x);
     }
 
     @Override

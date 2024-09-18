@@ -18,9 +18,9 @@ public interface GameControllerEventListener {
      * Handles the STOP_VIEW event.
      *
      * @param id    the identifier of the page
-     * @param param the level associated with the event
+     * @param level the level associated with the event
      */
-    void handleStopView(PageIdentifier id, Level param);
+    void handleStopView(PageIdentifier id, Level level);
 
     /**
      * Handles the REMOVE_OBJECT event.
@@ -41,7 +41,9 @@ public interface GameControllerEventListener {
     /**
      * Handles the WIN_CONDITION_MET event.
      *
-     * @param id the identifier of the page
+     * @param id    the identifier of the page
+     * @param level the level associated with the event
+     * 
      */
     void handleVictory(PageIdentifier id, Level level);
 }

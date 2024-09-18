@@ -33,11 +33,9 @@ public abstract class AbstractControllableObject extends AbstractHorizontalObjec
      * Constructs an {@code AbstractControllableObject} with the specified initial
      * displacement and horizontal statistics.
      * 
-     * @param id               unique id for the controllable object
-     * @param initDisplacement the initial displacement vector for the object as a
-     *                         {@link Vector2D} object
-     * @param stats            the horizontal statistics to be used, encapsulated in
-     *                         a {@link HorizontalStats} object
+     * @param id    unique id for the controllable object
+     * @param stats the horizontal statistics to be used, encapsulated in
+     *              a {@link HorizontalStats} object
      */
     protected AbstractControllableObject(final int id, final HorizontalStats stats) {
         super(id, stats.limit(), stats.delta());

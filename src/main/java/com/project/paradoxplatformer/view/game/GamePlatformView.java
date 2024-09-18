@@ -79,7 +79,7 @@ public final class GamePlatformView<C, K> implements GameView<C> {
     public void init() {
         final Pair<DoubleProperty, DoubleProperty> dimScalingProperties = this.initializeProperties(this.container);
         this.container.setDimension(this.packedData.getWidth(), this.packedData.getHeight());
-
+        
         this.setComponents = Arrays.stream(this.packedData.getGameDTOs())
                 .collect(Collectors.teeing(
                         Collectors.filtering(g -> Objects.nonNull(g.getImage()),
@@ -137,8 +137,10 @@ public final class GamePlatformView<C, K> implements GameView<C> {
      * @param graphicCompo the read-only graphic component to be updated
      */
     @Override
-    public void updateControlState(final ReadOnlyMutableObjectWrapper mutEntity,
-            final ReadOnlyGraphicDecorator<C> graphicCompo) {
+    public void updateControlState(
+            final ReadOnlyMutableObjectWrapper mutEntity,
+            final ReadOnlyGraphicDecorator<C> graphicCompo
+        ) {
         retriveGraphic(graphicCompo).ifPresent(graph -> {
 
             final var c = offsetCorrector.correct(graphicCompo.dimension(), mutEntity.getPosition());

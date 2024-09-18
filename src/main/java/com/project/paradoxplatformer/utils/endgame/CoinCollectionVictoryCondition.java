@@ -33,6 +33,7 @@ public class CoinCollectionVictoryCondition implements VictoryCondition {
      */
     @Override
     public boolean win() {
+        System.out.println("Coin " + player.getCollectedCoins());
         return player.getCollectedCoins() >= this.targetCoins;
     }
 

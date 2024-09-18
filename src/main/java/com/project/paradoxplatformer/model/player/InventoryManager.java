@@ -58,7 +58,7 @@ public interface InventoryManager {
                 .filter(
                     StreamUtil.mapAndFilter(
                         Map.Entry::getKey,
-                        Coin.class::isInstance
+                        Coin.class.getSimpleName()::equals
                     )
                 )
                 .findFirst()

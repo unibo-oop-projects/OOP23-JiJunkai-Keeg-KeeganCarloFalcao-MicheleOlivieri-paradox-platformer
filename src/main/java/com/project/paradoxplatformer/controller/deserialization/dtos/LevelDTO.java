@@ -45,7 +45,7 @@ public final class LevelDTO {
         this.type = type;
         this.width = width;
         this.height = height;
-        this.backgroundFile = backgroundFile;
+        this.backgroundFile = backgroundFile == "" ? "": "";
         this.gameDTOs = gameDTOs != null ? gameDTOs.clone() : new GameDTO[0];
     }
 

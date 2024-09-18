@@ -18,7 +18,7 @@ public class DeathObstacleCollisionCondition implements DeathCondition {
      */
     @SuppressFBWarnings(value = { "ST" }, justification = "For a simply call.")
     public DeathObstacleCollisionCondition() {
-        isDead = false;
+        setDeath(false);
     }
 
     /**

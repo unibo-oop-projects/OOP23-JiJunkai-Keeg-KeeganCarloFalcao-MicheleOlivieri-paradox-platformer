@@ -231,6 +231,54 @@
 	
 	\paragraph{Soluzione:} Una soluzione ad occhio e croce sarebbe quella di implementare la gestione della view in un unico metodo, o attverso la costruzione in un' elaborata gerarchia di classi in modo da avere a disposizione tutte le istanze legate all'applicazione pronte per essere accedute. Tale soluzione venne subito scartata in quanto, oltre ad essere troppo corposa, molti metodi differenti dovevano richiedere 
 	l'accesso alla vista (magari per cambiarla) e non potevano raggiungerla a causa di una mancata centralizzazione di essa. Il pattern {Singleton} risponde esattamente ai mancati adempimenti della precedente soluzione, in quanto ogni classe ha l'accesso alla classe centralizzata {ViewManager} e tali operazioni restano sicure in quanto essa viene inizilizzata durante la creazione dell'applicazione e quindi prima di ogni eventuale modifca del gioco.
+
+ \subsection{Junkai Ji}
+\subsubsection{EffectHandler}
+\paragraph{Problema:} La gestione degli effetti applicati durante le collisioni tra il giocatore e gli oggetti di gioco può diventare complessa, specialmente quando si tratta di avere sequenze di effetti di lunghezza variabile e diversi livelli. È fondamentale garantire che gli effetti vengano applicati correttamente e che le risorse siano gestite in modo efficiente.
+
+\paragraph{Soluzione Proposta:} La classe \texttt{EffectHandlerImpl} gestisce l’applicazione e la gestione degli effetti nel gioco. Utilizza \texttt{TypeEffectsManager} e \texttt{ObjectEffectsManager} per separare e gestire gli effetti basati sui tipi di collisione e sugli oggetti specifici. Gli effetti possono essere sia generali (per tipo di collisione) sia specifici (per oggetti), e la classe è in grado di applicare e resettare questi effetti in modo coerente. Inoltre, è capace di ricreare gli effetti se necessario, utilizzando la riflessione per verificare e invocare il metodo \texttt{recreate} degli effetti.
+
+\paragraph{Vantaggi e Svantaggi:}
+Il principale vantaggio è che gli effetti sono completamente estratti dagli oggetti di gioco, eliminando la necessità di una relazione diretta tra effetti e oggetti. Questo approccio, centralizzato attraverso l’\texttt{EffectHandlerImpl}, migliora la struttura del codice e facilita la gestione degli effetti a livello globale. Tuttavia, l’uso di questa classe può introdurre problemi di performance a causa della ricreazione e eliminazione degli effetti.
+
+\subsubsection{CollisionManager}
+
+\paragraph{Problema:} La gestione delle collisioni comporta una sequenza di passaggi complessi e ordinati. È necessario gestire non solo l’applicazione degli effetti, ma anche considerare le priorità tra le varie operazioni, come l’attivazione degli eventi di trigger prima dell’applicazione degli effetti e le operazioni di pulizia successivamente. 
+
+\paragraph{Soluzione Proposta:}  CollisionManager e CollisionObserver utilizzano un design modulare per affrontare questa complessità. CollisionManager si occupa della rilevazione delle collisioni, mentre CollisionObserver gestisce l’applicazione e il reset degli effetti. Utilizzando BiConsumerWithAndThen, è possibile creare una lista ordinata di BiConsumer, ciascuno rappresentante un passaggio specifico nel processo di gestione delle collisioni. Questo approccio permette di definire chiaramente le priorità tra le operazioni: prima vengono attivati gli eventi di trigger, poi applicati gli effetti, e infine eseguite le operazioni di pulizia e reset. La possibilità di concatenare questi BiConsumer in modo chiaro e modulare consente un codice pulito e facilmente manutenibile.
+
+\paragraph{Vantaggi e Svantaggi:}
+Il design modulare e l’uso di BiConsumerWithAndThen permettono una gestione ordinata e flessibile delle collisioni e degli effetti, rispettando le priorità tra le operazioni. Questo approccio migliora la modularità e la manutenzione del codice. Tuttavia, l’introduzione di passaggi aggiuntivi e la gestione delle priorità possono aumentare la complessità e richiedere un’attenta pianificazione per evitare conflitti tra le operazioni.
+
+\subsubsection{Effect}
+
+\paragraph{Problema:} Con una struttura molto frammentata, comprendere come e a chi applicare gli effetti può diventare complesso. Ogni effetto deve sapere sia chi è il destinatario dell’effetto (target) che chi lo applica (self). Questa complessità aumenta quando gli effetti possono essere applicati non solo tra il giocatore e un oggetto, ma tra qualsiasi coppia di oggetti di gioco. La gestione di tali effetti richiede una chiara comprensione delle relazioni e delle priorità per garantire che gli effetti siano applicati e rimossi correttamente.
+\paragraph{Soluzione Proposta:} L’interfaccia Effect è progettata per gestire esplicitamente i dettagli dell’applicazione degli effetti. Il metodo apply consente di specificare sia l’oggetto destinatario dell’effetto (target) che l’oggetto che applica l’effetto (self), permettendo una gestione chiara e flessibile delle interazioni. Questo approccio è sufficientemente generico da supportare effetti tra qualsiasi coppia di oggetti di gioco, non limitandosi solo al giocatore e agli oggetti con cui interagisce.
+
+\paragraph{Vantaggi e Svantaggi:}
+Il design proposto consente una gestione chiara e versatile degli effetti, facilitando l’applicazione di effetti tra qualsiasi coppia di oggetti di gioco. La struttura generica e la capacità di gestire effetti asincroni tramite CompletableFuture migliorano l’efficienza e la flessibilità del sistema. Tuttavia, la generica natura degli effetti richiede una gestione accurata per evitare confusione e garantire che gli effetti siano applicati e rimossi correttamente.
+
+\subsubsection{EventManager}
+
+\paragraph{Problema:} La comunicazione tra classi diverse può diventare complessa, specialmente in un’applicazione con molteplici componenti e moduli. Passare istanze tra le classi può creare un forte accoppiamento e rendere il codice meno manutenibile. È necessario un meccanismo che permetta la comunicazione tra classi senza creare dipendenze dirette tra di esse.
+
+\paragraph{Soluzione Proposta:} Il EventManager utilizza un design centralizzato per gestire gli eventi e le azioni correlate. Implementa il pattern Singleton per assicurare che solo una istanza gestisca tutti gli eventi, migliorando la coerenza e facilitando l’accesso globale. Gli eventi e le loro azioni sono gestiti tramite una mappa (eventMap) che associa i tipi di eventi (eventType) a gestori di eventi (BiConsumerWithAndThen). Questo approccio permette di:
+
+\begin{itemize}
+ \item Isolare la Comunicazione: Le classi possono comunicare tra loro attraverso eventi senza riferimenti diretti.
+ \item Flessibilità: È possibile passare qualsiasi tipo di oggetto come parametro agli eventi, rendendo il EventManager altamente generico.
+ \item Gestione degli Eventi: Gli eventi vengono pubblicati e gestiti centralmente, semplificando la gestione e la manutenzione del codice.
+\end{itemize}
+
+\paragraph{Vantaggi e Svantaggi:}
+Il EventManager offre un design flessibile e centralizzato per la comunicazione tra classi, migliorando la manutenibilità e riducendo il forte accoppiamento. Tuttavia, questa flessibilità può essere pericolosa, poiché chi pubblica un evento deve garantire che i sottoscrittori abbiano metodi compatibili con i parametri dell’evento pubblicato. È essenziale che chi utilizza il EventManager sia consapevole delle specifiche degli eventi e dei parametri per evitare errori di runtime e garantire che le azioni siano eseguite correttamente.
+
+\subsubsection{Trigger}
+\paragraph{Problema:} In un gioco, è comune che gli effetti debbano essere attivati non solo in risposta a collisioni tra il giocatore e gli ostacoli, ma anche in base ad altre condizioni o eventi nel gioco. Questo richiede un meccanismo che possa attivare effetti anche in assenza di collisioni dirette, modificando dinamicamente la mappa del gioco.
+\paragraph{Soluzione Proposta:} L’interfaccia Trigger estende MutableObject e introduce metodi specifici per gestire l’attivazione di azioni o eventi associati a una collezione di ostacoli. 
+\paragraph{Vantaggi e Svantaggi:}
+L’uso dei trigger consente di attivare effetti senza dipendere esclusivamente dalle collisioni. Questo approccio arricchisce il gameplay e la complessità del gioco. Tuttavia, uno svantaggio significativo è che i trigger devono essere configurati e associati correttamente prima del loro utilizzo
+
 	
 	\section{Conclusioni}
 	
@@ -434,127 +482,47 @@
 		\label{img:badarch}
 	\end{figure}
 	
+\chapter{Sviluppo}
+\section{Testing automatizzato}
+
+l testing automatico delle classi sviluppate è stato realizzato utilizzando \textbf{JUnit}. Ogni membro del gruppo è stato incaricato di creare test per le proprie classi.
+
+\subsection{Junkai Ji}
+\begin{itemize}
+\item \textbf{TriggerTest}: verifica che il trigger attivi correttamente gli effetti associati e testa che il trigger possa attivare gli effetti degli ostacoli associati come previsto.
+
+\item \textbf{EffectTest}: controlla che gli effetti vengano applicati correttamente al giocatore.
+
+\item \textbf{EffectHandlerTest}: testa la gestione degli effetti da parte dell’EffectHandler, verificando che gli effetti vengano aggiunti, rimossi e applicati correttamente.
+
+\item \textbf{CollisionTest}: verifica che il CollisionManager rilevi e gestisca correttamente le collisioni tra il giocatore e gli ostacoli.
+
+\item \textbf{EventManagerTest}: testa che l’EventManager gestisca correttamente l’iscrizione e la notifica degli eventi.
+\end{itemize}
+
+
+\section{Note di sviluppo}
+
+\subsection{Junkai Ji}
+
+\subsubsection{Utilizzo di \texttt{Generic} e \texttt{Custom Biconsumer}}
+Utilizzata in vari punti.
+Un esempio è \url{https://github.com/AlchemistSimulator/Alchemist/blob/5c17f8b76920c78d955d478864ac1f11508ed9ad/alchemist-swingui/src/main/java/it/unibo/alchemist/boundary/swingui/effect/impl/EffectBuilder.java#L49}
+
+\subsubsection{Utilizzo di \texttt{Stream} e lambda expressions}
+Utilizzata in vari punti.
+Un esempio è 
+\url{https://github.com/AlchemistSimulator/Alchemist/blob/5c17f8b76920c78d955d478864ac1f11508ed9ad/alchemist-swingui/src/main/java/it/unibo/alchemist/boundary/swingui/effect/impl/EffectBuilder.java#L49}
+
+\subsubsection{Utilizzo di \texttt{Reflection}}
+Un esempio è 
+\url{https://github.com/AlchemistSimulator/Alchemist/blob/5c17f8b76920c78d955d478864ac1f11508ed9ad/alchemist-swingui/src/main/java/it/unibo/alchemist/boundary/swingui/effect/impl/EffectBuilder.java#L49}
+
+
+
 	
-	\chapter{Sviluppo}
-	\section{Testing automatizzato}
-	
-	Il testing automatizzato è un requisito di qualunque progetto software che si rispetti, e consente di verificare che non vi siano regressioni nelle funzionalità a fronte di aggiornamenti.
-	%
-	Per quanto riguarda questo progetto è considerato sufficiente un test minimale, a patto che sia completamente automatico.
-	%
-	Test che richiedono l'intervento da parte dell'utente sono considerati \textit{negativamente} nel computo del punteggio finale.
-	
-	\subsection*{Elementi positivi}
-	
-	\begin{itemize}
-		\item Si descrivono molto brevemente i componenti che si è deciso di sottoporre a test automatizzato.
-		\item Si utilizzano suite specifiche (e.g. JUnit) per il testing automatico.
-	\end{itemize}
-	
-	\subsection*{Elementi negativi}
-	\begin{itemize}
-		\item Non si realizza alcun test automatico.
-		\item La non presenza di testing viene aggravata dall'adduzione di motivazioni non valide. Ad esempio, si scrive che l'interfaccia grafica non è testata automaticamente perché è \emph{impossibile} farlo\footnote{Testare in modo automatico le interfacce grafiche è possibile (si veda, come esempio, \url{https://github.com/TestFX/TestFX}), semplicemente nel corso non c'è modo e tempo di introdurvi questo livello di complessità. Il fatto che non vi sia stato insegnato come farlo non implica che sia impossibile!}.
-		\item Si descrive un testing di tipo manuale in maniera prolissa.
-		\item Si descrivono test effettuati manualmente che sarebbero potuti essere automatizzati, ad esempio scrivendo che si è usata l'applicazione manualmente.
-		\item Si descrivono test non presenti nei sorgenti del progetto.
-		\item I test, quando eseguiti, falliscono.
-	\end{itemize}
-	
-	\section{Note di sviluppo}
-	
-	Questa sezione, come quella riguardante il design dettagliato va svolta \textbf{singolarmente da ogni membro del gruppo}.
-	%
-	Nella prima parte, ciascuno dovrà mostrare degli esempi di codice particolarmente ben realizzati,
-	che dimostrino proefficienza con funzionalità avanzate del linguaggio e capacità di spingersi oltre le librerie mostrate a lezione.
-	
-	\begin{itemize}
-		\item \textbf{Elencare} (fare un semplice elenco per punti, non un testo!) le feature \textit{avanzate} del linguaggio e dell'ecosistema Java che sono state
-		utilizzate. Le feature di interesse sono:
-		\begin{itemize}
-			\item Progettazione con generici, ad esempio costruzione di nuovi tipi generici, e uso di generici bounded.
-			L'uso di classi generiche di libreria non è considerato avanzato.
-			\item Uso di lambda expressions
-			\item Uso di \texttt{Stream}, di \texttt{Optional} o di altri costrutti funzionali
-			\item Uso di reflection
-			\item Definizione ed uso di nuove annotazioni
-			\item Uso del Java Platform Module System
-			\item Uso di parti della libreria JDK non spiegate a lezione (networking, compressione, parsing XML, eccetera...)
-			\item Uso di librerie di terze parti (incluso JavaFX): Google Guava, Apache Commons...
-		\end{itemize}
-		\item Si faccia molta attenzione a non scrivere banalità, elencando qui features di tipo ``core'', come le eccezioni, le enumerazioni, o le inner class: nessuna di queste è considerata avanzata.
-		\item Per ogni feature avanzata, mostrata, includere:
-		\begin{itemize}
-			\item Nome della feature
-			\item Permalink GitHub al punto nel codice in cui è stata utilizzata
-		\end{itemize}
-	\end{itemize}
-	
-	In questa sezione, \textit{dopo l'elenco},
-	vanno menzionati ed attributi con precisione eventuali pezzi di codice ``riadattati'' (o scopiazzati...) da Internet o da altri progetti,
-	pratica che tolleriamo ma che non raccomandiamo.
-	%
-	Si rammenta agli studenti che non è consentito partire da progetti esistenti e procedere per modifiche successive.
-	%
-	Si ricorda anche che i docenti hanno in mano strumenti antiplagio piuttosto raffinati e che ``capiscono'' il codice e la storia delle modifiche del progetto,
-	per cui tecniche banali come cambiare nomi (di classi, metodi, campi, parametri, o variabili locali),
-	aggiungere o togliere commenti,
-	oppure riordinare i membri di una classe vengono individuate senza problemi.
-	%
-	Le regole del progetto spiegano in dettaglio l'approccio dei docenti verso atti gravi come il plagiarismo.
-	
-	I pattern di design \textbf{non} vanno messi qui.
-	%
-	L'uso di pattern di design (come suggerisce il nome) è un aspetto avanzato di design, non di implementazione,
-	e non va in questa sezione.
-	
-	\subsection*{Elementi positivi}
-	
-	\begin{itemize}
-		\item Si elencano gli aspetti avanzati di linguaggio che sono stati impiegati
-		\item Si elencano le librerie che sono state utilizzate
-		\item Per ciascun elemento, si fornisce un permalink
-		\item Ogni permalink fa riferimento ad uno snippet di codice scritto dall'autore della sezione (i docenti verificheranno usando \texttt{git blame})
-		\item Se si è utilizzato un particolare algoritmo, se ne cita la fonte originale.
-		Ad esempio, se si è usato Mersenne Twister per la generazione di numeri pseudo-random, si cita \cite{mersenne}.
-		\item Si identificano parti di codice prese da altri progetti, dal web, o comunque scritte in forma originale da altre persone.
-		In tal senso, si ricorda che agli ingegneri non è richiesto di re-inventare la ruota continuamente:
-		se si cita debitamente la sorgente è tollerato fare uso di di snippet di codice open source per risolvere velocemente problemi non banali.
-		Nel caso in cui si usino snippet di codice di qualità discutibile,
-		oltre a menzionarne l'autore originale si invitano gli studenti ad adeguare tali parti di codice agli standard e allo stile del progetto.
-		Contestualmente, si fa presente che è largamente meglio fare uso di una libreria che copiarsi pezzi di codice:
-		qualora vi sia scelta (e tipicamente c'è), si preferisca la prima via.
-	\end{itemize}
-	
-	\subsection*{Elementi negativi}
-	\begin{itemize}
-		\item Si elencano feature core del linguaggio invece di quelle segnalate. Esempi di feature core da non menzionare sono:
-		\begin{itemize}
-			\item eccezioni;
-			\item classi innestate;
-			\item enumerazioni;
-			\item interfacce.
-		\end{itemize}
-		\item Si elencano applicazioni di terze parti (peggio se per usarle occorre licenza, e lo studente ne è sprovvisto) che non c'entrano nulla con lo sviluppo, ad esempio:
-		\begin{itemize}
-			\item Editor di grafica vettoriale come Inkscape o Adobe Illustrator;
-			\item Editor di grafica scalare come GIMP o Adobe Photoshop;
-			\item Editor di audio come Audacity;
-			\item Strumenti di design dell'interfaccia grafica come SceneBuilder: il codice è in ogni caso inteso come sviluppato da voi.
-		\end{itemize}
-		\item Si descrivono aspetti di scarsa rilevanza, o si scende in dettagli inutili.
-		\item Sono presenti parti di codice sviluppate originalmente da altri che non vengono debitamente segnalate.
-		In tal senso, si ricorda agli studenti che i docenti hanno accesso a tutti i progetti degli anni passati,
-		a Stack Overflow,
-		ai principali blog di sviluppatori ed esperti Java,
-		ai blog dedicati allo sviluppo di soluzioni e applicazioni
-		(inclusi blog dedicati ad Android e allo sviluppo di videogame),
-		nonché ai vari GitHub, GitLab, e Bitbucket.
-		Conseguentemente, è \emph{molto} conveniente \emph{citare} una fonte ed usarla invece di tentare di spacciare per proprio il lavoro di altri.
-		\item Si elencano design pattern
-	\end{itemize}
-	
-	\subsection{Esempio}
+
+
 	
 	\subsubsection{Utilizzo della libreria SLF4J}
 	
@@ -580,30 +548,13 @@
 	
 	
 	\chapter{Commenti finali}
-	
-	In quest'ultimo capitolo si tirano le somme del lavoro svolto e si delineano eventuali sviluppi
-	futuri.
-	
-	\textit{Nessuna delle informazioni incluse in questo capitolo verrà utilizzata per formulare la valutazione finale}, a meno che non sia assente o manchino delle sezioni obbligatorie.
-	%
-	Al fine di evitare pregiudizi involontari, l'intero capitolo verrà letto dai docenti solo dopo aver formulato la valutazione.
-	
-	\section{Autovalutazione e lavori futuri}
-	
-	\textbf{È richiesta una sezione per ciascun membro del gruppo, obbligatoriamente}.
-	%
-	Ciascuno dovrà autovalutare il proprio lavoro, elencando i punti di forza e di debolezza in quanto prodotto.
-	Si dovrà anche cercare di descrivere \emph{in modo quanto più obiettivo possibile} il proprio ruolo all'interno del gruppo.
-	Si ricorda, a tal proposito, che ciascuno studente è responsabile solo della propria sezione: non è un problema se ci sono opinioni contrastanti, a patto che rispecchino effettivamente l'opinione di chi le scrive.
-	Nel caso in cui si pensasse di portare avanti il progetto, ad esempio perché effettivamente impiegato, o perché sufficientemente ben riuscito da poter esser usato come dimostrazione di esser capaci progettisti, si descriva brevemente verso che direzione portarlo.
-	
-	\section{Difficoltà incontrate e commenti per i docenti}
-	
-	Questa sezione, \textbf{opzionale}, può essere utilizzata per segnalare ai docenti eventuali problemi o difficoltà incontrate nel corso o nello svolgimento del progetto, può essere vista come una seconda possibilità di valutare il corso (dopo quella offerta dalle rilevazioni della didattica) avendo anche conoscenza delle modalità e delle difficoltà collegate all'esame, cosa impossibile da fare usando le valutazioni in aula per ovvie ragioni.
-	%
-	È possibile che alcuni dei commenti forniti vengano utilizzati per migliorare il corso in futuro: sebbene non andrà a vostro beneficio, potreste fare un favore ai vostri futuri colleghi.
-	%
-	Ovviamente \textit{il contenuto della sezione non impatterà il voto finale}.
+
+\section{Autovalutazione e lavori futuri}
+
+\subsection{Junkai Ji}
+Nel corso di questo progetto, sono abbastanza soddisfatto del lavoro che ho svolto, nonostante le sfide e le limitazioni che abbiamo affrontato. La nostra squadra ha dovuto gestire diversi problemi e vincoli di tempo, il che ha impedito una collaborazione coordinata tra i membri. Tuttavia, sono contento di aver riuscito a portare avanti le nostre parti singoli e a combinare il nostro lavoro per ottenere un applicativo finale funzionante. La gestione del tempo è stata una sfida, e alcuni aspetti del lavoro sono stati affrettati a causa delle scadenze. Questo ha influito sulla qualità di alcune sezioni e ha limitato il tempo dedicato ai test e alla struttura del progetto.
+\subsection{Michele Olivieri}
+\subsection{Keegan Carlo Falcao}
 	
 	\appendix
 	\chapter{Guida utente}

@@ -66,7 +66,7 @@ public abstract class AbstractTrigger extends AbstractTrasformableObject impleme
         // Update the position of the trigger based on its displacement vector.
         this.setPosition(new Coord2D(this.displacement.xComponent(), this.displacement.yComponent()));
         // Update the dimension of the trigger based on its width and height vectors.
-        this.setDimension(new Dimension(this.widthVector.magnitude(), this.heightVector.yComponent()));
+        this.setDimension(new Dimension(this.getWidthVector().magnitude(), this.getHeightVector().yComponent()));
     }
 
     /**

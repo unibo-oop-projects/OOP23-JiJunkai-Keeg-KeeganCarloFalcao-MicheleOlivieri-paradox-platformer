@@ -20,6 +20,7 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 public abstract class AbstractPositionableObject extends AbstractMutableObject {
 
     protected Vector2D displacement;
+
     private Coord2D position;
 
     /**
@@ -102,4 +103,8 @@ public abstract class AbstractPositionableObject extends AbstractMutableObject {
      */
     @Override
     public abstract void updateState(long dt);
+
+    protected Vector2D getDisplacement() {
+        return displacement;
+    }
 }

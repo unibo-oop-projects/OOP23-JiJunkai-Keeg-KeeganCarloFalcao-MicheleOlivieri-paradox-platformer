@@ -16,25 +16,29 @@ import com.project.paradoxplatformer.utils.geometries.vector.api.Simple2DVector;
 import com.project.paradoxplatformer.utils.geometries.vector.api.Vector2D;
 
 /**
- * An abstract class representing an object that can be transformed, including
+ * protected abstract class representing an object that can be transformed, including
  * position and dimension adjustments.
  * <p>
  * This class extends {@link AbstractPositionableObject} to add functionality
  * for managing dimensions and transformation vectors. It provides methods to
- * get and set the object's dimensions, as well as default implementations for
+ protected get and set the object's dimensions, as well as default implementations for
  * speed and base delta.
  * </p>
  */
 public abstract class AbstractTrasformableObject extends AbstractPositionableObject{
 
     private static final double BASE_DELTA = 0.d;
-    protected Dimension dimension;
-    protected Vector2D heightVector;
-    protected Vector2D widthVector;
+    private Dimension dimension;
+    private Vector2D heightVector;
+
+    private Vector2D widthVector;
+
     private final Queue<TrajectoryInfo> trasformationStats;
     private final double anchorY;
     private final double anchorHeight;
-    protected boolean isIdle;
+
+    private boolean isIdle;
+
     private final PhysicsEngine mover;
     private final InterpolatorFactory interFactory;
 
@@ -188,6 +192,31 @@ public abstract class AbstractTrasformableObject extends AbstractPositionableObj
                 );
         this.popWhenFinished(transf.getValue());
         return transf;
+    }
+
+    protected void setIdle(final boolean isIdle) {
+        this.isIdle = isIdle;
+    }
+
+    protected boolean isIdle() {
+        return isIdle;
+    }
+
+    protected Vector2D getWidthVector() {
+        return widthVector;
+    }
+
+    protected void setWidthVector(Vector2D widthVector) {
+        this.widthVector = widthVector;
+    }
+
+
+    protected Vector2D getHeightVector() {
+        return heightVector;
+    }
+
+    protected void setHeightVector(Vector2D heightVector) {
+        this.heightVector = heightVector;
     }
 
     

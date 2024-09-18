@@ -45,16 +45,7 @@ public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
                     .filter(g -> this.player.isPresent())
                     .map(Wall.class::cast)
                     .ifPresent(w -> {
-                        if (player.get().getPosition().y() >= w.getPosition().y() + w.getDimension().height()) {
-                            this.player.get()
-                                .setDisplacement(
-                                    new Coord2D(
-                                        this.player.get().getPosition().x(), 
-                                        w.getPosition().y() + w.getDimension().height()
-                                    )
-                                );
-                        } 
-                        else {
+                         
                             if (player.get().direction() == Direction.LEFT) {
                                 this.player.get().setDisplacement(
                                         w.getPosition().x() + w.getDimension().width() + TOLERANCE);
@@ -62,7 +53,7 @@ public final class HorizontalBlockEffect extends AbstractRecreatableEffect {
                                 this.player.get().setDisplacement(
                                         w.getPosition().x() - this.player.get().getDimension().width() - TOLERANCE);
                             }
-                        }
+                        
                         System.out.println(this.player.get().toString());
                         this.player.get().stopFall();
                     });

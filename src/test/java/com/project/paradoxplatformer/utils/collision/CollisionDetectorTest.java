@@ -38,10 +38,10 @@ class CollisionDetectorTest {
     void setUp() {
         button1 = new Button(0, new Coord2D(BUTTON1_X, BUTTON1_Y), new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
         button2 = new Button(1, new Coord2D(BUTTON2_X, BUTTON2_Y), new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT)); // Overlapping
-                                                                                                              // with
-                                                                                                              // button1
+                                                                                                                // with
+                                                                                                                // button1
         button3 = new Button(2, new Coord2D(BUTTON3_X, BUTTON3_Y), new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT)); // Not
-                                                                                                             // overlapping
+                                                                                                                // overlapping
     }
 
     /**
@@ -66,7 +66,7 @@ class CollisionDetectorTest {
      */
     @Test
     void testHasCollisionWhenCollisionExists() {
-        List<Button> buttons = new ArrayList<>();
+        final List<Button> buttons = new ArrayList<>();
         buttons.add(button2); // Colliding button
         buttons.add(button3);
 
@@ -79,7 +79,7 @@ class CollisionDetectorTest {
      */
     @Test
     void testHasCollisionWhenNoCollisionExists() {
-        List<Button> buttons = new ArrayList<>();
+        final List<Button> buttons = new ArrayList<>();
         buttons.add(button3);
 
         assertFalse(CollisionDetector.hasCollision(button1, buttons), "Button1 should not collide with Button3.");

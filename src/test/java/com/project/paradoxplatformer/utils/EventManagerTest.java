@@ -5,15 +5,20 @@ import org.junit.jupiter.api.Test;
 
 import com.project.paradoxplatformer.controller.event.EventManager;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit tests for the EventManager class, ensuring functionality for
- * subscribing,
- * publishing, unsubscribing events, and verifying the Singleton pattern.
+ * subscribing, publishing, unsubscribing events, and verifying the Singleton
+ * pattern.
  */
 class EventManagerTest {
 
@@ -21,45 +26,38 @@ class EventManagerTest {
     private static final String TEST_EVENT_TYPE = "testEvent";
     private EventManager<String, Integer> eventManager;
 
+    private List<String> capturedEvents;
+
     /**
      * Sets up the EventManager instance before each test.
      */
     @BeforeEach
     void setUp() {
         eventManager = EventManager.getInstance();
+        capturedEvents = new ArrayList<>();
     }
 
     /**
      * Tests the subscribe and publish functionality of the EventManager.
-     * Subscribes to an event and verifies that the correct parameters are printed
+     * Subscribes to an event and verifies that the correct parameters are captured
      * when the event is published.
      */
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testSubscribeAndPublish() {
         // Setup
-        BiConsumer<Integer, String> action = (param1, param2) -> System.out
-                .println("Event triggered with params: " + param1 + ", " + param2);
+        final BiConsumer<Integer, String> action = (param1, param2) -> capturedEvents
+                .add("Event triggered with params: " + param1 + ", " + param2);
 
         // Subscribe to event
         eventManager.subscribe(TEST_EVENT_TYPE, action);
-
-        // Create output container
-        final StringBuilder output = new StringBuilder();
-
-        // Override System.out to capture the print statements
-        System.setOut(new java.io.PrintStream(new java.io.OutputStream() {
-            @Override
-            public void write(final int b) {
-                output.append((char) b);
-            }
-        }));
 
         // Publish the event
         eventManager.publish(TEST_EVENT_TYPE, TEST_PARAM, "Hello");
 
         // Verify
-        assertTrue(output.toString().contains("Event triggered with params: 123, Hello"),
-                "The published event should print the correct parameters.");
+        assertTrue(capturedEvents.contains("Event triggered with params: 123, Hello"),
+                "The published event should capture the correct parameters.");
     }
 
     /**
@@ -67,11 +65,11 @@ class EventManagerTest {
      * Ensures that after unsubscribing, the event action is not triggered.
      */
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testUnsubscribe() {
         // Setup
-        BiConsumer<Integer, String> action = (param1, param2) -> {
-            throw new IllegalStateException("This should not be called");
-        };
+        final BiConsumer<Integer, String> action = (param1, param2) -> capturedEvents
+                .add("Event triggered with params: " + param1 + ", " + param2);
 
         // Subscribe to event
         eventManager.subscribe(TEST_EVENT_TYPE, action);
@@ -79,23 +77,12 @@ class EventManagerTest {
         // Unsubscribe from event
         eventManager.unsubscribe(TEST_EVENT_TYPE);
 
-        // Create output container
-        final StringBuilder output = new StringBuilder();
-
-        // Override System.out to capture the print statements
-        System.setOut(new java.io.PrintStream(new java.io.OutputStream() {
-            @Override
-            public void write(final int b) {
-                output.append((char) b);
-            }
-        }));
-
         // Publish the event
         eventManager.publish(TEST_EVENT_TYPE, TEST_PARAM, "Hello");
 
         // Verify
-        assertTrue(output.toString().contains("Could not find event testEvent, event not published"),
-                "Unsubscribed event should not trigger the action and should print the appropriate message.");
+        assertFalse(capturedEvents.contains("Event triggered with params: 123, Hello"),
+                "Unsubscribed event should not trigger the action.");
     }
 
     /**
@@ -105,8 +92,8 @@ class EventManagerTest {
     @Test
     void testSingletonInstance() {
         // Get two instances
-        EventManager<String, Integer> instance1 = EventManager.getInstance();
-        EventManager<String, Integer> instance2 = EventManager.getInstance();
+        final EventManager<String, Integer> instance1 = EventManager.getInstance();
+        final EventManager<String, Integer> instance2 = EventManager.getInstance();
 
         // Verify both instances are the same
         assertSame(instance1, instance2, "EventManager should implement the Singleton pattern.");

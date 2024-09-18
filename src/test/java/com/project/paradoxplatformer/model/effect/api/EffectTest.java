@@ -6,6 +6,8 @@ import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,17 +28,20 @@ class EffectTest {
     }
 
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testApply() {
-        CompletableFuture<Void> future = mockEffect.apply(Optional.of(mockGameObject), Optional.empty());
+        final CompletableFuture<Void> future = mockEffect.apply(Optional.of(mockGameObject), Optional.empty());
         assertTrue(future != null, "The apply method should return a non-null CompletableFuture.");
     }
 
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testIsOneTimeEffect() {
         assertTrue(mockEffect.isOneTimeEffect(), "Effect should indicate if it's a one-time effect.");
     }
 
     @Test
+    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testRecreateDefaultBehavior() {
         assertTrue(mockEffect.recreate() == null,
                 "The recreate method should return null.");

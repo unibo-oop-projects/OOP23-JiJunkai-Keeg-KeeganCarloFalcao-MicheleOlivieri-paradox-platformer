@@ -33,18 +33,18 @@ class EffectHandlerTest {
     @Test
     void testAddAndApplyCollisionEffectsForType() {
         // Setup
-        CollisionType type = CollisionType.BUTTON;
-        Supplier<Effect> effectSupplier = NoOpEffect::new;
+        final CollisionType type = CollisionType.BUTTON;
+        final Supplier<Effect> effectSupplier = NoOpEffect::new;
 
         // Add effects
         effectHandler.addCollisionEffectsForType(type, effectSupplier);
 
         // Create test objects
-        Button source = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
-        Button target = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
+        final Button source = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
+        final Button target = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
 
         // Apply effects
-        CompletableFuture<Void> result = effectHandler.applyEffects(source, target);
+        final CompletableFuture<Void> result = effectHandler.applyEffects(source, target);
 
         // Verify
         assertDoesNotThrow(() -> result.join(), "Effect application should not throw an exception.");
@@ -53,18 +53,18 @@ class EffectHandlerTest {
     @Test
     void testAddAndApplyCollisionEffectsForObject() {
         // Setup
-        CollisionType type = CollisionType.BUTTON;
-        Button object = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
-        Supplier<Effect> effectSupplier = NoOpEffect::new;
+        final CollisionType type = CollisionType.BUTTON;
+        final Button object = new Button(0, new Coord2D(0, 0), new Dimension(0, 0));
+        final Supplier<Effect> effectSupplier = NoOpEffect::new;
 
         // Add effects
         effectHandler.addCollisionEffectsForObject(type, object, effectSupplier);
 
         // Create test objects
-        Button source = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
+        final Button source = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
 
         // Apply effects
-        CompletableFuture<Void> result = effectHandler.applyEffects(source, object);
+        final CompletableFuture<Void> result = effectHandler.applyEffects(source, object);
 
         // Verify
         assertDoesNotThrow(() -> result.join(), "Effect application should not throw an exception.");
@@ -73,12 +73,12 @@ class EffectHandlerTest {
     @Test
     void testGetAllEffects() {
         // Setup
-        CollisionType type = CollisionType.BUTTON;
-        Button object = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
+        final CollisionType type = CollisionType.BUTTON;
+        final Button object = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
         effectHandler.addCollisionEffectsForObject(type, object, NoOpEffect::new);
 
         // Get all effects
-        ChainOfEffects chain = effectHandler.getAllEffects(object);
+        final ChainOfEffects chain = effectHandler.getAllEffects(object);
 
         // Verify
         assertNotNull(chain, "Chain of effects should not be null.");
@@ -88,16 +88,15 @@ class EffectHandlerTest {
     @Test
     void testResetEffects() {
         // Setup
-        CollisionType type = CollisionType.BUTTON;
-        Button object = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
+        final CollisionType type = CollisionType.BUTTON;
+        final Button object = new Button(1, new Coord2D(0, 0), new Dimension(0, 0));
         effectHandler.addCollisionEffectsForObject(type, object, NoOpEffect::new);
 
         // Reset effects
         effectHandler.reset(object, type);
 
         // Verify
-        ChainOfEffects chain = effectHandler.getAllEffects(object);
+        final ChainOfEffects chain = effectHandler.getAllEffects(object);
         assertTrue(chain.getEffects().isEmpty(), "Chain of effects should be empty after reset.");
     }
-
 }

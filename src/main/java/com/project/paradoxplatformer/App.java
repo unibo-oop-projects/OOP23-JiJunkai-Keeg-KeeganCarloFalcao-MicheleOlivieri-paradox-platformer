@@ -1,6 +1,6 @@
 package com.project.paradoxplatformer;
 
-import com.project.paradoxplatformer.controller.GameControllerImpl;
+import com.project.paradoxplatformer.controller.MainControllerImpl;
 import com.project.paradoxplatformer.view.legacy.ViewFramework;
 
 /**
@@ -35,6 +35,6 @@ public final class App {
      * @param args command-line arguments (not used)
      */
     public static void main(final String[] args) {
-        new GameControllerImpl<>(ViewFramework.javaFxFactory(), "Paradox Platformer").start();
+        new MainControllerImpl<>(ViewFramework.javaFxFactory(), "Paradox Platformer").start();
     }
 }

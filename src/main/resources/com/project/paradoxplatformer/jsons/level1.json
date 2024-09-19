@@ -2,6 +2,7 @@
   "type": "platformer",
   "height": 360,
   "width": 640,
+  "backgroundFile": "level2Back.jpg",
   "gameDTOs": [
     {
       "id": 0,
@@ -31,8 +32,8 @@
       "subtype": "Platform",
       "color": {
         "blu": 42,
-        "red": 180,
-        "green": 77,
+        "red": 44,
+        "green": 22,
         "alpha": 1
       }
     },
@@ -46,8 +47,8 @@
       "subtype": "Platform",
       "color": {
         "blu": 42,
-        "red": 23,
-        "green": 77,
+        "red": 44,
+        "green": 22,
         "alpha": 1
       }
     },
@@ -61,8 +62,8 @@
       "subtype": "Platform",
       "color": {
         "blu": 42,
-        "red": 56,
-        "green": 77,
+        "red": 44,
+        "green": 22,
         "alpha": 1
       }
     },
@@ -92,17 +93,18 @@
     {
       "id": 6,
       "type": "trigger",
-      "x": 390,
+      "x": 500,
       "y": 100,
       "width": 20,
       "height": 20,
       "subtype": "Button",
-      "image": "button.png"
+      "image": "button.png",
+      "triggeringId": 5
     },
     {
       "id": 7,
       "type": "obstacle",
-      "x": 200,
+      "x": 400,
       "y": 110,
       "width": 12,
       "height": 16,
@@ -113,6 +115,51 @@
         "idleFrames": 4,
         "minFrames": 10
       }
+    },
+    {
+      "id": 8,
+      "type": "trigger",
+      "x": 100,
+      "y": 100,
+      "width": 20,
+      "height": 20,
+      "subtype": "Floor",
+      "color": {
+        "blu": 42,
+        "red": 56,
+        "green": 77,
+        "alpha": 0.1
+      },
+      "triggeringId": 9
+    },
+    {
+      "id": 9,
+      "type": "obstacle",
+      "x": 250,
+      "y": 0,
+      "width": 30,
+      "height": 50,
+      "subtype": "Wall",
+      "color": {
+        "blu": 42,
+        "red": 44,
+        "green": 22,
+        "alpha": 1
+      },
+      "traj": [
+        {
+          "x": 250,
+          "y": 100,
+          "duration": 1,
+          "vector": "DISPLACEMENT"
+        },
+        {
+          "x": -200,
+          "y": 100,
+          "duration": 5,
+          "vector": "DISPLACEMENT"
+        }
+      ]
     }
   ]
 }

@@ -6,7 +6,6 @@ import java.util.concurrent.CompletableFuture;
 import com.project.paradoxplatformer.model.effect.abstracts.AbstractPlayerEffect;
 import com.project.paradoxplatformer.model.obstacles.Wall;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
-import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
 import com.project.paradoxplatformer.utils.geometries.physic.Direction;
 
 /**

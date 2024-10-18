@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.view.manager;
 
-import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 import com.project.paradoxplatformer.controller.event.EventManager;
 import com.project.paradoxplatformer.controller.event.GameEventType;
 import com.project.paradoxplatformer.controller.games.Level;
+import com.project.paradoxplatformer.view.javafx.PageIdentifier;
 
 /**
  * ViewNavigator handles the navigation between different views in the
@@ -78,7 +78,7 @@ public final class ViewNavigator {
     }
 
     // Holder class for lazy initialization
-    private static class Holder {
+    private static final class Holder {
         private static final ViewNavigator INSTANCE = new ViewNavigator();
     }
 }

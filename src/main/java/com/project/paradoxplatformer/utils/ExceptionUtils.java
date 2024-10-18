@@ -25,7 +25,7 @@ public final class ExceptionUtils {
                 .map(Throwable::getClass)
                 .map(Class::getSimpleName)
                 .orElse(ex.getClass().getSimpleName()) + " \nRaised → "
-                + (Optional.ofNullable(ex.getMessage())
+                + Optional.ofNullable(ex.getMessage())
                         .map(msg -> Optional.ofNullable(ex.getCause())
                                 .map(Throwable::getMessage)
                                 .or(() -> Optional.ofNullable(ex.getCause())
@@ -34,7 +34,7 @@ public final class ExceptionUtils {
                                         .map(RuntimeException::getMessage))
                                 .map(msg::concat)
                                 .orElse(msg))
-                        .orElse("[No error message available]"));
+                        .orElse("[No error message available]");
     }
 
     /**

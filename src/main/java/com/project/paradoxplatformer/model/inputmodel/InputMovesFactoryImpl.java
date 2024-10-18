@@ -1,9 +1,9 @@
 package com.project.paradoxplatformer.model.inputmodel;
 
-import java.util.Map;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.project.paradoxplatformer.controller.input.api.InputType;
 import com.project.paradoxplatformer.model.entity.dynamics.ControllableObject;
@@ -130,7 +130,7 @@ public final class InputMovesFactoryImpl implements InputMovesFactory {
          */
         private StdModelDecorator(final InputModel<ControllableObject> toDecorate) {
             this.toDecorate = toDecorate;
-            this.modifMapModel = new HashMap<>(this.toDecorate.getModel());
+            this.modifMapModel = new EnumMap<>(this.toDecorate.getModel());
             this.modifMapModel.putAll(new InputMovesFactoryImpl().standardModel().getModel());
         }
 

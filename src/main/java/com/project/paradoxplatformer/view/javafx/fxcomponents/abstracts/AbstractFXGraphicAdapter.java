@@ -26,6 +26,7 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
     private final DoubleProperty yProperty;
     private final Coord2D bindedPosition;
     private final int key;
+    private static final double FLOATING_POINT_EQUALITY_THRESHOLD = 0.0001;
 
     /**
      * Constructs an AbstractFXGraphicAdapter with the specified component,
@@ -204,9 +205,9 @@ public abstract class AbstractFXGraphicAdapter implements GraphicAdapter<Node> {
         }
         final AbstractFXGraphicAdapter other = (AbstractFXGraphicAdapter) obj;
         return key == other.key
-                && dimension.equals(other.dimension)
-                && xProperty.get() == other.xProperty.get()
-                && yProperty.get() == other.yProperty.get();
+        && dimension.equals(other.dimension)
+        && Math.abs(xProperty.get() - other.xProperty.get()) < FLOATING_POINT_EQUALITY_THRESHOLD 
+        && Math.abs(yProperty.get() - other.yProperty.get()) < FLOATING_POINT_EQUALITY_THRESHOLD;
     }
 
 }

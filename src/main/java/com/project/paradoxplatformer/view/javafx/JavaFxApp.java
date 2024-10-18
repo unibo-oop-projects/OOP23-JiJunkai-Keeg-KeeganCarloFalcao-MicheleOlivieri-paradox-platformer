@@ -23,9 +23,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -127,7 +127,7 @@ public class JavaFxApp extends Application implements ViewManager {
                     + "hence the reason why they are static.")
     public void create(final String appTitle) {
         staticTitle = appTitle;
-        JavaFxApp.launch();
+        launch();
     }
 
     /**
@@ -200,7 +200,7 @@ public class JavaFxApp extends Application implements ViewManager {
     @Override
     public void displayError(final String content) {
         final var al = new Alert(AlertType.ERROR, content);
-        DialogPane errorPane;
+        final DialogPane errorPane;
         try {
             errorPane = new FXMLLoader(ResourcesFinder.getURL(FXMLView.ERROR_DIAG.getFileName())).load();
             al.setDialogPane(errorPane);

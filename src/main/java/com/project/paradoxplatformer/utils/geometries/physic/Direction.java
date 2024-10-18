@@ -21,6 +21,6 @@ public enum Direction {
      * @return the opposite direction of the current one
      */
     public Direction opposite() {
-        return this == Direction.LEFT ? Direction.RIGHT : Direction.LEFT;
+        return this == LEFT ? RIGHT : LEFT;
     }
 }

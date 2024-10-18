@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.model.endgame.condition;
 
-import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.endgame.DeathCondition;
+import com.project.paradoxplatformer.model.player.PlayerModel;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -33,8 +33,8 @@ public class OutOfMapCondition implements DeathCondition {
     public boolean death() {
         return player.getPosition().y() <= 0
                 || player.getPosition().x() <= 0
-                || player.getPosition().y() >= OutOfMapCondition.HIGH
-                || player.getPosition().x() >= OutOfMapCondition.WITH;
+                || player.getPosition().y() >= HIGH
+                || player.getPosition().x() >= WITH;
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.function.Consumer;
  */
 public class SpriteAnimator<T> {
 
-    private final EnumMap<SpriteStatus, List<T>> mapSprite;
+    private final Map<SpriteStatus, List<T>> mapSprite;
     private final int minFrames;
     private SpriteStatus prev;
     private int index, frames;

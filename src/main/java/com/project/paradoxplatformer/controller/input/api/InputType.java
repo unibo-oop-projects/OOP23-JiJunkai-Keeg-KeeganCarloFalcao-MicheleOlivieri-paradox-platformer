@@ -93,7 +93,7 @@ public enum InputType {
      *         if found. If no matching enum constant is found, it returns {@code Optional.empty()}.
      */
     public static Optional<InputType> getString(final String inputStr) {
-        return Arrays.stream(InputType.values())
+        return Arrays.stream(values())
                 .map(InputType::name)
                 .filter(inputStr::equals)
                 .findFirst()

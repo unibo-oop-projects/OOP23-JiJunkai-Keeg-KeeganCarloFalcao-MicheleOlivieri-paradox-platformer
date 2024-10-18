@@ -66,6 +66,6 @@ public enum Level {
         }
 
         // Return the next level, or wrap around to LEVEL_ONE if at the last level
-        return this.ordinal() >= Level.values().length - 1 ? LEVEL_ONE : Level.values()[this.ordinal() + 1];
+        return this.ordinal() >= values().length - 1 ? LEVEL_ONE : values()[this.ordinal() + 1];
     }
 }

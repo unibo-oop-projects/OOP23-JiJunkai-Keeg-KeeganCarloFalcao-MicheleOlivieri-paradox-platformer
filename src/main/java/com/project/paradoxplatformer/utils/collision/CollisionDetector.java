@@ -39,7 +39,7 @@ public final class CollisionDetector {
         collidableGameObjects.stream()
                 .filter(object -> !object.equals(player))
                 .forEach(object -> {
-                    if (CollisionDetector.isColliding(player, object)) {
+                    if (isColliding(player, object)) {
                         collidingObjects.add(object);
                     }
                 });

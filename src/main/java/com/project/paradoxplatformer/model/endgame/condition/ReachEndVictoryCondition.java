@@ -1,7 +1,7 @@
 package com.project.paradoxplatformer.model.endgame.condition;
 
-import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.model.endgame.VictoryCondition;
+import com.project.paradoxplatformer.model.player.PlayerModel;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -36,7 +36,7 @@ public class ReachEndVictoryCondition implements VictoryCondition {
      */
     @Override
     public boolean win() {
-        return this.player.getPosition().x() > ReachEndVictoryCondition.END_WORLD;
+        return this.player.getPosition().x() > END_WORLD;
     }
 
 }

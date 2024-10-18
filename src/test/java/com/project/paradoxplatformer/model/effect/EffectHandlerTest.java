@@ -1,5 +1,15 @@
 package com.project.paradoxplatformer.model.effect;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.project.paradoxplatformer.model.effect.api.Effect;
 import com.project.paradoxplatformer.model.effect.api.EffectHandler;
 import com.project.paradoxplatformer.model.effect.impl.EffectHandlerImpl;
@@ -9,17 +19,6 @@ import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 class EffectHandlerTest {
 
@@ -47,7 +46,7 @@ class EffectHandlerTest {
         final CompletableFuture<Void> result = effectHandler.applyEffects(source, target);
 
         // Verify
-        assertDoesNotThrow(() -> result.join(), "Effect application should not throw an exception.");
+        assertDoesNotThrow(result::join, "Effect application should not throw an exception.");
     }
 
     @Test
@@ -67,7 +66,7 @@ class EffectHandlerTest {
         final CompletableFuture<Void> result = effectHandler.applyEffects(source, object);
 
         // Verify
-        assertDoesNotThrow(() -> result.join(), "Effect application should not throw an exception.");
+        assertDoesNotThrow(result::join, "Effect application should not throw an exception.");
     }
 
     @Test

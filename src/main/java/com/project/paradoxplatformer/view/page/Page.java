@@ -30,7 +30,7 @@ public interface Page<T> {
      * @return a default Page implementation
      */
     static Page<Level> defaultPage() {
-        return new Page<Level>() {
+        return new Page<>() {
 
             @Override
             public void create(final Level param) throws IOException, InvalidResourceException {

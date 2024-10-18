@@ -26,6 +26,8 @@ public class FXSpriterSetter implements Spriter<Image> {
     private Image img;
     private final Dimension tileSize;
     private final SpriteDTO spriteFrames;
+    private static final double FLOATING_POINT_EQUALITY_THRESHOLD = 0.0001;
+
 
     /**
      * Constructs a new {@code FXSpriterSetter} with the specified parameters.
@@ -104,7 +106,7 @@ public class FXSpriterSetter implements Spriter<Image> {
      */
     private List<Image> collection(final double init, final double end) {
         return Optional.of(this.img)
-                .filter(j -> tileSize.width() == bounds.width())
+                .filter(j -> Math.abs(tileSize.width() - bounds.width()) < FLOATING_POINT_EQUALITY_THRESHOLD)
                 .map(List::of)
                 .orElse(Stream.iterate(init, x -> x < end, x -> x + tileSize.width())
                         .map(this::createImage)

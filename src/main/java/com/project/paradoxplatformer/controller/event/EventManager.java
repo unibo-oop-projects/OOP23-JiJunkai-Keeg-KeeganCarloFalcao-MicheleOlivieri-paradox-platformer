@@ -72,7 +72,7 @@ public final class EventManager<T, U> {
     }
 
     // Static inner class responsible for holding the Singleton instance
-    private static class Holder {
+    private static final class Holder {
         private static final EventManager<?, ?> INSTANCE = new EventManager<>();
     }
 }

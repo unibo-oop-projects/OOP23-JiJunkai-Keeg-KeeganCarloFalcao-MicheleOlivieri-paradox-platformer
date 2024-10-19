@@ -77,12 +77,12 @@ public final class GameModelImpl implements GameModel {
                                                                 .orElseThrow());
 
                 final Obstacle[] obstacles = this.findGameDTOData("obstacle").stream()
-                                .map(modelFactory.obstacleToModel()::map)
+                                .map(dto -> modelFactory.obstacleToModel().map(dto))
                                 .toList()
                                 .toArray(new Obstacle[0]);
 
                 final Trigger[] triggers = this.findGameDTOData("trigger").stream()
-                                .map(modelFactory.triggerToModel()::map)
+                                .map(dto -> modelFactory.triggerToModel().map(dto))
                                 .toList()
                                 .toArray(new Trigger[0]);
 

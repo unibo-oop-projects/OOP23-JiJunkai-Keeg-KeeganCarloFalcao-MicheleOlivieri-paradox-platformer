@@ -1,12 +1,5 @@
 package com.project.paradoxplatformer.utils;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import com.project.paradoxplatformer.controller.event.EventManager;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -14,6 +7,10 @@ import java.util.function.BiConsumer;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import com.project.paradoxplatformer.controller.event.EventManager;
 
 /**
  * Unit tests for the EventManager class, ensuring functionality for
@@ -43,7 +40,6 @@ class EventManagerTest {
      * when the event is published.
      */
     @Test
-    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testSubscribeAndPublish() {
         // Setup
         final BiConsumer<Integer, String> action = (param1, param2) -> capturedEvents
@@ -65,7 +61,6 @@ class EventManagerTest {
      * Ensures that after unsubscribing, the event action is not triggered.
      */
     @Test
-    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testUnsubscribe() {
         // Setup
         final BiConsumer<Integer, String> action = (param1, param2) -> capturedEvents

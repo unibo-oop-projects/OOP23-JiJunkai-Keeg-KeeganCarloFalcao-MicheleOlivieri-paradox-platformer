@@ -1,5 +1,11 @@
 package com.project.paradoxplatformer.utils.collision;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import com.project.paradoxplatformer.controller.games.Level;
 import com.project.paradoxplatformer.model.effect.api.EffectHandler;
 import com.project.paradoxplatformer.model.effect.impl.EffectHandlerFactoryImpl;
@@ -8,14 +14,6 @@ import com.project.paradoxplatformer.model.trigger.Button;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.Dimension;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Unit tests for the CollisionManager class, ensuring its functionality for
@@ -39,7 +37,6 @@ class CollisionManagerTest {
      * Tests handling collisions where objects are overlapping.
      */
     @Test
-    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testHandleCollisionsWithCollisions() {
         // Setup test objects
         final CollidableGameObject player = new PlayerModel();
@@ -58,7 +55,6 @@ class CollisionManagerTest {
      * Tests handling collisions where objects are not overlapping.
      */
     @Test
-    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testHandleCollisionsWithoutCollisions() {
         // Setup test objects
         final CollidableGameObject player = new PlayerModel();

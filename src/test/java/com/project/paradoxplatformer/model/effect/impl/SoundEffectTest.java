@@ -1,14 +1,11 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
-import com.project.paradoxplatformer.utils.sound.SoundType;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import com.project.paradoxplatformer.utils.sound.SoundType;
 
 class SoundEffectTest {
 
@@ -21,7 +18,6 @@ class SoundEffectTest {
     }
 
     @Test
-    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testRecreate() {
         final SoundEffect recreatedEffect = (SoundEffect) soundEffect.recreate();
 

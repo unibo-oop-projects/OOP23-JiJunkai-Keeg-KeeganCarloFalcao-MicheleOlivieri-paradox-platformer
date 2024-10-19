@@ -1,5 +1,10 @@
 package com.project.paradoxplatformer.model.world;
 
+import java.util.List;
+import java.util.function.Consumer;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,14 +16,6 @@ import com.project.paradoxplatformer.model.GameModelImpl;
 import com.project.paradoxplatformer.model.obstacles.Obstacle;
 import com.project.paradoxplatformer.model.trigger.Trigger;
 import com.project.paradoxplatformer.model.world.api.World;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.function.Consumer;
-import java.util.List;
 
 /**
  * Unit tests for the {@link GameModelImpl} class.
@@ -115,7 +112,6 @@ class GameModelTest {
      * </p>
      */
     @Test
-    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testInitSuccess() {
         platformModelData.init();
 
@@ -144,7 +140,6 @@ class GameModelTest {
      * </p>
      */
     @Test
-    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testRebuildWorld() {
         platformModelData.init();
 
@@ -165,7 +160,6 @@ class GameModelTest {
      * </p>
      */
     @Test
-    @SuppressFBWarnings(value = "UwF", justification = "Fields are initialized in @BeforeEach method before usage.")
     void testActionOnWorld() {
         platformModelData.init();
 

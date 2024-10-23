@@ -10,24 +10,9 @@ public enum SoundType {
     OBSTACLE_HIT("obstacle_hit.wav"),
 
     /**
-     * Sound played when a trigger is activated.
-     */
-    TRIGGER_HIT("trigger_hit.wav"),
-
-    /**
-     * Sound played when the player jumps.
-     */
-    JUMP("jump.wav"),
-
-    /**
      * Sound played when the game is over.
      */
-    GAME_OVER("game_over.wav"),
-
-    /**
-     * Sound played when the player wins the game.
-     */
-    GAME_WIN("game_win.wav");
+    GAME_OVER("game_over.wav");
 
     private final String soundName; // The filename of the sound associated with this type
 

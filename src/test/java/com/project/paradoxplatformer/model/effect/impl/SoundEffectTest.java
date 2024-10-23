@@ -13,7 +13,7 @@ class SoundEffectTest {
 
     @BeforeEach
     void setUp() {
-        final SoundType testSoundType = SoundType.JUMP;
+        final SoundType testSoundType = SoundType.OBSTACLE_HIT;
         soundEffect = new SoundEffect(testSoundType);
     }
 

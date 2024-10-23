@@ -5,6 +5,7 @@ import com.project.paradoxplatformer.model.effect.api.EffectHandler;
 import com.project.paradoxplatformer.model.effect.api.EffectHandlerFactory;
 import com.project.paradoxplatformer.utils.collision.api.CollisionType;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
+import com.project.paradoxplatformer.utils.sound.SoundType;
 
 /**
  * Implementation of the EffectHandlerFactory that creates specific
@@ -27,10 +28,12 @@ public final class EffectHandlerFactoryImpl implements EffectHandlerFactory {
         final EffectHandler handler = new EffectHandlerImpl();
 
         handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, DeathEffect::new);
+        handler.addCollisionEffectsForType(CollisionType.DEATH_OBS, () -> new
+        SoundEffect(SoundType.GAME_OVER));
         handler.addCollisionEffectsForType(CollisionType.SAW, DeathEffect::new);
         handler.addCollisionEffectsForType(CollisionType.SPRINGS, SpringEffect::new);
-        // handler.addCollisionEffectsForType(CollisionType.SPRINGS, () -> new
-        // SoundEffect(SoundType.JUMP));
+        handler.addCollisionEffectsForType(CollisionType.COLLECTING, () -> new
+        SoundEffect(SoundType.OBSTACLE_HIT));
         handler.addCollisionEffectsForType(CollisionType.COLLECTING, CollectingEffect::new);
         handler.addCollisionEffectsForType(CollisionType.WALLS, HorizontalBlockEffect::new);
         handler.addCollisionEffectsForType(CollisionType.PLATFORM, FloorEffect::new);

@@ -3,12 +3,7 @@ plugins {
     application
     id("org.danilopianini.gradle-java-qa") version "1.70.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("org.openjfx.javafxplugin") version "0.1.0"
 
-}
-
-javafx {
-    modules("javafx.controls", "javafx.fxml")
 }
 
 repositories {

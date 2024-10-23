@@ -26,8 +26,8 @@ public final class SpringEffect extends AbstractRecreatableEffect {
     @Override
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         return CompletableFuture.runAsync(() -> {
-            if (gameObject instanceof ControllableObject) {
-                ((ControllableObject) gameObject).jump();
+            if (gameObject instanceof ControllableObject controllableObject) {
+                controllableObject.jump();
             }
         });
     }

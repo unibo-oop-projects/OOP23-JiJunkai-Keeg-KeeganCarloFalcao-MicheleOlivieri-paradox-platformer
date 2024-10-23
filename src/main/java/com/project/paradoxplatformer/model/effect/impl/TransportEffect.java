@@ -1,12 +1,12 @@
 package com.project.paradoxplatformer.model.effect.impl;
 
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+
 import com.project.paradoxplatformer.model.effect.abstracts.AbstractOneTimeEffect;
 import com.project.paradoxplatformer.model.player.PlayerModel;
 import com.project.paradoxplatformer.utils.collision.api.CollidableGameObject;
 import com.project.paradoxplatformer.utils.geometries.coordinates.Coord2D;
-
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * Represents an effect that transports a game object to a specified
@@ -68,10 +68,12 @@ public final class TransportEffect extends AbstractOneTimeEffect {
     @Override
     protected CompletableFuture<Void> applyToGameObject(final CollidableGameObject gameObject) {
         return CompletableFuture.runAsync(() -> {
-            if (gameObject instanceof PlayerModel) {
-                ((PlayerModel) gameObject).setDisplacement(this.destination);
+            if (gameObject instanceof PlayerModel playerModel) {
+                playerModel.setDisplacement(this.destination);
             } else {
-                gameObject.setPosition(destination);
+                if (gameObject != null) {
+                    gameObject.setPosition(destination);
+                }
             }
         });
     }

@@ -90,9 +90,9 @@ public class CollisionObserver {
      * @param object the collidable game object that may be a trigger.
      */
     private void activateTriggerIfPresent(final CollidableGameObject object) {
-        if (object instanceof Trigger) {
+        if (object instanceof Trigger trigger) {
             // System.out.println(object + " is triggered from Collision Observer.");
-            ((Trigger) object).activate();
+            trigger.activate();
         }
     }
 

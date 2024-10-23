@@ -23,6 +23,18 @@ dependencies {
 
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.8.6")
 
+    val javaFxVersion = "21"
+    val javaFxModules = listOf("base", "controls", "fxml", "swing", "graphics")
+    val supportedSystems = listOf("win", "linux", "mac")
+
+    javaFxModules.forEach { module ->
+        supportedSystems.forEach { sys ->
+            dependencies {
+                implementation("org.openjfx:javafx-$module:$javaFxVersion:$sys")
+            }
+        }
+    }
+
     val slf4jVersion = "2.0.16"
     implementation("org.slf4j:slf4j-api:$slf4jVersion")
     runtimeOnly("ch.qos.logback:logback-classic:1.5.11")

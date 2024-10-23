@@ -23,7 +23,7 @@ dependencies {
 
     compileOnly("com.github.spotbugs:spotbugs-annotations:4.8.6")
 
-    val javaFxVersion = "21"
+    val javaFxVersion = "17"
     val javaFxModules = listOf("base", "controls", "fxml", "swing", "graphics")
     val supportedSystems = listOf("win", "linux", "mac")
 

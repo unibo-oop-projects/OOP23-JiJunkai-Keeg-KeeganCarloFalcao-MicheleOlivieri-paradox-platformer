@@ -1,10 +1,16 @@
+
 plugins {
     java
     application
     id("org.danilopianini.gradle-java-qa") version "1.70.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
+
+    id("org.danilopianini.unibo-oop-gradle-plugin") version "1.0.13"
 }
+
+java { toolchain { languageVersion.set(JavaLanguageVersion.of(17)) } }
+
 
 repositories {
     mavenCentral()
